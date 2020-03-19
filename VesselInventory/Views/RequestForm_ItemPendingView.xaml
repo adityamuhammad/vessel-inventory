@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="VesselInventory.Views.RequestForm_ItemPendingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VesselInventory.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="LightGray">
+        <Grid>
+            <Grid VerticalAlignment="Top" Height="42" Background="LightGray">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                    <Button Uid="0" Width="150" Height="29" Background="LightGray" BorderBrush="{x:Null}" Content="List" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" Click="TabRequestForm_Click"/>
+                    <Button Uid="1" Width="150" Content="Item Status" Height="29" Background="LightGray" BorderBrush="{x:Null}" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" BorderThickness="0" Click="TabRequestForm_Click"/>
+                    <Button Uid="2" Width="150" Content="Item Pending" Height="29" Background="LightGray" BorderBrush="{x:Null}" BorderThickness="0" Style="{StaticResource TransparentStyle}" Foreground="#FF1368BD" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <Grid x:Name="GridCursor" Width="150" Height="2" Background="#FF1368BD" HorizontalAlignment="Left" Margin="300,29,0,11"/>
+            </Grid>
+            <Separator VerticalAlignment="Top" Margin="0,30,0,0"/>
+            <Grid x:Name="ListGrid" Background="LightGray" Visibility="Visible" VerticalAlignment="Top" Height="350" Margin="5,35">
+                <TextBox HorizontalAlignment="Right" Height="32" Margin="640,10,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="130"/>
+                <DataGrid VerticalAlignment="Top" CanUserAddRows="False" Margin="0,50,0,0" ItemsSource="{Binding RfTables}" AutoGenerateColumns="False" Height="300">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="RF Number" Binding="{Binding RF_ID}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Project Number" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Item ID" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Item Name" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <materialDesign:PackIcon  Kind="Settings"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button BorderBrush="#FF4E5FBF" Background="White" Foreground="#FF4E5FBF">
+                                            <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Content="Prev" HorizontalAlignment="Right" Margin="0,358,82,-40" VerticalAlignment="Top" Width="75"/>
+                <Button Content="Next" HorizontalAlignment="Right" Margin="0,358,2,-40" VerticalAlignment="Top" Width="75"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
