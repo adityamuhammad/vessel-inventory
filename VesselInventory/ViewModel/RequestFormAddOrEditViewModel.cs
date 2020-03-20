@@ -16,6 +16,7 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
 using ToastNotifications.Messages;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
@@ -30,131 +31,18 @@ namespace VesselInventory.ViewModel
 
 
         public RelayCommand Save { get; private set; }
+        public RelayCommand AddOrEditItem { get; private set; }
 
         public RequestFormAddOrEditViewModel(int rf_id_params = 0)
         {
             _requestFormRepository = new RequestFormRepository(new Models.VesselInventoryContext());
             Save = new RelayCommand(SaveAction, IsSaveCanExecute );
+            AddOrEditItem = new RelayCommand(AddOrEditItemAction);
             LoadDepartmentList();
+            LoadAttributes(rf_id_params);
 
-            if (rf_id_params != 0)
-            {
-                Title = "Edit Request Form";
-                IsVisibleButtonUpdate = true;
-                IsVisibleButtonSave = false;
-                IsItemEnabled = true;
-                IsVisibleBargeCheck = false;
-
-                _rf = _requestFormRepository.GetById(rf_id_params);
-            } else
-            {
-                Title = "Add Request Form";
-                IsVisibleButtonSave = true;
-                IsVisibleButtonUpdate = false;
-                IsItemEnabled = false;
-                IsVisibleBargeCheck = true;
-
-                rf_id = rf_id_params;
-                _rf.department_name = DepartmentList.First();
-
-                _rf.target_delivery_date = DateTime.Now;
-                _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
-                ship_code = _requestFormShipBargeDTO.ship_code;
-                barge_code = _requestFormShipBargeDTO.barge_code;
-                ship_id = _requestFormShipBargeDTO.ship_id;
-                barge_id = _requestFormShipBargeDTO.barge_id;
-                ship_name = _requestFormShipBargeDTO.ship_name;
-                barge_name = _requestFormShipBargeDTO.barge_name;
-                rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
-                rf_id = rf_id_params;
-            }
         }
 
-        // <summary>
-        // UI properties
-        // </summary>
-        public override string Title { get; set; }
-
-        private bool _IsVisibleButtonUpdate;
-        public bool IsVisibleButtonUpdate
-        {
-            get => _IsVisibleButtonUpdate;
-            set
-            {
-                if  (_IsVisibleButtonUpdate == value)
-                    return;
-                _IsVisibleButtonUpdate = value;
-                OnPropertyChanged("IsVisibleButtonUpdate");
-            }
-        }
-
-        private bool _IsVisibleButtonSave;
-        public bool IsVisibleButtonSave
-        {
-            get => _IsVisibleButtonSave;
-            set
-            {
-                if  (_IsVisibleButtonSave == value)
-                    return;
-                _IsVisibleButtonSave = value;
-                OnPropertyChanged("IsVisibleButtonSave");
-            }
-        }
-
-        private bool _IsVisibleBargeCheck;
-        public bool IsVisibleBargeCheck
-        {
-            get => _IsVisibleBargeCheck;
-            set
-            {
-                if  (_IsVisibleBargeCheck == value)
-                    return;
-                _IsVisibleBargeCheck = value;
-                OnPropertyChanged("IsVisiblBargeCheck");
-            }
-        }
-
-        private bool _IsItemEnabled;
-        public bool IsItemEnabled
-        {
-            get => _IsItemEnabled;
-            set
-            {
-                if  (_IsItemEnabled == value)
-                    return;
-                _IsItemEnabled = value;
-                OnPropertyChanged("IsItemEnabled");
-            }
-        }
-
-        private bool _IsCheckedBargeRequest = false;
-        public bool IsCheckedBargeRequest
-        {
-            get => _IsCheckedBargeRequest;
-            set
-            {
-                if  (_IsCheckedBargeRequest == value)
-                    return;
-                _IsCheckedBargeRequest = value;
-
-                if (_requestFormShipBargeDTO is null)
-                    return;
-
-                if (_IsCheckedBargeRequest)
-                {
-                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code + '-' + barge_code;
-                    ship_name = _requestFormShipBargeDTO.barge_name;
-                    ship_id = _requestFormShipBargeDTO.barge_id;
-                }
-                else
-                {
-                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
-                    ship_name = _requestFormShipBargeDTO.ship_name;
-                    ship_id = _requestFormShipBargeDTO.ship_id;
-                }
-                OnPropertyChanged("IsCheckedBargeRequest");
-            }
-        }
         
         // <summary>
         // Reserved columns
@@ -267,6 +155,127 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("notes");
             }
         }
+        // <summary>
+        // UI properties
+        // </summary>
+        public override string Title { get; set; }
+
+        private bool _IsVisibleButtonUpdate;
+        public bool IsVisibleButtonUpdate
+        {
+            get => _IsVisibleButtonUpdate;
+            set
+            {
+                if  (_IsVisibleButtonUpdate == value)
+                    return;
+                _IsVisibleButtonUpdate = value;
+                OnPropertyChanged("IsVisibleButtonUpdate");
+            }
+        }
+
+        private bool _IsVisibleButtonSave;
+        public bool IsVisibleButtonSave
+        {
+            get => _IsVisibleButtonSave;
+            set
+            {
+                if  (_IsVisibleButtonSave == value)
+                    return;
+                _IsVisibleButtonSave = value;
+                OnPropertyChanged("IsVisibleButtonSave");
+            }
+        }
+
+        private bool _IsVisibleBargeCheck;
+        public bool IsVisibleBargeCheck
+        {
+            get => _IsVisibleBargeCheck;
+            set
+            {
+                if  (_IsVisibleBargeCheck == value)
+                    return;
+                _IsVisibleBargeCheck = value;
+                OnPropertyChanged("IsVisiblBargeCheck");
+            }
+        }
+
+        private bool _IsItemEnabled;
+        public bool IsItemEnabled
+        {
+            get => _IsItemEnabled;
+            set
+            {
+                if  (_IsItemEnabled == value)
+                    return;
+                _IsItemEnabled = value;
+                OnPropertyChanged("IsItemEnabled");
+            }
+        }
+
+        private bool _IsCheckedBargeRequest = false;
+        public bool IsCheckedBargeRequest
+        {
+            get => _IsCheckedBargeRequest;
+            set
+            {
+                if  (_IsCheckedBargeRequest == value)
+                    return;
+                _IsCheckedBargeRequest = value;
+
+                if (_requestFormShipBargeDTO is null)
+                    return;
+
+                if (_IsCheckedBargeRequest)
+                {
+                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code + '-' + barge_code;
+                    ship_name = _requestFormShipBargeDTO.barge_name;
+                    ship_id = _requestFormShipBargeDTO.barge_id;
+                }
+                else
+                {
+                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
+                    ship_name = _requestFormShipBargeDTO.ship_name;
+                    ship_id = _requestFormShipBargeDTO.ship_id;
+                }
+                OnPropertyChanged("IsCheckedBargeRequest");
+            }
+        }
+
+        private void LoadAttributes(int rf_id_params)
+        {
+
+            if (rf_id_params != 0)
+            {
+                Title = "Edit Request Form";
+                IsVisibleButtonUpdate = true;
+                IsVisibleButtonSave = false;
+                IsItemEnabled = true;
+                IsVisibleBargeCheck = false;
+
+                _rf = _requestFormRepository.GetById(rf_id_params);
+            } else
+            {
+                Title = "Add Request Form";
+                IsVisibleButtonSave = true;
+                IsVisibleButtonUpdate = false;
+                IsItemEnabled = false;
+                IsVisibleBargeCheck = true;
+
+                rf_id = rf_id_params;
+                _rf.department_name = DepartmentList.First();
+
+                _rf.target_delivery_date = DateTime.Now;
+                _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
+                ship_code = _requestFormShipBargeDTO.ship_code;
+                barge_code = _requestFormShipBargeDTO.barge_code;
+                ship_id = _requestFormShipBargeDTO.ship_id;
+                barge_id = _requestFormShipBargeDTO.barge_id;
+                ship_name = _requestFormShipBargeDTO.ship_name;
+                barge_name = _requestFormShipBargeDTO.barge_name;
+                rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
+                rf_id = rf_id_params;
+            }
+        }
 
         public void SaveAction(object parameter)
         {
@@ -297,6 +306,13 @@ namespace VesselInventory.ViewModel
             if(project_number.Trim().Length < 0)
                 return false;
             return true;
+        }
+
+        public void AddOrEditItemAction(object parameter)
+        {
+            RequestForm_ItemAddOrEditView windowRequestItem = new RequestForm_ItemAddOrEditView();
+            windowRequestItem.DataContext = new RequestFormItemAddOrEditViewModel();
+            windowRequestItem.ShowDialog();
         }
     }
 }

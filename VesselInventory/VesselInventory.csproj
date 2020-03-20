@@ -113,6 +113,7 @@
     <Compile Include="Utility\ToastNotification.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\RequestFormAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\RequestFormItemAddOrEditViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemPendingViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemStatusViewModel.cs" />
     <Compile Include="ViewModel\RequestFormViewModel.cs" />
@@ -122,6 +123,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_AddOrEditView.xaml.cs">
       <DependentUpon>RequestForm_AddOrEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RequestForm_ItemAddOrEditView.xaml.cs">
+      <DependentUpon>RequestForm_ItemAddOrEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RequestForm_ItemPendingView.xaml.cs">
       <DependentUpon>RequestForm_ItemPendingView.xaml</DependentUpon>
@@ -146,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_AddOrEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RequestForm_ItemAddOrEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
