@@ -28,7 +28,6 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
             <Label Content="Select Item"></Label>
-            <Label Content="{Binding ItemSelectKeyword,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></Label>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
             <StackPanel>
@@ -42,6 +41,11 @@
                         Converter={StaticResource BoolToVisibilityCollapsed} 
                     }">
                     <ListBox Width="200">
+                        <ie:Interaction.Triggers>
+                            <ie:EventTrigger EventName="SelectionChanged">
+                                <ie:InvokeCommandAction Command="{Binding ListBoxChanged}"/>
+                            </ie:EventTrigger>
+                        </ie:Interaction.Triggers>
                         <ListBoxItem VerticalContentAlignment="Center" Height="30" FontSize="10" Content="ading"></ListBoxItem>
                         <ListBoxItem VerticalContentAlignment="Center" Height="30" FontSize="10" Content="aditya"></ListBoxItem>
                         <ListBoxItem VerticalContentAlignment="Center" Height="30" FontSize="10" Content="mantap"></ListBoxItem>

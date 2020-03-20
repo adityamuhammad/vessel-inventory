@@ -15,7 +15,7 @@ namespace VesselInventory.ViewModel
         public RequestFormItemAddOrEditViewModel()
         {
             IsVisibleListBoxItem = false;
-            ListBoxChanged = new RelayCommand((parameter) => { MessageBox.Show("ok"); });
+            ListBoxChanged = new RelayCommand((parameter) => { IsVisibleListBoxItem = false; });
         }
 
         private string _itemSelectKeyword = "";
