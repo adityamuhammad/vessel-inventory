@@ -105,6 +105,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="DTO\ItemGroupDimensionDTO.cs" />
     <Compile Include="DTO\RequestFormShipBargeDTO.cs" />
     <Compile Include="Helpers\Enums\Status.cs" />
     <Compile Include="Helpers\Enums\SyncStatus.cs" />

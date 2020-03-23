@@ -26,9 +26,6 @@ namespace VesselInventory.ViewModel
         private RequestFormRepository _requestFormRepository;
         private rf _rf = new rf();
 
-        private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
-        private ObservableCollection<rf_item> _rfItemList = new ObservableCollection<rf_item>();
-
 
         public RelayCommand Save { get; private set; }
         public RelayCommand AddOrEditItem { get; private set; }
@@ -44,22 +41,72 @@ namespace VesselInventory.ViewModel
         }
 
         
+
+        private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
+        public ObservableCollection<string> DepartmentList
+        {
+            get => _departmentList;
+            set
+            {
+                _departmentList = value;
+                OnPropertyChanged("DepartmentList");
+            }
+        }
+
+        private ObservableCollection<rf_item> _rfItemList = new ObservableCollection<rf_item>();
+        public ObservableCollection<rf_item> RfItems
+        {
+            get => _rfItemList;
+            set
+            {
+                _rfItemList = value;
+                OnPropertyChanged("RfItems");
+            }
+        }
+
         // <summary>
-        // Reserved columns
+        // UI Columns
         // </summary>
+        #region
+
         private int _barge_id;
-        public int barge_id { get => _barge_id; set => _barge_id = value; }
+        public int barge_id
+        {
+            get => _barge_id;
+            set => _barge_id = value;
+        }
 
         private string _barge_name;
-        public string barge_name { get => _barge_name; set => _barge_name = value; }
+        public string barge_name
+        {
+            get => _barge_name;
+            set => _barge_name = value;
+        }
 
         private string _ship_code;
-        public string ship_code { get => _ship_code; set => _ship_code = value; }
-        private string _barge_code;
-        public string barge_code { get => _barge_code; set => _barge_code = value; }
+        public string ship_code
+        {
+            get => _ship_code;
+            set => _ship_code = value;
+        }
 
-        public int ship_id { get => _rf.ship_id; set => _rf.ship_id = value; }
-        public int rf_id { get => _rf.rf_id; set => _rf.rf_id = value; }
+        private string _barge_code;
+        public string barge_code
+        {
+            get => _barge_code;
+            set => _barge_code = value;
+        }
+
+        public int ship_id
+        {
+            get => _rf.ship_id;
+            set => _rf.ship_id = value;
+        }
+        public int rf_id
+        {
+            get => _rf.rf_id;
+            set => _rf.rf_id = value;
+        }
         public string rf_number
         {
             get => _rf.rf_number;
@@ -79,36 +126,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<string> DepartmentList
-        {
-            get => _departmentList;
-            set
-            {
-                _departmentList = value;
-                OnPropertyChanged("DepartmentList");
-            }
-        }
-
-        public ObservableCollection<rf_item> RfItems
-        {
-            get => _rfItemList;
-            set
-            {
-                _rfItemList = value;
-                OnPropertyChanged("RfItems");
-            }
-        }
-
-        private void LoadDepartmentList()
-        {
-            foreach(var department in GenericHelper.GetLookupValues("DEPARTMENT") ) {
-                _departmentList.Add(department.description);
-            }
-        }
-
-        // <summary>
-        // UI Columns
-        // </summary>
         [Required(ErrorMessage ="Project Number cannot be empty.")]
         public string project_number {
             get => _rf.project_number;
@@ -155,9 +172,12 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("notes");
             }
         }
+        #endregion
+
         // <summary>
         // UI properties
         // </summary>
+        #region
         public override string Title { get; set; }
 
         private bool _IsVisibleButtonUpdate;
@@ -238,6 +258,14 @@ namespace VesselInventory.ViewModel
                     ship_id = _requestFormShipBargeDTO.ship_id;
                 }
                 OnPropertyChanged("IsCheckedBargeRequest");
+            }
+        }
+        #endregion
+
+        private void LoadDepartmentList()
+        {
+            foreach(var department in GenericHelper.GetLookupValues("DEPARTMENT") ) {
+                _departmentList.Add(department.description);
             }
         }
 

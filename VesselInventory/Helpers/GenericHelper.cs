@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VesselInventory.DTO;
 using VesselInventory.Models;
 
 namespace VesselInventory.Helpers
@@ -17,6 +18,17 @@ namespace VesselInventory.Helpers
                         lookupType
                     }).ToList();
             }
+        }
+
+        public static IEnumerable<ItemGroupDimensionDTO> GetItems(string search_keyword = "")
+        {
+            using (var context = new VesselInventoryContext()) {
+                return context.Database.SqlQuery<ItemGroupDimensionDTO>("usp_Item_GetItems @p0",
+                    parameters: new[] {
+                        search_keyword
+                    }).ToList();
+            }
+
         }
     }
 }

@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
-            <RowDefinition Height="300*"/>
+            <RowDefinition Height="400*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,37 +20,20 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <Button 
                     Uid="0" 
-                    Width="150" 
-                    Height="29" 
                     Background="LightGray" 
-                    BorderBrush="{x:Null}" 
                     Content="List" 
-                    Foreground="#FF1368BD" 
                     Style="{StaticResource TransparentStyle}" />
                 <Button 
                     Uid="1" 
-                    Width="150" 
                     Content="Item Status" 
-                    Height="29" 
-                    Background="LightGray" 
-                    BorderBrush="{x:Null}" 
-                    Foreground="#FF1368BD"
                     Style="{StaticResource TransparentStyle}" 
-                    BorderThickness="0" 
                     Click="TabRequestForm_Click"/>
                 <Button 
                     Uid="2" 
-                    Width="150" 
                     Content="Item Pending" 
-                    Height="29" 
-                    Background="LightGray" 
-                    BorderBrush="{x:Null}" 
-                    BorderThickness="0" 
                     Style="{StaticResource TransparentStyle}" 
-                    Foreground="#FF1368BD" 
                     Click="TabRequestForm_Click" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center"/>
+                    />
             </StackPanel>
             <Grid 
                 x:Name="GridCursor" 
@@ -65,6 +48,7 @@
                 HorizontalAlignment="Left" 
                 Margin="20,10,0,0" 
                 VerticalAlignment="Top" 
+                Height="30"
                 Width="157" 
                 Background="#FF4E5FBF" 
                 BorderBrush="#FF508B3A" 
@@ -74,39 +58,47 @@
                     <TextBlock Text="Request"/>
                 </StackPanel>
             </Button>
+            <TextBlock 
+                Text="Search" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Right"
+                Height="30"
+                Margin="0,10,180,0"
+                />
             <TextBox 
                 HorizontalAlignment="Right" 
-                Height="32" 
-                Margin="640,10,20,0" 
+                Height="30" 
+                Margin="0,10,20,0" 
                 Text="{
                     Binding SearchKeyword, 
                     Mode=TwoWay, 
                     UpdateSourceTrigger=PropertyChanged
                 }"
                 VerticalAlignment="Top" 
-                Width="130"/>
+                Width="150"/>
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid 
                 HorizontalAlignment="Stretch" 
                 VerticalScrollBarVisibility="Auto" 
                 VerticalAlignment="Top" 
+                Margin="20,0,20,0"
                 CanUserAddRows="False" 
                 ItemsSource="{
                     Binding RequestFormCollection,
                     Mode=TwoWay
                 }" 
+                RowStyle="{StaticResource DataGridRowMedium}"
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="RF ID" Binding="{Binding rf_id}"/>
-                    <DataGridTextColumn Header="RF Number" Binding="{Binding rf_number}"/>
-                    <DataGridTextColumn Header="Project Number" Binding="{Binding project_number}"/>
-                    <DataGridTextColumn Header="Department" Binding="{Binding department_name}"/>
-                    <DataGridTextColumn Header="RF Date" Binding="{Binding rf_date, StringFormat=\{0:yyyy-mm-dd\}}"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding status}"/>
-                    <DataGridTextColumn Header="Ship Name" Binding="{Binding ship_name}"/>
-                    <DataGridTextColumn Header="Sync Status" Binding="{Binding sync_status}"/>
+                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
+                    <DataGridTextColumn Width="1*" Header="Project Number" Binding="{Binding project_number}"/>
+                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
+                    <DataGridTextColumn Width="1*" Header="RF Date" Binding="{Binding rf_date, StringFormat=\{0:yyyy-mm-dd\}}"/>
+                    <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding status}"/>
+                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -120,6 +112,12 @@
                                         BorderBrush="#FF4E5FBF" 
                                         Background="White" 
                                         Foreground="#FF4E5FBF" 
+                                        Height="20"
+                                        Width="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
                                         Command="{
                                             Binding RelativeSource={
                                                 RelativeSource AncestorType={
@@ -131,6 +129,8 @@
                                         CommandParameter="{Binding rf_id}">
                                         <materialDesign:PackIcon 
                                             Kind="Edit" 
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
                                             VerticalAlignment="Center" 
                                             HorizontalAlignment="Center"/>
                                     </Button>
@@ -145,25 +145,22 @@
             <StackPanel 
                 Orientation="Horizontal" 
                 HorizontalAlignment="Right" 
+                Margin="0,0,20,0"
                 VerticalAlignment="Center">
-                <TextBlock 
-                    VerticalAlignment="Center" 
-                    Text="{
-                        Binding CurrentPage,
-                        Mode=TwoWay,
-                        UpdateSourceTrigger=PropertyChanged, 
-                        StringFormat={}Page {0} of 
-                    }" 
-                    Width="60"/>
-                <TextBlock 
-                    VerticalAlignment="Center" 
-                    Text="{
-                        Binding TotalPage,
-                        Mode=OneWay,
-                        UpdateSourceTrigger=PropertyChanged, 
-                        StringFormat={}{0}
-                    }" 
-                    Width="40"/>
+                <TextBlock Foreground="Black" FontSize="14" VerticalAlignment="Center" Width="100" Margin="0,0,15,0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Page {0} of {1}">
+                            <Binding 
+                                Path="CurrentPage" 
+                                Mode="TwoWay"
+                                UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding 
+                                Path="TotalPage" 
+                                Mode="TwoWay"
+                                UpdateSourceTrigger="PropertyChanged"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <Button Content="Prev" Width="75" Command="{Binding PrevPageCommand}"/>
                 <Button Content="Next" Width="75" Command="{Binding NextPageCommand}"/>
             </StackPanel>

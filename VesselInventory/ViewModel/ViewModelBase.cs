@@ -15,5 +15,10 @@ namespace VesselInventory.ViewModel
         public virtual string Title { get => _title; set => _title = value; }
         public virtual double Height { get => _height; set => _height = value; }
         public virtual double Width { get => _width; set => _width = value; }
+        public RelayCommand Test { get; private set; }
+        public ViewModelBase()
+        {
+            Test = new RelayCommand(i => { Console.WriteLine("hello"); });
+        }
     }
 }

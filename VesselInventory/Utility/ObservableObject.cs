@@ -20,13 +20,6 @@ namespace VesselInventory.Utility
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value)) return false;
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         public void RaiseErrorsChanged(string propertyName)

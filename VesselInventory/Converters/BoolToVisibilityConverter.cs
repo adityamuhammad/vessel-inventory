@@ -25,7 +25,7 @@ namespace VesselInventory.Converters
         }
     }
 
-    public class BoolToVisibilityCollapseVisibleConverter : IValueConverter
+    public class BoolToVisibilityCollapsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

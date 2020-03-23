@@ -18,36 +18,6 @@
                 <Grid x:Name="GridCursor" Width="150" Height="2" Background="#FF1368BD" HorizontalAlignment="Left" Margin="300,29,0,11"/>
             </Grid>
             <Separator VerticalAlignment="Top" Margin="0,30,0,0"/>
-            <Grid x:Name="ListGrid" Background="LightGray" Visibility="Visible" VerticalAlignment="Top" Height="350" Margin="5,35">
-                <TextBox HorizontalAlignment="Right" Height="32" Margin="640,10,20,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="130"/>
-                <DataGrid VerticalAlignment="Top" CanUserAddRows="False" Margin="0,50,0,0" ItemsSource="{Binding RfTables}" AutoGenerateColumns="False" Height="300">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="RF Number" Binding="{Binding RF_ID}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Project Number" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Item ID" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Item Name" Binding="{Binding PJV_NUMBER}"></DataGridTextColumn>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.HeaderTemplate>
-                                <DataTemplate>
-                                    <materialDesign:PackIcon  Kind="Settings"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.HeaderTemplate>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button BorderBrush="#FF4E5FBF" Background="White" Foreground="#FF4E5FBF">
-                                            <materialDesign:PackIcon Kind="Edit" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        </Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-
-                    </DataGrid.Columns>
-                </DataGrid>
-                <Button Content="Prev" HorizontalAlignment="Right" Margin="0,358,82,-40" VerticalAlignment="Top" Width="75"/>
-                <Button Content="Next" HorizontalAlignment="Right" Margin="0,358,2,-40" VerticalAlignment="Top" Width="75"/>
-            </Grid>
         </Grid>
     </Grid>
 </UserControl>
