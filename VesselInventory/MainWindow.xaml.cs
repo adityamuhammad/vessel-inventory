@@ -41,18 +41,6 @@ namespace VesselInventory
                     break;
             }
         }
-        private void ButtonOpenMenu_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonOpenMenu.Visibility = Visibility.Collapsed;
-            ButtonCloseMenu.Visibility = Visibility.Visible;
-            NavBarCol.Width = new GridLength(180, GridUnitType.Pixel);
-        }
-        private void ButtonCloseMenu_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonOpenMenu.Visibility = Visibility.Visible;
-            ButtonCloseMenu.Visibility = Visibility.Collapsed;
-            NavBarCol.Width = new GridLength(45, GridUnitType.Pixel);
-        }
     }
 
 }

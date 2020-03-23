@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VesselInventory.ViewModel
 {
-    class HomeViewModel
+    class HomeViewModel : ViewModelBase
     {
         public HomeViewModel()
         {

@@ -20,7 +20,8 @@ namespace VesselInventory.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            
+            GridLength gridLength = (GridLength)value;
+            return gridLength.Value;
         }
     }
 }

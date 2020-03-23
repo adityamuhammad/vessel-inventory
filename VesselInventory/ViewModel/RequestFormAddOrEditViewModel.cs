@@ -40,8 +40,6 @@ namespace VesselInventory.ViewModel
 
         }
 
-        
-
         private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
         public ObservableCollection<string> DepartmentList
         {
