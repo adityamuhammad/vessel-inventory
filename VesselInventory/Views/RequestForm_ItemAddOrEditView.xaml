@@ -1,5 +1,6 @@
 ﻿<Window x:Class="VesselInventory.Views.RequestForm_ItemAddOrEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        x:Name="AddOrEditItem"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Title="RequestForm_ItemAddOrEditView" 
         Height="450" 
-        Width="800">
+        Width="700" WindowStyle="ToolWindow">
     <Window.Resources>
         <converters:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsed"/>
     </Window.Resources>
@@ -139,25 +140,75 @@
                     <StackPanel>
                         <Label Margin="50,10,0,0" Content="QTY / UOM / ROB"/>
                         <Label Margin="50,10,0,0" Content="Reason"/>
+                        <Label Margin="50,10,0,0" Content="Priority"/>
                         <Label Margin="50,10,0,0" Content="Remarks"/>
                         <Label Margin="50,10,0,0" Content="Attachment"/>
                     </StackPanel>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsReadOnly="True"/>
+                            <TextBox 
+                                Margin="10,8,0,0" 
+                                HorizontalAlignment="Left" 
+                                Width="30" 
+                                Style="{StaticResource validation}" 
+                                Text="{
+                                    Binding qty, 
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    ValidatesOnNotifyDataErrors=True,
+                                    ValidatesOnDataErrors=True}"
+                                />
                             <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                             <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                         </StackPanel>
+                        <ComboBox 
+                            Margin="10,8,0,0" 
+                            HorizontalAlignment="Left" 
+                            ItemsSource="{Binding ReasonList}" 
+                            SelectedItem="{Binding reason}" 
+                            Width="120">
+                        </ComboBox>
+                        <ComboBox 
+                            Margin="10,8,0,0" 
+                            HorizontalAlignment="Left" 
+                            ItemsSource="{Binding PriorityList}" 
+                            SelectedItem="{Binding priority}" 
+                            Width="120">
+                        </ComboBox>
                         <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="120" IsReadOnly="True"/>
-                        <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="120" IsReadOnly="True"/>
-                        <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="120" IsReadOnly="True"/>
+                        <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="120" Text="{Binding remarks}"/>
+                        <Button 
+                            Command="{Binding OpenFileDialog}"
+                            Margin="10,8,0,0"
+                            Width="120"
+                            Height="20"
+                            BorderBrush="LightGray" 
+                            Background="White" 
+                            Foreground="Black" 
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon 
+                                    Kind="File" 
+                                    VerticalContentAlignment="Center"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Center"/>
+                                <TextBlock FontSize="10" Text="Browse"/>
+                            </StackPanel>
+                        </Button>
+
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Center">
             <StackPanel>
-                <Button Content="Save"/>
+                <Button 
+                    Command="{Binding Save,Mode=OneWay}" 
+                    CommandParameter="{Binding ElementName=AddOrEditItem}" 
+                    Content="Save"/>
             </StackPanel>
         </Grid>
     </Grid>

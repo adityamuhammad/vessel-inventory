@@ -17,6 +17,7 @@ using VesselInventory.Repository;
 using VesselInventory.Utility;
 using ToastNotifications.Messages;
 using VesselInventory.Views;
+using VesselInventory.Services;
 
 namespace VesselInventory.ViewModel
 {
@@ -24,6 +25,7 @@ namespace VesselInventory.ViewModel
     {
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
         private RequestFormRepository _requestFormRepository;
+        private RequestFormItemRepository _requestFormItemRepository;
         private rf _rf = new rf();
 
 
@@ -32,12 +34,15 @@ namespace VesselInventory.ViewModel
 
         public RequestFormAddOrEditViewModel(int rf_id_params = 0)
         {
-            _requestFormRepository = new RequestFormRepository(new Models.VesselInventoryContext());
+            _requestFormRepository = new RequestFormRepository(new VesselInventoryContext());
+            _requestFormItemRepository = new RequestFormItemRepository(new VesselInventoryContext());
+
             Save = new RelayCommand(SaveAction, IsSaveCanExecute );
             AddOrEditItem = new RelayCommand(AddOrEditItemAction);
             LoadDepartmentList();
             LoadAttributes(rf_id_params);
-
+            if (rf_id_params != 0)
+                LoadItems();
         }
 
         private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
@@ -266,6 +271,38 @@ namespace VesselInventory.ViewModel
                 _departmentList.Add(department.description);
             }
         }
+        
+        public void LoadItems()
+        {
+            _rfItemList.Clear();
+            foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
+            {
+                _rfItemList.Add(new rf_item
+                {
+                    rf_item_id = _.rf_item_id,
+                    rf_id = _.rf_id,
+                    item_id = _.item_id,
+                    item_name = _.item_name,
+                    item_group_id = _.item_group_id,
+                    item_dimension_number = _.item_dimension_number,
+                    brand_type_id = _.brand_type_id,
+                    brand_type_name = _.brand_type_name,
+                    color_size_id = _.color_size_id,
+                    color_size_name = _.color_size_name,
+                    qty = _.qty,
+                    uom = _.uom,
+                    priority = _.priority,
+                    remarks = _.remarks,
+                    reason = _.reason,
+                    attachment_path = _.attachment_path,
+                    created_by = _.created_by,
+                    created_date = _.created_date,
+                    last_modified_by = _.last_modified_by,
+                    last_modified_date = _.last_modified_date,
+                    sync_status = _.sync_status
+                });
+            }
+        }
 
         private void LoadAttributes(int rf_id_params)
         {
@@ -303,7 +340,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public void SaveAction(object parameter)
+        private void SaveAction(object parameter)
         {
             if (rf_id == 0)
             {
@@ -323,7 +360,7 @@ namespace VesselInventory.ViewModel
 
             Navigate.To(new RequestFormViewModel());
         }
-        public bool IsSaveCanExecute(object parameter)
+        private bool IsSaveCanExecute(object parameter)
         {
             if (project_number == "")
                 return false;
@@ -334,11 +371,10 @@ namespace VesselInventory.ViewModel
             return true;
         }
 
-        public void AddOrEditItemAction(object parameter)
+        private void AddOrEditItemAction(object parameter)
         {
-            RequestForm_ItemAddOrEditView windowRequestItem = new RequestForm_ItemAddOrEditView();
-            windowRequestItem.DataContext = new RequestFormItemAddOrEditViewModel();
-            windowRequestItem.ShowDialog();
+            WindowService windowService = new WindowService();
+            windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this));
         }
     }
 }

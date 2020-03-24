@@ -132,7 +132,12 @@
     <Compile Include="Models\vessel_good_return.cs" />
     <Compile Include="Models\vessel_good_return_item.cs" />
     <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Repository\RequestFormItemRepository.cs" />
     <Compile Include="Repository\RequestFormRepository.cs" />
+    <Compile Include="Services\IClosable.cs" />
+    <Compile Include="Services\IOService.cs" />
+    <Compile Include="Services\OpenPdfFileDialog.cs" />
+    <Compile Include="Services\WindowService.cs" />
     <Compile Include="Utility\Navigate.cs" />
     <Compile Include="Utility\ObservableObject.cs" />
     <Compile Include="Utility\RelayCommand.cs" />

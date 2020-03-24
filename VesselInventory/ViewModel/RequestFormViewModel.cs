@@ -9,6 +9,7 @@ using VesselInventory.Utility;
 using VesselInventory.Repository;
 using System.Windows;
 using VesselInventory.Views;
+using VesselInventory.Services;
 
 namespace VesselInventory.ViewModel
 {
@@ -19,7 +20,6 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
-
 
         public RequestFormViewModel()
         {
@@ -105,17 +105,15 @@ namespace VesselInventory.ViewModel
 
         public void OnOpenRequestForm(object parameter)
         {
-            RequestForm_AddOrEditView requestForm_Modal = new RequestForm_AddOrEditView();
+            WindowService windowService = new WindowService();
             if (parameter  != null)
             {
                 int rf_id = int.Parse(parameter.ToString());
-                requestForm_Modal.DataContext = new RequestFormAddOrEditViewModel(rf_id);
+                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(rf_id));
             } else
             {
-                requestForm_Modal.DataContext = new RequestFormAddOrEditViewModel();
+                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel());
             }
-                
-            requestForm_Modal.ShowDialog();
         }
 
         public bool IsNextPageCanUse(object parameter)

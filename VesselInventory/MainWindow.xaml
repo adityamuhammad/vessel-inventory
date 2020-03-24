@@ -29,6 +29,7 @@
             DataType="{x:Type viewmodels:RequestFormItemPendingViewModel}">
             <views:RequestForm_ItemPendingView DataContext="{Binding}"/>
         </DataTemplate>
+
         <converters:GridLengthConverter x:Key="GridLenghtConverter"/>
         <converters:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsed"/>
 
