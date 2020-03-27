@@ -8,16 +8,173 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="400*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid>
             <Grid VerticalAlignment="Top" Height="42" Background="LightGray">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Uid="0" Width="150" Height="29" Background="LightGray" BorderBrush="{x:Null}" Content="List" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" Click="TabRequestForm_Click"/>
-                    <Button Uid="1" Width="150" Content="Item Status" Height="29" Background="LightGray" BorderBrush="{x:Null}" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" BorderThickness="0"/>
-                    <Button Uid="2" Width="150" Content="Item Pending" Height="29" Background="LightGray" BorderBrush="{x:Null}" BorderThickness="0" Style="{StaticResource TransparentStyle}" Foreground="#FF1368BD" VerticalAlignment="Center" HorizontalAlignment="Center" Click="TabRequestForm_Click" />
+                <Button
+                    Background="LightGray" 
+                    Content="List" 
+                    Style="{StaticResource TransparentStyle}" 
+                    Command="{Binding SwitchTab}"
+                    CommandParameter="List"
+                    />
+                <Button 
+                    Content="Item Status" 
+                    Style="{StaticResource TransparentStyle}" 
+                    Command="{Binding SwitchTab}"
+                    CommandParameter="ItemStatus"
+                    />
+                <Button 
+                    Content="Item Pending" 
+                    Style="{StaticResource TransparentStyle}" 
+                    Command="{Binding SwitchTab}"
+                    CommandParameter="ItemPending"
+                    />
                 </StackPanel>
                 <Grid x:Name="GridCursor" Width="150" Height="2" Background="#FF1368BD" HorizontalAlignment="Left" Margin="150,29,0,11"/>
             </Grid>
             <Separator VerticalAlignment="Top" Margin="0,30,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20,0,20,0">
+            <StackPanel Margin="20,0,20,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                 <TextBlock 
+                    Text="RF Number" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    />
+                <TextBox 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Center"
+                    Text="{
+                        Binding RFNumberSearch, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    Width="100"/>
+                <TextBlock 
+                    Text="Item Id" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    />
+                <TextBox 
+                    HorizontalAlignment="Left" 
+                    Text="{
+                        Binding ItemIdSearch, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    VerticalAlignment="Center" 
+                    Width="50"/>
+                <TextBlock 
+                    Text="Item Name" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    />
+                <TextBox 
+                    HorizontalAlignment="Left" 
+                    Text="{
+                        Binding ItemNameSearch, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    VerticalAlignment="Center" 
+                    Width="100"/>
+                <TextBlock 
+                    Text="Group" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    />
+                <TextBox 
+                    HorizontalAlignment="Left" 
+                    Text="{
+                        Binding GroupSearch, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    VerticalAlignment="Center" 
+                    Width="100"/>
+                <TextBlock 
+                    Text="Department" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"
+                    Margin="20"
+                    />
+                <TextBox 
+                    HorizontalAlignment="Left" 
+                    Text="{
+                        Binding DepartmentSearch, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    VerticalAlignment="Center" 
+                    Width="100"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <DataGrid 
+            x:Name="testest"
+                HorizontalAlignment="Stretch" 
+                VerticalScrollBarVisibility="Auto" 
+                VerticalAlignment="Top" 
+                Margin="20,0,20,0"
+                CanUserAddRows="False" 
+                ItemsSource="{
+                    Binding ItemStatusCollection
+                }" 
+                RowStyle="{StaticResource DataGridRowMedium}"
+                AutoGenerateColumns="False" 
+                IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="1*" Header="Item Id" Binding="{Binding item_id}"/>
+                    <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding item_description}"/>
+                    <DataGridTextColumn Width="0.5*" Header="QTY" Binding="{Binding qty}"/>
+                    <DataGridTextColumn Width="0.5*" Header="UOM" Binding="{Binding uom}"/>
+                    <DataGridTextColumn Width="1*" Header="Group Name" Binding="{Binding item_group_name}"/>
+                    <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding priority}"/>
+                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
+                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
+                    <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding status}"/>
+                    <DataGridTextColumn Width="1*" Header="Target Delivery" Binding="{Binding target_delivery_date, StringFormat={}{0:yyyy-MM-dd}}"/>
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Row="3">
+            <StackPanel 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Right" 
+                Margin="0,0,20,0"
+                VerticalAlignment="Center">
+                <TextBlock Foreground="Black" FontSize="14" VerticalAlignment="Center" Width="100" Margin="0,0,15,0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}Page {0} of {1}">
+                            <Binding 
+                                Path="CurrentPage" 
+                                Mode="TwoWay"
+                                UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding 
+                                Path="TotalPage" 
+                                Mode="TwoWay"
+                                UpdateSourceTrigger="PropertyChanged"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Button Content="Prev" Width="75" Command="{Binding PrevPageCommand}"/>
+                <Button Content="Next" Width="75" Command="{Binding NextPageCommand}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

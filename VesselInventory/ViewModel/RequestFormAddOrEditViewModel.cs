@@ -28,15 +28,17 @@ namespace VesselInventory.ViewModel
         private RequestFormItemRepository _requestFormItemRepository;
         private rf _rf = new rf();
 
-
+        public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
         public RelayCommand AddOrEditItem { get; private set; }
+        public RequestFormAddOrEditViewModel() : this(0) { }
 
-        public RequestFormAddOrEditViewModel(int rf_id_params = 0)
+        public RequestFormAddOrEditViewModel(int rf_id_params)
         {
-            _requestFormRepository = new RequestFormRepository(new VesselInventoryContext());
-            _requestFormItemRepository = new RequestFormItemRepository(new VesselInventoryContext());
+            _requestFormRepository = new RequestFormRepository();
+            _requestFormItemRepository = new RequestFormItemRepository();
 
+            Close = new RelayCommand<IClosable>(CloseAction);
             Save = new RelayCommand(SaveAction, IsSaveCanExecute );
             AddOrEditItem = new RelayCommand(AddOrEditItemAction);
             LoadDepartmentList();
@@ -67,38 +69,11 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        // <summary>
-        // UI Columns
-        // </summary>
         #region
-
-        private int _barge_id;
-        public int barge_id
-        {
-            get => _barge_id;
-            set => _barge_id = value;
-        }
-
-        private string _barge_name;
-        public string barge_name
-        {
-            get => _barge_name;
-            set => _barge_name = value;
-        }
-
-        private string _ship_code;
-        public string ship_code
-        {
-            get => _ship_code;
-            set => _ship_code = value;
-        }
-
-        private string _barge_code;
-        public string barge_code
-        {
-            get => _barge_code;
-            set => _barge_code = value;
-        }
+        public int barge_id { get; set; }
+        public string barge_name { get; set; }
+        public string ship_code { get; set; }
+        public string barge_code { get; set; }
 
         public int ship_id
         {
@@ -142,10 +117,7 @@ namespace VesselInventory.ViewModel
         [Required]
         public string department_name
         {
-            get
-            {
-                return _rf.department_name;
-            }
+            get => _rf.department_name;
             set
             {
                 _rf.department_name = value;
@@ -315,7 +287,7 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = true;
                 IsVisibleBargeCheck = false;
 
-                _rf = _requestFormRepository.GetById(rf_id_params);
+                _rf = _requestFormRepository.FindById(rf_id_params);
             } else
             {
                 Title = "Add Request Form";
@@ -324,11 +296,11 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = false;
                 IsVisibleBargeCheck = true;
 
-                rf_id = rf_id_params;
                 _rf.department_name = DepartmentList.First();
-
                 _rf.target_delivery_date = DateTime.Now;
+
                 _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
+                rf_id = rf_id_params;
                 ship_code = _requestFormShipBargeDTO.ship_code;
                 barge_code = _requestFormShipBargeDTO.barge_code;
                 ship_id = _requestFormShipBargeDTO.ship_id;
@@ -336,7 +308,6 @@ namespace VesselInventory.ViewModel
                 ship_name = _requestFormShipBargeDTO.ship_name;
                 barge_name = _requestFormShipBargeDTO.barge_name;
                 rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
-                rf_id = rf_id_params;
             }
         }
 
@@ -362,7 +333,7 @@ namespace VesselInventory.ViewModel
         }
         private bool IsSaveCanExecute(object parameter)
         {
-            if (project_number == "")
+            if (project_number == string.Empty)
                 return false;
             if (project_number is null)
                 return false;
@@ -371,10 +342,25 @@ namespace VesselInventory.ViewModel
             return true;
         }
 
+
         private void AddOrEditItemAction(object parameter)
         {
             WindowService windowService = new WindowService();
-            windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this));
+            if (parameter != null)
+            {
+                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,(int)parameter));
+            } else
+            {
+                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this));
+            }
+        }
+
+        private void CloseAction(IClosable window)
+        {
+            if (window != null)
+            {
+                window.Close();
+            }
         }
     }
 }

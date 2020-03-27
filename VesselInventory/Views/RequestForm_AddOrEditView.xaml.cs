@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VesselInventory.Services;
 
 namespace VesselInventory.Views
 {
     /// <summary>
     /// Interaction logic for RequestForm_AddOrEditForm.xaml
     /// </summary>
-    public partial class RequestForm_AddOrEditView : Window
+    public partial class RequestForm_AddOrEditView : Window, IClosable
     {
         public RequestForm_AddOrEditView()
         {

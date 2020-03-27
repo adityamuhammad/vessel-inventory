@@ -23,33 +23,36 @@ namespace VesselInventory.ViewModel
 
         RequestFormItemRepository _requestFormItemRepository;
         rf_item _rf_item = new rf_item();
+        public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand ListBoxChanged { get; private set; }
         public RelayCommand OpenFileDialog { get; private set; }
         public RelayCommand<IClosable> Save { get; private set; }
         IOService _iOService;
-        public RequestFormItemAddOrEditViewModel(RequestFormAddOrEditViewModel parent)
+
+        public RequestFormItemAddOrEditViewModel(RequestFormAddOrEditViewModel parent) : this(parent, 0) { }
+        public RequestFormItemAddOrEditViewModel(RequestFormAddOrEditViewModel parent,int rf_item_id)
         {
             _parent = parent;
-            if (parent != null)
-            {
-                rf_id = parent.rf_id;
-            } else
-            {
-                rf_id = 0;
-            }
-            _requestFormItemRepository = new RequestFormItemRepository(new VesselInventoryContext());
+            _requestFormItemRepository = new RequestFormItemRepository();
             _iOService = new OpenPdfFileDialog();
             IsVisibleListBoxItem = false;
             ListBoxChanged = new RelayCommand(AutoCompleteChanged);
             OpenFileDialog = new RelayCommand(OpenFile);
-            Save = new RelayCommand<IClosable>(SaveAction);
+            Save = new RelayCommand<IClosable>(SaveAction, IsCanSave);
+            Close = new RelayCommand<IClosable>(CloseAction);
             LoadPriorityList();
             LoadReasonList();
+            RefreshItems();
             reason = _reasonList.First();
             priority = _priorityList.First();
-            RefreshItems();
-        }
 
+            rf_id = parent.rf_id;
+
+            if (rf_item_id != 0)
+            {
+                _rf_item = _requestFormItemRepository.FindById(rf_item_id);
+            }
+        }
 
         #region
         public int? rf_id
@@ -58,6 +61,14 @@ namespace VesselInventory.ViewModel
             set
             {
                 _rf_item.rf_id = value;
+            }
+        }
+        public int rf_item_id
+        {
+            get => _rf_item.rf_item_id;
+            set
+            {
+                _rf_item.rf_item_id = value;
             }
         }
         public string item_dimension_number
@@ -147,6 +158,17 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private string _attachment_local_path = string.Empty;
+        public string attachment_local_path
+        {
+            get => _attachment_local_path;
+            set
+            {
+                _attachment_local_path = value;
+                OnPropertyChanged("attachment_local_path");
+            }
+        }
+
         [Required(ErrorMessage ="Qty cannot be empty")]
         [RegularExpression(@"^[0-9]*$",ErrorMessage ="Invalid Format")]
         public decimal? qty
@@ -199,7 +221,7 @@ namespace VesselInventory.ViewModel
         }
         #endregion
 
-        private string _itemSelectKeyword = "";
+        private string _itemSelectKeyword = string.Empty;
         public string ItemSelectKeyword
         {
             get => _itemSelectKeyword;
@@ -207,7 +229,7 @@ namespace VesselInventory.ViewModel
             {
                 _itemSelectKeyword = value;
                 OnPropertyChanged("ItemSelectKeyword");
-                if (value == "")
+                if (value == string.Empty)
                 {
                     IsVisibleListBoxItem = false;
                 } else
@@ -312,20 +334,48 @@ namespace VesselInventory.ViewModel
                 item_dimension_number = item.item_dimension_number;
                 item_group_id = item.item_group_id;
                 uom = item.uom;
-                ItemSelectKeyword = "";
+                ItemSelectKeyword = string.Empty;
             }
         }
 
         private void SaveAction(IClosable window)
         {
-            _requestFormItemRepository.Save(_rf_item);
+            string directoryPath = @"C:\\VesselInventory\\Attachments\\";
+            string fileName = string.Empty;
+
+            if(attachment_local_path.Trim() != string.Empty || attachment_local_path != null)
+            {
+                if (!Directory.Exists(directoryPath))
+                {
+                    DirectoryInfo directoryInfo = Directory.CreateDirectory(directoryPath);
+                }
+
+                if (File.Exists(attachment_local_path))
+                {
+                    fileName = Path.GetFileName(attachment_local_path);
+                    attachment_path = Path.Combine(directoryPath, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + '_' +  fileName);
+
+                    File.Copy(attachment_local_path, attachment_path);
+                }
+            }
+
+            if (rf_item_id == 0)
+                _requestFormItemRepository.Save(_rf_item);
+            else
+                _requestFormItemRepository.Update(rf_item_id,_rf_item);
+
             _parent.LoadItems();
+
             Notifier toasMessage = ToastNotification.Instance.GetInstance();
             toasMessage.ShowSuccess("Data saved successfully.");
+
             if (window != null)
-            {
                 window.Close();
-            }
+        }
+
+        private bool IsCanSave(object parameter)
+        {
+            return true;
         }
 
         private void OpenFile(object parameter)
@@ -333,8 +383,15 @@ namespace VesselInventory.ViewModel
             var filename =_iOService.OpenFileDialog();
             if (filename != "Error")
             {
-                attachment_path = filename;
+                attachment_local_path = filename;
             }
         } 
+        private void CloseAction(IClosable window)
+        {
+            if (window != null)
+            {
+                window.Close();
+            }
+        }
     }
 }

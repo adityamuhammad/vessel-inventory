@@ -19,20 +19,21 @@
         <Grid Grid.Row="0" Height="42">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <Button 
-                    Uid="0" 
                     Background="LightGray" 
                     Content="List" 
-                    Style="{StaticResource TransparentStyle}" />
+                    Style="{StaticResource TransparentStyle}" 
+                    />
                 <Button 
-                    Uid="1" 
                     Content="Item Status" 
                     Style="{StaticResource TransparentStyle}" 
-                    Click="TabRequestForm_Click"/>
+                    Command="{Binding SwitchTab}"
+                    CommandParameter="ItemStatus"
+                    />
                 <Button 
-                    Uid="2" 
                     Content="Item Pending" 
                     Style="{StaticResource TransparentStyle}" 
-                    Click="TabRequestForm_Click" 
+                    Command="{Binding SwitchTab}"
+                    CommandParameter="ItemPending"
                     />
             </StackPanel>
             <Grid 
@@ -58,7 +59,7 @@
                     <TextBlock Text="Request"/>
                 </StackPanel>
             </Button>
-            <TextBlock 
+             <TextBlock 
                 Text="Search" 
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Right"
@@ -79,14 +80,14 @@
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid 
+            x:Name="testest"
                 HorizontalAlignment="Stretch" 
                 VerticalScrollBarVisibility="Auto" 
                 VerticalAlignment="Top" 
                 Margin="20,0,20,0"
                 CanUserAddRows="False" 
                 ItemsSource="{
-                    Binding RequestFormCollection,
-                    Mode=TwoWay
+                    Binding RequestFormCollection
                 }" 
                 RowStyle="{StaticResource DataGridRowMedium}"
                 AutoGenerateColumns="False" 
@@ -95,7 +96,6 @@
                     <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
                     <DataGridTextColumn Width="1*" Header="Project Number" Binding="{Binding project_number}"/>
                     <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
-                    <DataGridTextColumn Width="1*" Header="RF Date" Binding="{Binding rf_date, StringFormat=\{0:yyyy-mm-dd\}}"/>
                     <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding status}"/>
                     <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
                     <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>

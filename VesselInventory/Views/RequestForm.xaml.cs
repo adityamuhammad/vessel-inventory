@@ -26,31 +26,6 @@ namespace VesselInventory.Views
         {
             InitializeComponent();
         }
-        private void TabRequestForm_Click(object sender, RoutedEventArgs e)
-        {
-            int index = int.Parse(((Button)e.Source).Uid);
-            GridCursor.Margin = new Thickness((150 * index), 29, 0, 11);
-
-            switch (index)
-            {
-                case 1:
-                    Navigate.To(new RequestFormItemStatusViewModel());
-                    break;
-                case 2:
-                    Navigate.To(new RequestFormItemPendingViewModel());
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void RequestAction_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.Opacity = 0.5;
-            //Window AddNewForm = new RequestForm_ModalAdd();
-            //AddNewForm.ShowDialog();
-        }
-
     }
 
 }

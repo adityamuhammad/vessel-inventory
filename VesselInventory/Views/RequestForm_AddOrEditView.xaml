@@ -1,6 +1,7 @@
 ﻿<Window x:Class="VesselInventory.Views.RequestForm_AddOrEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="AddOrEditRF"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VesselInventory.Views"
@@ -9,9 +10,8 @@
         xmlns:viewModel="clr-namespace:VesselInventory.ViewModel"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title,Mode=TwoWay}" 
-        Height="515" 
-        Width="650" WindowStyle="ToolWindow">
+        Height="550" 
+        Width="650" WindowStyle="None">
     <Window.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
@@ -28,10 +28,30 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="4">
+            <TextBlock Margin="10" 
+                       FontSize="15" 
+                       FontWeight="DemiBold" 
+                       HorizontalAlignment="Center" 
+                       Text="{Binding Title,Mode=OneWay}"/>
+            <Button 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top"
+                Width="50" 
+                Background="White" 
+                BorderBrush="{x:Null}" 
+                CommandParameter="{Binding ElementName=AddOrEditRF}" 
+                Command="{Binding Close,Mode=OneWay}" 
+                >
+                <materialDesign:PackIcon 
+                    Kind="Close" 
+                    Foreground="Black"/>
+            </Button>
+        </Grid>
         <Grid 
             Grid.Column="0" 
             Grid.Row="0" 
-            Margin="20,20,0,0">
+            Margin="40,40,0,0">
             <StackPanel Orientation="Vertical">
                 <Label 
                     Margin="0,10" 
@@ -56,6 +76,7 @@
             Grid.Row="0" 
             Grid.ColumnSpan="2">
             <StackPanel 
+                Margin="20,-5"
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Center" 
                 Orientation="Vertical">
@@ -105,7 +126,7 @@
         <Grid 
             Grid.Column="1" 
             Grid.Row="0" 
-            Margin="0,20,0,0">
+            Margin="0,40,0,0">
             <StackPanel Orientation="Vertical">
 
                 <TextBox 
@@ -139,7 +160,7 @@
 
         <Grid 
             Grid.Column="2" 
-            Grid.Row="0" Margin="0,20,0,0">
+            Grid.Row="0" Margin="0,40,0,0">
             <StackPanel Orientation="Vertical">
                 <Label 
                     Margin="0,10" 
@@ -162,7 +183,7 @@
         <Grid 
             Grid.Column="3" 
             Grid.Row="0" 
-            Margin="0,20,0,0">
+            Margin="0,40,0,0">
             <StackPanel Orientation="Vertical">
                 <TextBox 
                     Margin="0,10" 
@@ -220,18 +241,79 @@
                 <DataGrid Margin="20,0,20,0" 
                     ItemsSource="{
                         Binding RfItems,
-                        Mode=TwoWay
+                        Mode=OneWay,UpdateSourceTrigger=PropertyChanged
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"
-                    MaxHeight="150"
+                    MaxHeight="180"
                     IsReadOnly="True" 
                     CanUserAddRows="False" 
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Item ID" Binding="{Binding rf_item_id}"/>
-                        <DataGridTextColumn Header="RF ID" Binding="{Binding rf_id}"/>
-                        <DataGridTextColumn Header="Item Name" Binding="{Binding item_name}"/>
-                        <DataGridTextColumn Header="Priority" Binding="{Binding priority}"/>
+                        <DataGridTextColumn Width="0.7*" Header="Item ID" Binding="{Binding item_id}"/>
+                        <DataGridTemplateColumn Width="1.2*">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Item Desctiption"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} {1} {2} - {3} {4} ">
+                                                <Binding Path="item_name"/>
+                                                <Binding Path="brand_type_id"/>
+                                                <Binding Path="brand_type_name"/>
+                                                <Binding Path="color_size_name"/>
+                                                <Binding Path="color_size_name"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Width="0.5*" Header="Qty" Binding="{Binding qty}"/>
+                        <DataGridTextColumn Width="0.5*" Header="UOM" Binding="{Binding uom}"/>
+                        <DataGridTextColumn Width="0.7*" Header="Priority" Binding="{Binding priority}"/>
+                        <DataGridTemplateColumn Width="0.5*">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <materialDesign:PackIcon  Kind="Settings"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button 
+                                            BorderBrush="#FF4E5FBF" 
+                                            Background="White" 
+                                            Foreground="#FF4E5FBF" 
+                                            Height="20"
+                                            Width="40"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{
+                                                Binding RelativeSource={
+                                                    RelativeSource AncestorType={
+                                                        x:Type DataGrid
+                                                    },
+                                                Mode=FindAncestor},
+                                                Path=DataContext.AddOrEditItem
+                                            }" 
+                                            CommandParameter="{Binding rf_item_id}">
+                                            <materialDesign:PackIcon 
+                                                Kind="Edit" 
+                                                VerticalContentAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Button 
@@ -241,6 +323,7 @@
                     }" 
                     Margin="0,10,0,0" 
                     HorizontalAlignment="Center" 
+                    VerticalAlignment="Bottom"
                     Width="100" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
@@ -254,6 +337,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-
     </Grid>
 </Window>

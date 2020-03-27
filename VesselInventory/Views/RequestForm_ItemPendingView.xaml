@@ -11,9 +11,25 @@
         <Grid>
             <Grid VerticalAlignment="Top" Height="42" Background="LightGray">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Uid="0" Width="150" Height="29" Background="LightGray" BorderBrush="{x:Null}" Content="List" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" Click="TabRequestForm_Click"/>
-                    <Button Uid="1" Width="150" Content="Item Status" Height="29" Background="LightGray" BorderBrush="{x:Null}" Foreground="#FF1368BD" Style="{StaticResource TransparentStyle}" BorderThickness="0" Click="TabRequestForm_Click"/>
-                    <Button Uid="2" Width="150" Content="Item Pending" Height="29" Background="LightGray" BorderBrush="{x:Null}" BorderThickness="0" Style="{StaticResource TransparentStyle}" Foreground="#FF1368BD" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button 
+                        Background="LightGray" 
+                        Content="List" 
+                        Style="{StaticResource TransparentStyle}" 
+                        Command="{Binding SwitchTab}"
+                        CommandParameter="List"
+                        />
+                    <Button 
+                        Content="Item Status" 
+                        Style="{StaticResource TransparentStyle}" 
+                        Command="{Binding SwitchTab}"
+                        CommandParameter="ItemStatus"
+                        />
+                    <Button 
+                        Content="Item Pending" 
+                        Style="{StaticResource TransparentStyle}" 
+                        Command="{Binding SwitchTab}"
+                        CommandParameter="ItemPending"
+                        />
                 </StackPanel>
                 <Grid x:Name="GridCursor" Width="150" Height="2" Background="#FF1368BD" HorizontalAlignment="Left" Margin="300,29,0,11"/>
             </Grid>

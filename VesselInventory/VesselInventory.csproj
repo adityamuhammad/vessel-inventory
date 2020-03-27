@@ -107,6 +107,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GridLengthConverter.cs" />
     <Compile Include="DTO\ItemGroupDimensionDTO.cs" />
+    <Compile Include="DTO\ItemStatusDTO.cs" />
     <Compile Include="DTO\RequestFormShipBargeDTO.cs" />
     <Compile Include="Helpers\Enums\Status.cs" />
     <Compile Include="Helpers\Enums\SyncStatus.cs" />

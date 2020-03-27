@@ -12,66 +12,79 @@ namespace VesselInventory.Repository
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> FindAll();
-        IEnumerable<T> Find(Expression<Func<T, bool>> expression);
-
+        IEnumerable<T> FindBy(Expression<Func<T, bool>> expression);
         T Save(T entity);
-
+        T FindById(int id);
+        T Update(int id, T entity);
+        int Delete(int id);
     }
 
-    public class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
-        private readonly VesselInventoryContext _context;
-        public Repository(VesselInventoryContext context)
-        {
-            _context = context;
-        }
-        
         public IEnumerable<T> FindAll()
         {
-            return _context.Set<T>().ToList();
+            using (var context = new VesselInventoryContext())
+            {
+                return context.Set<T>().ToList();
+            }
         }
 
-        public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().Where(predicate);
+            using (var context = new VesselInventoryContext())
+            {
+                return context.Set<T>().Where(predicate);
+            }
         }
 
         public T Save(T entity)
         {
-            _context.Set<T>().Add(entity);
-            _context.SaveChanges();
-            return entity;
+            using (var context = new VesselInventoryContext())
+            {
+                context.Set<T>().Add(entity);
+                context.SaveChanges();
+                return entity;
+            }
         }
 
-        public T GetById(int id)
+        public T FindById(int id)
         {
-            return _context.Set<T>().Find(id);
+            using (var context = new VesselInventoryContext())
+            {
+                return context.Set<T>().Find(id);
+            }
 
         }
 
         public T Update(int id, T entity)
         {
-            if (entity == null)
-                return null;
-
-            T current = GetById(id);
-            if (current != null)
+            using (var context = new VesselInventoryContext())
             {
-                _context.Entry(current).CurrentValues.SetValues(entity);
-                _context.SaveChanges();
+                if (entity == null)
+                    return null;
+
+                T current = context.Set<T>().Find(id);
+                if (current != null)
+                {
+                    context.Entry(current).CurrentValues.SetValues(entity);
+                    context.SaveChanges();
+                }
+                return entity;
             }
-            return entity;
+
         }
 
         public int Delete(int id)
         {
-            T current = GetById(id);
-            if (current == null)
-                return 0;
-            _context.Set<T>().Remove(current);
-            _context.SaveChanges();
-            return 1;
-
+            using (var context = new VesselInventoryContext())
+            {
+                T current = context.Set<T>().Find(id);
+                if (current == null)
+                    return 0;
+                context.Set<T>().Remove(current);
+                context.SaveChanges();
+                return 1;
+            }
         }
     }
 

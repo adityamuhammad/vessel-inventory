@@ -36,7 +36,6 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\ToastNot
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\ToastNotifications.Messages.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\RequestForm_ItemAddOrEditView.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\RequestForm_ItemAddOrEditView.baml
-C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsoft.Expression.Controls.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsoft.Expression.Drawing.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsoft.Expression.Effects.dll
@@ -45,3 +44,4 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsof
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsoft.Expression.Prototyping.SketchControls.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsoft.SDK.Expression.Blend.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache
