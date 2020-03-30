@@ -43,22 +43,7 @@ namespace VesselInventory.ViewModel
         {
             _itemStatusColelction.Clear();
             foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,ItemStatusSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
-            {
-                _itemStatusColelction.Add(new ItemStatusDTO
-                {
-                    item_id = _.item_id,
-                    department_name = _.department_name,
-                    item_description = _.item_description,
-                    item_group_name = _.item_group_name,
-                    priority = _.priority,
-                    qty = _.qty,
-                    rf_number = _.rf_number,
-                    item_status = _.item_status,
-                    sync_status = _.sync_status,
-                    target_delivery_date = _.target_delivery_date,
-                    uom = _.uom
-                });
-            }
+                _itemStatusColelction.Add(_);
         }
 
         private int _currentPage;

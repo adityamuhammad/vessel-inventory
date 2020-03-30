@@ -21,7 +21,7 @@ using VesselInventory.Services;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormAddOrEditViewModel : ViewModelBase
+    public class RequestFormAddOrEditViewModel : ViewModelBase, IParentLoadable
     {
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
         private RequestFormRepository _requestFormRepository;
@@ -31,10 +31,12 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
         public RelayCommand AddOrEditItem { get; private set; }
-        public RequestFormAddOrEditViewModel() : this(0) { }
+        private IParentLoadable _parentLoadable;
 
-        public RequestFormAddOrEditViewModel(int rf_id_params)
+        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
+        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
         {
+            _parentLoadable = parentLoadable;
             _requestFormRepository = new RequestFormRepository();
             _requestFormItemRepository = new RequestFormItemRepository();
 
@@ -44,7 +46,7 @@ namespace VesselInventory.ViewModel
             LoadDepartmentList();
             LoadAttributes(rf_id_params);
             if (rf_id_params != 0)
-                LoadItems();
+                LoadGrid();
         }
 
         private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
@@ -244,7 +246,7 @@ namespace VesselInventory.ViewModel
             }
         }
         
-        public void LoadItems()
+        public void LoadGrid()
         {
             _rfItemList.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
@@ -329,7 +331,7 @@ namespace VesselInventory.ViewModel
             Notifier toasMessage = ToastNotification.Instance.GetInstance();
             toasMessage.ShowSuccess("Data saved successfully.");
 
-            Navigate.To(new RequestFormViewModel());
+            _parentLoadable.LoadGrid();
         }
         private bool IsSaveCanExecute(object parameter)
         {
@@ -348,10 +350,10 @@ namespace VesselInventory.ViewModel
             WindowService windowService = new WindowService();
             if (parameter != null)
             {
-                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,(int)parameter));
+                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
             } else
             {
-                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this));
+                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id));
             }
         }
 

@@ -59,8 +59,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 1");
-                return rf;
             }
+            return rf;
         }
     }
 }

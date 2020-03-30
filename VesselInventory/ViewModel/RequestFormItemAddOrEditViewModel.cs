@@ -19,7 +19,7 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditViewModel : ViewModelBase
     {
-        RequestFormAddOrEditViewModel _parent;
+        IParentLoadable _parentLoadable;
 
         RequestFormItemRepository _requestFormItemRepository;
         RFItem _rf_item = new RFItem();
@@ -29,13 +29,17 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> Save { get; private set; }
         IOService _iOService;
 
-        public RequestFormItemAddOrEditViewModel(RequestFormAddOrEditViewModel parent) : this(parent, 0) { }
-        public RequestFormItemAddOrEditViewModel(RequestFormAddOrEditViewModel parent,int rf_item_id)
+        public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id) : this(parentLoadable, rf_id, 0) { }
+        public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int _rf_id, int rf_item_id)
         {
-            _parent = parent;
+            _parentLoadable = parentLoadable;
             _requestFormItemRepository = new RequestFormItemRepository();
             _iOService = new OpenPdfFileDialog();
+            
             IsVisibleListBoxItem = false;
+
+            rf_id = _rf_id;
+
             ListBoxChanged = new RelayCommand(AutoCompleteChanged);
             OpenFileDialog = new RelayCommand(OpenFile);
             Save = new RelayCommand<IClosable>(SaveAction, IsCanSave);
@@ -45,8 +49,6 @@ namespace VesselInventory.ViewModel
             RefreshItems();
             reason = _reasonList.First();
             priority = _priorityList.First();
-
-            rf_id = parent.rf_id;
 
             if (rf_item_id != 0)
             {
@@ -364,7 +366,7 @@ namespace VesselInventory.ViewModel
             else
                 _requestFormItemRepository.Update(rf_item_id,_rf_item);
 
-            _parent.LoadItems();
+            _parentLoadable.LoadGrid();
 
             Notifier toasMessage = ToastNotification.Instance.GetInstance();
             toasMessage.ShowSuccess("Data saved successfully.");

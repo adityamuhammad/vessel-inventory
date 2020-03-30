@@ -135,6 +135,7 @@
     <Compile Include="Repository\RequestFormRepository.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
+    <Compile Include="Services\IParentLoadable.cs" />
     <Compile Include="Services\OpenPdfFileDialog.cs" />
     <Compile Include="Services\WindowService.cs" />
     <Compile Include="Utility\Navigate.cs" />

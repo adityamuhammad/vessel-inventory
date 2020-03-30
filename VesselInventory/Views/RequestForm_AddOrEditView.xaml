@@ -229,7 +229,8 @@
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
                     Height="23"
-                    Command="{Binding AddOrEditItem}">
+                    Command="{Binding AddOrEditItem}"
+                    >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 
                             Kind="PlusBox" 

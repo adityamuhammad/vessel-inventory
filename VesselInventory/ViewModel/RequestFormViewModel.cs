@@ -14,7 +14,7 @@ using System.Windows.Data;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormViewModel : ViewModelBase
+    public class RequestFormViewModel : ViewModelBase, IParentLoadable
     {
         private RequestFormRepository _requestFormRepository;
 
@@ -32,7 +32,7 @@ namespace VesselInventory.ViewModel
             SwitchTab = new RelayCommand(SwitchTabAction);
             CurrentPage = 1;
             TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
-            RefreshRequestForm();
+            LoadGrid();
         }
 
         private int _currentPage;
@@ -67,7 +67,7 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("SearchKeyword");
                 CurrentPage = 1;
                 TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
-                RefreshRequestForm();
+                LoadGrid();
             }
         }
 
@@ -77,22 +77,11 @@ namespace VesselInventory.ViewModel
             get => _requestFormCollection;
         }
         
-        public void RefreshRequestForm()
+        public void LoadGrid()
         {
             _requestFormCollection.Clear();
-            foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage)){
-                _requestFormCollection.Add(new RF
-                {
-                    rf_id = _.rf_id,
-                    rf_number = _.rf_number,
-                    rf_date = _.rf_date,
-                    department_name = _.department_name,
-                    sync_status = _.sync_status,
-                    ship_name = _.ship_name,
-                    status = _.status,
-                    project_number = _.project_number
-                });
-            }
+            foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage))
+                _requestFormCollection.Add(_);
         }
         public void OnOpenRequestForm(object parameter)
         {
@@ -100,17 +89,17 @@ namespace VesselInventory.ViewModel
             if (parameter  != null)
             {
                 int rf_id = int.Parse(parameter.ToString());
-                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(rf_id));
+                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this,rf_id));
             } else
             {
-                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel());
+                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this));
             }
         }
 
         private void NextPageCommandAction(object parameter)
         {
             CurrentPage = CurrentPage + 1;
-            RefreshRequestForm();
+            LoadGrid();
         }
 
         private bool IsNextPageCanUse(object parameter)
@@ -122,7 +111,7 @@ namespace VesselInventory.ViewModel
         private void PrevPageCommandAction(object parameter)
         {
             CurrentPage = CurrentPage - 1;
-            RefreshRequestForm();
+            LoadGrid();
         }
 
         private bool IsPrevPageCanUse(object parameter)
