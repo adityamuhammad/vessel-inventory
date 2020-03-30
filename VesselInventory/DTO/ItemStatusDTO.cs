@@ -15,7 +15,7 @@ namespace VesselInventory.DTO
         public string item_group_name { get; set; }
         public string priority { get; set; }
         public string rf_number { get; set; }
-        public string status { get; set; }
+        public string item_status { get; set; }
         public string department_name { get; set; }
         public DateTime target_delivery_date { get; set; }
         public string sync_status { get; set; }

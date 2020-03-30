@@ -7,7 +7,7 @@ namespace VesselInventory.Models
     using System.Data.Entity.Spatial;
 
     [Table("user")]
-    public partial class user
+    public partial class User
     {
         [Key]
         public int user_id { get; set; }

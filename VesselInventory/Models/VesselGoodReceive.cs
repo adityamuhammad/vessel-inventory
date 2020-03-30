@@ -6,7 +6,8 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class vessel_good_receive
+    [Table("vessel_good_receive")]
+    public partial class VesselGoodReceive
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

@@ -71,8 +71,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private ObservableCollection<rf> _requestFormCollection = new ObservableCollection<rf>();
-        public ObservableCollection<rf> RequestFormCollection
+        private ObservableCollection<RF> _requestFormCollection = new ObservableCollection<RF>();
+        public ObservableCollection<RF> RequestFormCollection
         {
             get => _requestFormCollection;
         }
@@ -81,7 +81,7 @@ namespace VesselInventory.ViewModel
         {
             _requestFormCollection.Clear();
             foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage)){
-                _requestFormCollection.Add(new rf
+                _requestFormCollection.Add(new RF
                 {
                     rf_id = _.rf_id,
                     rf_number = _.rf_number,

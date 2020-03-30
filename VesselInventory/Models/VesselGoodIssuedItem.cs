@@ -6,16 +6,13 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class vessel_good_receive_item
+    [Table("vessel_good_issued_item")]
+    public partial class VesselGoodIssuedItem
     {
         [Key]
-        public int vessel_good_receive_item_id { get; set; }
+        public int vessel_good_issued_item_id { get; set; }
 
-        public int vessel_good_receive_id { get; set; }
-
-        [Required]
-        [StringLength(25)]
-        public string rf_number { get; set; }
+        public int vessel_good_issued_id { get; set; }
 
         public int item_id { get; set; }
 
@@ -48,7 +45,7 @@ namespace VesselInventory.Models
         public decimal qty { get; set; }
 
         [Required]
-        [StringLength(5)]
+        [StringLength(10)]
         public string uom { get; set; }
 
         [Required]
@@ -61,9 +58,8 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string created_by { get; set; }
 
-        public DateTime last_modified_date { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
-        [Required]
         [StringLength(30)]
         public string last_modified_by { get; set; }
     }

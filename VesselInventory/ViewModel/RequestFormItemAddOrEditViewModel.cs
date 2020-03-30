@@ -22,7 +22,7 @@ namespace VesselInventory.ViewModel
         RequestFormAddOrEditViewModel _parent;
 
         RequestFormItemRepository _requestFormItemRepository;
-        rf_item _rf_item = new rf_item();
+        RFItem _rf_item = new RFItem();
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand ListBoxChanged { get; private set; }
         public RelayCommand OpenFileDialog { get; private set; }

@@ -8,11 +8,11 @@ using VesselInventory.Models;
 
 namespace VesselInventory.Repository
 {
-    public class RequestFormItemRepository : Repository<rf_item>
+    public class RequestFormItemRepository : Repository<RFItem>
     {
         public RequestFormItemRepository() { }
 
-        public IEnumerable<rf_item> GetRFItemList(int rf_id)
+        public IEnumerable<RFItem> GetRFItemList(int rf_id)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -27,7 +27,7 @@ namespace VesselInventory.Repository
             (
                 string item_id = "",
                 string item_name = "",
-                string item_group_name = "",
+                string item_status = "",
                 string rf_number = "",
                 string department_name = "",
                 int page = 1, 
@@ -42,7 +42,7 @@ namespace VesselInventory.Repository
                     {
                         item_id,
                         item_name,
-                        item_group_name,
+                        item_status,
                         rf_number,
                         department_name,
                         page.ToString(),
@@ -54,7 +54,7 @@ namespace VesselInventory.Repository
             (
                 string item_id = "",
                 string item_name = "",
-                string item_group_name = "",
+                string item_status = "",
                 string rf_number = "",
                 string department_name = "",
                 int rows = 10
@@ -68,7 +68,7 @@ namespace VesselInventory.Repository
                     {
                         item_id,
                         item_name,
-                        item_group_name,
+                        item_status,
                         rf_number,
                         department_name,
                         rows.ToString(),

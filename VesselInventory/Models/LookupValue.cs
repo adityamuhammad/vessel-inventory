@@ -1,4 +1,4 @@
-namespace VesselInventory.Models
+﻿namespace VesselInventory.Models
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,8 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class lookup_value
+    [Table("lookup_value")]
+    public partial class LookupValue
     {
         [Key]
         public int lookup_value_id { get; set; }

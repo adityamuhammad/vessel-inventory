@@ -6,7 +6,8 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class item_group
+    [Table("item_group")]
+    public partial class ItemGroup
     {
         [Key]
         public int item_group_id { get; set; }

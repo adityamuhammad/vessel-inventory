@@ -36,13 +36,13 @@ namespace VesselInventory.ViewModel
 
         void UpdateTotalPage()
         {
-            TotalPage = _requestFormItemRepository.GetItemStatusTotalPage(ItemIdSearch, ItemNameSearch, GroupSearch, RFNumberSearch, DepartmentSearch);
+            TotalPage = _requestFormItemRepository.GetItemStatusTotalPage(ItemIdSearch, ItemNameSearch, ItemStatusSearch, RFNumberSearch, DepartmentSearch);
         }
 
         void RefreshItemStatus()
         {
             _itemStatusColelction.Clear();
-            foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,GroupSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
+            foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,ItemStatusSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
             {
                 _itemStatusColelction.Add(new ItemStatusDTO
                 {
@@ -53,7 +53,7 @@ namespace VesselInventory.ViewModel
                     priority = _.priority,
                     qty = _.qty,
                     rf_number = _.rf_number,
-                    status = _.status,
+                    item_status = _.item_status,
                     sync_status = _.sync_status,
                     target_delivery_date = _.target_delivery_date,
                     uom = _.uom
@@ -125,14 +125,14 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private string _groupSearch = string.Empty;
-        public string GroupSearch
+        private string _itemStatusSearch = string.Empty;
+        public string ItemStatusSearch
         {
-            get => _groupSearch;
+            get => _itemStatusSearch;
             set
             {
-                _groupSearch = value;
-                OnPropertyChanged("GroupSearch");
+                _itemStatusSearch = value;
+                OnPropertyChanged("ItemStatusSearch");
                 CurrentPage = 1;
                 UpdateTotalPage();
                 RefreshItemStatus();

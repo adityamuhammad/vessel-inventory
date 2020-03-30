@@ -9,11 +9,11 @@ using VesselInventory.Models;
 namespace VesselInventory.Repository
 {
 
-    class RequestFormRepository : Repository<rf>
+    class RequestFormRepository : Repository<RF>
     {
         public RequestFormRepository() { }
 
-        public IEnumerable<rf> GetRequestFormList(string search = "",int page = 1,int rows = 10)
+        public IEnumerable<RF> GetRequestFormList(string search = "",int page = 1,int rows = 10)
         {
             using(var context = new VesselInventoryContext())
             {
@@ -53,7 +53,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public rf SaveTransaction(rf rf)
+        public RF SaveTransaction(RF rf)
         {
             base.Save(rf);
             using (var context = new VesselInventoryContext())

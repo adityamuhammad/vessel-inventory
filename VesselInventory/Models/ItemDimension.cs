@@ -6,7 +6,8 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class item_dimension
+    [Table("item_dimension")]
+    public partial class ItemDimension
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

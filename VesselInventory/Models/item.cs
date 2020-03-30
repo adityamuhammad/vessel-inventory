@@ -7,7 +7,7 @@ namespace VesselInventory.Models
     using System.Data.Entity.Spatial;
 
     [Table("item")]
-    public partial class item
+    public partial class Item
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

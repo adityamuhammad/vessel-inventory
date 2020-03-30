@@ -26,7 +26,7 @@ namespace VesselInventory.ViewModel
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
         private RequestFormRepository _requestFormRepository;
         private RequestFormItemRepository _requestFormItemRepository;
-        private rf _rf = new rf();
+        private RF _rf = new RF();
 
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
@@ -58,8 +58,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private ObservableCollection<rf_item> _rfItemList = new ObservableCollection<rf_item>();
-        public ObservableCollection<rf_item> RfItems
+        private ObservableCollection<RFItem> _rfItemList = new ObservableCollection<RFItem>();
+        public ObservableCollection<RFItem> RfItems
         {
             get => _rfItemList;
             set
@@ -249,7 +249,7 @@ namespace VesselInventory.ViewModel
             _rfItemList.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
             {
-                _rfItemList.Add(new rf_item
+                _rfItemList.Add(new RFItem
                 {
                     rf_item_id = _.rf_item_id,
                     rf_id = _.rf_id,

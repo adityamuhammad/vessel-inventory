@@ -6,7 +6,8 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class vessel_good_issued
+    [Table("vessel_good_issued")]
+    public partial class VesselGoodIssued
     {
         [Key]
         public int vessel_good_issued_id { get; set; }

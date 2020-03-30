@@ -6,27 +6,45 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class vessel_good_return
+    [Table("vessel_good_return_item")]
+    public partial class VesselGoodReturnItem
     {
         [Key]
+        public int vessel_good_return_item_id { get; set; }
+
         public int vessel_good_return_id { get; set; }
+
+        public int item_group_id { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string vessel_good_return_number { get; set; }
+        public string item_dimension_number { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime vessel_good_return_date { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string item_name { get; set; }
+
+        [Required]
+        [StringLength(5)]
+        public string brand_type_id { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string reason { get; set; }
+        public string brand_type_name { get; set; }
 
-        public int ship_id { get; set; }
+        [Required]
+        [StringLength(5)]
+        public string color_size_id { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string ship_name { get; set; }
+        public string color_size_name { get; set; }
+
+        public decimal qty { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string uom { get; set; }
 
         [Required]
         [StringLength(15)]

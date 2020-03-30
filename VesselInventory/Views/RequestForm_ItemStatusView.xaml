@@ -92,7 +92,7 @@
                     VerticalAlignment="Center" 
                     Width="100"/>
                 <TextBlock 
-                    Text="Group" 
+                    Text="Status" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Left"
                     Margin="10"
@@ -100,7 +100,7 @@
                 <TextBox 
                     HorizontalAlignment="Left" 
                     Text="{
-                        Binding GroupSearch, 
+                        Binding ItemStatusSearch, 
                         Mode=TwoWay, 
                         UpdateSourceTrigger=PropertyChanged
                     }"
@@ -146,7 +146,7 @@
                     <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding priority}"/>
                     <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
                     <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding status}"/>
+                    <DataGridTextColumn Width="1*" Header="Item Status" Binding="{Binding item_status}"/>
                     <DataGridTextColumn Width="1*" Header="Target Delivery" Binding="{Binding target_delivery_date, StringFormat={}{0:yyyy-MM-dd}}"/>
                     <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
                 </DataGrid.Columns>
