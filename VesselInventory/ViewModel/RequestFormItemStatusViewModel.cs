@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using VesselInventory.DTO;
-using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
 
@@ -17,22 +11,23 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand SwitchTab { get; private set; }
+
         public RequestFormItemStatusViewModel()
         {
             _requestFormItemRepository = new RequestFormItemRepository();
-            SwitchTab = new RelayCommand(SwitchTabAction);
-            NextPageCommand = new RelayCommand(NextPageCommandAction,IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction,IsPrevPageCanUse);
+            SetCommands();
             CurrentPage = 1;
             UpdateTotalPage();
             RefreshItemStatus();
         }
 
-        private ObservableCollection<ItemStatusDTO> _itemStatusColelction = new ObservableCollection<ItemStatusDTO>();
-        public ObservableCollection<ItemStatusDTO> ItemStatusCollection
+        private void SetCommands()
         {
-            get => _itemStatusColelction;
+            SwitchTab = new RelayCommand(SwitchTabAction);
+            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
+            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
         }
+        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } = new ObservableCollection<ItemStatusDTO>();
 
         void UpdateTotalPage()
         {
@@ -41,9 +36,9 @@ namespace VesselInventory.ViewModel
 
         void RefreshItemStatus()
         {
-            _itemStatusColelction.Clear();
+            ItemStatusCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,ItemStatusSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
-                _itemStatusColelction.Add(_);
+                ItemStatusCollection.Add(_);
         }
 
         private int _currentPage;
@@ -156,6 +151,7 @@ namespace VesselInventory.ViewModel
                     break;
             }
         }
+
         private void NextPageCommandAction(object parameter)
         {
             CurrentPage = CurrentPage + 1;

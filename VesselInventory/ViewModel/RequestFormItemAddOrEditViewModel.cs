@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToastNotifications;
 using ToastNotifications.Messages;
 using VesselInventory.DTO;
@@ -19,7 +14,6 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditViewModel : ViewModelBase
     {
-        IParentLoadable _parentLoadable;
 
         RequestFormItemRepository _requestFormItemRepository;
         RFItem _rf_item = new RFItem();
@@ -27,33 +21,42 @@ namespace VesselInventory.ViewModel
         public RelayCommand ListBoxChanged { get; private set; }
         public RelayCommand OpenFileDialog { get; private set; }
         public RelayCommand<IClosable> Save { get; private set; }
-        IOService _iOService;
+
+        private IOService _iOService;
+        private IUploadService _uploadService;
+        private IParentLoadable _parentLoadable;
+
+        Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id) : this(parentLoadable, rf_id, 0) { }
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int _rf_id, int rf_item_id)
         {
             _parentLoadable = parentLoadable;
-            _requestFormItemRepository = new RequestFormItemRepository();
+            _uploadService = new UploadService();
             _iOService = new OpenPdfFileDialog();
-            
+            _requestFormItemRepository = new RequestFormItemRepository();
+
             IsVisibleListBoxItem = false;
 
-            rf_id = _rf_id;
-
-            ListBoxChanged = new RelayCommand(AutoCompleteChanged);
-            OpenFileDialog = new RelayCommand(OpenFile);
-            Save = new RelayCommand<IClosable>(SaveAction, IsCanSave);
-            Close = new RelayCommand<IClosable>(CloseAction);
+            SetCommands();
             LoadPriorityList();
             LoadReasonList();
             RefreshItems();
+
+            rf_id = _rf_id;
             reason = _reasonList.First();
             priority = _priorityList.First();
 
             if (rf_item_id != 0)
-            {
                 _rf_item = _requestFormItemRepository.FindById(rf_item_id);
-            }
+        }
+
+        private void SetCommands()
+        {
+            ListBoxChanged = new RelayCommand(AutoCompleteChanged);
+            OpenFileDialog = new RelayCommand(OpenFile);
+            Save = new RelayCommand<IClosable>(SaveAction, IsCanSave);
+            Close = new RelayCommand<IClosable>(CloseAction);
         }
 
         #region
@@ -278,7 +281,7 @@ namespace VesselInventory.ViewModel
         }
         private void LoadReasonList()
         {
-            foreach(var _ in GenericHelper.GetLookupValues("REASON")){
+            foreach(var _ in DataHelper.GetLookupValues("REASON")){
                 _reasonList.Add(_.description);
             }
         }
@@ -295,7 +298,7 @@ namespace VesselInventory.ViewModel
         }
         private void LoadPriorityList()
         {
-            foreach(var _ in GenericHelper.GetLookupValues("PRIORITY")){
+            foreach(var _ in DataHelper.GetLookupValues("PRIORITY")){
                 _priorityList.Add(_.description);
             }
         }
@@ -303,22 +306,8 @@ namespace VesselInventory.ViewModel
         public void RefreshItems()
         {
             _items.Clear();
-            foreach(var _ in GenericHelper.GetItems(ItemSelectKeyword))
-            {
-                _items.Add(new ItemGroupDimensionDTO
-                {
-                    item_id = _.item_id,
-                    item_name = _.item_name,
-                    brand_type_id = _.brand_type_id,
-                    brand_type_name = _.brand_type_name,
-                    color_size_id = _.color_size_id,
-                    color_size_name = _.color_size_name,
-                    item_dimension_number = _.item_dimension_number,
-                    item_group_id = _.item_group_id,
-                    item_group_name = _.item_group_name,
-                    uom = _.uom
-                });
-            }
+            foreach(var _ in DataHelper.GetItems(ItemSelectKeyword))
+                _items.Add(_);
         }
 
         private void AutoCompleteChanged(object parameter)
@@ -342,23 +331,12 @@ namespace VesselInventory.ViewModel
 
         private void SaveAction(IClosable window)
         {
-            string directoryPath = @"C:\\VesselInventory\\Attachments\\";
-            string fileName = string.Empty;
 
             if(attachment_local_path.Trim() != string.Empty || attachment_local_path != null)
             {
-                if (!Directory.Exists(directoryPath))
-                {
-                    DirectoryInfo directoryInfo = Directory.CreateDirectory(directoryPath);
-                }
-
-                if (File.Exists(attachment_local_path))
-                {
-                    fileName = Path.GetFileName(attachment_local_path);
-                    attachment_path = Path.Combine(directoryPath, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + '_' +  fileName);
-
-                    File.Copy(attachment_local_path, attachment_path);
-                }
+                string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
+                _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+                attachment_path = _uploadService.GetUploadedPath();
             }
 
             if (rf_item_id == 0)
@@ -368,8 +346,7 @@ namespace VesselInventory.ViewModel
 
             _parentLoadable.LoadGrid();
 
-            Notifier toasMessage = ToastNotification.Instance.GetInstance();
-            toasMessage.ShowSuccess("Data saved successfully.");
+            _toasMessage.ShowSuccess("Data saved successfully.");
 
             if (window != null)
                 window.Close();
@@ -384,16 +361,12 @@ namespace VesselInventory.ViewModel
         {
             var filename =_iOService.OpenFileDialog();
             if (filename != "Error")
-            {
                 attachment_local_path = filename;
-            }
         } 
         private void CloseAction(IClosable window)
         {
             if (window != null)
-            {
                 window.Close();
-            }
         }
     }
 }

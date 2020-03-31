@@ -33,7 +33,7 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
-                    "usp_RequestForm_GetRequestFormTotalPage @p0, @p1",
+                    "usp_RequestForm_GetRequestFormPages @p0, @p1",
                     parameters: new[]
                     {
                         search,

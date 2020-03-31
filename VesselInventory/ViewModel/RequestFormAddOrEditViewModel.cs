@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using ToastNotifications;
 using VesselInventory.DTO;
 using VesselInventory.Helpers;
@@ -28,10 +23,11 @@ namespace VesselInventory.ViewModel
         private RequestFormItemRepository _requestFormItemRepository;
         private RF _rf = new RF();
 
+        private IParentLoadable _parentLoadable;
+
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
         public RelayCommand AddOrEditItem { get; private set; }
-        private IParentLoadable _parentLoadable;
 
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
@@ -40,13 +36,19 @@ namespace VesselInventory.ViewModel
             _requestFormRepository = new RequestFormRepository();
             _requestFormItemRepository = new RequestFormItemRepository();
 
-            Close = new RelayCommand<IClosable>(CloseAction);
-            Save = new RelayCommand(SaveAction, IsSaveCanExecute );
-            AddOrEditItem = new RelayCommand(AddOrEditItemAction);
+            SetCommands();
+
             LoadDepartmentList();
             LoadAttributes(rf_id_params);
             if (rf_id_params != 0)
                 LoadGrid();
+        }
+
+        private void SetCommands()
+        {
+            Close = new RelayCommand<IClosable>(CloseAction);
+            Save = new RelayCommand(SaveAction, IsSaveCanExecute);
+            AddOrEditItem = new RelayCommand(AddOrEditItemAction);
         }
 
         private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
@@ -57,17 +59,6 @@ namespace VesselInventory.ViewModel
             {
                 _departmentList = value;
                 OnPropertyChanged("DepartmentList");
-            }
-        }
-
-        private ObservableCollection<RFItem> _rfItemList = new ObservableCollection<RFItem>();
-        public ObservableCollection<RFItem> RfItems
-        {
-            get => _rfItemList;
-            set
-            {
-                _rfItemList = value;
-                OnPropertyChanged("RfItems");
             }
         }
 
@@ -237,45 +228,22 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("IsCheckedBargeRequest");
             }
         }
+
+        public ObservableCollection<RFItem> RfItemList { get; set; } = new ObservableCollection<RFItem>();
         #endregion
 
         private void LoadDepartmentList()
         {
-            foreach(var department in GenericHelper.GetLookupValues("DEPARTMENT") ) {
+            foreach(var department in DataHelper.GetLookupValues("DEPARTMENT") ) {
                 _departmentList.Add(department.description);
             }
         }
         
         public void LoadGrid()
         {
-            _rfItemList.Clear();
+            RfItemList.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
-            {
-                _rfItemList.Add(new RFItem
-                {
-                    rf_item_id = _.rf_item_id,
-                    rf_id = _.rf_id,
-                    item_id = _.item_id,
-                    item_name = _.item_name,
-                    item_group_id = _.item_group_id,
-                    item_dimension_number = _.item_dimension_number,
-                    brand_type_id = _.brand_type_id,
-                    brand_type_name = _.brand_type_name,
-                    color_size_id = _.color_size_id,
-                    color_size_name = _.color_size_name,
-                    qty = _.qty,
-                    uom = _.uom,
-                    priority = _.priority,
-                    remarks = _.remarks,
-                    reason = _.reason,
-                    attachment_path = _.attachment_path,
-                    created_by = _.created_by,
-                    created_date = _.created_date,
-                    last_modified_by = _.last_modified_by,
-                    last_modified_date = _.last_modified_date,
-                    sync_status = _.sync_status
-                });
-            }
+                RfItemList.Add(_);
         }
 
         private void LoadAttributes(int rf_id_params)

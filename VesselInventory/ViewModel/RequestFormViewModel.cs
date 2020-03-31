@@ -26,13 +26,18 @@ namespace VesselInventory.ViewModel
         public RequestFormViewModel()
         {
             _requestFormRepository = new RequestFormRepository();
-            NextPageCommand = new RelayCommand(NextPageCommandAction,IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction,IsPrevPageCanUse);
-            OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
-            SwitchTab = new RelayCommand(SwitchTabAction);
+            SetCommands();
             CurrentPage = 1;
             TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
             LoadGrid();
+        }
+
+        private void SetCommands()
+        {
+            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
+            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
+            OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
+            SwitchTab = new RelayCommand(SwitchTabAction);
         }
 
         private int _currentPage;
@@ -70,18 +75,13 @@ namespace VesselInventory.ViewModel
                 LoadGrid();
             }
         }
+        public ObservableCollection<RF> RequestFormCollection { get; } = new ObservableCollection<RF>();
 
-        private ObservableCollection<RF> _requestFormCollection = new ObservableCollection<RF>();
-        public ObservableCollection<RF> RequestFormCollection
-        {
-            get => _requestFormCollection;
-        }
-        
         public void LoadGrid()
         {
-            _requestFormCollection.Clear();
+            RequestFormCollection.Clear();
             foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage))
-                _requestFormCollection.Add(_);
+                RequestFormCollection.Add(_);
         }
         public void OnOpenRequestForm(object parameter)
         {

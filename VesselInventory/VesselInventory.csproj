@@ -107,11 +107,12 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GridLengthConverter.cs" />
     <Compile Include="DTO\ItemGroupDimensionDTO.cs" />
+    <Compile Include="DTO\ItemPendingDTO.cs" />
     <Compile Include="DTO\ItemStatusDTO.cs" />
     <Compile Include="DTO\RequestFormShipBargeDTO.cs" />
     <Compile Include="Helpers\Enums\Status.cs" />
     <Compile Include="Helpers\Enums\SyncStatus.cs" />
-    <Compile Include="Helpers\GenericHelper.cs" />
+    <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemDimension.cs" />
     <Compile Include="Models\ItemGroup.cs" />
@@ -136,8 +137,8 @@
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />
-    <Compile Include="Services\OpenPdfFileDialog.cs" />
-    <Compile Include="Services\WindowService.cs" />
+    <Compile Include="Services\IUploadService.cs" />
+    <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Utility\Navigate.cs" />
     <Compile Include="Utility\ObservableObject.cs" />
     <Compile Include="Utility\RelayCommand.cs" />

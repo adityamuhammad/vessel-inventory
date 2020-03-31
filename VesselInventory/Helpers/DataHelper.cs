@@ -8,12 +8,12 @@ using VesselInventory.Models;
 
 namespace VesselInventory.Helpers
 {
-    public static class GenericHelper
+    public static class DataHelper
     {
         public static IEnumerable<LookupValue> GetLookupValues(string lookupType)
         {
             using (var context = new VesselInventoryContext()) {
-                return context.Database.SqlQuery<LookupValue>("usp_LookupValue_GetCollectionByLookupType @p0",
+                return context.Database.SqlQuery<LookupValue>("usp_LookupValue_GetLookupValueList @p0",
                     parameters: new[] {
                         lookupType
                     }).ToList();
@@ -23,7 +23,7 @@ namespace VesselInventory.Helpers
         public static IEnumerable<ItemGroupDimensionDTO> GetItems(string search_keyword = "")
         {
             using (var context = new VesselInventoryContext()) {
-                return context.Database.SqlQuery<ItemGroupDimensionDTO>("usp_Item_GetItems @p0",
+                return context.Database.SqlQuery<ItemGroupDimensionDTO>("usp_Item_GetItemList @p0",
                     parameters: new[] {
                         search_keyword
                     }).ToList();

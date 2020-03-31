@@ -125,7 +125,6 @@
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid 
-            x:Name="testest"
                 HorizontalAlignment="Stretch" 
                 VerticalScrollBarVisibility="Auto" 
                 VerticalAlignment="Top" 
