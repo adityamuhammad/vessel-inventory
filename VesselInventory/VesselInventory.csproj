@@ -148,6 +148,7 @@
     <Compile Include="ViewModel\RequestFormItemAddOrEditViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemPendingViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemStatusViewModel.cs" />
+    <Compile Include="ViewModel\RequestFormItemUploadDocument.cs" />
     <Compile Include="ViewModel\RequestFormViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\RequestForm.xaml.cs">
@@ -164,6 +165,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_ItemStatusView.xaml.cs">
       <DependentUpon>RequestForm_ItemStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
+      <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -194,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_ItemStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RequestForm_ItemUploadDocumentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

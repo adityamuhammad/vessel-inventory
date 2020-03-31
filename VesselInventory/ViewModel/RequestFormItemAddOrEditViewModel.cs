@@ -332,7 +332,7 @@ namespace VesselInventory.ViewModel
         private void SaveAction(IClosable window)
         {
 
-            if(attachment_local_path.Trim() != string.Empty || attachment_local_path != null)
+            if(attachment_local_path.Trim() != string.Empty)
             {
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
                 _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);

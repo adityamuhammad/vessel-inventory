@@ -3,6 +3,7 @@ using VesselInventory.DTO;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
@@ -14,9 +15,11 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentForm { get; private set; }
+        private IWindowService _windowService;
         public RequestFormItemPendingViewModel()
         {
             _requestFormItemRepository = new RequestFormItemRepository();
+            _windowService = new WindowService();
             SetCommands();
             CurrentPage = 1;
             LoadGrid();
@@ -125,6 +128,7 @@ namespace VesselInventory.ViewModel
 
         private void OnOpenUploadDocumentForm(object parameter)
         {
+            _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>(new RequestFormItemUploadDocument(this,int.Parse(parameter.ToString())));
         }
     }
 }

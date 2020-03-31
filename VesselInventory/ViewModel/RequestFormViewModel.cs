@@ -23,9 +23,12 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
         public RelayCommand SwitchTab { get; private set; }
 
+        private IWindowService _windowService;
+
         public RequestFormViewModel()
         {
             _requestFormRepository = new RequestFormRepository();
+            _windowService = new WindowService();
             SetCommands();
             CurrentPage = 1;
             TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
@@ -85,14 +88,13 @@ namespace VesselInventory.ViewModel
         }
         public void OnOpenRequestForm(object parameter)
         {
-            WindowService windowService = new WindowService();
             if (parameter  != null)
             {
                 int rf_id = int.Parse(parameter.ToString());
-                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this,rf_id));
+                _windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this,rf_id));
             } else
             {
-                windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this));
+                _windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this));
             }
         }
 
