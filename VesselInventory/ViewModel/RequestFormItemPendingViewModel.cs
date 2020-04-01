@@ -10,7 +10,6 @@ namespace VesselInventory.ViewModel
     class RequestFormItemPendingViewModel : ViewModelBase, IParentLoadable
     {
         private RequestFormItemRepository _requestFormItemRepository;
-
         public RelayCommand SwitchTab { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -23,7 +22,6 @@ namespace VesselInventory.ViewModel
             SetCommands();
             CurrentPage = 1;
             LoadGrid();
-            UpdateTotalPage();
         }
 
         private string _searchKeyword = string.Empty;
@@ -35,7 +33,6 @@ namespace VesselInventory.ViewModel
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 LoadGrid();
             }
         }
@@ -55,12 +52,14 @@ namespace VesselInventory.ViewModel
             ItemPendingCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetItemPending(SearchKeyword,CurrentPage))
                 ItemPendingCollection.Add(_);
+            UpdateTotalPage();
         }
 
-        public void UpdateTotalPage()
+        private void UpdateTotalPage()
         {
             TotalPage = _requestFormItemRepository.GetItemPendingTotalPage(SearchKeyword);
         }
+
         private int _currentPage;
         public int CurrentPage
         {

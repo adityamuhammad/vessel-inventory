@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Unity;
+using VesselInventory.Services;
 
 namespace VesselInventory
 {
@@ -13,5 +15,18 @@ namespace VesselInventory
     /// </summary>
     public partial class App : Application
     {
+        public IUnityContainer _container;
+        public IUnityContainer UnityContainer
+        {
+            get
+            {
+                if (_container == null)
+                {
+                    _container = new UnityContainer();
+
+                }
+                return _container;
+            }
+        }
     }
 }

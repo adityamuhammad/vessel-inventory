@@ -4,11 +4,12 @@ using System.Linq;
 using ToastNotifications;
 using ToastNotifications.Messages;
 using VesselInventory.DTO;
-using VesselInventory.Helpers;
+using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Commons.HelperFunctions;
 
 namespace VesselInventory.ViewModel
 {

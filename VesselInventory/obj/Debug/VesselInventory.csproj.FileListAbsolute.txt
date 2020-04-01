@@ -46,3 +46,10 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Microsof
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Windows.Interactivity.dll
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\RequestForm_ItemUploadDocumentView.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\RequestForm_ItemUploadDocumentView.baml
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Abstractions.dll
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Container.dll
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Abstractions.pdb
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Container.pdb
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache

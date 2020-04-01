@@ -17,7 +17,6 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = new RequestFormItemRepository();
             SetCommands();
             CurrentPage = 1;
-            UpdateTotalPage();
             RefreshItemStatus();
         }
 
@@ -39,6 +38,7 @@ namespace VesselInventory.ViewModel
             ItemStatusCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,ItemStatusSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
                 ItemStatusCollection.Add(_);
+            UpdateTotalPage();
         }
 
         private int _currentPage;
@@ -72,7 +72,6 @@ namespace VesselInventory.ViewModel
                 _rfNumberSearch = value;
                 OnPropertyChanged("RFNumberSearch");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 RefreshItemStatus();
             }
         }
@@ -86,7 +85,6 @@ namespace VesselInventory.ViewModel
                 _itemIdSearch = value;
                 OnPropertyChanged("ItemIdSearch");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 RefreshItemStatus();
             }
         }
@@ -100,7 +98,6 @@ namespace VesselInventory.ViewModel
                 _itemNameSearch = value;
                 OnPropertyChanged("ItemNameSearch");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 RefreshItemStatus();
             }
         }
@@ -114,7 +111,6 @@ namespace VesselInventory.ViewModel
                 _itemStatusSearch = value;
                 OnPropertyChanged("ItemStatusSearch");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 RefreshItemStatus();
             }
         }
@@ -128,7 +124,6 @@ namespace VesselInventory.ViewModel
                 _departmentSearch = value;
                 OnPropertyChanged("DepartmentSearch");
                 CurrentPage = 1;
-                UpdateTotalPage();
                 RefreshItemStatus();
             }
         }

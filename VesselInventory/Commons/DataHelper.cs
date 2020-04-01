@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using VesselInventory.DTO;
 using VesselInventory.Models;
 
-namespace VesselInventory.Helpers
+namespace VesselInventory.Commons.HelperFunctions
 {
     public static class DataHelper
     {

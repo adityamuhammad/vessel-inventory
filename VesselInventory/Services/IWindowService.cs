@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Unity;
 
 namespace VesselInventory.Services
 {
@@ -15,7 +16,8 @@ namespace VesselInventory.Services
     {
         public void ShowWindow<T>(object ViewModel) where T: Window, new()
         {
-            T window = new T();
+            var container = ((App)Application.Current).UnityContainer;
+            var window = container.Resolve<T>();
             window.DataContext = ViewModel;
             window.ShowDialog();
         }

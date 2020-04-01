@@ -5,14 +5,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using ToastNotifications;
 using VesselInventory.DTO;
-using VesselInventory.Helpers;
-using VesselInventory.Helpers.Enums;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
 using ToastNotifications.Messages;
 using VesselInventory.Views;
 using VesselInventory.Services;
+using VesselInventory.Commons.HelperFunctions;
+using VesselInventory.Commons.Enums;
 
 namespace VesselInventory.ViewModel
 {
@@ -24,6 +24,7 @@ namespace VesselInventory.ViewModel
         private RF _rf = new RF();
 
         private IParentLoadable _parentLoadable;
+        private IWindowService _windowService;
 
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
@@ -33,6 +34,7 @@ namespace VesselInventory.ViewModel
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
         {
             _parentLoadable = parentLoadable;
+            _windowService = new WindowService();
             _requestFormRepository = new RequestFormRepository();
             _requestFormItemRepository = new RequestFormItemRepository();
 
@@ -285,9 +287,9 @@ namespace VesselInventory.ViewModel
         {
             if (rf_id == 0)
             {
-                _rf.status = Status.DRAFT.ToString();
+                _rf.status = Status.DRAFT.GetDescription();
                 _rf.created_by = "Aditya";
-                _rf.sync_status = SyncStatus.NOT_SYNC.ToString();
+                _rf.sync_status = SyncStatus.NOT_SYNC.GetDescription();
                 _rf = _requestFormRepository.SaveTransaction(_rf);
             } else
             {
@@ -315,13 +317,12 @@ namespace VesselInventory.ViewModel
 
         private void AddOrEditItemAction(object parameter)
         {
-            WindowService windowService = new WindowService();
             if (parameter != null)
             {
-                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
+                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
             } else
             {
-                windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id));
+                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id));
             }
         }
 

@@ -20,6 +20,7 @@ namespace VesselInventory.ViewModel
         private IOService _iOService;
         private IUploadService _uploadService;
         private IParentLoadable _parentLoadable;
+
         public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _rf_item_id)
         {
             _requestFormItemRepository = new RequestFormItemRepository();
@@ -76,11 +77,9 @@ namespace VesselInventory.ViewModel
             {
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
                 _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+                _parentLoadable.LoadGrid();
                 attachment_path = _uploadService.GetUploadedPath();
                 _requestFormItemRepository.Update(rf_item_id,_rf_item);
-
-                _parentLoadable.LoadGrid();
-
                 _toasMessage.ShowSuccess("Data saved successfully.");
             }
             if (window != null)

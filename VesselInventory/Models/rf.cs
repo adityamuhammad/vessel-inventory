@@ -5,6 +5,7 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using VesselInventory.Commons.Enums;
 
     [Table("rf")]
     public partial class RF
@@ -44,7 +45,7 @@ namespace VesselInventory.Models
         public string notes { get; set; }
 
         [StringLength(15)]
-        public string sync_status { get; set; }
+        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
 
         public DateTime? created_date { get; set; }
 

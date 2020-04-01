@@ -241,7 +241,7 @@
                 </Button>
                 <DataGrid Margin="20,0,20,0" 
                     ItemsSource="{
-                        Binding RfItems,
+                        Binding RfItemList,
                         Mode=OneWay,UpdateSourceTrigger=PropertyChanged
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"

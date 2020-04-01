@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using VesselInventory.Models;
 using VesselInventory.Utility;
 using VesselInventory.Repository;
-using System.Windows;
 using VesselInventory.Views;
 using VesselInventory.Services;
-using System.Windows.Data;
 
 namespace VesselInventory.ViewModel
 {
@@ -27,11 +20,10 @@ namespace VesselInventory.ViewModel
 
         public RequestFormViewModel()
         {
-            _requestFormRepository = new RequestFormRepository();
             _windowService = new WindowService();
+            _requestFormRepository = new RequestFormRepository();
             SetCommands();
             CurrentPage = 1;
-            TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
             LoadGrid();
         }
 
@@ -41,6 +33,11 @@ namespace VesselInventory.ViewModel
             PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
             OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
             SwitchTab = new RelayCommand(SwitchTabAction);
+        }
+
+        void UpdateTotalPage()
+        {
+            TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
         }
 
         private int _currentPage;
@@ -74,7 +71,6 @@ namespace VesselInventory.ViewModel
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
                 CurrentPage = 1;
-                TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
                 LoadGrid();
             }
         }
@@ -85,6 +81,7 @@ namespace VesselInventory.ViewModel
             RequestFormCollection.Clear();
             foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage))
                 RequestFormCollection.Add(_);
+            UpdateTotalPage();
         }
         public void OnOpenRequestForm(object parameter)
         {
