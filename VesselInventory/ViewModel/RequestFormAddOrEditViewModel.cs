@@ -12,19 +12,18 @@ using ToastNotifications.Messages;
 using VesselInventory.Views;
 using VesselInventory.Services;
 using VesselInventory.Commons.HelperFunctions;
-using VesselInventory.Commons.Enums;
 
 namespace VesselInventory.ViewModel
 {
     public class RequestFormAddOrEditViewModel : ViewModelBase, IParentLoadable
     {
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
-        private RequestFormRepository _requestFormRepository;
-        private RequestFormItemRepository _requestFormItemRepository;
         private RF _rf = new RF();
 
-        private IParentLoadable _parentLoadable;
-        private IWindowService _windowService;
+        private readonly IRequestFormRepository _requestFormRepository;
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
+        private readonly IParentLoadable _parentLoadable;
+        private readonly IWindowService _windowService;
 
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand Save { get; private set; }
@@ -250,7 +249,6 @@ namespace VesselInventory.ViewModel
 
         private void LoadAttributes(int rf_id_params)
         {
-
             if (rf_id_params != 0)
             {
                 Title = "Edit Request Form";
@@ -287,13 +285,11 @@ namespace VesselInventory.ViewModel
         {
             if (rf_id == 0)
             {
-                _rf.status = Status.DRAFT.GetDescription();
                 _rf.created_by = "Aditya";
-                _rf.sync_status = SyncStatus.NOT_SYNC.GetDescription();
-                _rf = _requestFormRepository.SaveTransaction(_rf);
+                _rf = _requestFormRepository.SaveRequestForm(_rf);
             } else
             {
-                _rf = _requestFormRepository.Update(rf_id, _rf);
+                _rf = _requestFormRepository.UpdateRequestForm(rf_id, _rf);
             }
             IsVisibleButtonSave = false;
             IsVisibleButtonUpdate = true;
@@ -318,20 +314,17 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             if (parameter != null)
-            {
-                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
-            } else
-            {
-                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(new RequestFormItemAddOrEditViewModel(this,rf_id));
-            }
+                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
+                    (new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
+            else
+                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
+                    (new RequestFormItemAddOrEditViewModel(this,rf_id));
         }
 
         private void CloseAction(IClosable window)
         {
             if (window != null)
-            {
                 window.Close();
-            }
         }
     }
 }

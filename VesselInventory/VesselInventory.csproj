@@ -142,6 +142,7 @@
     <Compile Include="Repository\Repository.cs" />
     <Compile Include="Repository\RequestFormItemRepository.cs" />
     <Compile Include="Repository\RequestFormRepository.cs" />
+    <Compile Include="Repository\VesselGoodReceiveRepository.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ViewModel\RequestFormItemStatusViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemUploadDocument.cs" />
     <Compile Include="ViewModel\RequestFormViewModel.cs" />
+    <Compile Include="ViewModel\VesselGoodReceiveViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\RequestForm.xaml.cs">
       <DependentUpon>RequestForm.xaml</DependentUpon>
@@ -176,6 +178,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
       <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodReceive.xaml.cs">
+      <DependentUpon>VesselGoodReceive.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -210,6 +215,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_ItemUploadDocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodReceive.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

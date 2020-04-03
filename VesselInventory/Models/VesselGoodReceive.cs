@@ -5,21 +5,21 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using VesselInventory.Commons.Enums;
 
     [Table("vessel_good_receive")]
     public partial class VesselGoodReceive
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int vessel_good_receive_id { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string good_issued_number { get; set; }
+        public string vessel_good_receive_number { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string vessel_good_receive_number { get; set; }
+        public string good_issued_number { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime vessel_good_receive_date { get; set; }
@@ -36,8 +36,19 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string barge_name { get; set; }
 
+        public DateTime created_date { get; set; } = DateTime.Now;
+
+        [Required]
+        [StringLength(30)]
+        public string created_by { get; set; }
+
+        public DateTime? last_modified_date { get; set; }
+
+        [StringLength(30)]
+        public string last_modified_by { get; set; }
+
         [Required]
         [StringLength(10)]
-        public string sync_status { get; set; }
+        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
     }
 }

@@ -12,6 +12,7 @@
         Title="Vessel Inventory Logistics" Height="550" Width="1080" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+
         <DataTemplate 
             x:Name="RequestForm_Main" 
             DataType="{x:Type viewmodels:RequestFormViewModel}">
@@ -30,21 +31,17 @@
             <views:RequestForm_ItemPendingView DataContext="{Binding}"/>
         </DataTemplate>
 
-        <converters:GridLengthConverter x:Key="GridLenghtConverter"/>
-        <converters:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsed"/>
+        <DataTemplate 
+            x:Name="VesselGoodReceive_Main" 
+            DataType="{x:Type viewmodels:VesselGoodReceiveViewModel}">
+            <views:VesselGoodReceive DataContext="{Binding}"/>
+        </DataTemplate>
 
     </Window.Resources>
     <Grid Background="LightGray">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{
-                Binding NavigationBarLength,
-                Mode=TwoWay,
-                Converter={
-                    StaticResource GridLenghtConverter
-                },
-                UpdateSourceTrigger=PropertyChanged
-                }"/>
+            <ColumnDefinition x:Name="NavBarColumnMenu" Width="180"/>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -86,27 +83,22 @@
                         Background="{x:Null}" 
                         BorderBrush="{x:Null}" 
                         HorizontalAlignment="Right" 
-                        Visibility="{
-                            Binding IsVisibleShortenedButton, 
-                            Converter={StaticResource BoolToVisibilityCollapsed}
-                        }" 
-                        Command="{Binding OnOffNavigationBar}"
-                        CommandParameter="On"
+                        Click="ShowAndMinimizeNavBar"
+                        Uid="0"
+                        x:Name="MinimizeMenuBtn"
+                        Visibility="Visible"
                         >
                         <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF1F3D68"/>
                     </Button>
                     <Button 
-                        x:Name="ButtonOpenMenu" 
+                        Visibility="Collapsed"
                         VerticalAlignment="Top" 
                         Background="{x:Null}" 
                         BorderBrush="{x:Null}" 
                         HorizontalAlignment="Right" 
-                        Visibility="{
-                            Binding IsVisibleExpandButton, 
-                            Converter={StaticResource BoolToVisibilityCollapsed}
-                        }" 
-                        Command="{Binding OnOffNavigationBar}"
-                        CommandParameter="Off"
+                        Click="ShowAndMinimizeNavBar"
+                        Uid="1"
+                        x:Name="ExpandMenuBtn"
                         >
                         <materialDesign:PackIcon Kind="Menu" Foreground="#FF1F3D68"/>
                     </Button>

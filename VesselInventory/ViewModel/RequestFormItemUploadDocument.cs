@@ -9,17 +9,17 @@ namespace VesselInventory.ViewModel
 {
     class RequestFormItemUploadDocument : ViewModelBase
     {
-        private RFItem _rf_item = new RFItem();
-        private RequestFormItemRepository _requestFormItemRepository;
         public RelayCommand OpenFileDialog { get; private set; }
         public RelayCommand<IClosable> Save { get; private set; }
         public RelayCommand<IClosable> Close { get; private set; }
 
-        Notifier _toasMessage = ToastNotification.Instance.GetInstance();
+        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
+        private RFItem _rf_item = new RFItem();
 
-        private IOService _iOService;
-        private IUploadService _uploadService;
-        private IParentLoadable _parentLoadable;
+        private readonly IOService _iOService;
+        private readonly IUploadService _uploadService;
+        private readonly IParentLoadable _parentLoadable;
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
 
         public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _rf_item_id)
         {
@@ -77,9 +77,9 @@ namespace VesselInventory.ViewModel
             {
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
                 _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
-                _parentLoadable.LoadGrid();
                 attachment_path = _uploadService.GetUploadedPath();
                 _requestFormItemRepository.Update(rf_item_id,_rf_item);
+                _parentLoadable.LoadGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
             }
             if (window != null)

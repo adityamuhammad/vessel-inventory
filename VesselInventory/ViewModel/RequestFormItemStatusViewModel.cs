@@ -7,10 +7,11 @@ namespace VesselInventory.ViewModel
 {
     class RequestFormItemStatusViewModel : ViewModelBase
     {
-        private readonly RequestFormItemRepository _requestFormItemRepository;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand SwitchTab { get; private set; }
+
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
 
         public RequestFormItemStatusViewModel()
         {

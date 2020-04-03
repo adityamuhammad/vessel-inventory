@@ -52,4 +52,6 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Co
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Abstractions.pdb
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Container.pdb
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReceive.g.cs
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReceive.baml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache

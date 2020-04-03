@@ -9,14 +9,13 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormViewModel : ViewModelBase, IParentLoadable
     {
-        private RequestFormRepository _requestFormRepository;
-
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
         public RelayCommand SwitchTab { get; private set; }
 
         private IWindowService _windowService;
+        private IRequestFormRepository _requestFormRepository;
 
         public RequestFormViewModel()
         {
@@ -86,13 +85,11 @@ namespace VesselInventory.ViewModel
         public void OnOpenRequestForm(object parameter)
         {
             if (parameter  != null)
-            {
-                int rf_id = int.Parse(parameter.ToString());
-                _windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this,rf_id));
-            } else
-            {
-                _windowService.ShowWindow<RequestForm_AddOrEditView>(new RequestFormAddOrEditViewModel(this));
-            }
+                _windowService.ShowWindow<RequestForm_AddOrEditView>
+                    (new RequestFormAddOrEditViewModel(this,int.Parse(parameter.ToString())));
+            else
+                _windowService.ShowWindow<RequestForm_AddOrEditView>
+                    (new RequestFormAddOrEditViewModel(this));
         }
 
         private void NextPageCommandAction(object parameter)
@@ -137,6 +134,5 @@ namespace VesselInventory.ViewModel
                     break;
             }
         }
-
     }
 }

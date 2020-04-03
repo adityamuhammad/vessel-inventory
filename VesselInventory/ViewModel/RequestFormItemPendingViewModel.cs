@@ -9,16 +9,18 @@ namespace VesselInventory.ViewModel
 {
     class RequestFormItemPendingViewModel : ViewModelBase, IParentLoadable
     {
-        private RequestFormItemRepository _requestFormItemRepository;
         public RelayCommand SwitchTab { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentForm { get; private set; }
+
         private IWindowService _windowService;
+        private IRequestFormItemRepository _requestFormItemRepository;
         public RequestFormItemPendingViewModel()
         {
             _requestFormItemRepository = new RequestFormItemRepository();
             _windowService = new WindowService();
+
             SetCommands();
             CurrentPage = 1;
             LoadGrid();
@@ -44,7 +46,6 @@ namespace VesselInventory.ViewModel
             PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
             UploadDocumentForm = new RelayCommand(OnOpenUploadDocumentForm);
         }
-
 
         public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } = new ObservableCollection<ItemPendingDTO>();
         public void LoadGrid()
@@ -127,7 +128,8 @@ namespace VesselInventory.ViewModel
 
         private void OnOpenUploadDocumentForm(object parameter)
         {
-            _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>(new RequestFormItemUploadDocument(this,int.Parse(parameter.ToString())));
+            _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
+                (new RequestFormItemUploadDocument(this,int.Parse(parameter.ToString())));
         }
     }
 }

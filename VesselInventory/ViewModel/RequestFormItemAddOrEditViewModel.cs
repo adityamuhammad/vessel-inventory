@@ -4,7 +4,6 @@ using System.Linq;
 using ToastNotifications;
 using ToastNotifications.Messages;
 using VesselInventory.DTO;
-using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -15,14 +14,13 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditViewModel : ViewModelBase
     {
-
-        RequestFormItemRepository _requestFormItemRepository;
         RFItem _rf_item = new RFItem();
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand ListBoxChanged { get; private set; }
         public RelayCommand OpenFileDialog { get; private set; }
         public RelayCommand<IClosable> Save { get; private set; }
 
+        private IRequestFormItemRepository _requestFormItemRepository;
         private IOService _iOService;
         private IUploadService _uploadService;
         private IParentLoadable _parentLoadable;
@@ -282,9 +280,8 @@ namespace VesselInventory.ViewModel
         }
         private void LoadReasonList()
         {
-            foreach(var _ in DataHelper.GetLookupValues("REASON")){
+            foreach(var _ in DataHelper.GetLookupValues("REASON"))
                 _reasonList.Add(_.description);
-            }
         }
 
         private ObservableCollection<string> _priorityList = new ObservableCollection<string>();
@@ -299,9 +296,8 @@ namespace VesselInventory.ViewModel
         }
         private void LoadPriorityList()
         {
-            foreach(var _ in DataHelper.GetLookupValues("PRIORITY")){
+            foreach(var _ in DataHelper.GetLookupValues("PRIORITY"))
                 _priorityList.Add(_.description);
-            }
         }
 
         public void RefreshItems()
@@ -330,23 +326,24 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void SaveAction(IClosable window)
+        private void Upload()
         {
-
             if(attachment_local_path.Trim() != string.Empty)
             {
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
                 _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
                 attachment_path = _uploadService.GetUploadedPath();
             }
-
+        }
+        private void SaveAction(IClosable window)
+        {
+            Upload();
             if (rf_item_id == 0)
                 _requestFormItemRepository.Save(_rf_item);
             else
                 _requestFormItemRepository.Update(rf_item_id,_rf_item);
 
             _parentLoadable.LoadGrid();
-
             _toasMessage.ShowSuccess("Data saved successfully.");
 
             if (window != null)

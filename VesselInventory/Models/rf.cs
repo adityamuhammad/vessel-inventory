@@ -33,7 +33,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string status { get; set; }
+        public string status { get; set; } = Status.DRAFT.GetDescription();
 
         public int ship_id { get; set; }
 

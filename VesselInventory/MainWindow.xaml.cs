@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using VesselInventory.ViewModel;
 
 namespace VesselInventory
@@ -38,6 +26,29 @@ namespace VesselInventory
                     DataContext = new RequestFormViewModel();
                     break;
                 case 2:
+                    DataContext = new VesselGoodReceiveViewModel();
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        private void ShowAndMinimizeNavBar(object sender, RoutedEventArgs e)
+        {
+            int uid = int.Parse(((Button)e.Source).Uid);
+            switch (uid)
+            {
+                case 0:
+                    ExpandMenuBtn.Visibility = Visibility.Visible;
+                    MinimizeMenuBtn.Visibility = Visibility.Collapsed;
+                    NavBarColumnMenu.Width = new GridLength(45, GridUnitType.Pixel);
+                    break;
+                case 1:
+                    ExpandMenuBtn.Visibility = Visibility.Collapsed;
+                    MinimizeMenuBtn.Visibility = Visibility.Visible;
+                    NavBarColumnMenu.Width = new GridLength(180, GridUnitType.Pixel);
+                    break;
+                default:
                     break;
             }
         }
