@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace VesselInventory.Views
 {
     /// <summary>
-    /// Interaction logic for VesselGoodReceive.xaml
+    /// Interaction logic for RequestForm.xaml
     /// </summary>
-    public partial class VesselGoodReceive : UserControl
+    public partial class RequestForm_MainView : UserControl
     {
-        public VesselGoodReceive()
+        public RequestForm_MainView()
         {
             InitializeComponent();
         }
     }
+
 }

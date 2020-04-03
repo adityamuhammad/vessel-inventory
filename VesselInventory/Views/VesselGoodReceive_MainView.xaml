@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VesselInventory.Views.VesselGoodReceive"
+﻿<UserControl x:Class="VesselInventory.Views.VesselGoodReceive_MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,7 +26,7 @@
                 Width="157" 
                 Background="#FF4E5FBF" 
                 BorderBrush="#FF508B3A" 
-                Command="{Binding OpenDialogRequestFormCommand}">
+                Command="{Binding OpenDialogReceiveCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
                     <TextBlock Text="Add Receive"/>

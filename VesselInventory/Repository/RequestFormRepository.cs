@@ -8,20 +8,20 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormRepository
     {
-        IEnumerable<RF> GetRequestFormList(string search, int page, int rows = 10);
+        IEnumerable<RequestForm> GetRequestFormList(string search, int page, int rows = 10);
         int GetRequestFormTotalPage(string search, int rows = 10);
         RequestFormShipBargeDTO GetRrequestFormShipBarge();
-        RF SaveRequestForm(RF rf);
-        RF UpdateRequestForm(int id, RF rfEntity);
-        RF FindById(int id);
+        RequestForm SaveRequestForm(RequestForm rf);
+        RequestForm UpdateRequestForm(int id, RequestForm rfEntity);
+        RequestForm FindById(int id);
     }
-    public class RequestFormRepository : Repository<RF>, IRequestFormRepository
+    public class RequestFormRepository : Repository<RequestForm>, IRequestFormRepository
     {
         public RequestFormRepository() { }
-        public new RF FindById(int id) => base.FindById(id);
-        public RF UpdateRequestForm(int id, RF rfEntity) => base.Update(id, rfEntity);
+        public new RequestForm FindById(int id) => base.FindById(id);
+        public RequestForm UpdateRequestForm(int id, RequestForm rfEntity) => base.Update(id, rfEntity);
 
-        public RF SaveRequestForm(RF rf)
+        public RequestForm SaveRequestForm(RequestForm rf)
         {
             base.Save(rf);
             using (var context = new VesselInventoryContext())
@@ -31,7 +31,7 @@ namespace VesselInventory.Repository
             return rf;
         }
 
-        public IEnumerable<RF> GetRequestFormList(string search = "",int page = 1,int rows = 10)
+        public IEnumerable<RequestForm> GetRequestFormList(string search = "",int page = 1,int rows = 10)
         {
             using(var context = new VesselInventoryContext())
             {

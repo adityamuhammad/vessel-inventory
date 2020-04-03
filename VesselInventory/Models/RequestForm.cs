@@ -8,7 +8,7 @@ namespace VesselInventory.Models
     using VesselInventory.Commons.Enums;
 
     [Table("rf")]
-    public partial class RF
+    public partial class RequestForm
     {
         [Key]
         public int rf_id { get; set; }

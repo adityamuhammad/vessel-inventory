@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VesselInventory.Services
@@ -22,16 +18,18 @@ namespace VesselInventory.Services
 
         public string OpenFileDialog()
         {
-            var dialog = new OpenFileDialog() {  Filter = "Pdf Files|*.pdf" };
-            var result = dialog.ShowDialog();
-            try
+            using (var dialog = new OpenFileDialog() { Filter = "Pdf Files| *.pdf" })
             {
-                if(result == DialogResult.OK)
-                    return dialog.FileName;
-                throw new Exception();
-            } catch
-            {
-                return "Error";
+                var result = dialog.ShowDialog();
+                try
+                {
+                    if(result == DialogResult.OK)
+                        return dialog.FileName;
+                    throw new Exception();
+                } catch
+                {
+                    return "Error";
+                }
             }
         }
     }

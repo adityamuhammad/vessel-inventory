@@ -122,13 +122,9 @@
     <Compile Include="Commons\Enums.cs" />
     <Compile Include="Commons\DataHelper.cs" />
     <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\ItemDimension.cs" />
-    <Compile Include="Models\ItemGroup.cs" />
     <Compile Include="Models\LookupValue.cs" />
-    <Compile Include="Models\RF.cs" />
-    <Compile Include="Models\RFItem.cs" />
-    <Compile Include="Models\Ship.cs" />
-    <Compile Include="Models\ShipInitial.cs" />
+    <Compile Include="Models\RequestForm.cs" />
+    <Compile Include="Models\RequestFormItem.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VesselInventoryContext.cs" />
     <Compile Include="Models\VesselGoodIssued.cs" />
@@ -159,10 +155,11 @@
     <Compile Include="ViewModel\RequestFormItemStatusViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemUploadDocument.cs" />
     <Compile Include="ViewModel\RequestFormViewModel.cs" />
+    <Compile Include="ViewModel\VesselGoodReceiveAddOrEditViewModel.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="Views\RequestForm.xaml.cs">
-      <DependentUpon>RequestForm.xaml</DependentUpon>
+    <Compile Include="Views\RequestForm_MainView.xaml.cs">
+      <DependentUpon>RequestForm_MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RequestForm_AddOrEditView.xaml.cs">
       <DependentUpon>RequestForm_AddOrEditView.xaml</DependentUpon>
@@ -179,8 +176,11 @@
     <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
       <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VesselGoodReceive.xaml.cs">
-      <DependentUpon>VesselGoodReceive.xaml</DependentUpon>
+    <Compile Include="Views\VesselGoodReceive_MainView.xaml.cs">
+      <DependentUpon>VesselGoodReceive_MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodReceive_AddOrEditView.xaml.cs">
+      <DependentUpon>VesselGoodReceive_AddOrEditView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -194,7 +194,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\RequestForm.xaml">
+    <Page Include="Views\RequestForm_MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,7 +218,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VesselGoodReceive.xaml">
+    <Page Include="Views\VesselGoodReceive_MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodReceive_AddOrEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

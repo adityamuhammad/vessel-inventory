@@ -14,7 +14,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> Close { get; private set; }
 
         private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
-        private RFItem _rf_item = new RFItem();
+        private RequestFormItem _rf_item = new RequestFormItem();
 
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;

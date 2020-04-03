@@ -3,20 +3,26 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
     public class VesselGoodReceiveViewModel : ViewModelBase, IParentLoadable
     {
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
+        private readonly IWindowService _windowService;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
+        public RelayCommand OpenDialogReceiveCommand { get; private set; }
 
         public VesselGoodReceiveViewModel()
         {
             NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
             PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
+            OpenDialogReceiveCommand = new RelayCommand(Receive);
+
             _vesselGoodReceiveRepository = new VesselGoodReceiveRepository();
+            _windowService = new WindowService();
             CurrentPage = 1;
             LoadGrid();
         }
@@ -92,6 +98,12 @@ namespace VesselInventory.ViewModel
             foreach (var _ in _vesselGoodReceiveRepository.GetGoodReceive(SearchKeyword, CurrentPage))
                 VesselGoodReceiveCollection.Add(_);
             UpdateTotalPage();
+        }
+
+        public void Receive(object parameter)
+        {
+            _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
+                (new VesselGoodReceiveAddOrEditViewModel());
         }
     }
 }

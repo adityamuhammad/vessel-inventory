@@ -18,7 +18,7 @@ namespace VesselInventory.ViewModel
     public class RequestFormAddOrEditViewModel : ViewModelBase, IParentLoadable
     {
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
-        private RF _rf = new RF();
+        private RequestForm _requestForm = new RequestForm();
 
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
@@ -71,39 +71,39 @@ namespace VesselInventory.ViewModel
 
         public int ship_id
         {
-            get => _rf.ship_id;
-            set => _rf.ship_id = value;
+            get => _requestForm.ship_id;
+            set => _requestForm.ship_id = value;
         }
         public int rf_id
         {
-            get => _rf.rf_id;
-            set => _rf.rf_id = value;
+            get => _requestForm.rf_id;
+            set => _requestForm.rf_id = value;
         }
         public string rf_number
         {
-            get => _rf.rf_number;
+            get => _requestForm.rf_number;
             set
             {
-                _rf.rf_number = value;
+                _requestForm.rf_number = value;
                 OnPropertyChanged("rf_number");
             }
         }
         public string ship_name
         {
-            get => _rf.ship_name;
+            get => _requestForm.ship_name;
             set
             {
-                _rf.ship_name = value;
+                _requestForm.ship_name = value;
                 OnPropertyChanged("ship_name");
             }
         }
 
         [Required(ErrorMessage ="Project Number cannot be empty.")]
         public string project_number {
-            get => _rf.project_number;
+            get => _requestForm.project_number;
             set
             {
-                _rf.project_number = value;
+                _requestForm.project_number = value;
                 OnPropertyChanged("project_number");
             }
         }
@@ -111,10 +111,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public string department_name
         {
-            get => _rf.department_name;
+            get => _requestForm.department_name;
             set
             {
-                _rf.department_name = value;
+                _requestForm.department_name = value;
                 OnPropertyChanged("department_name");
             }
         }
@@ -122,10 +122,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public DateTime target_delivery_date
         {
-            get => _rf.target_delivery_date;
+            get => _requestForm.target_delivery_date;
             set
             {
-                _rf.target_delivery_date = DateTime.Parse(value.ToString());
+                _requestForm.target_delivery_date = DateTime.Parse(value.ToString());
                 OnPropertyChanged("target_delivery_date");
             }
         }
@@ -134,10 +134,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public string notes
         {
-            get => _rf.notes;
+            get => _requestForm.notes;
             set
             {
-                _rf.notes = value;
+                _requestForm.notes = value;
                 OnPropertyChanged("notes");
             }
         }
@@ -230,7 +230,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<RFItem> RfItemList { get; set; } = new ObservableCollection<RFItem>();
+        public ObservableCollection<RequestFormItem> RfItemList { get; set; } = new ObservableCollection<RequestFormItem>();
         #endregion
 
         private void LoadDepartmentList()
@@ -257,7 +257,7 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = true;
                 IsVisibleBargeCheck = false;
 
-                _rf = _requestFormRepository.FindById(rf_id_params);
+                _requestForm = _requestFormRepository.FindById(rf_id_params);
             } else
             {
                 Title = "Add Request Form";
@@ -266,8 +266,8 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = false;
                 IsVisibleBargeCheck = true;
 
-                _rf.department_name = DepartmentList.First();
-                _rf.target_delivery_date = DateTime.Now;
+                _requestForm.department_name = DepartmentList.First();
+                _requestForm.target_delivery_date = DateTime.Now;
 
                 _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
                 rf_id = rf_id_params;
@@ -285,11 +285,11 @@ namespace VesselInventory.ViewModel
         {
             if (rf_id == 0)
             {
-                _rf.created_by = "Aditya";
-                _rf = _requestFormRepository.SaveRequestForm(_rf);
+                _requestForm.created_by = "Aditya";
+                _requestForm = _requestFormRepository.SaveRequestForm(_requestForm);
             } else
             {
-                _rf = _requestFormRepository.UpdateRequestForm(rf_id, _rf);
+                _requestForm = _requestFormRepository.UpdateRequestForm(rf_id, _requestForm);
             }
             IsVisibleButtonSave = false;
             IsVisibleButtonUpdate = true;

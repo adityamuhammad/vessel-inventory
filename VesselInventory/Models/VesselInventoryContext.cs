@@ -13,12 +13,8 @@ namespace VesselInventory.Models
         }
 
         public virtual DbSet<Item> items { get; set; }
-        public virtual DbSet<ItemDimension> item_dimension { get; set; }
-        public virtual DbSet<ItemGroup> item_group { get; set; }
-        public virtual DbSet<RF> rfs { get; set; }
-        public virtual DbSet<RFItem> rf_item { get; set; }
-        public virtual DbSet<Ship> ships { get; set; }
-        public virtual DbSet<ShipInitial> ship_initial { get; set; }
+        public virtual DbSet<RequestForm> rfs { get; set; }
+        public virtual DbSet<RequestFormItem> rf_item { get; set; }
         public virtual DbSet<User> users { get; set; }
         public virtual DbSet<VesselGoodIssued> vessel_good_issued { get; set; }
         public virtual DbSet<VesselGoodIssuedItem> vessel_good_issued_item { get; set; }
@@ -31,15 +27,15 @@ namespace VesselInventory.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RF>()
+            modelBuilder.Entity<RequestForm>()
                 .Property(e => e.notes)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<RFItem>()
+            modelBuilder.Entity<RequestFormItem>()
                 .Property(e => e.qty)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<RFItem>()
+            modelBuilder.Entity<RequestFormItem>()
                 .Property(e => e.remarks)
                 .IsUnicode(false);
 

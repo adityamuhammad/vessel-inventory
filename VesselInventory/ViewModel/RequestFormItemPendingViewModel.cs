@@ -14,8 +14,8 @@ namespace VesselInventory.ViewModel
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentForm { get; private set; }
 
-        private IWindowService _windowService;
-        private IRequestFormItemRepository _requestFormItemRepository;
+        private readonly IWindowService _windowService;
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
         public RequestFormItemPendingViewModel()
         {
             _requestFormItemRepository = new RequestFormItemRepository();

@@ -73,7 +73,7 @@ namespace VesselInventory.ViewModel
                 LoadGrid();
             }
         }
-        public ObservableCollection<RF> RequestFormCollection { get; } = new ObservableCollection<RF>();
+        public ObservableCollection<RequestForm> RequestFormCollection { get; } = new ObservableCollection<RequestForm>();
 
         public void LoadGrid()
         {

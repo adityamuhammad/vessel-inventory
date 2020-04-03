@@ -8,27 +8,27 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormItemRepository
     {
-        RFItem FindById(int id);
-        RFItem Save(RFItem rFItem);
-        RFItem Update(int id, RFItem rFItem);
-        IEnumerable<RFItem> GetRFItemList(int rf_id);
+        RequestFormItem FindById(int id);
+        RequestFormItem Save(RequestFormItem rFItem);
+        RequestFormItem Update(int id, RequestFormItem rFItem);
+        IEnumerable<RequestFormItem> GetRFItemList(int rf_id);
         IEnumerable<ItemStatusDTO> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
         int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
         IEnumerable<ItemPendingDTO> GetItemPending(string rf_number, int page, int rows = 10);
         int GetItemPendingTotalPage(string rf_number, int rows = 10);
 
     }
-    public class RequestFormItemRepository : Repository<RFItem>, IRequestFormItemRepository
+    public class RequestFormItemRepository : Repository<RequestFormItem>, IRequestFormItemRepository
     {
         public RequestFormItemRepository() { }
 
-        public new RFItem FindById(int id) => base.FindById(id);
+        public new RequestFormItem FindById(int id) => base.FindById(id);
 
-        public new RFItem Save(RFItem rFItem) => base.Save(rFItem);
+        public new RequestFormItem Save(RequestFormItem rFItem) => base.Save(rFItem);
 
-        public new RFItem Update(int id, RFItem rFItem) => base.Update(id, rFItem);
+        public new RequestFormItem Update(int id, RequestFormItem rFItem) => base.Update(id, rFItem);
 
-        public IEnumerable<RFItem> GetRFItemList(int rf_id)
+        public IEnumerable<RequestFormItem> GetRFItemList(int rf_id)
         {
             using (var context = new VesselInventoryContext())
             {

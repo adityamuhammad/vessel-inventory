@@ -12,20 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VesselInventory.Utility;
-using VesselInventory.ViewModel;
 
 namespace VesselInventory.Views
 {
     /// <summary>
-    /// Interaction logic for RequestForm.xaml
+    /// Interaction logic for VesselGoodReceive.xaml
     /// </summary>
-    public partial class RequestForm : UserControl
+    public partial class VesselGoodReceive_MainView : UserControl
     {
-        public RequestForm()
+        public VesselGoodReceive_MainView()
         {
             InitializeComponent();
         }
     }
-
 }

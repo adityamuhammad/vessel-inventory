@@ -14,16 +14,16 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditViewModel : ViewModelBase
     {
-        RFItem _rf_item = new RFItem();
+        RequestFormItem _requestFormItem = new RequestFormItem();
         public RelayCommand<IClosable> Close { get; private set; }
         public RelayCommand ListBoxChanged { get; private set; }
         public RelayCommand OpenFileDialog { get; private set; }
         public RelayCommand<IClosable> Save { get; private set; }
 
-        private IRequestFormItemRepository _requestFormItemRepository;
-        private IOService _iOService;
-        private IUploadService _uploadService;
-        private IParentLoadable _parentLoadable;
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
+        private readonly IOService _iOService;
+        private readonly IUploadService _uploadService;
+        private readonly IParentLoadable _parentLoadable;
 
         Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 

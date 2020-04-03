@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace VesselInventory.ViewModel
 {
-    class HomeViewModel : ViewModelBase
+    class VesselGoodReceiveAddOrEditViewModel : ViewModelBase
     {
-        public HomeViewModel()
+        public VesselGoodReceiveAddOrEditViewModel()
         {
+
         }
     }
 }

@@ -16,7 +16,7 @@
         <DataTemplate 
             x:Name="RequestForm_Main" 
             DataType="{x:Type viewmodels:RequestFormViewModel}">
-            <views:RequestForm DataContext="{Binding}"/>
+            <views:RequestForm_MainView DataContext="{Binding}"/>
         </DataTemplate>
 
         <DataTemplate 
@@ -34,7 +34,7 @@
         <DataTemplate 
             x:Name="VesselGoodReceive_Main" 
             DataType="{x:Type viewmodels:VesselGoodReceiveViewModel}">
-            <views:VesselGoodReceive DataContext="{Binding}"/>
+            <views:VesselGoodReceive_MainView DataContext="{Binding}"/>
         </DataTemplate>
 
     </Window.Resources>
