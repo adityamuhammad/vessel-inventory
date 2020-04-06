@@ -14,18 +14,18 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditViewModel : ViewModelBase
     {
-        RequestFormItem _requestFormItem = new RequestFormItem();
-        public RelayCommand<IClosable> Close { get; private set; }
-        public RelayCommand ListBoxChanged { get; private set; }
-        public RelayCommand OpenFileDialog { get; private set; }
-        public RelayCommand<IClosable> Save { get; private set; }
+        private RequestFormItem _requestFormItem = new RequestFormItem();
+        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
+
+        public RelayCommand<IClosable> CloseCommand { get; private set; }
+        public RelayCommand ListBoxChangedCommand { get; private set; }
+        public RelayCommand OpenFileDialogCommand { get; private set; }
+        public RelayCommand<IClosable> SaveCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;
         private readonly IParentLoadable _parentLoadable;
-
-        Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id) : this(parentLoadable, rf_id, 0) { }
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int _rf_id, int rf_item_id)
@@ -35,129 +35,129 @@ namespace VesselInventory.ViewModel
             _iOService = new OpenPdfFileDialog();
             _requestFormItemRepository = new RequestFormItemRepository();
 
-            IsVisibleListBoxItem = false;
+            InitializeCommands();
 
-            SetCommands();
-            LoadPriorityList();
-            LoadReasonList();
-            RefreshItems();
+            IsVisibleListBoxItem = false;
+            LoadPriority();
+            LoadReason();
+            LoadItem();
 
             rf_id = _rf_id;
-            reason = _reasonList.First();
-            priority = _priorityList.First();
+            reason = ReasonCollection.First();
+            priority = PriorityCollection.First();
 
             if (rf_item_id != 0)
-                _rf_item = _requestFormItemRepository.FindById(rf_item_id);
+                _requestFormItem = _requestFormItemRepository.FindById(rf_item_id);
         }
 
-        private void SetCommands()
+        private void InitializeCommands()
         {
-            ListBoxChanged = new RelayCommand(AutoCompleteChanged);
-            OpenFileDialog = new RelayCommand(OpenFile);
-            Save = new RelayCommand<IClosable>(SaveAction, IsCanSave);
-            Close = new RelayCommand<IClosable>(CloseAction);
+            ListBoxChangedCommand = new RelayCommand(AutoCompleteChanged);
+            OpenFileDialogCommand = new RelayCommand(OpenFile);
+            SaveCommand = new RelayCommand<IClosable>(SaveAction, IsCanSave);
+            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
 
         #region
         public int? rf_id
         {
-            get => _rf_item.rf_id;
+            get => _requestFormItem.rf_id;
             set
             {
-                _rf_item.rf_id = value;
+                _requestFormItem.rf_id = value;
             }
         }
         public int rf_item_id
         {
-            get => _rf_item.rf_item_id;
+            get => _requestFormItem.rf_item_id;
             set
             {
-                _rf_item.rf_item_id = value;
+                _requestFormItem.rf_item_id = value;
             }
         }
         public string item_dimension_number
         {
-            get => _rf_item.item_dimension_number;
+            get => _requestFormItem.item_dimension_number;
             set
             {
-                _rf_item.item_dimension_number = value;
+                _requestFormItem.item_dimension_number = value;
             }
         }
         public int? item_group_id
         {
-            get => _rf_item.item_group_id;
+            get => _requestFormItem.item_group_id;
             set
             {
-                _rf_item.item_group_id = value;
+                _requestFormItem.item_group_id = value;
             }
         }
 
         public int? item_id
         {
-            get => _rf_item.item_id;
+            get => _requestFormItem.item_id;
             set
             {
-                _rf_item.item_id = value;
+                _requestFormItem.item_id = value;
                 OnPropertyChanged("item_id");
             }
         }
 
         public string item_name
         {
-            get => _rf_item.item_name;
+            get => _requestFormItem.item_name;
             set
             {
-                _rf_item.item_name = value;
+                _requestFormItem.item_name = value;
                 OnPropertyChanged("item_name");
             }
         }
 
         public string brand_type_id
         {
-            get => _rf_item.brand_type_id;
+            get => _requestFormItem.brand_type_id;
             set
             {
-                _rf_item.brand_type_id = value;
+                _requestFormItem.brand_type_id = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
 
         public string brand_type_name
         {
-            get => _rf_item.brand_type_name;
+            get => _requestFormItem.brand_type_name;
             set
             {
-                _rf_item.brand_type_name = value;
+                _requestFormItem.brand_type_name = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
 
         public string color_size_id
         {
-            get => _rf_item.color_size_id;
+            get => _requestFormItem.color_size_id;
             set
             {
-                _rf_item.color_size_id = value;
+                _requestFormItem.color_size_id = value;
                 OnPropertyChanged("color_size_id");
             }
         }
 
         public string color_size_name
         {
-            get => _rf_item.color_size_name;
+            get => _requestFormItem.color_size_name;
             set
             {
-                _rf_item.color_size_name = value;
+                _requestFormItem.color_size_name = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public string attachment_path
         {
-            get => _rf_item.attachment_path;
+            get => _requestFormItem.attachment_path;
             set
             {
-                _rf_item.attachment_path = value;
+                _requestFormItem.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -177,49 +177,49 @@ namespace VesselInventory.ViewModel
         [RegularExpression(@"^[0-9]*$",ErrorMessage ="Invalid Format")]
         public decimal? qty
         {
-            get => _rf_item.qty;
+            get => _requestFormItem.qty;
             set
             {
-                _rf_item.qty = value;
+                _requestFormItem.qty = value;
                 OnPropertyChanged("qty");
             }
         }
 
         public string reason
         {
-            get => _rf_item.reason;
+            get => _requestFormItem.reason;
             set
             {
-                _rf_item.reason = value;
+                _requestFormItem.reason = value;
                 OnPropertyChanged("reason");
             }
         }
 
         public string priority
         {
-            get => _rf_item.priority;
+            get => _requestFormItem.priority;
             set
             {
-                _rf_item.priority = value;
+                _requestFormItem.priority = value;
                 OnPropertyChanged("priority");
             }
         }
 
         public string remarks
         {
-            get => _rf_item.remarks;
+            get => _requestFormItem.remarks;
             set
             {
-                _rf_item.remarks = value;
+                _requestFormItem.remarks = value;
                 OnPropertyChanged("remarks");
             }
         }
         public string uom
         {
-            get => _rf_item.uom;
+            get => _requestFormItem.uom;
             set
             {
-                _rf_item.uom = value;
+                _requestFormItem.uom = value;
                 OnPropertyChanged("uom");
             }
         }
@@ -239,7 +239,7 @@ namespace VesselInventory.ViewModel
                 } else
                 {
                     IsVisibleListBoxItem = true;
-                    RefreshItems();
+                    LoadItem();
                 }
             }
         }
@@ -257,54 +257,27 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private ObservableCollection<ItemGroupDimensionDTO> _items = new ObservableCollection<ItemGroupDimensionDTO>();
-        public ObservableCollection<ItemGroupDimensionDTO> Items
-        {
-            get => _items;
-            set
-            {
-                _items = value;
-                OnPropertyChanged("Items");
-            }
-        }
+        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } = new ObservableCollection<ItemGroupDimensionDTO>();
 
-        private ObservableCollection<string> _reasonList = new ObservableCollection<string>();
-        public ObservableCollection<string> ReasonList
-        {
-            get => _reasonList;
-            set
-            {
-                _reasonList = value;
-                OnPropertyChanged("ReasonList");
-            }
-        }
-        private void LoadReasonList()
+        public ObservableCollection<string> ReasonCollection { get; set; } = new ObservableCollection<string>();
+        private void LoadReason()
         {
             foreach(var _ in DataHelper.GetLookupValues("REASON"))
-                _reasonList.Add(_.description);
+                ReasonCollection.Add(_.description);
         }
 
-        private ObservableCollection<string> _priorityList = new ObservableCollection<string>();
-        public ObservableCollection<string> PriorityList
-        {
-            get => _priorityList;
-            set
-            {
-                _priorityList = value;
-                OnPropertyChanged("PriorityList");
-            }
-        }
-        private void LoadPriorityList()
+        public ObservableCollection<string> PriorityCollection { get; set; } = new ObservableCollection<string>();
+        private void LoadPriority()
         {
             foreach(var _ in DataHelper.GetLookupValues("PRIORITY"))
-                _priorityList.Add(_.description);
+                PriorityCollection.Add(_.description);
         }
 
-        public void RefreshItems()
+        public void LoadItem()
         {
-            _items.Clear();
+            ItemCollection.Clear();
             foreach(var _ in DataHelper.GetItems(ItemSelectKeyword))
-                _items.Add(_);
+                ItemCollection.Add(_);
         }
 
         private void AutoCompleteChanged(object parameter)
@@ -339,9 +312,9 @@ namespace VesselInventory.ViewModel
         {
             Upload();
             if (rf_item_id == 0)
-                _requestFormItemRepository.Save(_rf_item);
+                _requestFormItemRepository.Save(_requestFormItem);
             else
-                _requestFormItemRepository.Update(rf_item_id,_rf_item);
+                _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
 
             _parentLoadable.LoadGrid();
             _toasMessage.ShowSuccess("Data saved successfully.");
@@ -361,7 +334,7 @@ namespace VesselInventory.ViewModel
             if (filename != "Error")
                 attachment_local_path = filename;
         } 
-        private void CloseAction(IClosable window)
+        private void CloseWindow(IClosable window)
         {
             if (window != null)
                 window.Close();

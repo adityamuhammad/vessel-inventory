@@ -9,33 +9,38 @@ namespace VesselInventory.ViewModel
 {
     class RequestFormItemUploadDocument : ViewModelBase
     {
-        public RelayCommand OpenFileDialog { get; private set; }
-        public RelayCommand<IClosable> Save { get; private set; }
-        public RelayCommand<IClosable> Close { get; private set; }
+        public RelayCommand OpenFileDialogCommand { get; private set; }
+        public RelayCommand<IClosable> SaveCommand { get; private set; }
+        public RelayCommand<IClosable> CloseCommand { get; private set; }
 
         private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
-        private RequestFormItem _rf_item = new RequestFormItem();
+        private RequestFormItem _requestFormItem = new RequestFormItem();
 
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;
         private readonly IParentLoadable _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _rf_item_id)
+        public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _requestFormItem_id)
         {
             _requestFormItemRepository = new RequestFormItemRepository();
-            _rf_item = _requestFormItemRepository.FindById(_rf_item_id);
+            _requestFormItem = _requestFormItemRepository.FindById(_requestFormItem_id);
             _parentLoadable = parentLoadable;
             _uploadService = new UploadService();
             _iOService = new OpenPdfFileDialog();
-            OpenFileDialog = new RelayCommand(OpenFile);
-            Save = new RelayCommand<IClosable>(SaveAction);
-            Close = new RelayCommand<IClosable>(CloseAction);
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
+            OpenFileDialogCommand = new RelayCommand(OpenFile);
+            SaveCommand = new RelayCommand<IClosable>(SaveAction);
+            CloseCommand = new RelayCommand<IClosable>(CloseAction);
         }
 
         public int rf_item_id {
-            get => _rf_item.rf_item_id;
-            set => _rf_item.rf_item_id = value;
+            get => _requestFormItem.rf_item_id;
+            set => _requestFormItem.rf_item_id = value;
         }
 
         private string _attachment_local_path = string.Empty;
@@ -51,10 +56,10 @@ namespace VesselInventory.ViewModel
 
         public string attachment_path
         {
-            get => _rf_item.attachment_path;
+            get => _requestFormItem.attachment_path;
             set
             {
-                _rf_item.attachment_path = value;
+                _requestFormItem.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -78,7 +83,7 @@ namespace VesselInventory.ViewModel
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
                 _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
                 attachment_path = _uploadService.GetUploadedPath();
-                _requestFormItemRepository.Update(rf_item_id,_rf_item);
+                _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
                 _parentLoadable.LoadGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
             }

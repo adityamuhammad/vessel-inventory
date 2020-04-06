@@ -9,21 +9,21 @@ namespace VesselInventory.ViewModel
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public RelayCommand SwitchTab { get; private set; }
+        public RelayCommand SwitchTabCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
         public RequestFormItemStatusViewModel()
         {
             _requestFormItemRepository = new RequestFormItemRepository();
-            SetCommands();
+            InitializeCommands();
             CurrentPage = 1;
             RefreshItemStatus();
         }
 
-        private void SetCommands()
+        private void InitializeCommands()
         {
-            SwitchTab = new RelayCommand(SwitchTabAction);
+            SwitchTabCommand = new RelayCommand(SwitchTabAction);
             NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
             PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
         }

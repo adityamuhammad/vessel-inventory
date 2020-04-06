@@ -24,19 +24,19 @@
                     Background="LightGray" 
                     Content="List" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="List"
                     />
                 <Button 
                     Content="Item Status" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemStatus"
                     />
                 <Button 
                     Content="Item Pending" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemPending"
                     />
                 </StackPanel>
@@ -109,7 +109,7 @@
                                                     x:Type DataGrid
                                                 },
                                             Mode=FindAncestor},
-                                            Path=DataContext.UploadDocumentForm
+                                            Path=DataContext.UploadDocumentFormCommands
                                         }" 
                                         CommandParameter="{Binding rf_item_id}">
                                         <materialDesign:PackIcon 

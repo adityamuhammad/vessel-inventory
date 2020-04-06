@@ -26,13 +26,13 @@
                 <Button 
                     Content="Item Status" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemStatus"
                     />
                 <Button 
                     Content="Item Pending" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemPending"
                     />
             </StackPanel>

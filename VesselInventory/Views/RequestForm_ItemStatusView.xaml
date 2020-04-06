@@ -24,19 +24,19 @@
                     Background="LightGray" 
                     Content="List" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="List"
                     />
                 <Button 
                     Content="Item Status" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemStatus"
                     />
                 <Button 
                     Content="Item Pending" 
                     Style="{StaticResource TransparentStyle}" 
-                    Command="{Binding SwitchTab}"
+                    Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemPending"
                     />
                 </StackPanel>
@@ -137,10 +137,10 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Item Id" Binding="{Binding item_id}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding item_id}"/>
                     <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding item_description}"/>
-                    <DataGridTextColumn Width="0.5*" Header="QTY" Binding="{Binding qty}"/>
-                    <DataGridTextColumn Width="0.5*" Header="UOM" Binding="{Binding uom}"/>
+                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding qty}"/>
+                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
                     <DataGridTextColumn Width="1*" Header="Group Name" Binding="{Binding item_group_name}"/>
                     <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding priority}"/>
                     <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>

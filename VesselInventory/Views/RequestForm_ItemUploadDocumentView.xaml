@@ -28,7 +28,7 @@
                 Background="White" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=UploadWindow}" 
-                Command="{Binding Close,Mode=OneWay}" 
+                Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
                     Kind="Close" 
@@ -48,7 +48,7 @@
                 IsReadOnly="True"
             />
             <Button 
-                Command="{Binding OpenFileDialog}"
+                Command="{Binding OpenFileDialogCommand}"
                 Margin="10,8,0,0"
                 Width="120"
                 Height="20"
@@ -77,7 +77,7 @@
                 Background="#FF4E5FBF" 
                 BorderBrush="#FF508B3A" 
                 CommandParameter="{Binding ElementName=UploadWindow}" 
-                Command="{Binding Save,Mode=OneWay}" 
+                Command="{Binding SaveCommand,Mode=OneWay}" 
                 >
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon 

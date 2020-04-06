@@ -41,7 +41,7 @@
                 Background="White" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=AddOrEditRF}" 
-                Command="{Binding Close,Mode=OneWay}" 
+                Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
                     Kind="Close" 
@@ -101,7 +101,7 @@
                     }" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
-                    Command="{Binding Save}">
+                    Command="{Binding SaveCommand}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 
                             Kind="ContentSave" 
@@ -197,7 +197,7 @@
                 <ComboBox 
                     Margin="0,10" 
                     HorizontalAlignment="Left" 
-                    ItemsSource="{Binding DepartmentList}" 
+                    ItemsSource="{Binding DepartmentCollection}" 
                     SelectedItem="{Binding department_name}" 
                     Width="100">
                 </ComboBox>
@@ -229,7 +229,7 @@
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
                     Height="23"
-                    Command="{Binding AddOrEditItem}"
+                    Command="{Binding AddOrEditItemCommand}"
                     >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 
@@ -241,7 +241,7 @@
                 </Button>
                 <DataGrid Margin="20,0,20,0" 
                     ItemsSource="{
-                        Binding RfItemList,
+                        Binding RequestFormItemCollection,
                         Mode=OneWay,UpdateSourceTrigger=PropertyChanged
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"
@@ -250,7 +250,7 @@
                     CanUserAddRows="False" 
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="0.7*" Header="Item ID" Binding="{Binding item_id}"/>
+                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding item_id}"/>
                         <DataGridTemplateColumn Width="1.2*">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -273,10 +273,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="0.5*" Header="Qty" Binding="{Binding qty}"/>
-                        <DataGridTextColumn Width="0.5*" Header="UOM" Binding="{Binding uom}"/>
-                        <DataGridTextColumn Width="0.7*" Header="Priority" Binding="{Binding priority}"/>
-                        <DataGridTemplateColumn Width="0.5*">
+                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
+                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
+                        <DataGridTextColumn Width="auto" Header="Priority" Binding="{Binding priority}"/>
+                        <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <materialDesign:PackIcon  Kind="Settings"/>
@@ -301,11 +301,37 @@
                                                         x:Type DataGrid
                                                     },
                                                 Mode=FindAncestor},
-                                                Path=DataContext.AddOrEditItem
+                                                Path=DataContext.AddOrEditItemCommand
                                             }" 
                                             CommandParameter="{Binding rf_item_id}">
                                             <materialDesign:PackIcon 
                                                 Kind="Edit" 
+                                                VerticalContentAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"/>
+                                        </Button>
+                                        <Button 
+                                            BorderBrush="#FFD41E1E" 
+                                            Background="White" 
+                                            Foreground="#FFD41E1E" 
+                                            Height="20"
+                                            Width="40"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{
+                                                Binding RelativeSource={
+                                                    RelativeSource AncestorType={
+                                                        x:Type DataGrid
+                                                    },
+                                                Mode=FindAncestor},
+                                                Path=DataContext.DeleteItemCommand
+                                            }" 
+                                            CommandParameter="{Binding rf_item_id}">
+                                            <materialDesign:PackIcon 
+                                                Kind="Trash" 
                                                 VerticalContentAlignment="Center"
                                                 HorizontalContentAlignment="Center"
                                                 VerticalAlignment="Center" 
@@ -328,7 +354,7 @@
                     Width="100" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
-                    Command="{Binding Save}">
+                    Command="{Binding SaveCommand}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 
                             Kind="ContentSave" 

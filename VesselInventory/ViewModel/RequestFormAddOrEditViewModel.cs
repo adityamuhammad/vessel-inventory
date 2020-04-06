@@ -12,6 +12,8 @@ using ToastNotifications.Messages;
 using VesselInventory.Views;
 using VesselInventory.Services;
 using VesselInventory.Commons.HelperFunctions;
+using VesselInventory.Commons;
+using System.Windows;
 
 namespace VesselInventory.ViewModel
 {
@@ -19,15 +21,17 @@ namespace VesselInventory.ViewModel
     {
         private RequestFormShipBargeDTO _requestFormShipBargeDTO;
         private RequestForm _requestForm = new RequestForm();
+        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IParentLoadable _parentLoadable;
         private readonly IWindowService _windowService;
 
-        public RelayCommand<IClosable> Close { get; private set; }
-        public RelayCommand Save { get; private set; }
-        public RelayCommand AddOrEditItem { get; private set; }
+        public RelayCommand<IClosable> CloseCommand { get; private set; }
+        public RelayCommand SaveCommand { get; private set; }
+        public RelayCommand AddOrEditItemCommand { get; private set; }
+        public RelayCommand DeleteItemCommand { get; private set; }
 
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
@@ -37,7 +41,7 @@ namespace VesselInventory.ViewModel
             _requestFormRepository = new RequestFormRepository();
             _requestFormItemRepository = new RequestFormItemRepository();
 
-            SetCommands();
+            InitializeCommands();
 
             LoadDepartmentList();
             LoadAttributes(rf_id_params);
@@ -45,23 +49,14 @@ namespace VesselInventory.ViewModel
                 LoadGrid();
         }
 
-        private void SetCommands()
+        private void InitializeCommands()
         {
-            Close = new RelayCommand<IClosable>(CloseAction);
-            Save = new RelayCommand(SaveAction, IsSaveCanExecute);
-            AddOrEditItem = new RelayCommand(AddOrEditItemAction);
+            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
+            SaveCommand = new RelayCommand(SaveAction, IsSaveCanExecute);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItem);
+            DeleteItemCommand = new RelayCommand(DeleteItem);
         }
 
-        private ObservableCollection<string> _departmentList = new ObservableCollection<string>();
-        public ObservableCollection<string> DepartmentList
-        {
-            get => _departmentList;
-            set
-            {
-                _departmentList = value;
-                OnPropertyChanged("DepartmentList");
-            }
-        }
 
         #region
         public int barge_id { get; set; }
@@ -230,21 +225,21 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<RequestFormItem> RfItemList { get; set; } = new ObservableCollection<RequestFormItem>();
+        public ObservableCollection<string> DepartmentCollection { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } = new ObservableCollection<RequestFormItem>();
         #endregion
 
         private void LoadDepartmentList()
         {
-            foreach(var department in DataHelper.GetLookupValues("DEPARTMENT") ) {
-                _departmentList.Add(department.description);
-            }
+            foreach(var department in DataHelper.GetLookupValues("DEPARTMENT"))
+                DepartmentCollection.Add(department.description);
         }
         
         public void LoadGrid()
         {
-            RfItemList.Clear();
+            RequestFormItemCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
-                RfItemList.Add(_);
+                RequestFormItemCollection.Add(_);
         }
 
         private void LoadAttributes(int rf_id_params)
@@ -266,7 +261,7 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = false;
                 IsVisibleBargeCheck = true;
 
-                _requestForm.department_name = DepartmentList.First();
+                _requestForm.department_name = DepartmentCollection.First();
                 _requestForm.target_delivery_date = DateTime.Now;
 
                 _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
@@ -284,18 +279,14 @@ namespace VesselInventory.ViewModel
         private void SaveAction(object parameter)
         {
             if (rf_id == 0)
-            {
-                _requestForm.created_by = "Aditya";
                 _requestForm = _requestFormRepository.SaveRequestForm(_requestForm);
-            } else
-            {
+            else
                 _requestForm = _requestFormRepository.UpdateRequestForm(rf_id, _requestForm);
-            }
+
             IsVisibleButtonSave = false;
             IsVisibleButtonUpdate = true;
             IsItemEnabled = true;
-            Notifier toasMessage = ToastNotification.Instance.GetInstance();
-            toasMessage.ShowSuccess("Data saved successfully.");
+            _toasMessage.ShowSuccess("Data saved successfully.");
 
             _parentLoadable.LoadGrid();
         }
@@ -311,7 +302,7 @@ namespace VesselInventory.ViewModel
         }
 
 
-        private void AddOrEditItemAction(object parameter)
+        private void AddOrEditItem(object parameter)
         {
             if (parameter != null)
                 _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
@@ -321,10 +312,20 @@ namespace VesselInventory.ViewModel
                     (new RequestFormItemAddOrEditViewModel(this,rf_id));
         }
 
-        private void CloseAction(IClosable window)
+        private void CloseWindow(IClosable window)
         {
             if (window != null)
                 window.Close();
+        }
+
+        private void DeleteItem(object parameter)
+        {
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation", "Are you sure?");
+            if (confirmDialog == MessageBoxResult.No)
+                return;
+            _requestFormItemRepository.Delete(int.Parse(parameter.ToString()));
+            _toasMessage.ShowSuccess("Data deleted successfully.");
+            LoadGrid();
         }
     }
 }

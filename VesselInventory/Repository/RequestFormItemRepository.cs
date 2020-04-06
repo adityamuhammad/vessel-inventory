@@ -9,8 +9,11 @@ namespace VesselInventory.Repository
     public interface IRequestFormItemRepository
     {
         RequestFormItem FindById(int id);
-        RequestFormItem Save(RequestFormItem rFItem);
-        RequestFormItem Update(int id, RequestFormItem rFItem);
+        RequestFormItem Save(RequestFormItem requestFormItem);
+        RequestFormItem Update(int id, RequestFormItem requestFormItem);
+
+        int Delete(int id) ;
+
         IEnumerable<RequestFormItem> GetRFItemList(int rf_id);
         IEnumerable<ItemStatusDTO> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
         int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
@@ -109,6 +112,17 @@ namespace VesselInventory.Repository
                         rf_number,
                         rows.ToString(),
                     }).Single();
+            }
+        }
+
+        public override int Delete(int id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                var current = context.rf_item.Find(id);
+                current.is_hidden = true;
+                context.SaveChanges();
+                return 1;
             }
         }
     }

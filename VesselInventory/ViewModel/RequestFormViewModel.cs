@@ -12,7 +12,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
-        public RelayCommand SwitchTab { get; private set; }
+        public RelayCommand SwitchTabCommand { get; private set; }
 
         private IWindowService _windowService;
         private IRequestFormRepository _requestFormRepository;
@@ -21,17 +21,17 @@ namespace VesselInventory.ViewModel
         {
             _windowService = new WindowService();
             _requestFormRepository = new RequestFormRepository();
-            SetCommands();
+            InitializeCommands();
             CurrentPage = 1;
             LoadGrid();
         }
 
-        private void SetCommands()
+        private void InitializeCommands()
         {
             NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
             PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
             OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
-            SwitchTab = new RelayCommand(SwitchTabAction);
+            SwitchTabCommand = new RelayCommand(SwitchTabAction);
         }
 
         void UpdateTotalPage()

@@ -69,5 +69,7 @@ namespace VesselInventory.Models
 
         [StringLength(30)]
         public string last_modified_by { get; set; }
+
+        public bool is_hidden { get; set; } = false;
     }
 }

@@ -41,7 +41,7 @@
                 Background="White" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=AddOrEditItem}" 
-                Command="{Binding Close,Mode=OneWay}" 
+                Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
                     Kind="Close" 
@@ -68,7 +68,7 @@
                             Binding IsVisibleListBoxItem, 
                             Converter={StaticResource BoolToVisibilityCollapsed} 
                         }">
-                        <ListBox ItemsSource="{Binding Items}" HorizontalAlignment="Left" Width="650" MaxHeight="200">
+                        <ListBox ItemsSource="{Binding ItemCollection}" HorizontalAlignment="Left" Width="650" MaxHeight="200">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock>
@@ -91,7 +91,7 @@
                             <ie:Interaction.Triggers>
                                 <ie:EventTrigger EventName="SelectionChanged">
                                     <ie:InvokeCommandAction 
-                                        Command="{Binding ListBoxChanged}" 
+                                        Command="{Binding ListBoxChangedCommand}" 
                                         CommandParameter="{
                                             Binding Path=SelectedItem, 
                                             RelativeSource={
@@ -206,14 +206,14 @@
                         <ComboBox 
                             Margin="10,8,0,0" 
                             HorizontalAlignment="Left" 
-                            ItemsSource="{Binding ReasonList}" 
+                            ItemsSource="{Binding ReasonCollection}" 
                             SelectedItem="{Binding reason}" 
                             Width="120"
                         />
                         <ComboBox 
                             Margin="10,8,0,0" 
                             HorizontalAlignment="Left" 
-                            ItemsSource="{Binding PriorityList}" 
+                            ItemsSource="{Binding PriorityCollection}" 
                             SelectedItem="{Binding priority}" 
                             Width="120"
                         />
@@ -235,7 +235,7 @@
                             IsReadOnly="True"
                         />
                         <Button 
-                            Command="{Binding OpenFileDialog}"
+                            Command="{Binding OpenFileDialogCommand}"
                             Margin="10,8,0,0"
                             Width="120"
                             Height="20"
@@ -273,7 +273,7 @@
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
                     CommandParameter="{Binding ElementName=AddOrEditItem}" 
-                    Command="{Binding Save,Mode=OneWay}" 
+                    Command="{Binding SaveCommand,Mode=OneWay}" 
                     >
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 

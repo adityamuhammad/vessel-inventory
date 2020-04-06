@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -21,7 +18,7 @@ namespace VesselInventory.Repository
 
     public abstract class Repository<T> : IRepository<T> where T : class
     {
-        public IEnumerable<T> FindAll()
+        public virtual IEnumerable<T> FindAll()
         {
             using (var context = new VesselInventoryContext())
             {
@@ -29,7 +26,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -37,7 +34,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public T Save(T entity)
+        public virtual T Save(T entity)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -47,7 +44,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public T FindById(int id)
+        public virtual T FindById(int id)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -56,7 +53,7 @@ namespace VesselInventory.Repository
 
         }
 
-        public T Update(int id, T entity)
+        public virtual T Update(int id, T entity)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -74,7 +71,7 @@ namespace VesselInventory.Repository
 
         }
 
-        public int Delete(int id)
+        public virtual int Delete(int id)
         {
             using (var context = new VesselInventoryContext())
             {
