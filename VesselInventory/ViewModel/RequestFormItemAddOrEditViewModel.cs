@@ -59,7 +59,7 @@ namespace VesselInventory.ViewModel
         }
 
         #region
-        public int? rf_id
+        public int rf_id
         {
             get => _requestFormItem.rf_id;
             set
@@ -92,7 +92,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public int? item_id
+        public int item_id
         {
             get => _requestFormItem.item_id;
             set
@@ -173,9 +173,9 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required(ErrorMessage ="Qty cannot be empty")]
-        [RegularExpression(@"^[0-9]*$",ErrorMessage ="Invalid Format")]
-        public decimal? qty
+        [Required(ErrorMessage = "Qty cannot be empty")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Invalid Format")]
+        public decimal qty
         {
             get => _requestFormItem.qty;
             set

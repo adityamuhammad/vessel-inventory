@@ -6,7 +6,7 @@ namespace VesselInventory.Commons
     {
         public static MessageBoxResult DialogConfirmation(string title, string description)
         {
-            return MessageBox.Show(title, description, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            return MessageBox.Show(description,title, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
         }
     }
 }

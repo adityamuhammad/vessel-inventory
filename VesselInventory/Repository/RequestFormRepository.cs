@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using VesselInventory.Commons.Enums;
 using VesselInventory.DTO;
 using VesselInventory.Models;
 
@@ -12,7 +13,9 @@ namespace VesselInventory.Repository
         int GetRequestFormTotalPage(string search, int rows = 10);
         RequestFormShipBargeDTO GetRrequestFormShipBarge();
         RequestForm SaveRequestForm(RequestForm rf);
-        RequestForm UpdateRequestForm(int id, RequestForm rfEntity);
+        RequestForm UpdateRequestForm(int id, RequestForm requestForm);
+
+        int Release(int id);
         RequestForm FindById(int id);
     }
     public class RequestFormRepository : Repository<RequestForm>, IRequestFormRepository
@@ -68,6 +71,17 @@ namespace VesselInventory.Repository
                 return context.Database.SqlQuery<RequestFormShipBargeDTO>(
                     "usp_RequestForm_GetRequestFormShipBarge"
                 ).Single();
+            }
+        }
+
+        public int Release(int id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                var requestForm = context.rfs.Find(id);
+                requestForm.status = Status.RELEASE.GetDescription();
+                context.SaveChanges();
+                return 1;
             }
         }
     }

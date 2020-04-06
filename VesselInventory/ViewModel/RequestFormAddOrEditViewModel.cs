@@ -14,6 +14,7 @@ using VesselInventory.Services;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Commons;
 using System.Windows;
+using VesselInventory.Commons.Enums;
 
 namespace VesselInventory.ViewModel
 {
@@ -32,6 +33,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
+        public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
@@ -53,12 +55,14 @@ namespace VesselInventory.ViewModel
         {
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
             SaveCommand = new RelayCommand(SaveAction, IsSaveCanExecute);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItem);
-            DeleteItemCommand = new RelayCommand(DeleteItem);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItem,IsCanExecuteAddOrEditItem);
+            DeleteItemCommand = new RelayCommand(DeleteItem,IsCanExecuteDeleteItem);
+            ReleaseCommand = new RelayCommand<IClosable>(Release,IsReleaseCanExecute);
         }
 
 
         #region
+        public string status => _requestForm.status;
         public int barge_id { get; set; }
         public string barge_name { get; set; }
         public string ship_code { get; set; }
@@ -74,6 +78,7 @@ namespace VesselInventory.ViewModel
             get => _requestForm.rf_id;
             set => _requestForm.rf_id = value;
         }
+
         public string rf_number
         {
             get => _requestForm.rf_number;
@@ -100,6 +105,16 @@ namespace VesselInventory.ViewModel
             {
                 _requestForm.project_number = value;
                 OnPropertyChanged("project_number");
+            }
+        }
+
+        public bool IsReleased
+        {
+            get
+            {
+                if (status == Status.RELEASE.GetDescription())
+                    return true;
+                return false;
             }
         }
 
@@ -144,6 +159,18 @@ namespace VesselInventory.ViewModel
         #region
         public override string Title { get; set; }
 
+        private bool _IsVisibleButtonRelease;
+        public bool IsVisibleButtonRelease
+        {
+            get => _IsVisibleButtonRelease;
+            set
+            {
+                if  (_IsVisibleButtonRelease == value)
+                    return;
+                _IsVisibleButtonRelease = value;
+                OnPropertyChanged("IsVisibleButtonRelease");
+            }
+        }
         private bool _IsVisibleButtonUpdate;
         public bool IsVisibleButtonUpdate
         {
@@ -240,6 +267,7 @@ namespace VesselInventory.ViewModel
             RequestFormItemCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
                 RequestFormItemCollection.Add(_);
+            TotalItem = RequestFormItemCollection.Count;
         }
 
         private void LoadAttributes(int rf_id_params)
@@ -248,6 +276,7 @@ namespace VesselInventory.ViewModel
             {
                 Title = "Edit Request Form";
                 IsVisibleButtonUpdate = true;
+                IsVisibleButtonRelease = true;
                 IsVisibleButtonSave = false;
                 IsItemEnabled = true;
                 IsVisibleBargeCheck = false;
@@ -258,6 +287,7 @@ namespace VesselInventory.ViewModel
                 Title = "Add Request Form";
                 IsVisibleButtonSave = true;
                 IsVisibleButtonUpdate = false;
+                IsVisibleButtonRelease = false;
                 IsItemEnabled = false;
                 IsVisibleBargeCheck = true;
 
@@ -285,6 +315,7 @@ namespace VesselInventory.ViewModel
 
             IsVisibleButtonSave = false;
             IsVisibleButtonUpdate = true;
+            IsVisibleButtonRelease = true;
             IsItemEnabled = true;
             _toasMessage.ShowSuccess("Data saved successfully.");
 
@@ -292,13 +323,10 @@ namespace VesselInventory.ViewModel
         }
         private bool IsSaveCanExecute(object parameter)
         {
-            if (project_number == string.Empty)
+            if (string.IsNullOrWhiteSpace(project_number))
                 return false;
-            if (project_number is null)
-                return false;
-            if(project_number.Trim().Length < 0)
-                return false;
-            return true;
+
+            return IsReleasedCanExecute();
         }
 
 
@@ -318,6 +346,17 @@ namespace VesselInventory.ViewModel
                 window.Close();
         }
 
+        private int _totalItem = 0;
+        public int TotalItem
+        {
+            get => _totalItem;
+            set
+            {
+                _totalItem = value;
+                OnPropertyChanged("TotalItem");
+            }
+        }
+
         private void DeleteItem(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation", "Are you sure?");
@@ -326,6 +365,41 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository.Delete(int.Parse(parameter.ToString()));
             _toasMessage.ShowSuccess("Data deleted successfully.");
             LoadGrid();
+        }
+
+        private void Release(IClosable window)
+        {
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Release Confirmation", "Are you sure?");
+            if (confirmDialog == MessageBoxResult.No)
+                return;
+
+            _requestFormRepository.Release(rf_id);
+            _toasMessage.ShowSuccess("Release successfully to process.");
+            _parentLoadable.LoadGrid();
+
+            if (window != null)
+                window.Close();
+        }
+
+        private bool IsReleaseCanExecute(object parameter)
+        {
+            return IsReleasedCanExecute();
+        }
+
+        private bool IsCanExecuteAddOrEditItem(object parameter)
+        {
+            return IsReleasedCanExecute();
+        }
+        private bool IsCanExecuteDeleteItem(object parameter)
+        {
+            return IsReleasedCanExecute();
+        }
+
+        private bool IsReleasedCanExecute()
+        {
+            if (IsReleased)
+                return false;
+            return true;
         }
     }
 }

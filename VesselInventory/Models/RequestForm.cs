@@ -50,7 +50,7 @@ namespace VesselInventory.Models
         public DateTime? created_date { get; set; }
 
         [StringLength(30)]
-        public string created_by { get; set; }
+        public string created_by { get; set; } = "Aditya";
 
         public DateTime? last_modified_date { get; set; }
 

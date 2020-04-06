@@ -13,9 +13,9 @@ namespace VesselInventory.Models
         [Key]
         public int rf_item_id { get; set; }
 
-        public int? rf_id { get; set; }
+        public int rf_id { get; set; }
 
-        public int? item_id { get; set; }
+        public int item_id { get; set; }
 
         [StringLength(50)]
         public string item_name { get; set; }
@@ -37,7 +37,8 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string color_size_name { get; set; }
 
-        public decimal? qty { get; set; }
+        [Required]
+        public decimal qty { get; set; }
 
         [StringLength(10)]
         public string uom { get; set; }
