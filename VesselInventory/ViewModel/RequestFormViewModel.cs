@@ -14,8 +14,8 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
         public RelayCommand SwitchTabCommand { get; private set; }
 
-        private IWindowService _windowService;
-        private IRequestFormRepository _requestFormRepository;
+        private readonly IWindowService _windowService;
+        private readonly IRequestFormRepository _requestFormRepository;
 
         public RequestFormViewModel()
         {

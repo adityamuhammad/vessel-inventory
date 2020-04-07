@@ -8,13 +8,13 @@ using VesselInventory.DTO;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
-using ToastNotifications.Messages;
 using VesselInventory.Views;
 using VesselInventory.Services;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Commons;
 using System.Windows;
 using VesselInventory.Commons.Enums;
+using ToastNotifications.Messages;
 
 namespace VesselInventory.ViewModel
 {
@@ -47,6 +47,7 @@ namespace VesselInventory.ViewModel
 
             LoadDepartmentList();
             LoadAttributes(rf_id_params);
+
             if (rf_id_params != 0)
                 LoadGrid();
         }
@@ -59,7 +60,6 @@ namespace VesselInventory.ViewModel
             DeleteItemCommand = new RelayCommand(DeleteItem,IsCanExecuteDeleteItem);
             ReleaseCommand = new RelayCommand<IClosable>(Release,IsReleaseCanExecute);
         }
-
 
         #region
         public string status => _requestForm.status;
@@ -252,8 +252,10 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<string> DepartmentCollection { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } = new ObservableCollection<RequestFormItem>();
+        public ObservableCollection<string> DepartmentCollection { get; set; } 
+            = new ObservableCollection<string>();
+        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
+            = new ObservableCollection<RequestFormItem>();
         #endregion
 
         private void LoadDepartmentList()
@@ -311,7 +313,7 @@ namespace VesselInventory.ViewModel
             if (rf_id == 0)
                 _requestForm = _requestFormRepository.SaveRequestForm(_requestForm);
             else
-                _requestForm = _requestFormRepository.UpdateRequestForm(rf_id, _requestForm);
+                _requestForm = _requestFormRepository.Update(rf_id, _requestForm);
 
             IsVisibleButtonSave = false;
             IsVisibleButtonUpdate = true;
@@ -359,7 +361,7 @@ namespace VesselInventory.ViewModel
 
         private void DeleteItem(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation", "Are you sure?");
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Are you sure?", "Delete Confirmation");
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormItemRepository.Delete(int.Parse(parameter.ToString()));

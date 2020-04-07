@@ -109,7 +109,7 @@
                                                     x:Type DataGrid
                                                 },
                                             Mode=FindAncestor},
-                                            Path=DataContext.UploadDocumentFormCommands
+                                            Path=DataContext.UploadDocumentFormCommand
                                         }" 
                                         CommandParameter="{Binding rf_item_id}">
                                         <materialDesign:PackIcon 

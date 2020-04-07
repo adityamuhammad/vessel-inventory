@@ -4,9 +4,248 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VesselInventory.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:VesselInventory.Converters"
         mc:Ignorable="d"
-        Title="VesselGoodReceive_AddOrEditView" Height="450" Width="800">
+        Title="VesselGoodReceive_AddOrEditView" 
+        Height="450" 
+        Width="800"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Window.Resources>
     <Grid>
-        <TextBox Text=""/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid Margin="20">
+                <StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Margin="0,5,0,0" Width="130" Text="Put Cursor Here To Scan"/>
+                        <TextBox Margin="20,0,0,0" Width="100" Text="{Binding TextScann,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Margin="0,5" Width="130" Text="Vessel GRN"/>
+                        <TextBox IsEnabled="False" Margin="20,0,0,0" Width="100" Text="{Binding vessel_good_receive_number,Mode=OneTime}"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Margin="0,10" Width="130" Text="Receive Date"/>
+                        <DatePicker
+                            Margin="20,5" 
+                            SelectedDate="{Binding vessel_good_receive_date}" 
+                            HorizontalAlignment="Left">
+                        </DatePicker>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid Margin="20">
+                <StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <TextBlock Width="130" Margin="0,5,0,0" Text="Office GIN"/>
+                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding good_issued_number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="130" Margin="0,5,0,0" Text="Vessel ID / Code / Name"/>
+                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding ship_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="130" Margin="0,5,0,0" Text="Barge ID / Code/ Name"/>
+                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding barge_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <StackPanel>
+
+            </StackPanel>
+            <StackPanel 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom">
+                <Button 
+                    Margin="0,10" 
+                    HorizontalAlignment="Center" 
+                    Width="100" 
+                    Background="#FF4E5FBF" 
+                    BorderBrush="#FF508B3A" 
+                    Command="{Binding SaveCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon 
+                            Kind="ContentSave" 
+                            Foreground="White"/>
+                        <TextBlock Text="Save"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid 
+            Grid.ColumnSpan="2" 
+            Grid.Row="0" 
+            VerticalAlignment="Bottom">
+            <Separator 
+                Margin="0"
+                Background="LightGray" 
+                VerticalAlignment="Top">
+            </Separator>
+        </Grid>
+        <Grid 
+            Grid.Row="1" 
+            Grid.ColumnSpan="2" 
+            IsEnabled="{
+                Binding IsItemEnabled,
+                Mode=TwoWay,
+                UpdateSourceTrigger=PropertyChanged
+            }">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button 
+                        Margin="40,10,0,10" 
+                        HorizontalAlignment="Left" 
+                        Width="135" 
+                        Background="#FFDED633" 
+                        BorderBrush="{x:Null}"
+                        Height="23"
+                        Command="{Binding AddOrEditItemCommand}"
+                        >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                Kind="PlusBox" 
+                                FontSize="5"
+                                Foreground="White"/>
+                            <TextBlock FontSize="10" Text="Add Rejected Item"/>
+                        </StackPanel>
+                    </Button>
+                    <TextBlock 
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="20,0,20,0" 
+                        Text="{
+                            Binding TotalItem,
+                            UpdateSourceTrigger=PropertyChanged, 
+                        StringFormat={}Total Item {0}}"
+                        />
+                </StackPanel>
+                <DataGrid 
+                    Margin="20,0,20,0" 
+                    ItemsSource="{
+                        Binding RequestFormItemCollection,
+                        Mode=OneWay,UpdateSourceTrigger=PropertyChanged
+                    }" 
+                    RowStyle="{StaticResource DataGridRowMedium}"
+                    MaxHeight="180"
+                    IsReadOnly="True" 
+                    CanUserAddRows="False" 
+                    HorizontalScrollBarVisibility="Auto"
+                    AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding item_id}"/>
+                        <DataGridTemplateColumn Width="1.2*">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Item Desctiption"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} {1} {2} - {3} {4} ">
+                                                <Binding Path="item_name"/>
+                                                <Binding Path="brand_type_id"/>
+                                                <Binding Path="brand_type_name"/>
+                                                <Binding Path="color_size_name"/>
+                                                <Binding Path="color_size_name"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
+                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
+                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
+                        <DataGridTemplateColumn Width="auto">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <materialDesign:PackIcon  Kind="TableSettings"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button 
+                                            BorderBrush="#FF4E5FBF" 
+                                            Background="White" 
+                                            Foreground="#FF4E5FBF" 
+                                            Height="20"
+                                            Width="40"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{
+                                                Binding RelativeSource={
+                                                    RelativeSource AncestorType={
+                                                        x:Type DataGrid
+                                                    },
+                                                Mode=FindAncestor},
+                                                Path=DataContext.AddOrEditItemCommand
+                                            }" 
+                                            CommandParameter="{Binding rf_item_id}">
+                                            <materialDesign:PackIcon 
+                                                Kind="Edit" 
+                                                VerticalContentAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"/>
+                                        </Button>
+                                        <Button 
+                                            BorderBrush="#FFD41E1E" 
+                                            Background="White" 
+                                            Foreground="#FFD41E1E" 
+                                            Height="20"
+                                            Width="40"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{
+                                                Binding RelativeSource={
+                                                    RelativeSource AncestorType={
+                                                        x:Type DataGrid
+                                                    },
+                                                Mode=FindAncestor},
+                                                Path=DataContext.DeleteItemCommand
+                                            }" 
+                                            CommandParameter="{Binding rf_item_id}">
+                                            <materialDesign:PackIcon 
+                                                Kind="Trash" 
+                                                VerticalContentAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
     </Grid>
-</Window>
+</Window> 

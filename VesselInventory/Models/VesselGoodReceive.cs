@@ -22,15 +22,17 @@ namespace VesselInventory.Models
         public string good_issued_number { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime vessel_good_receive_date { get; set; }
+        public DateTime vessel_good_receive_date { get; set; } = DateTime.Now;
 
         public int ship_id { get; set; }
 
         [Required]
         [StringLength(30)]
         public string ship_name { get; set; }
+        public string ship_code { get; set; }
 
         public int barge_id { get; set; }
+        public string barge_code { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -40,7 +42,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(30)]
-        public string created_by { get; set; }
+        public string created_by { get; set; } = "Aditya";
 
         public DateTime? last_modified_date { get; set; }
 
@@ -50,5 +52,6 @@ namespace VesselInventory.Models
         [Required]
         [StringLength(10)]
         public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
+        public bool is_hidden { get; set; } = false;
     }
 }

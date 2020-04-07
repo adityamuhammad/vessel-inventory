@@ -29,5 +29,23 @@ namespace VesselInventory.Commons.HelperFunctions
                     }).ToList();
             }
         }
+
+        public static ShipBargeDTO GetShipBargeApairs()
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                return context.Database.SqlQuery<ShipBargeDTO>("usp_Generic_GetCurrentShipBargeApairs").Single();
+            }
+        }
+
+        public static string GetSequenceNumber(int sequence_id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                return context.Database.SqlQuery<string>("usp_DocSequence_GetSequenceNumber @p0", 
+                        parameters:  sequence_id.ToString() 
+                    ).Single();
+            }
+        }
     }
 }

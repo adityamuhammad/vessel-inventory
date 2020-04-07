@@ -9,7 +9,12 @@
         xmlns:converters="clr-namespace:VesselInventory.Converters"
         xmlns:views="clr-namespace:VesselInventory.Views"
         mc:Ignorable="d"
-        Title="Vessel Inventory Logistics" Height="550" Width="1080" WindowStartupLocation="CenterScreen">
+        Title="Vessel Inventory Logistics" 
+        Height="550" 
+        Width="1080" 
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        >
 
     <Window.Resources>
 
@@ -131,7 +136,7 @@
                             <TextBlock 
                                 VerticalAlignment="Center" 
                                 Foreground="White" 
-                                Text="Request Form" 
+                                Text="Request Goods" 
                                 Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
@@ -140,12 +145,12 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="InboxArrowDown" 
+                                Kind="BookPlus" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
                                 Foreground="White" 
-                                Text="Received Form" 
+                                Text="Received Goods" 
                                 Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
@@ -154,12 +159,26 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="AssignmentLate" 
+                                Kind="BookMinus" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
                                 Foreground="White" 
-                                Text="Issued Form" 
+                                Text="Issued Goods" 
+                                Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem Height="55">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon 
+                                Margin="5" 
+                                Foreground="White" 
+                                Kind="BookMinusMultiple" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock 
+                                VerticalAlignment="Center" 
+                                Foreground="White" 
+                                Text="Return Goods" 
                                 Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>

@@ -17,9 +17,7 @@ namespace VesselInventory.ViewModel
 
         public VesselGoodReceiveViewModel()
         {
-            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
-            OpenDialogReceiveCommand = new RelayCommand(Receive);
+            InitializeCommands();
 
             _vesselGoodReceiveRepository = new VesselGoodReceiveRepository();
             _windowService = new WindowService();
@@ -27,7 +25,15 @@ namespace VesselInventory.ViewModel
             LoadGrid();
         }
 
-        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } = new ObservableCollection<VesselGoodReceive>();
+        private void InitializeCommands()
+        {
+            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
+            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
+            OpenDialogReceiveCommand = new RelayCommand(Receive);
+        }
+
+        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
+            = new ObservableCollection<VesselGoodReceive>();
         private string _searchKeyword = string.Empty;
         public string SearchKeyword
         {
@@ -102,8 +108,12 @@ namespace VesselInventory.ViewModel
 
         public void Receive(object parameter)
         {
-            _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                (new VesselGoodReceiveAddOrEditViewModel());
+            if(parameter is null)
+                _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
+                    (new VesselGoodReceiveAddOrEditViewModel(this));
+            else
+                _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
+                    (new VesselGoodReceiveAddOrEditViewModel(this,int.Parse(parameter.ToString())));
         }
     }
 }

@@ -25,12 +25,6 @@ namespace VesselInventory.Repository
     {
         public RequestFormItemRepository() { }
 
-        public new RequestFormItem FindById(int id) => base.FindById(id);
-
-        public new RequestFormItem Save(RequestFormItem rFItem) => base.Save(rFItem);
-
-        public new RequestFormItem Update(int id, RequestFormItem rFItem) => base.Update(id, rFItem);
-
         public IEnumerable<RequestFormItem> GetRFItemList(int rf_id)
         {
             using (var context = new VesselInventoryContext())

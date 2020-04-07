@@ -23,5 +23,6 @@ namespace VesselInventory.Views
         {
             InitializeComponent();
         }
+
     }
 }

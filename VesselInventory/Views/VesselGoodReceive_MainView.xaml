@@ -29,7 +29,7 @@
                 Command="{Binding OpenDialogReceiveCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
-                    <TextBlock Text="Add Receive"/>
+                    <TextBlock Text="Receive"/>
                 </StackPanel>
             </Button>
             <TextBlock 
@@ -96,7 +96,7 @@
                                                     x:Type DataGrid
                                                 },
                                             Mode=FindAncestor},
-                                            Path=DataContext.OpenDialogRequestFormCommand
+                                            Path=DataContext.OpenDialogReceiveCommand
                                         }" 
                                         CommandParameter="{Binding vessel_good_receive_id}">
                                         <materialDesign:PackIcon 

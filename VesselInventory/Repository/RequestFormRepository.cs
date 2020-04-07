@@ -4,6 +4,7 @@ using System.Linq;
 using VesselInventory.Commons.Enums;
 using VesselInventory.DTO;
 using VesselInventory.Models;
+using System.Transactions;
 
 namespace VesselInventory.Repository
 {
@@ -12,8 +13,8 @@ namespace VesselInventory.Repository
         IEnumerable<RequestForm> GetRequestFormList(string search, int page, int rows = 10);
         int GetRequestFormTotalPage(string search, int rows = 10);
         RequestFormShipBargeDTO GetRrequestFormShipBarge();
-        RequestForm SaveRequestForm(RequestForm rf);
-        RequestForm UpdateRequestForm(int id, RequestForm requestForm);
+        RequestForm SaveRequestForm(RequestForm requestForm);
+        RequestForm Update(int id, RequestForm requestForm);
 
         int Release(int id);
         RequestForm FindById(int id);
@@ -21,17 +22,19 @@ namespace VesselInventory.Repository
     public class RequestFormRepository : Repository<RequestForm>, IRequestFormRepository
     {
         public RequestFormRepository() { }
-        public new RequestForm FindById(int id) => base.FindById(id);
-        public RequestForm UpdateRequestForm(int id, RequestForm rfEntity) => base.Update(id, rfEntity);
 
         public RequestForm SaveRequestForm(RequestForm rf)
         {
-            base.Save(rf);
-            using (var context = new VesselInventoryContext())
+            using (var scope = new TransactionScope())
             {
-                context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 1");
+                base.Save(rf);
+                using (var context = new VesselInventoryContext())
+                {
+                    context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 1");
+                }
+                scope.Complete();
+                return rf;
             }
-            return rf;
         }
 
         public IEnumerable<RequestForm> GetRequestFormList(string search = "",int page = 1,int rows = 10)

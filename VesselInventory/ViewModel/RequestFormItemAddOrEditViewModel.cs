@@ -9,6 +9,7 @@ using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
+using System;
 
 namespace VesselInventory.ViewModel
 {
@@ -310,17 +311,24 @@ namespace VesselInventory.ViewModel
         }
         private void SaveAction(IClosable window)
         {
-            Upload();
-            if (rf_item_id == 0)
-                _requestFormItemRepository.Save(_requestFormItem);
-            else
-                _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
+            try
+            {
+                Upload();
+                if (rf_item_id == 0)
+                    _requestFormItemRepository.Save(_requestFormItem);
+                else
+                    _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
 
-            _parentLoadable.LoadGrid();
-            _toasMessage.ShowSuccess("Data saved successfully.");
+                _parentLoadable.LoadGrid();
+                _toasMessage.ShowSuccess("Data saved successfully.");
 
-            if (window != null)
-                window.Close();
+                if (window != null)
+                    window.Close();
+
+            } catch (Exception ex)
+            {
+                _toasMessage.ShowError("Something went wrong : " + ex.Message.ToString());
+            }
         }
 
         private bool IsCanSave(object parameter)

@@ -79,6 +79,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -122,6 +123,7 @@
     <Compile Include="DTO\RequestFormShipBargeDTO.cs" />
     <Compile Include="Commons\Enums.cs" />
     <Compile Include="Commons\DataHelper.cs" />
+    <Compile Include="DTO\ShipBargeDTO.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\LookupValue.cs" />
     <Compile Include="Models\RequestForm.cs" />
