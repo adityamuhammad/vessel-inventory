@@ -68,7 +68,7 @@
                             Binding IsVisibleListBoxItem, 
                             Converter={StaticResource BoolToVisibilityCollapsed} 
                         }">
-                        <ListBox ItemsSource="{Binding ItemCollection}" HorizontalAlignment="Left" Width="650" MaxHeight="200">
+                        <ListBox ItemsSource="{Binding ItemCollection}" HorizontalAlignment="Left" Width="590" MaxHeight="200">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock>

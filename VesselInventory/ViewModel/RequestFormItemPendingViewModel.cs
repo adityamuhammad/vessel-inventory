@@ -129,7 +129,7 @@ namespace VesselInventory.ViewModel
         private void OnOpenUploadDocumentForm(object parameter)
         {
             _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
-                (new RequestFormItemUploadDocument(this,int.Parse(parameter.ToString())));
+                (new RequestFormItemUploadDocument(this,(int)parameter));
         }
     }
 }

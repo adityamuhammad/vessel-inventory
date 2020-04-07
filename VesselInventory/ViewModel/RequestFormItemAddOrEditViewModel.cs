@@ -31,21 +31,18 @@ namespace VesselInventory.ViewModel
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id) : this(parentLoadable, rf_id, 0) { }
         public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int _rf_id, int rf_item_id)
         {
+            InitializeCommands();
+
             _parentLoadable = parentLoadable;
             _uploadService = new UploadService();
             _iOService = new OpenPdfFileDialog();
             _requestFormItemRepository = new RequestFormItemRepository();
 
-            InitializeCommands();
-
-            IsVisibleListBoxItem = false;
             LoadPriority();
             LoadReason();
             LoadItem();
 
             rf_id = _rf_id;
-            reason = ReasonCollection.First();
-            priority = PriorityCollection.First();
 
             if (rf_item_id != 0)
                 _requestFormItem = _requestFormItemRepository.FindById(rf_item_id);
@@ -188,7 +185,7 @@ namespace VesselInventory.ViewModel
 
         public string reason
         {
-            get => _requestFormItem.reason;
+            get => (_requestFormItem.reason is null) ? ReasonCollection.First() : _requestFormItem.reason;
             set
             {
                 _requestFormItem.reason = value;
@@ -198,7 +195,7 @@ namespace VesselInventory.ViewModel
 
         public string priority
         {
-            get => _requestFormItem.priority;
+            get => (_requestFormItem.priority is null) ? PriorityCollection.First() : _requestFormItem.priority;
             set
             {
                 _requestFormItem.priority = value;
@@ -321,10 +318,7 @@ namespace VesselInventory.ViewModel
 
                 _parentLoadable.LoadGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
-
-                if (window != null)
-                    window.Close();
-
+                CloseWindow(window);
             } catch (Exception ex)
             {
                 _toasMessage.ShowError("Something went wrong : " + ex.Message.ToString());

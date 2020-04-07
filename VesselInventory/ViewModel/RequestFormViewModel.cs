@@ -22,7 +22,7 @@ namespace VesselInventory.ViewModel
             _windowService = new WindowService();
             _requestFormRepository = new RequestFormRepository();
             InitializeCommands();
-            CurrentPage = 1;
+            ResetCurrentPage();
             LoadGrid();
         }
 
@@ -34,10 +34,6 @@ namespace VesselInventory.ViewModel
             SwitchTabCommand = new RelayCommand(SwitchTabAction);
         }
 
-        void UpdateTotalPage()
-        {
-            TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
-        }
 
         private int _currentPage;
         public int CurrentPage
@@ -69,11 +65,12 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 LoadGrid();
             }
         }
-        public ObservableCollection<RequestForm> RequestFormCollection { get; } = new ObservableCollection<RequestForm>();
+        public ObservableCollection<RequestForm> RequestFormCollection { get; } 
+            = new ObservableCollection<RequestForm>();
 
         public void LoadGrid()
         {
@@ -82,19 +79,25 @@ namespace VesselInventory.ViewModel
                 RequestFormCollection.Add(_);
             UpdateTotalPage();
         }
+
         public void OnOpenRequestForm(object parameter)
         {
             if (parameter  != null)
                 _windowService.ShowWindow<RequestForm_AddOrEditView>
-                    (new RequestFormAddOrEditViewModel(this,int.Parse(parameter.ToString())));
+                    (new RequestFormAddOrEditViewModel(this,(int)parameter));
             else
                 _windowService.ShowWindow<RequestForm_AddOrEditView>
                     (new RequestFormAddOrEditViewModel(this));
         }
 
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void UpdateTotalPage() => TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+
         private void NextPageCommandAction(object parameter)
         {
-            CurrentPage = CurrentPage + 1;
+            IncrementCurrentPage();
             LoadGrid();
         }
 
@@ -106,7 +109,7 @@ namespace VesselInventory.ViewModel
         }
         private void PrevPageCommandAction(object parameter)
         {
-            CurrentPage = CurrentPage - 1;
+            DecrementCurrentPage();
             LoadGrid();
         }
 

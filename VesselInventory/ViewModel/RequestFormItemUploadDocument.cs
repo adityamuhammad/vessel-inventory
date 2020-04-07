@@ -35,7 +35,7 @@ namespace VesselInventory.ViewModel
         {
             OpenFileDialogCommand = new RelayCommand(OpenFile);
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
-            CloseCommand = new RelayCommand<IClosable>(CloseAction);
+            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
 
         public int rf_item_id {
@@ -64,7 +64,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void CloseAction(IClosable window)
+        private void CloseWindow(IClosable window)
         {
             if (window != null)
                 window.Close();
@@ -76,19 +76,23 @@ namespace VesselInventory.ViewModel
                 attachment_local_path = filename;
         }
 
+        private void Upload()
+        {
+            string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
+            _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+            attachment_path = _uploadService.GetUploadedPath();
+        }
+
         private void SaveAction(IClosable window)
         {
             if(attachment_local_path.Trim() != string.Empty)
             {
-                string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
-                _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
-                attachment_path = _uploadService.GetUploadedPath();
+                Upload();
                 _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
                 _parentLoadable.LoadGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
             }
-            if (window != null)
-                window.Close();
+            CloseWindow(window);
             return;
         }
     }
