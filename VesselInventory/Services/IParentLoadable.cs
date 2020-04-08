@@ -8,6 +8,6 @@ namespace VesselInventory.Services
 {
     public interface IParentLoadable
     {
-        void LoadGrid();
+        void LoadDataGrid();
     }
 }

@@ -15,14 +15,15 @@ namespace VesselInventory.ViewModel
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
 
-        public VesselGoodReceiveViewModel()
+        public VesselGoodReceiveViewModel(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
             InitializeCommands();
 
-            _vesselGoodReceiveRepository = new VesselGoodReceiveRepository();
-            _windowService = new WindowService();
+            _windowService = windowService;
+            _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
+
             CurrentPage = 1;
-            LoadGrid();
+            LoadDataGrid();
         }
 
         private void InitializeCommands()
@@ -43,7 +44,7 @@ namespace VesselInventory.ViewModel
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
                 CurrentPage = 1;
-                LoadGrid();
+                LoadDataGrid();
             }
         }
 
@@ -71,7 +72,7 @@ namespace VesselInventory.ViewModel
         private void NextPageCommandAction(object parameter)
         {
             CurrentPage = CurrentPage + 1;
-            LoadGrid();
+            LoadDataGrid();
         }
 
         private bool IsNextPageCanUse(object parameter)
@@ -83,7 +84,7 @@ namespace VesselInventory.ViewModel
         private void PrevPageCommandAction(object parameter)
         {
             CurrentPage = CurrentPage - 1;
-            LoadGrid();
+            LoadDataGrid();
         }
 
         private bool IsPrevPageCanUse(object parameter)
@@ -98,7 +99,7 @@ namespace VesselInventory.ViewModel
             TotalPage = _vesselGoodReceiveRepository.GetGoodReceiveTotalPage(SearchKeyword);
         }
 
-        public void LoadGrid()
+        public void LoadDataGrid()
         {
             VesselGoodReceiveCollection.Clear();
             foreach (var _ in _vesselGoodReceiveRepository.GetGoodReceive(SearchKeyword, CurrentPage))

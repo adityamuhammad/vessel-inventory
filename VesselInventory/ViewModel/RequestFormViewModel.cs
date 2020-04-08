@@ -4,15 +4,16 @@ using VesselInventory.Utility;
 using VesselInventory.Repository;
 using VesselInventory.Views;
 using VesselInventory.Services;
+using Unity;
+using System.Windows;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormViewModel : ViewModelBase, IParentLoadable
+    public class RequestFormViewModel : RequestFormViewModelBase, IParentLoadable
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
-        public RelayCommand SwitchTabCommand { get; private set; }
 
         private readonly IWindowService _windowService;
         private readonly IRequestFormRepository _requestFormRepository;
@@ -23,20 +24,14 @@ namespace VesselInventory.ViewModel
             _requestFormRepository = requestFormRepository;
             InitializeCommands();
             ResetCurrentPage();
-            LoadGrid();
-
-        }
-
-        public RequestFormViewModel()
-        {
+            LoadDataGrid();
         }
 
         private void InitializeCommands()
         {
-            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
-            OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
-            SwitchTabCommand = new RelayCommand(SwitchTabAction);
+            NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
+            PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
+            OpenDialogRequestFormCommand = new RelayCommand(OpenRequestFormAction);
         }
 
         private int _currentPage;
@@ -70,13 +65,13 @@ namespace VesselInventory.ViewModel
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
                 ResetCurrentPage();
-                LoadGrid();
+                LoadDataGrid();
             }
         }
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 
             = new ObservableCollection<RequestForm>();
 
-        public void LoadGrid()
+        public void LoadDataGrid()
         {
             RequestFormCollection.Clear();
             foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage))
@@ -84,7 +79,7 @@ namespace VesselInventory.ViewModel
             UpdateTotalPage();
         }
 
-        public void OnOpenRequestForm(object parameter)
+        public void OpenRequestFormAction(object parameter)
         {
             if (parameter  != null)
                 _windowService.ShowWindow<RequestForm_AddOrEditView>
@@ -96,7 +91,8 @@ namespace VesselInventory.ViewModel
          
         private int GetTotalPage()
         {
-            return _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
+            return _requestFormRepository.
+                GetRequestFormTotalPage(SearchKeyword);
         }
 
         private void ResetCurrentPage() => CurrentPage = 1;
@@ -104,47 +100,29 @@ namespace VesselInventory.ViewModel
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
 
-        private void NextPageCommandAction(object parameter)
+        private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
-            LoadGrid();
+            LoadDataGrid();
         }
 
-        private bool IsNextPageCanUse(object parameter)
+        private bool IsNextPageCanExecute(object parameter)
         {
             if(CurrentPage == TotalPage)
                 return false;
             return true;
         }
-        private void PrevPageCommandAction(object parameter)
+        private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();
-            LoadGrid();
+            LoadDataGrid();
         }
 
-        private bool IsPrevPageCanUse(object parameter)
+        private bool IsPrevPageCanExecute(object parameter)
         {
             if(CurrentPage == 1)
                 return false;
             return true;
-        }
-        private void SwitchTabAction(object parameter)
-        {
-            switch ((string)parameter)
-            {
-                case "List":
-                    Navigate.To(this);
-                    break;
-                case "ItemStatus":
-                    Navigate.To(new RequestFormItemStatusViewModel());
-                    break;
-                case "ItemPending":
-                    Navigate.To(new RequestFormItemPendingViewModel());
-                    break;
-                default:
-                    Navigate.To(this);
-                    break;
-            }
         }
     }
 }

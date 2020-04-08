@@ -12,8 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using VesselInventory.ViewModel;
-using VesselInventory.Utility;
 
 namespace VesselInventory.Views
 {
@@ -25,25 +23,6 @@ namespace VesselInventory.Views
         public RequestForm_ItemStatusView()
         {
             InitializeComponent();
-        }
-
-        private void TabRequestForm_Click(object sender, RoutedEventArgs e)
-        {
-            int index = int.Parse(((Button)e.Source).Uid);
-            GridCursor.Margin = new Thickness((150 * index), 29, 0, 11);
-
-            switch (index)
-            {
-                case 0:
-                    Navigate.To(new RequestFormViewModel());
-                    break;
-                case 2:
-                    Navigate.To(new RequestFormItemPendingViewModel());
-                    break;
-                default:
-                    break;
-            }
-
         }
     }
 }

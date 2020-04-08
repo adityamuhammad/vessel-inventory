@@ -89,7 +89,7 @@ namespace VesselInventory.ViewModel
             {
                 Upload();
                 _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
-                _parentLoadable.LoadGrid();
+                _parentLoadable.LoadDataGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
             }
             CloseWindow(window);

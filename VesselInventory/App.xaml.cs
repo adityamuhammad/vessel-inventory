@@ -34,8 +34,12 @@ namespace VesselInventory
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
             UnityContainer.RegisterType<IWindowService, WindowService>();
             UnityContainer.RegisterType<IRequestFormRepository, RequestFormRepository>();
+            UnityContainer.RegisterType<IRequestFormItemRepository, RequestFormItemRepository>();
+            UnityContainer.RegisterType<IVesselGoodReceiveRepository, VesselGoodReceiveRepository>();
+
             var homeViewModel = UnityContainer.Resolve<HomeViewModel>();
             Window window = UnityContainer.Resolve<MainWindow>();
             window.DataContext = homeViewModel;

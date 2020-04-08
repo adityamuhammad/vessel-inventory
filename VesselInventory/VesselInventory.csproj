@@ -153,6 +153,7 @@
     <Compile Include="Utility\ToastNotification.cs" />
     <Compile Include="ViewModel\HomeViewModel.cs" />
     <Compile Include="ViewModel\RequestFormAddOrEditViewModel.cs" />
+    <Compile Include="ViewModel\RequestFormViewModelBase.cs" />
     <Compile Include="ViewModel\RequestFormItemAddOrEditViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemPendingViewModel.cs" />
     <Compile Include="ViewModel\RequestFormItemStatusViewModel.cs" />

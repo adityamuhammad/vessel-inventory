@@ -2,42 +2,70 @@
 using VesselInventory.DTO;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
+using System.Collections.Generic;
 
 namespace VesselInventory.ViewModel
 {
-    class RequestFormItemStatusViewModel : ViewModelBase
+    class RequestFormItemStatusViewModel : RequestFormViewModelBase
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public RelayCommand SwitchTabCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemStatusViewModel()
+        public RequestFormItemStatusViewModel(IRequestFormItemRepository requestFormItemRepository)
         {
-            _requestFormItemRepository = new RequestFormItemRepository();
+            _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
-            CurrentPage = 1;
+            ResetCurrentPage();
             RefreshItemStatus();
         }
 
         private void InitializeCommands()
         {
-            SwitchTabCommand = new RelayCommand(SwitchTabAction);
-            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
+            NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
+            PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
         }
-        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } = new ObservableCollection<ItemStatusDTO>();
 
-        void UpdateTotalPage()
+        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } 
+            = new ObservableCollection<ItemStatusDTO>();
+
+        private void ResetCurrentPage()
         {
-            TotalPage = _requestFormItemRepository.GetItemStatusTotalPage(ItemIdSearch, ItemNameSearch, ItemStatusSearch, RFNumberSearch, DepartmentSearch);
+            CurrentPage = 1;
+        }
+        private void UpdateTotalPage()
+        {
+            TotalPage = _requestFormItemRepository.
+                GetItemStatusTotalPage(
+                    ItemIdSearch, 
+                    ItemNameSearch, 
+                    ItemStatusSearch, 
+                    RFNumberSearch, 
+                    DepartmentSearch
+                );
+        }
+
+        private IEnumerable<ItemStatusDTO> ItemStatusList
+        {
+            get
+            {
+                return _requestFormItemRepository.
+                    GetItemStatus(
+                        ItemIdSearch,
+                        ItemNameSearch,
+                        ItemStatusSearch,
+                        RFNumberSearch,
+                        DepartmentSearch,
+                        CurrentPage
+                    );
+            }
         }
 
         void RefreshItemStatus()
         {
             ItemStatusCollection.Clear();
-            foreach (var _ in _requestFormItemRepository.GetItemStatus(ItemIdSearch,ItemNameSearch,ItemStatusSearch,RFNumberSearch,DepartmentSearch,CurrentPage))
+            foreach (var _ in ItemStatusList)
                 ItemStatusCollection.Add(_);
             UpdateTotalPage();
         }
@@ -72,7 +100,7 @@ namespace VesselInventory.ViewModel
             {
                 _rfNumberSearch = value;
                 OnPropertyChanged("RFNumberSearch");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 RefreshItemStatus();
             }
         }
@@ -85,7 +113,7 @@ namespace VesselInventory.ViewModel
             {
                 _itemIdSearch = value;
                 OnPropertyChanged("ItemIdSearch");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 RefreshItemStatus();
             }
         }
@@ -98,7 +126,7 @@ namespace VesselInventory.ViewModel
             {
                 _itemNameSearch = value;
                 OnPropertyChanged("ItemNameSearch");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 RefreshItemStatus();
             }
         }
@@ -111,7 +139,7 @@ namespace VesselInventory.ViewModel
             {
                 _itemStatusSearch = value;
                 OnPropertyChanged("ItemStatusSearch");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 RefreshItemStatus();
             }
         }
@@ -124,49 +152,32 @@ namespace VesselInventory.ViewModel
             {
                 _departmentSearch = value;
                 OnPropertyChanged("DepartmentSearch");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 RefreshItemStatus();
             }
         }
 
-        private void SwitchTabAction(object parameter)
+        private void NextPageAction(object parameter)
         {
-            switch ((string)parameter)
-            {
-                case "List":
-                    Navigate.To(new RequestFormViewModel());
-                    break;
-                case "ItemStatus":
-                    Navigate.To(new RequestFormItemStatusViewModel());
-                    break;
-                case "ItemPending":
-                    Navigate.To(new RequestFormItemPendingViewModel());
-                    break;
-                default:
-                    Navigate.To(new RequestFormViewModel());
-                    break;
-            }
-        }
-
-        private void NextPageCommandAction(object parameter)
-        {
-            CurrentPage = CurrentPage + 1;
+            IncrementCurrentPage();
             RefreshItemStatus();
         }
 
-        private bool IsNextPageCanUse(object parameter)
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter)
         {
             if(CurrentPage == TotalPage)
                 return false;
             return true;
         }
-        private void PrevPageCommandAction(object parameter)
+        private void PrevPageAction(object parameter)
         {
-            CurrentPage = CurrentPage - 1;
+            DecrementCurrentPage();
             RefreshItemStatus();
         }
 
-        private bool IsPrevPageCanUse(object parameter)
+        private bool IsPrevPageCanExecute(object parameter)
         {
             if(CurrentPage == 1)
                 return false;

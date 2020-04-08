@@ -28,7 +28,7 @@ namespace VesselInventory.Services
                     throw new Exception();
                 } catch
                 {
-                    return "Error";
+                    return null;
                 }
             }
         }

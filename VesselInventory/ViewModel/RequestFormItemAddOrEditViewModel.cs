@@ -316,7 +316,7 @@ namespace VesselInventory.ViewModel
                 else
                     _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
 
-                _parentLoadable.LoadGrid();
+                _parentLoadable.LoadDataGrid();
                 _toasMessage.ShowSuccess("Data saved successfully.");
                 CloseWindow(window);
             } catch (Exception ex)
@@ -333,7 +333,7 @@ namespace VesselInventory.ViewModel
         private void OpenFile(object parameter)
         {
             var filename =_iOService.OpenFileDialog();
-            if (filename != "Error")
+            if (filename != null)
                 attachment_local_path = filename;
         } 
         private void CloseWindow(IClosable window)

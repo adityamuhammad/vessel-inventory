@@ -216,7 +216,7 @@ namespace VesselInventory.ViewModel
 
                 IsItemEnabled = true;
                 _toasMessage.ShowSuccess("Data saved successfully.");
-                _parentLoadable.LoadGrid();
+                _parentLoadable.LoadDataGrid();
 
             } catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace VesselInventory.ViewModel
             return true;
         }
 
-        public void LoadGrid()
+        public void LoadDataGrid()
         {
             throw new System.NotImplementedException();
         }

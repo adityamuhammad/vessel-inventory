@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using VesselInventory.ViewModel;
 using Unity;
-using Unity.Injection;
 
 namespace VesselInventory
 {

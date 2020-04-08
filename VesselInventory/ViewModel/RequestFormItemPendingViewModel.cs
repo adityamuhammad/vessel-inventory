@@ -7,23 +7,29 @@ using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class RequestFormItemPendingViewModel : ViewModelBase, IParentLoadable
+    class RequestFormItemPendingViewModel : RequestFormViewModelBase, IParentLoadable
     {
-        public RelayCommand SwitchTabCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentFormCommand { get; private set; }
 
         private readonly IWindowService _windowService;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
-        public RequestFormItemPendingViewModel()
+        public RequestFormItemPendingViewModel(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
         {
-            _requestFormItemRepository = new RequestFormItemRepository();
-            _windowService = new WindowService();
+            _windowService = windowService;
+            _requestFormItemRepository = requestFormItemRepository;
 
             InitializeCommands();
             CurrentPage = 1;
-            LoadGrid();
+            LoadDataGrid();
+        }
+
+        private void InitializeCommands()
+        {
+            NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
+            PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
+            UploadDocumentFormCommand = new RelayCommand(OpenUploadDocumentFormAction);
         }
 
         private string _searchKeyword = string.Empty;
@@ -35,20 +41,14 @@ namespace VesselInventory.ViewModel
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
                 CurrentPage = 1;
-                LoadGrid();
+                LoadDataGrid();
             }
         }
 
-        private void InitializeCommands()
-        {
-            SwitchTabCommand = new RelayCommand(SwitchTabAction);
-            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
-            UploadDocumentFormCommand = new RelayCommand(OnOpenUploadDocumentForm);
-        }
 
-        public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } = new ObservableCollection<ItemPendingDTO>();
-        public void LoadGrid()
+        public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } 
+            = new ObservableCollection<ItemPendingDTO>();
+        public void LoadDataGrid()
         {
             ItemPendingCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetItemPending(SearchKeyword,CurrentPage))
@@ -58,7 +58,8 @@ namespace VesselInventory.ViewModel
 
         private void UpdateTotalPage()
         {
-            TotalPage = _requestFormItemRepository.GetItemPendingTotalPage(SearchKeyword);
+            TotalPage = _requestFormItemRepository.
+                GetItemPendingTotalPage(SearchKeyword);
         }
 
         private int _currentPage;
@@ -83,50 +84,32 @@ namespace VesselInventory.ViewModel
             }
         }
         
-        private void SwitchTabAction(object parameter)
-        {
-            switch ((string)parameter)
-            {
-                case "List":
-                    Navigate.To(new RequestFormViewModel());
-                    break;
-                case "ItemStatus":
-                    Navigate.To(new RequestFormItemStatusViewModel());
-                    break;
-                case "ItemPending":
-                    Navigate.To(new RequestFormItemPendingViewModel());
-                    break;
-                default:
-                    Navigate.To(new RequestFormViewModel());
-                    break;
-            }
-        }
-        private void NextPageCommandAction(object parameter)
+        private void NextPageAction(object parameter)
         {
             CurrentPage = CurrentPage + 1;
-            LoadGrid();
+            LoadDataGrid();
         }
 
-        private bool IsNextPageCanUse(object parameter)
+        private bool IsNextPageCanExecute(object parameter)
         {
             if(CurrentPage == TotalPage)
                 return false;
             return true;
         }
-        private void PrevPageCommandAction(object parameter)
+        private void PrevPageAction(object parameter)
         {
             CurrentPage = CurrentPage - 1;
-            LoadGrid();
+            LoadDataGrid();
         }
 
-        private bool IsPrevPageCanUse(object parameter)
+        private bool IsPrevPageCanExecute(object parameter)
         {
             if(CurrentPage == 1)
                 return false;
             return true;
         }
 
-        private void OnOpenUploadDocumentForm(object parameter)
+        private void OpenUploadDocumentFormAction(object parameter)
         {
             _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
                 (new RequestFormItemUploadDocument(this,(int)parameter));

@@ -49,7 +49,7 @@ namespace VesselInventory.ViewModel
             LoadAttributes(rf_id_params);
 
             if (rf_id_params != 0)
-                LoadGrid();
+                LoadDataGrid();
         }
 
         private void InitializeCommands()
@@ -264,7 +264,7 @@ namespace VesselInventory.ViewModel
                 DepartmentCollection.Add(department.description);
         }
         
-        public void LoadGrid()
+        public void LoadDataGrid()
         {
             RequestFormItemCollection.Clear();
             foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
@@ -321,7 +321,7 @@ namespace VesselInventory.ViewModel
             IsItemEnabled = true;
             _toasMessage.ShowSuccess("Data saved successfully.");
 
-            _parentLoadable.LoadGrid();
+            _parentLoadable.LoadDataGrid();
         }
         private bool IsSaveCanExecute(object parameter)
         {
@@ -366,7 +366,7 @@ namespace VesselInventory.ViewModel
                 return;
             _requestFormItemRepository.Delete(int.Parse(parameter.ToString()));
             _toasMessage.ShowSuccess("Data deleted successfully.");
-            LoadGrid();
+            LoadDataGrid();
         }
 
         private void Release(IClosable window)
@@ -377,7 +377,7 @@ namespace VesselInventory.ViewModel
 
             _requestFormRepository.Release(rf_id);
             _toasMessage.ShowSuccess("Release successfully to process.");
-            _parentLoadable.LoadGrid();
+            _parentLoadable.LoadDataGrid();
 
             if (window != null)
                 window.Close();
