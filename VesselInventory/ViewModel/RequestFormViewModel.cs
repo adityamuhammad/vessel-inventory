@@ -17,13 +17,18 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private readonly IRequestFormRepository _requestFormRepository;
 
-        public RequestFormViewModel()
+        public RequestFormViewModel(IWindowService windowService, IRequestFormRepository requestFormRepository)
         {
-            _windowService = new WindowService();
-            _requestFormRepository = new RequestFormRepository();
+            _windowService = windowService;
+            _requestFormRepository = requestFormRepository;
             InitializeCommands();
             ResetCurrentPage();
             LoadGrid();
+
+        }
+
+        public RequestFormViewModel()
+        {
         }
 
         private void InitializeCommands()
@@ -33,7 +38,6 @@ namespace VesselInventory.ViewModel
             OpenDialogRequestFormCommand = new RelayCommand(OnOpenRequestForm);
             SwitchTabCommand = new RelayCommand(SwitchTabAction);
         }
-
 
         private int _currentPage;
         public int CurrentPage
@@ -89,9 +93,14 @@ namespace VesselInventory.ViewModel
                 _windowService.ShowWindow<RequestForm_AddOrEditView>
                     (new RequestFormAddOrEditViewModel(this));
         }
+         
+        private int GetTotalPage()
+        {
+            return _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
+        }
 
         private void ResetCurrentPage() => CurrentPage = 1;
-        private void UpdateTotalPage() => TotalPage = _requestFormRepository.GetRequestFormTotalPage(SearchKeyword);
+        private void UpdateTotalPage() => TotalPage = GetTotalPage();
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
 
@@ -124,7 +133,7 @@ namespace VesselInventory.ViewModel
             switch ((string)parameter)
             {
                 case "List":
-                    Navigate.To(new RequestFormViewModel());
+                    Navigate.To(this);
                     break;
                 case "ItemStatus":
                     Navigate.To(new RequestFormItemStatusViewModel());
@@ -133,7 +142,7 @@ namespace VesselInventory.ViewModel
                     Navigate.To(new RequestFormItemPendingViewModel());
                     break;
                 default:
-                    Navigate.To(new RequestFormViewModel());
+                    Navigate.To(this);
                     break;
             }
         }

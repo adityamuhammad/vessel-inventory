@@ -30,7 +30,7 @@ namespace VesselInventory.ViewModel
 
             if(vessel_good_receive_id > 0)
             {
-                _vesselGoodReceive = _vesselGoodReceiveRepository.FindById(vessel_good_receive_id);
+                _vesselGoodReceive = _vesselGoodReceiveRepository.GetById(vessel_good_receive_id);
                 IsItemEnabled = true;
             } else
             {

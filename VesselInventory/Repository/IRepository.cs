@@ -8,17 +8,17 @@ namespace VesselInventory.Repository
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> FindAll();
-        IEnumerable<T> FindBy(Expression<Func<T, bool>> expression);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> GetWhere(Expression<Func<T, bool>> expression);
         T Save(T entity);
-        T FindById(int id);
+        T GetById(int id);
         T Update(int id, T entity);
         int Delete(int id);
     }
 
     public abstract class Repository<T> : IRepository<T> where T : class
     {
-        public virtual IEnumerable<T> FindAll()
+        public virtual IEnumerable<T> GetAll()
         {
             using (var context = new VesselInventoryContext())
             {
@@ -26,7 +26,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
+        public virtual IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -44,7 +44,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public virtual T FindById(int id)
+        public virtual T GetById(int id)
         {
             using (var context = new VesselInventoryContext())
             {

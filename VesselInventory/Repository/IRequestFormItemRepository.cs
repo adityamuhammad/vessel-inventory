@@ -8,12 +8,10 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormItemRepository
     {
-        RequestFormItem FindById(int id);
+        RequestFormItem GetById(int id);
         RequestFormItem Save(RequestFormItem requestFormItem);
         RequestFormItem Update(int id, RequestFormItem requestFormItem);
-
         int Delete(int id) ;
-
         IEnumerable<RequestFormItem> GetRFItemList(int rf_id);
         IEnumerable<ItemStatusDTO> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
         int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
@@ -21,7 +19,9 @@ namespace VesselInventory.Repository
         int GetItemPendingTotalPage(string rf_number, int rows = 10);
 
     }
-    public class RequestFormItemRepository : Repository<RequestFormItem>, IRequestFormItemRepository
+    public class RequestFormItemRepository : 
+        Repository<RequestFormItem>, 
+        IRequestFormItemRepository
     {
         public RequestFormItemRepository() { }
 

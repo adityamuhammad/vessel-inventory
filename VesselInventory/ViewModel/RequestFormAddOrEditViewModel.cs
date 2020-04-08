@@ -283,7 +283,7 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = true;
                 IsVisibleBargeCheck = false;
 
-                _requestForm = _requestFormRepository.FindById(rf_id_params);
+                _requestForm = _requestFormRepository.GetById(rf_id_params);
             } else
             {
                 Title = "Add Request Form";

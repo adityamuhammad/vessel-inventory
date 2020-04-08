@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using VesselInventory.ViewModel;
+using Unity;
+using Unity.Injection;
 
 namespace VesselInventory
 {
@@ -12,21 +14,21 @@ namespace VesselInventory
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new HomeViewModel();
         }
         private void MenuChanged(object sender, RoutedEventArgs e)
         {
             int indexMenu = ListViewMenu.SelectedIndex;
+            var container = ((App)Application.Current).UnityContainer;
             switch (indexMenu)
             {
                 case 0:
-                    DataContext = new HomeViewModel();
+                    DataContext = container.Resolve<HomeViewModel>();
                     break;
                 case 1:
-                    DataContext = new RequestFormViewModel();
+                    DataContext = container.Resolve<RequestFormViewModel>();
                     break;
                 case 2:
-                    DataContext = new VesselGoodReceiveViewModel();
+                    DataContext = container.Resolve<VesselGoodReceiveViewModel>();
                     break;
                 case 3:
                     break;

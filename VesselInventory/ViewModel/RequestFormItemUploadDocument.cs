@@ -24,7 +24,7 @@ namespace VesselInventory.ViewModel
         public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _requestFormItem_id)
         {
             _requestFormItemRepository = new RequestFormItemRepository();
-            _requestFormItem = _requestFormItemRepository.FindById(_requestFormItem_id);
+            _requestFormItem = _requestFormItemRepository.GetById(_requestFormItem_id);
             _parentLoadable = parentLoadable;
             _uploadService = new UploadService();
             _iOService = new OpenPdfFileDialog();

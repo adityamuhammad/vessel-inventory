@@ -138,10 +138,10 @@
     <Compile Include="Models\VesselGoodReceiveItemReject.cs" />
     <Compile Include="Models\VesselGoodReturn.cs" />
     <Compile Include="Models\VesselGoodReturnItem.cs" />
-    <Compile Include="Repository\Repository.cs" />
-    <Compile Include="Repository\RequestFormItemRepository.cs" />
-    <Compile Include="Repository\RequestFormRepository.cs" />
-    <Compile Include="Repository\VesselGoodReceiveRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\IRequestFormItemRepository.cs" />
+    <Compile Include="Repository\IRequestFormRepository.cs" />
+    <Compile Include="Repository\IVesselGoodReceiveRepository.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />

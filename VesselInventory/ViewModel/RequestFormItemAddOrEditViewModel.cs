@@ -45,7 +45,7 @@ namespace VesselInventory.ViewModel
             rf_id = _rf_id;
 
             if (rf_item_id != 0)
-                _requestFormItem = _requestFormItemRepository.FindById(rf_item_id);
+                _requestFormItem = _requestFormItemRepository.GetById(rf_item_id);
         }
 
         private void InitializeCommands()

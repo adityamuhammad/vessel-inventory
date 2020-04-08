@@ -15,11 +15,12 @@ namespace VesselInventory.Repository
         RequestFormShipBargeDTO GetRrequestFormShipBarge();
         RequestForm SaveRequestForm(RequestForm requestForm);
         RequestForm Update(int id, RequestForm requestForm);
-
         int Release(int id);
-        RequestForm FindById(int id);
+        RequestForm GetById(int id);
     }
-    public class RequestFormRepository : Repository<RequestForm>, IRequestFormRepository
+    public class RequestFormRepository : 
+        Repository<RequestForm>, 
+        IRequestFormRepository
     {
         public RequestFormRepository() { }
 
