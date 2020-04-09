@@ -374,7 +374,7 @@ namespace VesselInventory.ViewModel
         #region
         private void SaveAction(object parameter)
         {
-            if (rf_id == 0)
+            if (IsNewRecord)
                 RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
             else
                 RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
