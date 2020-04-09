@@ -30,21 +30,6 @@ namespace VesselInventory.ViewModel
         public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } 
             = new ObservableCollection<ItemStatusDTO>();
 
-        private void ResetCurrentPage()
-        {
-            CurrentPage = 1;
-        }
-        private void UpdateTotalPage()
-        {
-            TotalPage = _requestFormItemRepository.
-                GetItemStatusTotalPage(
-                    ItemIdSearch, 
-                    ItemNameSearch, 
-                    ItemStatusSearch, 
-                    RFNumberSearch, 
-                    DepartmentSearch
-                );
-        }
 
         private IEnumerable<ItemStatusDTO> ItemStatusList
         {
@@ -62,7 +47,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        void RefreshItemStatus()
+        protected void RefreshItemStatus()
         {
             ItemStatusCollection.Clear();
             foreach (var _ in ItemStatusList)
@@ -157,31 +142,38 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private int TotalPageFromDatabase
+        {
+            get
+            {
+                return _requestFormItemRepository.
+                            GetItemStatusTotalPage(
+                                ItemIdSearch, 
+                                ItemNameSearch, 
+                                ItemStatusSearch, 
+                                RFNumberSearch, 
+                                DepartmentSearch
+                            );
+
+            }
+        }
+
+        private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
             RefreshItemStatus();
         }
-
-        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
-        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
-        private bool IsNextPageCanExecute(object parameter)
-        {
-            if(CurrentPage == TotalPage)
-                return false;
-            return true;
-        }
         private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();
             RefreshItemStatus();
-        }
-
-        private bool IsPrevPageCanExecute(object parameter)
-        {
-            if(CurrentPage == 1)
-                return false;
-            return true;
         }
     }
 }

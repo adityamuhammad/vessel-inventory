@@ -10,6 +10,7 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
 using System;
+using System.Collections.Generic;
 
 namespace VesselInventory.ViewModel
 {
@@ -19,9 +20,9 @@ namespace VesselInventory.ViewModel
         private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
         public RelayCommand<IClosable> CloseCommand { get; private set; }
+        public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand OpenFileDialogCommand { get; private set; }
-        public RelayCommand<IClosable> SaveCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IOService _iOService;
@@ -38,10 +39,6 @@ namespace VesselInventory.ViewModel
             _iOService = new OpenPdfFileDialog();
             _requestFormItemRepository = new RequestFormItemRepository();
 
-            LoadPriority();
-            LoadReason();
-            LoadItem();
-
             rf_id = _rf_id;
 
             if (rf_item_id != 0)
@@ -52,7 +49,7 @@ namespace VesselInventory.ViewModel
         {
             ListBoxChangedCommand = new RelayCommand(AutoCompleteChanged);
             OpenFileDialogCommand = new RelayCommand(OpenFile);
-            SaveCommand = new RelayCommand<IClosable>(SaveAction, IsCanSave);
+            SaveCommand = new RelayCommand<IClosable>(SaveAction);
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
 
@@ -90,6 +87,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        [Required(ErrorMessage = "Please select item.")]
         public int item_id
         {
             get => _requestFormItem.item_id;
@@ -172,7 +170,6 @@ namespace VesselInventory.ViewModel
         }
 
         [Required(ErrorMessage = "Qty cannot be empty")]
-        [RegularExpression(@"^[0-9]*$", ErrorMessage = "Invalid Format")]
         public decimal qty
         {
             get => _requestFormItem.qty;
@@ -185,7 +182,12 @@ namespace VesselInventory.ViewModel
 
         public string reason
         {
-            get => (_requestFormItem.reason is null) ? ReasonCollection.First() : _requestFormItem.reason;
+            get
+            {
+                if (_requestFormItem.reason is null)
+                    _requestFormItem.reason = ReasonCollection.First();
+                return _requestFormItem.reason;
+            }
             set
             {
                 _requestFormItem.reason = value;
@@ -195,7 +197,12 @@ namespace VesselInventory.ViewModel
 
         public string priority
         {
-            get => (_requestFormItem.priority is null) ? PriorityCollection.First() : _requestFormItem.priority;
+            get
+            {
+                if (_requestFormItem.priority is null)
+                    _requestFormItem.priority = PriorityCollection.First();
+                return _requestFormItem.priority;
+            }
             set
             {
                 _requestFormItem.priority = value;
@@ -255,22 +262,31 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } = new ObservableCollection<ItemGroupDimensionDTO>();
 
-        public ObservableCollection<string> ReasonCollection { get; set; } = new ObservableCollection<string>();
-        private void LoadReason()
+        public IList<string> ReasonCollection
         {
-            foreach(var _ in DataHelper.GetLookupValues("REASON"))
-                ReasonCollection.Add(_.description);
+            get
+            {
+                List<string> reason = new List<string>();
+                foreach (var _ in DataHelper.GetLookupValues("REASON"))
+                    reason.Add(_.description);
+                return reason;
+            }
         }
 
-        public ObservableCollection<string> PriorityCollection { get; set; } = new ObservableCollection<string>();
-        private void LoadPriority()
+        public IList<string> PriorityCollection
         {
-            foreach(var _ in DataHelper.GetLookupValues("PRIORITY"))
-                PriorityCollection.Add(_.description);
+            get
+            {
+                List<string> priorities = new List<string>();
+                foreach (var _ in DataHelper.GetLookupValues("PRIORITY"))
+                    priorities.Add(_.description);
+                return priorities;
+            }
         }
 
+        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } 
+            = new ObservableCollection<ItemGroupDimensionDTO>();
         public void LoadItem()
         {
             ItemCollection.Clear();
@@ -323,12 +339,7 @@ namespace VesselInventory.ViewModel
             {
                 _toasMessage.ShowError("Something went wrong : " + ex.Message.ToString());
             }
-        }
-
-        private bool IsCanSave(object parameter)
-        {
-            return true;
-        }
+}
 
         private void OpenFile(object parameter)
         {

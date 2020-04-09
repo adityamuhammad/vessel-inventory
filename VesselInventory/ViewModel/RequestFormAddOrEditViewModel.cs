@@ -399,9 +399,7 @@ namespace VesselInventory.ViewModel
 
         private bool IsReleasedCanExecute()
         {
-            if (IsReleased)
-                return false;
-            return true;
+            return !IsReleased;
         }
     }
 }

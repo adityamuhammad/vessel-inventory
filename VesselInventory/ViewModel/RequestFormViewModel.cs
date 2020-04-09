@@ -4,8 +4,7 @@ using VesselInventory.Utility;
 using VesselInventory.Repository;
 using VesselInventory.Views;
 using VesselInventory.Services;
-using Unity;
-using System.Windows;
+using System.Collections.Generic;
 
 namespace VesselInventory.ViewModel
 {
@@ -68,61 +67,64 @@ namespace VesselInventory.ViewModel
                 LoadDataGrid();
             }
         }
+
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 
             = new ObservableCollection<RequestForm>();
+
+        private IEnumerable<RequestForm> RequestFormList
+        {
+            get
+            {
+                return _requestFormRepository.
+                    GetRequestFormList(
+                        SearchKeyword, CurrentPage
+                     );
+            }
+        }
 
         public void LoadDataGrid()
         {
             RequestFormCollection.Clear();
-            foreach (var _ in _requestFormRepository.GetRequestFormList(SearchKeyword,CurrentPage))
-                RequestFormCollection.Add(_);
+            foreach (var rf in RequestFormList)
+                RequestFormCollection.Add(rf);
             UpdateTotalPage();
         }
 
         public void OpenRequestFormAction(object parameter)
         {
-            if (parameter  != null)
-                _windowService.ShowWindow<RequestForm_AddOrEditView>
-                    (new RequestFormAddOrEditViewModel(this,(int)parameter));
-            else
+            if (parameter is null)
                 _windowService.ShowWindow<RequestForm_AddOrEditView>
                     (new RequestFormAddOrEditViewModel(this));
-        }
-         
-        private int GetTotalPage()
-        {
-            return _requestFormRepository.
-                GetRequestFormTotalPage(SearchKeyword);
+            else
+                _windowService.ShowWindow<RequestForm_AddOrEditView>
+                    (new RequestFormAddOrEditViewModel(this,(int)parameter));
         }
 
+        private int TotalPageFromDatabase
+        {
+            get
+            {
+                return _requestFormRepository.
+                    GetRequestFormTotalPage(SearchKeyword);
+            }
+        }
+
+        private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
         private void ResetCurrentPage() => CurrentPage = 1;
-        private void UpdateTotalPage() => TotalPage = GetTotalPage();
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
 
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
             LoadDataGrid();
         }
-
-        private bool IsNextPageCanExecute(object parameter)
-        {
-            if(CurrentPage == TotalPage)
-                return false;
-            return true;
-        }
         private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();
             LoadDataGrid();
-        }
-
-        private bool IsPrevPageCanExecute(object parameter)
-        {
-            if(CurrentPage == 1)
-                return false;
-            return true;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -96,13 +97,23 @@ namespace VesselInventory.ViewModel
 
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodReceiveRepository.GetGoodReceiveTotalPage(SearchKeyword);
+            TotalPage = _vesselGoodReceiveRepository.
+                GetGoodReceiveTotalPage(SearchKeyword);
+        }
+
+        private IEnumerable<VesselGoodReceive> GoodReceives
+        {
+            get
+            {
+                return _vesselGoodReceiveRepository.
+                    GetGoodReceive(SearchKeyword, CurrentPage);
+            }
         }
 
         public void LoadDataGrid()
         {
             VesselGoodReceiveCollection.Clear();
-            foreach (var _ in _vesselGoodReceiveRepository.GetGoodReceive(SearchKeyword, CurrentPage))
+            foreach (var _ in GoodReceives)
                 VesselGoodReceiveCollection.Add(_);
             UpdateTotalPage();
         }
@@ -114,7 +125,7 @@ namespace VesselInventory.ViewModel
                     (new VesselGoodReceiveAddOrEditViewModel(this));
             else
                 _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                    (new VesselGoodReceiveAddOrEditViewModel(this,int.Parse(parameter.ToString())));
+                    (new VesselGoodReceiveAddOrEditViewModel(this,(int)parameter));
         }
     }
 }
