@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
+using Unity.Injection;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.ViewModel;
@@ -39,6 +40,7 @@ namespace VesselInventory
             UnityContainer.RegisterType<IRequestFormRepository, RequestFormRepository>();
             UnityContainer.RegisterType<IRequestFormItemRepository, RequestFormItemRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveRepository, VesselGoodReceiveRepository>();
+
 
             var homeViewModel = UnityContainer.Resolve<HomeViewModel>();
             Window window = UnityContainer.Resolve<MainWindow>();

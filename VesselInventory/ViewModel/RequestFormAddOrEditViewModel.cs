@@ -16,6 +16,7 @@ using System.Windows;
 using VesselInventory.Commons.Enums;
 using ToastNotifications.Messages;
 using System.Collections.Generic;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
@@ -34,13 +35,18 @@ namespace VesselInventory.ViewModel
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
-        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
-        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id)
+        public RequestFormAddOrEditViewModel()
+        {
+
+        }
+
+        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, IWindowService windowService, IRequestFormRepository requestFormRepository, IRequestFormItemRepository requestFormItemRepository) : this(parentLoadable, windowService, requestFormRepository, requestFormItemRepository, 0) { }
+        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable,IWindowService windowService, IRequestFormRepository requestFormRepository, IRequestFormItemRepository requestFormItemRepository, int rf_id)
         {
             _parentLoadable = parentLoadable;
-            _windowService = new WindowService();
-            _requestFormRepository = new RequestFormRepository();
-            _requestFormItemRepository = new RequestFormItemRepository();
+            _windowService = windowService;
+            _requestFormRepository = requestFormRepository;
+            _requestFormItemRepository = requestFormItemRepository;
             this.rf_id = rf_id;
 
             InitializeCommands();

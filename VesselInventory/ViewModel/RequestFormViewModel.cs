@@ -5,6 +5,9 @@ using VesselInventory.Repository;
 using VesselInventory.Views;
 using VesselInventory.Services;
 using System.Collections.Generic;
+using System.Windows;
+using Unity;
+using Unity.Injection;
 
 namespace VesselInventory.ViewModel
 {
@@ -116,12 +119,20 @@ namespace VesselInventory.ViewModel
 
         public void OpenRequestFormAction(object parameter)
         {
-            if (parameter is null)
-                _windowService.ShowWindow<RequestForm_AddOrEditView>
-                    (new RequestFormAddOrEditViewModel(this));
-            else
-                _windowService.ShowWindow<RequestForm_AddOrEditView>
-                    (new RequestFormAddOrEditViewModel(this,(int)parameter));
+            var container = ((App)Application.Current).UnityContainer;
+            object[] arguments = new object[5];
+            arguments[0] = this;
+            arguments[1] = new WindowService();
+            arguments[2] = new RequestFormRepository();
+            arguments[3] = new RequestFormItemRepository();
+            if (parameter != null)
+                arguments[4] = (int)parameter;
+
+            container.RegisterType<RequestFormAddOrEditViewModel>(new InjectionConstructor(arguments));
+
+            var requestFormAddOrEditVM = container.Resolve<RequestFormAddOrEditViewModel>();
+            _windowService.ShowWindow<RequestForm_AddOrEditView>
+                    (requestFormAddOrEditVM);
         }
 
 
