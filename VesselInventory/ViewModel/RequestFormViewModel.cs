@@ -129,10 +129,9 @@ namespace VesselInventory.ViewModel
                 arguments[4] = (int)parameter;
 
             container.RegisterType<RequestFormAddOrEditViewModel>(new InjectionConstructor(arguments));
-
             var requestFormAddOrEditVM = container.Resolve<RequestFormAddOrEditViewModel>();
-            _windowService.ShowWindow<RequestForm_AddOrEditView>
-                    (requestFormAddOrEditVM);
+
+            _windowService.ShowWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
 

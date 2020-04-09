@@ -17,6 +17,7 @@ using VesselInventory.Commons.Enums;
 using ToastNotifications.Messages;
 using System.Collections.Generic;
 using Unity;
+using Unity.Injection;
 
 namespace VesselInventory.ViewModel
 {
@@ -35,13 +36,12 @@ namespace VesselInventory.ViewModel
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
-        public RequestFormAddOrEditViewModel()
-        {
-
-        }
-
-        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, IWindowService windowService, IRequestFormRepository requestFormRepository, IRequestFormItemRepository requestFormItemRepository) : this(parentLoadable, windowService, requestFormRepository, requestFormItemRepository, 0) { }
-        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable,IWindowService windowService, IRequestFormRepository requestFormRepository, IRequestFormItemRepository requestFormItemRepository, int rf_id)
+        public RequestFormAddOrEditViewModel(
+            IParentLoadable parentLoadable,
+            IWindowService windowService, 
+            IRequestFormRepository requestFormRepository, 
+            IRequestFormItemRepository requestFormItemRepository, 
+            int rf_id = 0)
         {
             _parentLoadable = parentLoadable;
             _windowService = windowService;
@@ -400,26 +400,18 @@ namespace VesselInventory.ViewModel
 
         private void AddOrEditItem(object parameter)
         {
+            var container = ((App)Application.Current).UnityContainer;
+            object[] arguments = new object[6];
+            arguments[0] = this;
+            arguments[1] = new UploadService();
+            arguments[2] = new OpenPdfFileDialog();
+            arguments[3] = new RequestFormItemRepository();
+            arguments[4] = rf_id;
             if (parameter != null)
-                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
-                    (new RequestFormItemAddOrEditViewModel(
-                        this,
-                        new UploadService(),
-                        new OpenPdfFileDialog(),
-                        new RequestFormItemRepository(),
-                        rf_id,
-                        (int)parameter));
-            else
-                _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
-                    (new RequestFormItemAddOrEditViewModel
-                        (
-                            this,
-                            new UploadService(),
-                            new OpenPdfFileDialog(),
-                            new RequestFormItemRepository(),
-                            rf_id
-                        )
-                      );
+                arguments[5] = (int)parameter;
+            container.RegisterType<RequestFormItemAddOrEditViewModel>(new InjectionConstructor(arguments));
+            var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditViewModel>();
+            _windowService.ShowWindow<RequestForm_ItemAddOrEditView> ( requestFormItemAddOrEditVM);
         }
 
         private void CloseWindow(IClosable window)
