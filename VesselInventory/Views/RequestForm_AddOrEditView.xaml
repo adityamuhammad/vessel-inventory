@@ -246,7 +246,7 @@
                         Text="{
                             Binding TotalItem,
                             UpdateSourceTrigger=PropertyChanged, 
-                        StringFormat={}Total Item {0}}"
+                        StringFormat={}Items : {0}}"
                         />
                 </StackPanel>
                 <DataGrid 
