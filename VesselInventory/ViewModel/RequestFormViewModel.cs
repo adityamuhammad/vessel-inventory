@@ -33,6 +33,19 @@ namespace VesselInventory.ViewModel
             OpenDialogRequestFormCommand = new RelayCommand(OpenRequestFormAction);
         }
 
+        private int TotalPageFromDatabase
+        {
+            get
+            {
+                return _requestFormRepository.
+                    GetRequestFormTotalPage(SearchKeyword);
+            }
+        }
+
+        /// <summary>
+        /// UI Properties
+        /// </summary>
+        #region
         private int _currentPage;
         public int CurrentPage
         {
@@ -67,7 +80,12 @@ namespace VesselInventory.ViewModel
                 LoadDataGrid();
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Entity and Collections
+        /// </summary>
+        #region
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 
             = new ObservableCollection<RequestForm>();
 
@@ -81,7 +99,12 @@ namespace VesselInventory.ViewModel
                      );
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Load UI methods
+        /// </summary>
+        #region
         public void LoadDataGrid()
         {
             RequestFormCollection.Clear();
@@ -89,6 +112,7 @@ namespace VesselInventory.ViewModel
                 RequestFormCollection.Add(rf);
             UpdateTotalPage();
         }
+        #endregion
 
         public void OpenRequestFormAction(object parameter)
         {
@@ -100,14 +124,6 @@ namespace VesselInventory.ViewModel
                     (new RequestFormAddOrEditViewModel(this,(int)parameter));
         }
 
-        private int TotalPageFromDatabase
-        {
-            get
-            {
-                return _requestFormRepository.
-                    GetRequestFormTotalPage(SearchKeyword);
-            }
-        }
 
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
         private void ResetCurrentPage() => CurrentPage = 1;

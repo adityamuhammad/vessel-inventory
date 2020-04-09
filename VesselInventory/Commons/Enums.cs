@@ -21,6 +21,7 @@ namespace VesselInventory.Commons.Enums
         NOT_SYNC = 0,
     }
 
+
     public static class EnumExtensions
     {
         public static string GetDescription(this Enum value)

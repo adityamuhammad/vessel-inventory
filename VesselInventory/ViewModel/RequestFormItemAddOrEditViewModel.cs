@@ -11,6 +11,7 @@ using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
 using System;
 using System.Collections.Generic;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
@@ -29,20 +30,34 @@ namespace VesselInventory.ViewModel
         private readonly IUploadService _uploadService;
         private readonly IParentLoadable _parentLoadable;
 
-        public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id) : this(parentLoadable, rf_id, 0) { }
-        public RequestFormItemAddOrEditViewModel(IParentLoadable parentLoadable, int _rf_id, int rf_item_id)
+        public RequestFormItemAddOrEditViewModel
+            (
+                IParentLoadable parentLoadable,
+                IUploadService uploadService,
+                IOService iOService,
+                IRequestFormItemRepository requestFormItemRepository,
+                int rf_id,
+                int rf_item_id = 0
+            )
         {
             InitializeCommands();
-
             _parentLoadable = parentLoadable;
-            _uploadService = new UploadService();
-            _iOService = new OpenPdfFileDialog();
-            _requestFormItemRepository = new RequestFormItemRepository();
+            _uploadService = uploadService;
+            _iOService = iOService;
+            _requestFormItemRepository = requestFormItemRepository;
 
-            rf_id = _rf_id;
+            this.rf_id = rf_id;
 
             if (rf_item_id != 0)
                 _requestFormItem = _requestFormItemRepository.GetById(rf_item_id);
+        }
+
+        private bool IsNewRecord
+        {
+            get
+            {
+                return (rf_item_id == 0);
+            }
         }
 
         private void InitializeCommands()

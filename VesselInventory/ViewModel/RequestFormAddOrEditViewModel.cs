@@ -23,8 +23,8 @@ namespace VesselInventory.ViewModel
     {
         private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
-        private readonly IRequestFormRepository RequestFormEntityRepository;
-        private readonly IRequestFormItemRepository RequestFormEntityItemRepository;
+        private readonly IRequestFormRepository _requestFormRepository;
+        private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IParentLoadable _parentLoadable;
         private readonly IWindowService _windowService;
 
@@ -35,18 +35,17 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
         public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable, 0) { }
-        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id_params)
+        public RequestFormAddOrEditViewModel(IParentLoadable parentLoadable, int rf_id)
         {
             _parentLoadable = parentLoadable;
             _windowService = new WindowService();
-            RequestFormEntityRepository = new RequestFormRepository();
-            RequestFormEntityItemRepository = new RequestFormItemRepository();
+            _requestFormRepository = new RequestFormRepository();
+            _requestFormItemRepository = new RequestFormItemRepository();
+            this.rf_id = rf_id;
 
             InitializeCommands();
-
-            LoadAttributes(rf_id_params);
-
-            if (rf_id_params != 0)
+            LoadAttributes();
+            if (!IsNewRecord)
                 LoadDataGrid();
         }
 
@@ -268,11 +267,18 @@ namespace VesselInventory.ViewModel
         /// UI Collections and Entity
         /// </summary>
         #region
+        private bool IsNewRecord
+        {
+            get
+            {
+                return (rf_id == 0);
+            }
+        }
         private RequestFormShipBargeDTO RequestFormShipBarge
         {
             get
             {
-                return RequestFormEntityRepository.GetRrequestFormShipBarge();
+                return _requestFormRepository.GetRrequestFormShipBarge();
             }
         }
 
@@ -299,7 +305,7 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return RequestFormEntityItemRepository.GetRFItemList(rf_id);
+                return _requestFormItemRepository.GetRFItemList(rf_id);
             }
         }
         #endregion
@@ -338,7 +344,6 @@ namespace VesselInventory.ViewModel
 
         private void SetFormAttributes(int rf_id_params)
         {
-            rf_id = rf_id_params;
             ship_code = RequestFormShipBarge.ship_code;
             barge_code = RequestFormShipBarge.barge_code;
             ship_id = RequestFormShipBarge.ship_id;
@@ -348,12 +353,12 @@ namespace VesselInventory.ViewModel
             rf_number = RequestFormShipBarge.rf_number + '-' + ship_code;
         }
 
-        private void LoadAttributes(int rf_id_params)
+        private void LoadAttributes()
         {
-            if (rf_id_params != 0)
+            if (!IsNewRecord)
             {
                 SetUIEditAttributes();
-                RequestFormEntity = RequestFormEntityRepository.GetById(rf_id_params);
+                RequestFormEntity = _requestFormRepository.GetById(rf_id);
             } else
             {
                 SetUIAddAttributes();
@@ -370,9 +375,9 @@ namespace VesselInventory.ViewModel
         private void SaveAction(object parameter)
         {
             if (rf_id == 0)
-                RequestFormEntity = RequestFormEntityRepository.SaveRequestForm(RequestFormEntity);
+                RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
             else
-                RequestFormEntity = RequestFormEntityRepository.Update(rf_id, RequestFormEntity);
+                RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
 
             SetUIEditAttributes();
             _toasMessage.ShowSuccess("Data saved successfully.");
@@ -391,10 +396,24 @@ namespace VesselInventory.ViewModel
         {
             if (parameter != null)
                 _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
-                    (new RequestFormItemAddOrEditViewModel(this,rf_id,(int)parameter));
+                    (new RequestFormItemAddOrEditViewModel(
+                        this,
+                        new UploadService(),
+                        new OpenPdfFileDialog(),
+                        new RequestFormItemRepository(),
+                        rf_id,
+                        (int)parameter));
             else
                 _windowService.ShowWindow<RequestForm_ItemAddOrEditView>
-                    (new RequestFormItemAddOrEditViewModel(this,rf_id));
+                    (new RequestFormItemAddOrEditViewModel
+                        (
+                            this,
+                            new UploadService(),
+                            new OpenPdfFileDialog(),
+                            new RequestFormItemRepository(),
+                            rf_id
+                        )
+                      );
         }
 
         private void CloseWindow(IClosable window)
@@ -419,7 +438,7 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
             if (confirmDialog == MessageBoxResult.No)
                 return;
-            RequestFormEntityItemRepository.Delete(int.Parse(parameter.ToString()));
+            _requestFormItemRepository.Delete((int)parameter);
             _toasMessage.ShowSuccess("Data deleted successfully.");
             LoadDataGrid();
         }
@@ -429,7 +448,7 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Release Confirmation", "Are you sure?");
             if (confirmDialog == MessageBoxResult.No)
                 return;
-            RequestFormEntityRepository.Release(rf_id);
+            _requestFormRepository.Release(rf_id);
             _toasMessage.ShowSuccess("Release successfully to process.");
             _parentLoadable.LoadDataGrid();
             CloseWindow(window);
