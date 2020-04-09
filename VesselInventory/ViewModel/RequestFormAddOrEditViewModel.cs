@@ -15,17 +15,16 @@ using VesselInventory.Commons;
 using System.Windows;
 using VesselInventory.Commons.Enums;
 using ToastNotifications.Messages;
+using System.Collections.Generic;
 
 namespace VesselInventory.ViewModel
 {
     public class RequestFormAddOrEditViewModel : ViewModelBase, IParentLoadable
     {
-        private RequestFormShipBargeDTO _requestFormShipBargeDTO;
-        private RequestForm _requestForm = new RequestForm();
         private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
-        private readonly IRequestFormRepository _requestFormRepository;
-        private readonly IRequestFormItemRepository _requestFormItemRepository;
+        private readonly IRequestFormRepository RequestFormEntityRepository;
+        private readonly IRequestFormItemRepository RequestFormEntityItemRepository;
         private readonly IParentLoadable _parentLoadable;
         private readonly IWindowService _windowService;
 
@@ -40,12 +39,11 @@ namespace VesselInventory.ViewModel
         {
             _parentLoadable = parentLoadable;
             _windowService = new WindowService();
-            _requestFormRepository = new RequestFormRepository();
-            _requestFormItemRepository = new RequestFormItemRepository();
+            RequestFormEntityRepository = new RequestFormRepository();
+            RequestFormEntityItemRepository = new RequestFormItemRepository();
 
             InitializeCommands();
 
-            LoadDepartmentList();
             LoadAttributes(rf_id_params);
 
             if (rf_id_params != 0)
@@ -61,8 +59,11 @@ namespace VesselInventory.ViewModel
             ReleaseCommand = new RelayCommand<IClosable>(Release,IsReleaseCanExecute);
         }
 
+        /// <summary>
+        /// Attributes
+        /// </summary>
         #region
-        public string status => _requestForm.status;
+        public string status => RequestFormEntity.status;
         public int barge_id { get; set; }
         public string barge_name { get; set; }
         public string ship_code { get; set; }
@@ -70,40 +71,40 @@ namespace VesselInventory.ViewModel
 
         public int ship_id
         {
-            get => _requestForm.ship_id;
-            set => _requestForm.ship_id = value;
+            get => RequestFormEntity.ship_id;
+            set => RequestFormEntity.ship_id = value;
         }
         public int rf_id
         {
-            get => _requestForm.rf_id;
-            set => _requestForm.rf_id = value;
+            get => RequestFormEntity.rf_id;
+            set => RequestFormEntity.rf_id = value;
         }
 
         public string rf_number
         {
-            get => _requestForm.rf_number;
+            get => RequestFormEntity.rf_number;
             set
             {
-                _requestForm.rf_number = value;
+                RequestFormEntity.rf_number = value;
                 OnPropertyChanged("rf_number");
             }
         }
         public string ship_name
         {
-            get => _requestForm.ship_name;
+            get => RequestFormEntity.ship_name;
             set
             {
-                _requestForm.ship_name = value;
+                RequestFormEntity.ship_name = value;
                 OnPropertyChanged("ship_name");
             }
         }
 
         [Required(ErrorMessage ="Project Number cannot be empty.")]
         public string project_number {
-            get => _requestForm.project_number;
+            get => RequestFormEntity.project_number;
             set
             {
-                _requestForm.project_number = value;
+                RequestFormEntity.project_number = value;
                 OnPropertyChanged("project_number");
             }
         }
@@ -112,19 +113,22 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (status == Status.RELEASE.GetDescription())
-                    return true;
-                return false;
+                return (status == Status.RELEASE.GetDescription());
             }
         }
 
         [Required]
         public string department_name
         {
-            get => _requestForm.department_name;
+            get
+            {
+                if (RequestFormEntity.department_name is null)
+                    RequestFormEntity.department_name = DepartmentCollection.First();
+                return RequestFormEntity.department_name;
+            }
             set
             {
-                _requestForm.department_name = value;
+                RequestFormEntity.department_name = value;
                 OnPropertyChanged("department_name");
             }
         }
@@ -132,10 +136,16 @@ namespace VesselInventory.ViewModel
         [Required]
         public DateTime target_delivery_date
         {
-            get => _requestForm.target_delivery_date;
+            get
+            {
+                if (RequestFormEntity.target_delivery_date == default(DateTime) )
+                    RequestFormEntity.target_delivery_date = DateTime.Now;
+                return RequestFormEntity.target_delivery_date;
+
+            }
             set
             {
-                _requestForm.target_delivery_date = DateTime.Parse(value.ToString());
+                RequestFormEntity.target_delivery_date = DateTime.Parse(value.ToString());
                 OnPropertyChanged("target_delivery_date");
             }
         }
@@ -144,10 +154,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public string notes
         {
-            get => _requestForm.notes;
+            get => RequestFormEntity.notes;
             set
             {
-                _requestForm.notes = value;
+                RequestFormEntity.notes = value;
                 OnPropertyChanged("notes");
             }
         }
@@ -233,96 +243,142 @@ namespace VesselInventory.ViewModel
                     return;
                 _IsCheckedBargeRequest = value;
 
-                if (_requestFormShipBargeDTO is null)
+                if (RequestFormShipBarge is null)
                     return;
 
                 if (_IsCheckedBargeRequest)
                 {
-                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code + '-' + barge_code;
-                    ship_name = _requestFormShipBargeDTO.barge_name;
-                    ship_id = _requestFormShipBargeDTO.barge_id;
+                    rf_number = RequestFormShipBarge.rf_number + '-' + ship_code + '-' + barge_code;
+                    ship_name = RequestFormShipBarge.barge_name;
+                    ship_id = RequestFormShipBarge.barge_id;
                 }
                 else
                 {
-                    rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
-                    ship_name = _requestFormShipBargeDTO.ship_name;
-                    ship_id = _requestFormShipBargeDTO.ship_id;
+                    rf_number = RequestFormShipBarge.rf_number + '-' + ship_code;
+                    ship_name = RequestFormShipBarge.ship_name;
+                    ship_id = RequestFormShipBarge.ship_id;
                 }
                 OnPropertyChanged("IsCheckedBargeRequest");
             }
         }
 
-        public ObservableCollection<string> DepartmentCollection { get; set; } 
-            = new ObservableCollection<string>();
-        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
-            = new ObservableCollection<RequestFormItem>();
         #endregion
 
-        private void LoadDepartmentList()
+        /// <summary>
+        /// UI Collections and Entity
+        /// </summary>
+        #region
+        private RequestFormShipBargeDTO RequestFormShipBarge
         {
-            foreach(var department in DataHelper.GetLookupValues("DEPARTMENT"))
-                DepartmentCollection.Add(department.description);
+            get
+            {
+                return RequestFormEntityRepository.GetRrequestFormShipBarge();
+            }
         }
-        
+
+        private RequestForm RequestFormEntity
+        {
+            get;
+            set;
+        } = new RequestForm();
+
+        public IList<string> DepartmentCollection
+        {
+            get
+            {
+                List<string> departmens = new List<string>();
+                foreach (var _ in DataHelper.GetLookupValues("DEPARTMENT"))
+                    departmens.Add(_.description);
+                return departmens;
+            }
+        }
+
+        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
+            = new ObservableCollection<RequestFormItem>();
+        private IEnumerable<RequestFormItem> RequestFormItemList
+        {
+            get
+            {
+                return RequestFormEntityItemRepository.GetRFItemList(rf_id);
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Load UI methods
+        /// </summary>
+        #region
         public void LoadDataGrid()
         {
             RequestFormItemCollection.Clear();
-            foreach (var _ in _requestFormItemRepository.GetRFItemList(rf_id))
+            foreach (var _ in RequestFormItemList)
                 RequestFormItemCollection.Add(_);
             TotalItem = RequestFormItemCollection.Count;
+        }
+
+        private void SetUIEditAttributes()
+        {
+            Title = "Edit Request Form";
+            IsVisibleButtonUpdate = true;
+            IsVisibleButtonRelease = true;
+            IsVisibleButtonSave = false;
+            IsItemEnabled = true;
+            IsVisibleBargeCheck = false;
+        }
+
+        private void SetUIAddAttributes()
+        {
+            Title = "Add Request Form";
+            IsVisibleButtonSave = true;
+            IsVisibleButtonUpdate = false;
+            IsVisibleButtonRelease = false;
+            IsItemEnabled = false;
+            IsVisibleBargeCheck = true;
+        }
+
+        private void SetFormAttributes(int rf_id_params)
+        {
+            rf_id = rf_id_params;
+            ship_code = RequestFormShipBarge.ship_code;
+            barge_code = RequestFormShipBarge.barge_code;
+            ship_id = RequestFormShipBarge.ship_id;
+            barge_id = RequestFormShipBarge.barge_id;
+            ship_name = RequestFormShipBarge.ship_name;
+            barge_name = RequestFormShipBarge.barge_name;
+            rf_number = RequestFormShipBarge.rf_number + '-' + ship_code;
         }
 
         private void LoadAttributes(int rf_id_params)
         {
             if (rf_id_params != 0)
             {
-                Title = "Edit Request Form";
-                IsVisibleButtonUpdate = true;
-                IsVisibleButtonRelease = true;
-                IsVisibleButtonSave = false;
-                IsItemEnabled = true;
-                IsVisibleBargeCheck = false;
-
-                _requestForm = _requestFormRepository.GetById(rf_id_params);
+                SetUIEditAttributes();
+                RequestFormEntity = RequestFormEntityRepository.GetById(rf_id_params);
             } else
             {
-                Title = "Add Request Form";
-                IsVisibleButtonSave = true;
-                IsVisibleButtonUpdate = false;
-                IsVisibleButtonRelease = false;
-                IsItemEnabled = false;
-                IsVisibleBargeCheck = true;
-
-                _requestForm.department_name = DepartmentCollection.First();
-                _requestForm.target_delivery_date = DateTime.Now;
-
-                _requestFormShipBargeDTO = _requestFormRepository.GetRrequestFormShipBarge();
-                rf_id = rf_id_params;
-                ship_code = _requestFormShipBargeDTO.ship_code;
-                barge_code = _requestFormShipBargeDTO.barge_code;
-                ship_id = _requestFormShipBargeDTO.ship_id;
-                barge_id = _requestFormShipBargeDTO.barge_id;
-                ship_name = _requestFormShipBargeDTO.ship_name;
-                barge_name = _requestFormShipBargeDTO.barge_name;
-                rf_number = _requestFormShipBargeDTO.rf_number + '-' + ship_code;
+                SetUIAddAttributes();
+                SetFormAttributes(rf_id);
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Button actions and behavior
+        /// </summary>
+        /// <param name="parameter"></param>
+        #region
         private void SaveAction(object parameter)
         {
             if (rf_id == 0)
-                _requestForm = _requestFormRepository.SaveRequestForm(_requestForm);
+                RequestFormEntity = RequestFormEntityRepository.SaveRequestForm(RequestFormEntity);
             else
-                _requestForm = _requestFormRepository.Update(rf_id, _requestForm);
+                RequestFormEntity = RequestFormEntityRepository.Update(rf_id, RequestFormEntity);
 
-            IsVisibleButtonSave = false;
-            IsVisibleButtonUpdate = true;
-            IsVisibleButtonRelease = true;
-            IsItemEnabled = true;
+            SetUIEditAttributes();
             _toasMessage.ShowSuccess("Data saved successfully.");
-
             _parentLoadable.LoadDataGrid();
         }
+
         private bool IsSaveCanExecute(object parameter)
         {
             if (string.IsNullOrWhiteSpace(project_number))
@@ -330,7 +386,6 @@ namespace VesselInventory.ViewModel
 
             return IsReleasedCanExecute();
         }
-
 
         private void AddOrEditItem(object parameter)
         {
@@ -361,10 +416,10 @@ namespace VesselInventory.ViewModel
 
         private void DeleteItem(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Are you sure?", "Delete Confirmation");
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
             if (confirmDialog == MessageBoxResult.No)
                 return;
-            _requestFormItemRepository.Delete(int.Parse(parameter.ToString()));
+            RequestFormEntityItemRepository.Delete(int.Parse(parameter.ToString()));
             _toasMessage.ShowSuccess("Data deleted successfully.");
             LoadDataGrid();
         }
@@ -374,13 +429,10 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Release Confirmation", "Are you sure?");
             if (confirmDialog == MessageBoxResult.No)
                 return;
-
-            _requestFormRepository.Release(rf_id);
+            RequestFormEntityRepository.Release(rf_id);
             _toasMessage.ShowSuccess("Release successfully to process.");
             _parentLoadable.LoadDataGrid();
-
-            if (window != null)
-                window.Close();
+            CloseWindow(window);
         }
 
         private bool IsReleaseCanExecute(object parameter)
@@ -401,5 +453,6 @@ namespace VesselInventory.ViewModel
         {
             return !IsReleased;
         }
+        #endregion
     }
 }

@@ -53,6 +53,9 @@ namespace VesselInventory.ViewModel
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
 
+        /// <summary>
+        /// UI Columns and Field
+        /// </summary>
         #region
         public int rf_id
         {
@@ -230,6 +233,10 @@ namespace VesselInventory.ViewModel
         }
         #endregion
 
+        /// <summary>
+        /// UI Properties Behaviour
+        /// </summary>
+        #region
         private string _itemSelectKeyword = string.Empty;
         public string ItemSelectKeyword
         {
@@ -261,16 +268,21 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("IsVisibleListBoxItem");
             }
         }
+        #endregion
 
 
+        /// <summary>
+        /// UI Collection Data
+        /// </summary>
+        #region
         public IList<string> ReasonCollection
         {
             get
             {
-                List<string> reason = new List<string>();
+                List<string> reasons = new List<string>();
                 foreach (var _ in DataHelper.GetLookupValues("REASON"))
-                    reason.Add(_.description);
-                return reason;
+                    reasons.Add(_.description);
+                return reasons;
             }
         }
 
@@ -312,7 +324,12 @@ namespace VesselInventory.ViewModel
                 ItemSelectKeyword = string.Empty;
             }
         }
+        #endregion
 
+        /// <summary>
+        /// Button Action and behavior
+        /// </summary>
+        #region
         private void Upload()
         {
             if(attachment_local_path.Trim() != string.Empty)
@@ -352,5 +369,6 @@ namespace VesselInventory.ViewModel
             if (window != null)
                 window.Close();
         }
+        #endregion
     }
 }
