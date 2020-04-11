@@ -7,11 +7,10 @@ using VesselInventory.Services;
 using System.Collections.Generic;
 using System.Windows;
 using Unity;
-using Unity.Injection;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormViewModel : RequestFormViewModelBase, IParentLoadable
+    public class RequestFormVM : RequestFormVMBase, IParentLoadable
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -20,7 +19,7 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private readonly IRequestFormRepository _requestFormRepository;
 
-        public RequestFormViewModel(IWindowService windowService, IRequestFormRepository requestFormRepository)
+        public RequestFormVM(IWindowService windowService, IRequestFormRepository requestFormRepository)
         {
             _windowService = windowService;
             _requestFormRepository = requestFormRepository;
@@ -120,16 +119,11 @@ namespace VesselInventory.ViewModel
         public void OpenRequestFormAction(object parameter)
         {
             var container = ((App)Application.Current).UnityContainer;
-            object[] arguments = new object[5];
-            arguments[0] = this;
-            arguments[1] = new WindowService();
-            arguments[2] = new RequestFormRepository();
-            arguments[3] = new RequestFormItemRepository();
-            if (parameter != null)
-                arguments[4] = (int)parameter;
-
-            container.RegisterType<RequestFormAddOrEditViewModel>(new InjectionConstructor(arguments));
-            var requestFormAddOrEditVM = container.Resolve<RequestFormAddOrEditViewModel>();
+            var requestFormAddOrEditVM = container.Resolve<RequestFormAddOrEditVM>();
+            if (parameter is null)
+                requestFormAddOrEditVM.InitializeData(this);
+            else
+                requestFormAddOrEditVM.InitializeData(this, (int)parameter);
 
             _windowService.ShowWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }

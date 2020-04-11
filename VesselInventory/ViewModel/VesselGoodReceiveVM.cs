@@ -8,7 +8,7 @@ using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    public class VesselGoodReceiveViewModel : ViewModelBase, IParentLoadable
+    public class VesselGoodReceiveVM : ViewModelBase, IParentLoadable
     {
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IWindowService _windowService;
@@ -16,7 +16,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
 
-        public VesselGoodReceiveViewModel(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
+        public VesselGoodReceiveVM(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
             InitializeCommands();
 
@@ -122,10 +122,10 @@ namespace VesselInventory.ViewModel
         {
             if(parameter is null)
                 _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                    (new VesselGoodReceiveAddOrEditViewModel(this));
+                    (new VesselGoodReceiveAddOrEditVM(this));
             else
                 _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                    (new VesselGoodReceiveAddOrEditViewModel(this,(int)parameter));
+                    (new VesselGoodReceiveAddOrEditVM(this,(int)parameter));
         }
     }
 }

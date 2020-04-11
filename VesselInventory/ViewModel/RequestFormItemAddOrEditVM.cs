@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ToastNotifications;
-using ToastNotifications.Messages;
 using VesselInventory.DTO;
 using VesselInventory.Models;
 using VesselInventory.Repository;
@@ -11,15 +9,12 @@ using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
 using System;
 using System.Collections.Generic;
-using Unity;
+using VesselInventory.Commons;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormItemAddOrEditViewModel : ViewModelBase
+    public class RequestFormItemAddOrEditVM : ViewModelBase
     {
-        private RequestFormItem _requestFormItem = new RequestFormItem();
-        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
-
         public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand ListBoxChangedCommand { get; private set; }
@@ -28,29 +23,34 @@ namespace VesselInventory.ViewModel
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;
-        private readonly IParentLoadable _parentLoadable;
+        private IParentLoadable _parentLoadable;
 
-        public RequestFormItemAddOrEditViewModel
-            (
-                IParentLoadable parentLoadable,
-                IUploadService uploadService,
-                IOService iOService,
-                IRequestFormItemRepository requestFormItemRepository,
-                int rf_id,
-                int rf_item_id = 0
-            )
+        public RequestFormItemAddOrEditVM( 
+            IUploadService uploadService,
+            IOService iOService,
+            IRequestFormItemRepository requestFormItemRepository )
         {
-            InitializeCommands();
-            _parentLoadable = parentLoadable;
             _uploadService = uploadService;
             _iOService = iOService;
             _requestFormItemRepository = requestFormItemRepository;
+            InitializeCommands();
 
-            this.rf_id = rf_id;
-
-            if (rf_item_id != 0)
-                _requestFormItem = _requestFormItemRepository.GetById(rf_item_id);
         }
+
+        public void InitializeData(IParentLoadable parentLoadable, int rf_id, int rf_item_id = 0)
+        {
+            _parentLoadable = parentLoadable;
+            this.rf_id = rf_id;
+            this.rf_item_id = rf_item_id;
+
+            if (!IsNewRecord)
+                RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+        }
+
+        private RequestFormItem RequestFormItemEntity
+        {
+            get; set;
+        } = new RequestFormItem();
 
         private bool IsNewRecord
         {
@@ -74,104 +74,104 @@ namespace VesselInventory.ViewModel
         #region
         public int rf_id
         {
-            get => _requestFormItem.rf_id;
+            get => RequestFormItemEntity.rf_id;
             set
             {
-                _requestFormItem.rf_id = value;
+                RequestFormItemEntity.rf_id = value;
             }
         }
         public int rf_item_id
         {
-            get => _requestFormItem.rf_item_id;
+            get => RequestFormItemEntity.rf_item_id;
             set
             {
-                _requestFormItem.rf_item_id = value;
+                RequestFormItemEntity.rf_item_id = value;
             }
         }
         public string item_dimension_number
         {
-            get => _requestFormItem.item_dimension_number;
+            get => RequestFormItemEntity.item_dimension_number;
             set
             {
-                _requestFormItem.item_dimension_number = value;
+                RequestFormItemEntity.item_dimension_number = value;
             }
         }
         public int? item_group_id
         {
-            get => _requestFormItem.item_group_id;
+            get => RequestFormItemEntity.item_group_id;
             set
             {
-                _requestFormItem.item_group_id = value;
+                RequestFormItemEntity.item_group_id = value;
             }
         }
 
         [Required(ErrorMessage = "Please select item.")]
         public int item_id
         {
-            get => _requestFormItem.item_id;
+            get => RequestFormItemEntity.item_id;
             set
             {
-                _requestFormItem.item_id = value;
+                RequestFormItemEntity.item_id = value;
                 OnPropertyChanged("item_id");
             }
         }
 
         public string item_name
         {
-            get => _requestFormItem.item_name;
+            get => RequestFormItemEntity.item_name;
             set
             {
-                _requestFormItem.item_name = value;
+                RequestFormItemEntity.item_name = value;
                 OnPropertyChanged("item_name");
             }
         }
 
         public string brand_type_id
         {
-            get => _requestFormItem.brand_type_id;
+            get => RequestFormItemEntity.brand_type_id;
             set
             {
-                _requestFormItem.brand_type_id = value;
+                RequestFormItemEntity.brand_type_id = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
 
         public string brand_type_name
         {
-            get => _requestFormItem.brand_type_name;
+            get => RequestFormItemEntity.brand_type_name;
             set
             {
-                _requestFormItem.brand_type_name = value;
+                RequestFormItemEntity.brand_type_name = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
 
         public string color_size_id
         {
-            get => _requestFormItem.color_size_id;
+            get => RequestFormItemEntity.color_size_id;
             set
             {
-                _requestFormItem.color_size_id = value;
+                RequestFormItemEntity.color_size_id = value;
                 OnPropertyChanged("color_size_id");
             }
         }
 
         public string color_size_name
         {
-            get => _requestFormItem.color_size_name;
+            get => RequestFormItemEntity.color_size_name;
             set
             {
-                _requestFormItem.color_size_name = value;
+                RequestFormItemEntity.color_size_name = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public string attachment_path
         {
-            get => _requestFormItem.attachment_path;
+            get => RequestFormItemEntity.attachment_path;
             set
             {
-                _requestFormItem.attachment_path = value;
+                RequestFormItemEntity.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -190,10 +190,10 @@ namespace VesselInventory.ViewModel
         [Required(ErrorMessage = "Qty cannot be empty")]
         public decimal qty
         {
-            get => _requestFormItem.qty;
+            get => RequestFormItemEntity.qty;
             set
             {
-                _requestFormItem.qty = value;
+                RequestFormItemEntity.qty = value;
                 OnPropertyChanged("qty");
             }
         }
@@ -202,13 +202,13 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (_requestFormItem.reason is null)
-                    _requestFormItem.reason = ReasonCollection.First();
-                return _requestFormItem.reason;
+                if (RequestFormItemEntity.reason is null)
+                    RequestFormItemEntity.reason = ReasonCollection.First();
+                return RequestFormItemEntity.reason;
             }
             set
             {
-                _requestFormItem.reason = value;
+                RequestFormItemEntity.reason = value;
                 OnPropertyChanged("reason");
             }
         }
@@ -217,32 +217,32 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (_requestFormItem.priority is null)
-                    _requestFormItem.priority = PriorityCollection.First();
-                return _requestFormItem.priority;
+                if (RequestFormItemEntity.priority is null)
+                    RequestFormItemEntity.priority = PriorityCollection.First();
+                return RequestFormItemEntity.priority;
             }
             set
             {
-                _requestFormItem.priority = value;
+                RequestFormItemEntity.priority = value;
                 OnPropertyChanged("priority");
             }
         }
 
         public string remarks
         {
-            get => _requestFormItem.remarks;
+            get => RequestFormItemEntity.remarks;
             set
             {
-                _requestFormItem.remarks = value;
+                RequestFormItemEntity.remarks = value;
                 OnPropertyChanged("remarks");
             }
         }
         public string uom
         {
-            get => _requestFormItem.uom;
+            get => RequestFormItemEntity.uom;
             set
             {
-                _requestFormItem.uom = value;
+                RequestFormItemEntity.uom = value;
                 OnPropertyChanged("uom");
             }
         }
@@ -287,14 +287,14 @@ namespace VesselInventory.ViewModel
 
 
         /// <summary>
-        /// UI Collection Data
+        /// UI Collection Data and Entity
         /// </summary>
         #region
         public IList<string> ReasonCollection
         {
             get
             {
-                List<string> reasons = new List<string>();
+                IList<string> reasons = new List<string>();
                 foreach (var _ in DataHelper.GetLookupValues("REASON"))
                     reasons.Add(_.description);
                 return reasons;
@@ -305,7 +305,7 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                List<string> priorities = new List<string>();
+                IList<string> priorities = new List<string>();
                 foreach (var _ in DataHelper.GetLookupValues("PRIORITY"))
                     priorities.Add(_.description);
                 return priorities;
@@ -354,24 +354,35 @@ namespace VesselInventory.ViewModel
                 attachment_path = _uploadService.GetUploadedPath();
             }
         }
+
+        private void SaveOrUpdate()
+        {
+            if (IsNewRecord)
+                _requestFormItemRepository.Save(RequestFormItemEntity);
+            else
+                _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
+        }
+
+        private void LoadParentDataGrid()
+        {
+            _parentLoadable.LoadDataGrid();
+        }
+
+
         private void SaveAction(IClosable window)
         {
             try
             {
                 Upload();
-                if (rf_item_id == 0)
-                    _requestFormItemRepository.Save(_requestFormItem);
-                else
-                    _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
-
-                _parentLoadable.LoadDataGrid();
-                _toasMessage.ShowSuccess("Data saved successfully.");
+                SaveOrUpdate();
+                ResponseMessage.Success("Data saved successfully.");
+                LoadParentDataGrid();
                 CloseWindow(window);
             } catch (Exception ex)
             {
-                _toasMessage.ShowError("Something went wrong : " + ex.Message.ToString());
+                ResponseMessage.Error("Something went wrong : " + ex.Message.ToString());
             }
-}
+        }
 
         private void OpenFile(object parameter)
         {

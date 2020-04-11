@@ -21,13 +21,13 @@ namespace VesselInventory
             switch (indexMenu)
             {
                 case 0:
-                    DataContext = container.Resolve<HomeViewModel>();
+                    DataContext = container.Resolve<HomeVM>();
                     break;
                 case 1:
-                    DataContext = container.Resolve<RequestFormViewModel>();
+                    DataContext = container.Resolve<RequestFormVM>();
                     break;
                 case 2:
-                    DataContext = container.Resolve<VesselGoodReceiveViewModel>();
+                    DataContext = container.Resolve<VesselGoodReceiveVM>();
                     break;
                 case 3:
                     break;

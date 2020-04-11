@@ -9,10 +9,10 @@ using Unity;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormViewModelBase : ViewModelBase
+    public class RequestFormVMBase : ViewModelBase
     {
         public RelayCommand SwitchTabCommand { get; private set; }
-        public RequestFormViewModelBase()
+        public RequestFormVMBase()
         {
             SwitchTabCommand = new RelayCommand(SwitchTabAction);
         }
@@ -22,13 +22,13 @@ namespace VesselInventory.ViewModel
             switch ((string)parameter)
             {
                 case "List":
-                    Navigate.To(container.Resolve<RequestFormViewModel>());
+                    Navigate.To(container.Resolve<RequestFormVM>());
                     break;
                 case "ItemStatus":
-                    Navigate.To(container.Resolve<RequestFormItemStatusViewModel>());
+                    Navigate.To(container.Resolve<RequestFormItemStatusVM>());
                     break;
                 case "ItemPending":
-                    Navigate.To(container.Resolve<RequestFormItemPendingViewModel>());
+                    Navigate.To(container.Resolve<RequestFormItemPendingVM>());
                     break;
                 default:
                     break;

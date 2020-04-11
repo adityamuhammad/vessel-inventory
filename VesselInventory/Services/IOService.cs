@@ -9,8 +9,9 @@ namespace VesselInventory.Services
         string OpenFileDialog();
         Stream OpenFile(string path);
     }
-    public sealed class OpenPdfFileDialog : IOService
+    public class OpenPdfFileDialog : IOService
     {
+        public OpenPdfFileDialog() { }
         public Stream OpenFile(string path)
         {
             throw new NotImplementedException();

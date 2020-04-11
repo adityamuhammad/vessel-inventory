@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace VesselInventory.ViewModel
 {
-    class RequestFormItemStatusViewModel : RequestFormViewModelBase
+    class RequestFormItemStatusVM : RequestFormVMBase
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemStatusViewModel(IRequestFormItemRepository requestFormItemRepository)
+        public RequestFormItemStatusVM(IRequestFormItemRepository requestFormItemRepository)
         {
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();

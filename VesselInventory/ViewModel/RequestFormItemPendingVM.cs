@@ -1,13 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using VesselInventory.DTO;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
-    class RequestFormItemPendingViewModel : RequestFormViewModelBase, IParentLoadable
+    public class RequestFormItemPendingVM : RequestFormVMBase, IParentLoadable
     {
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -15,7 +17,7 @@ namespace VesselInventory.ViewModel
 
         private readonly IWindowService _windowService;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
-        public RequestFormItemPendingViewModel(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
+        public RequestFormItemPendingVM(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
         {
             _windowService = windowService;
             _requestFormItemRepository = requestFormItemRepository;
@@ -111,8 +113,11 @@ namespace VesselInventory.ViewModel
 
         private void OpenUploadDocumentFormAction(object parameter)
         {
+            var container = ((App)Application.Current).UnityContainer;
+            var requestFormItemUploadDocumentVM = container.Resolve<RequestFormItemUploadDocVM>();
+            requestFormItemUploadDocumentVM.InitializeData(this, (int)parameter);
             _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
-                (new RequestFormItemUploadDocument(this,(int)parameter));
+                (requestFormItemUploadDocumentVM);
         }
     }
 }

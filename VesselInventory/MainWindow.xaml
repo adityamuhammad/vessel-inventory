@@ -20,25 +20,25 @@
 
         <DataTemplate 
             x:Name="RequestForm_Main" 
-            DataType="{x:Type viewmodels:RequestFormViewModel}">
+            DataType="{x:Type viewmodels:RequestFormVM}">
             <views:RequestForm_MainView DataContext="{Binding}"/>
         </DataTemplate>
 
         <DataTemplate 
             x:Name="RequestForm_ItemStatus" 
-            DataType="{x:Type viewmodels:RequestFormItemStatusViewModel}">
+            DataType="{x:Type viewmodels:RequestFormItemStatusVM}">
             <views:RequestForm_ItemStatusView DataContext="{Binding}"/>
         </DataTemplate>
 
         <DataTemplate 
             x:Name="RequestForm_ItemPending" 
-            DataType="{x:Type viewmodels:RequestFormItemPendingViewModel}">
+            DataType="{x:Type viewmodels:RequestFormItemPendingVM}">
             <views:RequestForm_ItemPendingView DataContext="{Binding}"/>
         </DataTemplate>
 
         <DataTemplate 
             x:Name="VesselGoodReceive_Main" 
-            DataType="{x:Type viewmodels:VesselGoodReceiveViewModel}">
+            DataType="{x:Type viewmodels:VesselGoodReceiveVM}">
             <views:VesselGoodReceive_MainView DataContext="{Binding}"/>
         </DataTemplate>
 

@@ -10,7 +10,7 @@ using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReceiveAddOrEditViewModel : ViewModelBase, IParentLoadable
+    class VesselGoodReceiveAddOrEditVM : ViewModelBase, IParentLoadable
     {
         VesselGoodReceive _vesselGoodReceive = new VesselGoodReceive();
         public RelayCommand SaveCommand { get; private set; }
@@ -21,8 +21,8 @@ namespace VesselInventory.ViewModel
         private readonly IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
 
-        public VesselGoodReceiveAddOrEditViewModel(IParentLoadable parentLoadable) : this(parentLoadable,0){}
-        public VesselGoodReceiveAddOrEditViewModel(IParentLoadable parentLoadable  ,int vessel_good_receive_id)
+        public VesselGoodReceiveAddOrEditVM(IParentLoadable parentLoadable) : this(parentLoadable,0){}
+        public VesselGoodReceiveAddOrEditVM(IParentLoadable parentLoadable  ,int vessel_good_receive_id)
         {
             InitializeCommands();
             _parentLoadable = parentLoadable;

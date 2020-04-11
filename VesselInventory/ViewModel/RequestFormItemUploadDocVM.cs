@@ -1,5 +1,4 @@
-﻿using ToastNotifications;
-using ToastNotifications.Messages;
+﻿using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -7,28 +6,31 @@ using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
 {
-    class RequestFormItemUploadDocument : ViewModelBase
+    class RequestFormItemUploadDocVM : ViewModelBase
     {
         public RelayCommand OpenFileDialogCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand<IClosable> CloseCommand { get; private set; }
 
-        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
-        private RequestFormItem _requestFormItem = new RequestFormItem();
-
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;
-        private readonly IParentLoadable _parentLoadable;
+        private IParentLoadable _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemUploadDocument(IParentLoadable parentLoadable, int _requestFormItem_id)
+        public RequestFormItemUploadDocVM(
+            IOService ioService, 
+            IUploadService uploadService, 
+            IRequestFormItemRepository requestFormItemRepository)
         {
-            _requestFormItemRepository = new RequestFormItemRepository();
-            _requestFormItem = _requestFormItemRepository.GetById(_requestFormItem_id);
-            _parentLoadable = parentLoadable;
-            _uploadService = new UploadService();
-            _iOService = new OpenPdfFileDialog();
+            _iOService = ioService;
+            _uploadService = uploadService;
+            _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
+        }
+        public void InitializeData(IParentLoadable parentLoadable, int rf_item_id)
+        {
+            RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+            _parentLoadable = parentLoadable;
         }
 
         private void InitializeCommands()
@@ -37,10 +39,14 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
+        private RequestFormItem RequestFormItemEntity
+        {
+            get; set;
+        } = new RequestFormItem();
 
         public int rf_item_id {
-            get => _requestFormItem.rf_item_id;
-            set => _requestFormItem.rf_item_id = value;
+            get => RequestFormItemEntity.rf_item_id;
+            set => RequestFormItemEntity.rf_item_id = value;
         }
 
         private string _attachment_local_path = string.Empty;
@@ -56,10 +62,10 @@ namespace VesselInventory.ViewModel
 
         public string attachment_path
         {
-            get => _requestFormItem.attachment_path;
+            get => RequestFormItemEntity.attachment_path;
             set
             {
-                _requestFormItem.attachment_path = value;
+                RequestFormItemEntity.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -72,7 +78,7 @@ namespace VesselInventory.ViewModel
         private void OpenFile(object parameter)
         {
             var filename = _iOService.OpenFileDialog();
-            if (filename != "Error")
+            if (filename != null)
                 attachment_local_path = filename;
         }
 
@@ -88,9 +94,9 @@ namespace VesselInventory.ViewModel
             if(attachment_local_path.Trim() != string.Empty)
             {
                 Upload();
-                _requestFormItemRepository.Update(rf_item_id,_requestFormItem);
+                _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
                 _parentLoadable.LoadDataGrid();
-                _toasMessage.ShowSuccess("Data saved successfully.");
+                ResponseMessage.Success("Data saved successfully.");
             }
             CloseWindow(window);
             return;

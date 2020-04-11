@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using ToastNotifications;
 using VesselInventory.DTO;
 using VesselInventory.Models;
 using VesselInventory.Repository;
@@ -14,21 +13,18 @@ using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Commons;
 using System.Windows;
 using VesselInventory.Commons.Enums;
-using ToastNotifications.Messages;
 using System.Collections.Generic;
 using Unity;
-using Unity.Injection;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormAddOrEditViewModel : ViewModelBase, IParentLoadable
+    public class RequestFormAddOrEditVM : ViewModelBase, IParentLoadable
     {
-        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
 
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
-        private readonly IParentLoadable _parentLoadable;
         private readonly IWindowService _windowService;
+        private IParentLoadable _parentLoadable;
 
         public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
@@ -36,20 +32,20 @@ namespace VesselInventory.ViewModel
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
-        public RequestFormAddOrEditViewModel(
-            IParentLoadable parentLoadable,
-            IWindowService windowService, 
+        public RequestFormAddOrEditVM( IWindowService windowService, 
             IRequestFormRepository requestFormRepository, 
-            IRequestFormItemRepository requestFormItemRepository, 
-            int rf_id = 0)
+            IRequestFormItemRepository requestFormItemRepository )
         {
-            _parentLoadable = parentLoadable;
             _windowService = windowService;
             _requestFormRepository = requestFormRepository;
             _requestFormItemRepository = requestFormItemRepository;
-            this.rf_id = rf_id;
-
             InitializeCommands();
+
+        }
+        
+        public void InitializeData( IParentLoadable parentLoadable, int rf_id = 0) {
+            _parentLoadable = parentLoadable;
+            this.rf_id = rf_id;
             LoadAttributes();
             if (!IsNewRecord)
                 LoadDataGrid();
@@ -59,9 +55,9 @@ namespace VesselInventory.ViewModel
         {
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
             SaveCommand = new RelayCommand(SaveAction, IsSaveCanExecute);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItem,IsCanExecuteAddOrEditItem);
-            DeleteItemCommand = new RelayCommand(DeleteItem,IsCanExecuteDeleteItem);
-            ReleaseCommand = new RelayCommand<IClosable>(Release,IsReleaseCanExecute);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItem,IsAddOrEditItemCanExecute);
+            DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
+            ReleaseCommand = new RelayCommand<IClosable>(ReleaseAction,IsReleaseCanExecute);
         }
 
         /// <summary>
@@ -298,7 +294,7 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                List<string> departmens = new List<string>();
+                IList<string> departmens = new List<string>();
                 foreach (var _ in DataHelper.GetLookupValues("DEPARTMENT"))
                     departmens.Add(_.description);
                 return departmens;
@@ -328,7 +324,7 @@ namespace VesselInventory.ViewModel
             TotalItem = RequestFormItemCollection.Count;
         }
 
-        private void SetUIEditAttributes()
+        private void SetUIEditProperties()
         {
             Title = "Edit Request Form";
             IsVisibleButtonUpdate = true;
@@ -338,7 +334,7 @@ namespace VesselInventory.ViewModel
             IsVisibleBargeCheck = false;
         }
 
-        private void SetUIAddAttributes()
+        private void SetUIAddProperties()
         {
             Title = "Add Request Form";
             IsVisibleButtonSave = true;
@@ -348,7 +344,7 @@ namespace VesselInventory.ViewModel
             IsVisibleBargeCheck = true;
         }
 
-        private void SetFormAttributes(int rf_id_params)
+        private void SetAttributes(int rf_id_params)
         {
             ship_code = RequestFormShipBarge.ship_code;
             barge_code = RequestFormShipBarge.barge_code;
@@ -363,12 +359,12 @@ namespace VesselInventory.ViewModel
         {
             if (!IsNewRecord)
             {
-                SetUIEditAttributes();
+                SetUIEditProperties();
                 RequestFormEntity = _requestFormRepository.GetById(rf_id);
             } else
             {
-                SetUIAddAttributes();
-                SetFormAttributes(rf_id);
+                SetUIAddProperties();
+                SetAttributes(rf_id);
             }
         }
         #endregion
@@ -378,40 +374,15 @@ namespace VesselInventory.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         #region
-        private void SaveAction(object parameter)
-        {
-            if (IsNewRecord)
-                RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
-            else
-                RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
-
-            SetUIEditAttributes();
-            _toasMessage.ShowSuccess("Data saved successfully.");
-            _parentLoadable.LoadDataGrid();
-        }
-
-        private bool IsSaveCanExecute(object parameter)
-        {
-            if (string.IsNullOrWhiteSpace(project_number))
-                return false;
-
-            return IsReleasedCanExecute();
-        }
-
         private void AddOrEditItem(object parameter)
         {
             var container = ((App)Application.Current).UnityContainer;
-            object[] arguments = new object[6];
-            arguments[0] = this;
-            arguments[1] = new UploadService();
-            arguments[2] = new OpenPdfFileDialog();
-            arguments[3] = new RequestFormItemRepository();
-            arguments[4] = rf_id;
-            if (parameter != null)
-                arguments[5] = (int)parameter;
-            container.RegisterType<RequestFormItemAddOrEditViewModel>(new InjectionConstructor(arguments));
-            var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditViewModel>();
-            _windowService.ShowWindow<RequestForm_ItemAddOrEditView> ( requestFormItemAddOrEditVM);
+            var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditVM>();
+            if (parameter is null)
+                requestFormItemAddOrEditVM.InitializeData(this, rf_id);
+            else
+                requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
+            _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
         }
 
         private void CloseWindow(IClosable window)
@@ -431,25 +402,44 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void DeleteItem(object parameter)
+        private void SaveAction(object parameter)
+        {
+            if (IsNewRecord)
+                RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
+            else
+                RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
+
+            SetUIEditProperties();
+            ResponseMessage.Success("Data saved successfully.");
+            _parentLoadable.LoadDataGrid();
+        }
+        private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormItemRepository.Delete((int)parameter);
-            _toasMessage.ShowSuccess("Data deleted successfully.");
+            ResponseMessage.Success("Data deleted successfully.");
             LoadDataGrid();
         }
 
-        private void Release(IClosable window)
+        private void ReleaseAction(IClosable window)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Release Confirmation", "Are you sure?");
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormRepository.Release(rf_id);
-            _toasMessage.ShowSuccess("Release successfully to process.");
+            ResponseMessage.Success("Release successfully to process.");
             _parentLoadable.LoadDataGrid();
             CloseWindow(window);
+        }
+
+        private bool IsSaveCanExecute(object parameter)
+        {
+            if (string.IsNullOrWhiteSpace(project_number))
+                return false;
+
+            return IsReleasedCanExecute();
         }
 
         private bool IsReleaseCanExecute(object parameter)
@@ -457,11 +447,11 @@ namespace VesselInventory.ViewModel
             return IsReleasedCanExecute();
         }
 
-        private bool IsCanExecuteAddOrEditItem(object parameter)
+        private bool IsAddOrEditItemCanExecute(object parameter)
         {
             return IsReleasedCanExecute();
         }
-        private bool IsCanExecuteDeleteItem(object parameter)
+        private bool IsDeleteItemCanExecute(object parameter)
         {
             return IsReleasedCanExecute();
         }
