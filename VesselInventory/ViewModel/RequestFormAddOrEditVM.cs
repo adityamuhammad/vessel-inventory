@@ -20,7 +20,6 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormAddOrEditVM : ViewModelBase, IParentLoadable
     {
-
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IWindowService _windowService;
@@ -380,6 +379,7 @@ namespace VesselInventory.ViewModel
             var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditVM>();
             if (parameter is null)
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id);
+
             else
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
             _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);

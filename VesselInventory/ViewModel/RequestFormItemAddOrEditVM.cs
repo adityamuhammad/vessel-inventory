@@ -369,7 +369,6 @@ namespace VesselInventory.ViewModel
             _parentLoadable.LoadDataGrid();
         }
 
-
         private void SaveAction(IClosable window)
         {
             try

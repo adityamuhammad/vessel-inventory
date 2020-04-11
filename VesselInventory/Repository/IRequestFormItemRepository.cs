@@ -17,8 +17,8 @@ namespace VesselInventory.Repository
         int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
         IEnumerable<ItemPendingDTO> GetItemPending(string rf_number, int page, int rows = 10);
         int GetItemPendingTotalPage(string rf_number, int rows = 10);
-
     }
+
     public class RequestFormItemRepository : 
         Repository<RequestFormItem>, 
         IRequestFormItemRepository

@@ -1,6 +1,5 @@
 ﻿using System;
-using ToastNotifications;
-using ToastNotifications.Messages;
+using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.DTO;
 using VesselInventory.Models;
@@ -12,40 +11,43 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodReceiveAddOrEditVM : ViewModelBase, IParentLoadable
     {
-        VesselGoodReceive _vesselGoodReceive = new VesselGoodReceive();
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemRejectCommand { get; private set; }
 
-        private Notifier _toasMessage = ToastNotification.Instance.GetInstance();
-
-        private readonly IParentLoadable _parentLoadable;
+        private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
 
-        public VesselGoodReceiveAddOrEditVM(IParentLoadable parentLoadable) : this(parentLoadable,0){}
-        public VesselGoodReceiveAddOrEditVM(IParentLoadable parentLoadable  ,int vessel_good_receive_id)
+        public VesselGoodReceiveAddOrEditVM(IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
             InitializeCommands();
-            _parentLoadable = parentLoadable;
-            _vesselGoodReceiveRepository = new VesselGoodReceiveRepository();
+            _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
+        }
 
-            if(vessel_good_receive_id > 0)
+        private void InitializeCommands()
+        {
+            SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
+        }
+
+        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId = 0)
+        {
+            vessel_good_receive_id = vesselGoodReceiveId;
+            _parentLoadable = parentLoadable;
+            if(!IsNewRecord)
             {
-                _vesselGoodReceive = _vesselGoodReceiveRepository.GetById(vessel_good_receive_id);
+                VesselGoodReceiveEntity = _vesselGoodReceiveRepository.GetById(vessel_good_receive_id);
                 IsItemEnabled = true;
             } else
             {
                 IsItemEnabled = false;
-                this.vessel_good_receive_id = vessel_good_receive_id;
                 vessel_good_receive_number = DataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ship_code;
                 vessel_good_receive_date = DateTime.Now;
             }
         }
 
-        private void InitializeCommands()
-        {
-            SaveCommand = new RelayCommand(Save,IsSaveCanExecute);
-        }
-
+        /// <summary>
+        /// UI Props
+        /// </summary>
+        #region
         private bool _IsItemEnabled;
         public bool IsItemEnabled
         {
@@ -59,7 +61,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-
         private string _textScann = "";
         public string TextScann
         {
@@ -69,49 +70,34 @@ namespace VesselInventory.ViewModel
                 _textScann = value;
                 Reset();
                 string[] textScanList = _textScann.Split('|');
-                for (int i = 0; i < textScanList.Length; i++)
+                try
                 {
-                    if (i == 0)
-                        good_issued_number = textScanList[i];
+                    for (int i = 0; i < textScanList.Length; i++)
+                    {
+                        if (i == 0)
+                            good_issued_number = textScanList[i];
+                        if (i == 1)
+                            ship_id = int.Parse(textScanList[i]);
+                        if (i == 2)
+                            ship_code = textScanList[i];
+                        if (i == 3)
+                            ship_name = textScanList[i];
+                        if (i == 4)
+                            barge_id = int.Parse(textScanList[i]);
+                        if (i == 5)
+                            barge_code = textScanList[i];
+                        if (i == 6)
+                            barge_name = textScanList[i];
+                    }
 
-                    if (i == 1)
-                        ship_id = int.Parse(textScanList[i]);
-
-                    if (i == 2)
-                        ship_code = textScanList[i];
-
-                    if (i == 3)
-                        ship_name = textScanList[i];
-
-                    if (i == 4)
-                        barge_id = int.Parse(textScanList[i]);
-
-                    if (i == 5)
-                        barge_code = textScanList[i];
-
-                    if (i == 6)
-                        barge_name = textScanList[i];
+                } catch (Exception ex)
+                {
+                    ResponseMessage.Error("The format is invalid, details :" + ex.Message);
                 }
                 _textScann = "";
                 OnPropertyChanged("TextScann");
             }
         }
-        public DateTime vessel_good_receive_date
-        {
-            get => _vesselGoodReceive.vessel_good_receive_date;
-            set
-            {
-                _vesselGoodReceive.vessel_good_receive_date = DateTime.Parse(value.ToString());
-                OnPropertyChanged("vessel_good_receive");
-            }
-        }
-
-        public string vessel_good_receive_number
-        {
-            get => _vesselGoodReceive.vessel_good_receive_number;
-            set => _vesselGoodReceive.vessel_good_receive_number = value;
-        }
-
         private void Reset()
         {
             good_issued_number = "";
@@ -123,18 +109,43 @@ namespace VesselInventory.ViewModel
             barge_name = "";
         }
 
+        #endregion
+
+        /// <summary>
+        /// Columns and Entity
+        /// </summary>
+        #region
+        private bool IsNewRecord => (vessel_good_receive_id == 0);
+        private VesselGoodReceive VesselGoodReceiveEntity { get; set; }  = new VesselGoodReceive();
+        private ShipBargeDTO ShipBarge => DataHelper.GetShipBargeApairs();
+        public DateTime vessel_good_receive_date
+        {
+            get => VesselGoodReceiveEntity.vessel_good_receive_date;
+            set
+            {
+                VesselGoodReceiveEntity.vessel_good_receive_date = DateTime.Parse(value.ToString());
+                OnPropertyChanged("vessel_good_receive");
+            }
+        }
+
+        public string vessel_good_receive_number
+        {
+            get => VesselGoodReceiveEntity.vessel_good_receive_number;
+            set => VesselGoodReceiveEntity.vessel_good_receive_number = value;
+        }
+
         public int vessel_good_receive_id
         {
-            get => _vesselGoodReceive.vessel_good_receive_id;
-            set => _vesselGoodReceive.vessel_good_receive_id = value;
+            get => VesselGoodReceiveEntity.vessel_good_receive_id;
+            set => VesselGoodReceiveEntity.vessel_good_receive_id = value;
         }
 
         public string good_issued_number
         {
-            get => _vesselGoodReceive.good_issued_number;
+            get => VesselGoodReceiveEntity.good_issued_number;
             set
             {
-                _vesselGoodReceive.good_issued_number = value;
+                VesselGoodReceiveEntity.good_issued_number = value;
                 OnPropertyChanged("good_issued_number");
             }
         }
@@ -142,85 +153,98 @@ namespace VesselInventory.ViewModel
 
         public int ship_id
         {
-            get => _vesselGoodReceive.ship_id;
+            get => VesselGoodReceiveEntity.ship_id;
             set
             {
-                _vesselGoodReceive.ship_id = value;
+                VesselGoodReceiveEntity.ship_id = value;
                 OnPropertyChanged("ship_id");
             }
         }
 
         public int barge_id
         {
-            get => _vesselGoodReceive.barge_id;
+            get => VesselGoodReceiveEntity.barge_id;
             set
             {
-                _vesselGoodReceive.barge_id = value;
+                VesselGoodReceiveEntity.barge_id = value;
                 OnPropertyChanged("barge_id");
             }
         }
 
         public string ship_code
         {
-            get => _vesselGoodReceive.ship_code;
+            get => VesselGoodReceiveEntity.ship_code;
             set
             {
-                _vesselGoodReceive.ship_code = value;
+                VesselGoodReceiveEntity.ship_code = value;
                 OnPropertyChanged("ship_code");
             }
         }
 
         public string ship_name
         {
-            get => _vesselGoodReceive.ship_name;
+            get => VesselGoodReceiveEntity.ship_name;
             set
             {
-                _vesselGoodReceive.ship_name = value;
+                VesselGoodReceiveEntity.ship_name = value;
                 OnPropertyChanged("ship_name");
             }
         }
 
         public string barge_code
         {
-            get => _vesselGoodReceive.barge_code;
+            get => VesselGoodReceiveEntity.barge_code;
             set
             {
-                _vesselGoodReceive.barge_code = value;
+                VesselGoodReceiveEntity.barge_code = value;
                 OnPropertyChanged("barge_code");
             }
         }
 
         public string barge_name
         {
-            get => _vesselGoodReceive.barge_name;
+            get => VesselGoodReceiveEntity.barge_name;
             set
             {
-                _vesselGoodReceive.barge_name = value;
+                VesselGoodReceiveEntity.barge_name = value;
                 OnPropertyChanged("barge_name");
             }
         }
+        #endregion
 
-        private ShipBargeDTO ShipBarge => DataHelper.GetShipBargeApairs();
+        /// <summary>
+        /// Data Methods
+        /// </summary>
+        #region
+        public void LoadDataGrid()
+        {
+            throw new System.NotImplementedException();
+        }
+        #endregion
 
-        private void Save(object parameter)
+        /// <summary>
+        /// Load Data
+        /// </summary>
+        /// <param name="parameter"></param>
+        #region
+        private void SaveAction(object parameter)
         {
             try
             {
                 if (ship_code != ShipBarge.ship_code)
                     throw new Exception("Cannot process, The Ship Code does not match.");
 
-                if (vessel_good_receive_id == 0)
-                    _vesselGoodReceive = _vesselGoodReceiveRepository.SaveVesselGoodReceive(_vesselGoodReceive);
+                if (IsNewRecord)
+                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository.SaveVesselGoodReceive(VesselGoodReceiveEntity);
                 else
-                    _vesselGoodReceive = _vesselGoodReceiveRepository.Update(vessel_good_receive_id,_vesselGoodReceive);
+                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository.Update(vessel_good_receive_id,VesselGoodReceiveEntity);
 
                 IsItemEnabled = true;
-                _toasMessage.ShowSuccess("Data saved successfully.");
+                ResponseMessage.Success("Data saved successfully.");
                 _parentLoadable.LoadDataGrid();
-
             } catch (Exception ex)
             {
-                _toasMessage.ShowWarning(ex.Message);
+                ResponseMessage.Error("Error  : " + ex.Message);
             }
         }
         private bool IsSaveCanExecute(object parameter)
@@ -231,10 +255,6 @@ namespace VesselInventory.ViewModel
                 return false;
             return true;
         }
-
-        public void LoadDataGrid()
-        {
-            throw new System.NotImplementedException();
-        }
+        #endregion
     }
 }

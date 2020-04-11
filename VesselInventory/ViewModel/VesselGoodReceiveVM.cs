@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
@@ -19,7 +21,6 @@ namespace VesselInventory.ViewModel
         public VesselGoodReceiveVM(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
             InitializeCommands();
-
             _windowService = windowService;
             _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
 
@@ -29,13 +30,15 @@ namespace VesselInventory.ViewModel
 
         private void InitializeCommands()
         {
-            NextPageCommand = new RelayCommand(NextPageCommandAction, IsNextPageCanUse);
-            PrevPageCommand = new RelayCommand(PrevPageCommandAction, IsPrevPageCanUse);
-            OpenDialogReceiveCommand = new RelayCommand(Receive);
+            NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
+            PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
+            OpenDialogReceiveCommand = new RelayCommand(AddOrEditReceiveAction);
         }
 
-        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
-            = new ObservableCollection<VesselGoodReceive>();
+        /// <summary>
+        /// UI Properties And Attributes
+        /// </summary>
+        #region
         private string _searchKeyword = string.Empty;
         public string SearchKeyword
         {
@@ -70,35 +73,29 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("TotalPage");
             }
         }
-        private void NextPageCommandAction(object parameter)
+        #endregion
+
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+
+        private void NextPageAction(object parameter)
         {
-            CurrentPage = CurrentPage + 1;
+            IncrementCurrentPage();
             LoadDataGrid();
         }
-
-        private bool IsNextPageCanUse(object parameter)
+        private void PrevPageAction(object parameter)
         {
-            if(CurrentPage == TotalPage)
-                return false;
-            return true;
-        }
-        private void PrevPageCommandAction(object parameter)
-        {
-            CurrentPage = CurrentPage - 1;
+            DecrementCurrentPage();
             LoadDataGrid();
-        }
-
-        private bool IsPrevPageCanUse(object parameter)
-        {
-            if(CurrentPage == 1)
-                return false;
-            return true;
         }
 
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodReceiveRepository.
-                GetGoodReceiveTotalPage(SearchKeyword);
+            TotalPage = _vesselGoodReceiveRepository
+                .GetGoodReceiveTotalPage(SearchKeyword);
         }
 
         private IEnumerable<VesselGoodReceive> GoodReceives
@@ -110,6 +107,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
+            = new ObservableCollection<VesselGoodReceive>();
         public void LoadDataGrid()
         {
             VesselGoodReceiveCollection.Clear();
@@ -118,14 +117,16 @@ namespace VesselInventory.ViewModel
             UpdateTotalPage();
         }
 
-        public void Receive(object parameter)
+        public void AddOrEditReceiveAction(object parameter)
         {
-            if(parameter is null)
-                _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                    (new VesselGoodReceiveAddOrEditVM(this));
+            var container = ((App)Application.Current).UnityContainer;
+            var vesselGoodReceiveAddOrEditVM = container.Resolve<VesselGoodReceiveAddOrEditVM>();
+            if (parameter is null)
+                vesselGoodReceiveAddOrEditVM.InitializeData(this);
             else
-                _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
-                    (new VesselGoodReceiveAddOrEditVM(this,(int)parameter));
+                vesselGoodReceiveAddOrEditVM.InitializeData(this, (int)parameter);
+            _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
+                    (vesselGoodReceiveAddOrEditVM);
         }
     }
 }

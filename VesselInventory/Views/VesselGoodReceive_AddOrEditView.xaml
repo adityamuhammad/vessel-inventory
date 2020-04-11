@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VesselInventory.Views"
+        x:Name="VesselGoodReceiveAddOrEditV"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:VesselInventory.Converters"
         mc:Ignorable="d"
         Title="VesselGoodReceive_AddOrEditView" 
         Height="450" 
         Width="800"
+        WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
     <Window.Resources>
@@ -25,6 +27,26 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <TextBlock Margin="10" 
+                       FontSize="15" 
+                       FontWeight="DemiBold" 
+                       HorizontalAlignment="Center" 
+                       Text="{Binding Title,Mode=OneWay}"/>
+            <Button 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top"
+                Width="50" 
+                Background="White" 
+                BorderBrush="{x:Null}" 
+                CommandParameter="{Binding ElementName=VesselGoodReceiveAddOrEditV}" 
+                Command="{Binding CloseCommand,Mode=OneWay}" 
+                >
+                <materialDesign:PackIcon 
+                    Kind="Close" 
+                    Foreground="Black"/>
+            </Button>
+        </Grid>
         <Grid Grid.Row="0" Grid.Column="0">
             <Grid Margin="20">
                 <StackPanel>
