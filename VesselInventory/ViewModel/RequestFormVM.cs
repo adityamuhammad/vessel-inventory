@@ -35,14 +35,6 @@ namespace VesselInventory.ViewModel
             OpenDialogRequestFormCommand = new RelayCommand(OpenRequestFormAction);
         }
 
-        private int TotalPageFromDatabase
-        {
-            get
-            {
-                return _requestFormRepository.
-                    GetRequestFormTotalPage(SearchKeyword);
-            }
-        }
 
         /// <summary>
         /// UI Properties
@@ -128,7 +120,14 @@ namespace VesselInventory.ViewModel
             _windowService.ShowWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
-
+        private int TotalPageFromDatabase
+        {
+            get
+            {
+                return _requestFormRepository.
+                    GetRequestFormTotalPage(SearchKeyword);
+            }
+        }
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

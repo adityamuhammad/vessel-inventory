@@ -23,7 +23,7 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = requestFormItemRepository;
 
             InitializeCommands();
-            CurrentPage = 1;
+            ResetCurrentPage();
             LoadDataGrid();
         }
 
@@ -42,7 +42,7 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 LoadDataGrid();
             }
         }
@@ -53,16 +53,12 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             ItemPendingCollection.Clear();
-            foreach (var _ in _requestFormItemRepository.GetItemPending(SearchKeyword,CurrentPage))
+            foreach(var _ in _requestFormItemRepository
+                    .GetItemPending(SearchKeyword,CurrentPage))
                 ItemPendingCollection.Add(_);
             UpdateTotalPage();
         }
 
-        private void UpdateTotalPage()
-        {
-            TotalPage = _requestFormItemRepository.
-                GetItemPendingTotalPage(SearchKeyword);
-        }
 
         private int _currentPage;
         public int CurrentPage
@@ -85,32 +81,27 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("TotalPage");
             }
         }
-        
+
+        private void UpdateTotalPage()
+        {
+            TotalPage = _requestFormItemRepository.
+                GetItemPendingTotalPage(SearchKeyword);
+        }
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
         private void NextPageAction(object parameter)
         {
-            CurrentPage = CurrentPage + 1;
+            IncrementCurrentPage();
             LoadDataGrid();
-        }
-
-        private bool IsNextPageCanExecute(object parameter)
-        {
-            if(CurrentPage == TotalPage)
-                return false;
-            return true;
         }
         private void PrevPageAction(object parameter)
         {
-            CurrentPage = CurrentPage - 1;
+            DecrementCurrentPage();
             LoadDataGrid();
         }
-
-        private bool IsPrevPageCanExecute(object parameter)
-        {
-            if(CurrentPage == 1)
-                return false;
-            return true;
-        }
-
         private void OpenUploadDocumentFormAction(object parameter)
         {
             var container = ((App)Application.Current).UnityContainer;
