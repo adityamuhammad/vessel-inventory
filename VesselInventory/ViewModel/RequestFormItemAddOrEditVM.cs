@@ -347,11 +347,12 @@ namespace VesselInventory.ViewModel
         #region
         private void Upload()
         {
-            if(attachment_local_path.Trim() != string.Empty)
+            if(!string.IsNullOrWhiteSpace(attachment_local_path))
             {
                 string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
-                _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
-                attachment_path = _uploadService.GetUploadedPath();
+                bool IsUploaded = _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+                if (IsUploaded)
+                    attachment_path = _uploadService.GetUploadedPath();
             }
         }
 

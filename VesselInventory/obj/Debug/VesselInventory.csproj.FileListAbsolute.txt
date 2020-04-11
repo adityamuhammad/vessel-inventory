@@ -56,4 +56,3 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Ve
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReceive_AddOrEditView.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReceive_MainView.baml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReceive_AddOrEditView.baml
-C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache

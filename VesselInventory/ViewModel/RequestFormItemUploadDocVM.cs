@@ -1,4 +1,5 @@
-﻿using VesselInventory.Commons;
+﻿using System;
+using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -85,20 +86,21 @@ namespace VesselInventory.ViewModel
         private void Upload()
         {
             string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
-            _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
-            attachment_path = _uploadService.GetUploadedPath();
+            bool IsUploaded = _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+            if (IsUploaded)
+                attachment_path = _uploadService.GetUploadedPath();
         }
 
         private void SaveAction(IClosable window)
         {
-            if(attachment_local_path.Trim() != string.Empty)
+            if (!string.IsNullOrWhiteSpace(attachment_local_path))
             {
                 Upload();
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
                 _parentLoadable.LoadDataGrid();
                 ResponseMessage.Success("Data saved successfully.");
+                CloseWindow(window);
             }
-            CloseWindow(window);
             return;
         }
     }

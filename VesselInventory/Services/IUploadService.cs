@@ -9,7 +9,7 @@ namespace VesselInventory.Services
 {
     public interface IUploadService
     {
-        void UploadFile(string localPath, string targetDirectoryPath);
+        bool UploadFile(string localPath, string targetDirectoryPath);
         string GetUploadedPath();
     }
 
@@ -22,7 +22,7 @@ namespace VesselInventory.Services
             return _uploadedPath;
         }
 
-        public void UploadFile(string localPath, string targetDirectoryPath)
+        public bool UploadFile(string localPath, string targetDirectoryPath)
         {
             string fileName = string.Empty;
 
@@ -37,7 +37,9 @@ namespace VesselInventory.Services
                 _uploadedPath = Path.Combine(targetDirectoryPath, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + '_' +  fileName);
 
                 File.Copy(localPath, _uploadedPath);
+                return true;
             }
+            return false;
         }
     }
 }
