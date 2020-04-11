@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VesselInventory.Views"
-        x:Name="VesselGoodReceiveAddOrEditV"
+        x:Name="VesselGoodReceiveAddOrEdit_V"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:VesselInventory.Converters"
         mc:Ignorable="d"
@@ -14,9 +14,6 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
-    <Window.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="170"/>
@@ -39,7 +36,7 @@
                 Width="50" 
                 Background="White" 
                 BorderBrush="{x:Null}" 
-                CommandParameter="{Binding ElementName=VesselGoodReceiveAddOrEditV}" 
+                CommandParameter="{Binding ElementName=VesselGoodReceiveAddOrEdit_V}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
@@ -52,11 +49,23 @@
                 <StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Margin="0,5,0,0" Width="130" Text="Put Cursor Here To Scan"/>
-                        <TextBox Margin="20,0,0,0" Width="100" Text="{Binding TextScann,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox 
+                            Margin="20,0,0,0"
+                            Width="100"
+                            Text="{
+                                Binding TextScann,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}"
+                        />
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Margin="0,5" Width="130" Text="Vessel GRN"/>
-                        <TextBox IsEnabled="False" Margin="20,0,0,0" Width="100" Text="{Binding vessel_good_receive_number,Mode=OneTime}"/>
+                        <TextBox 
+                            IsEnabled="False" 
+                            Margin="20,0,0,0" 
+                            Width="100" 
+                            Text="{ Binding vessel_good_receive_number, Mode=OneTime}"
+                        />
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Margin="0,10" Width="130" Text="Receive Date"/>
@@ -158,13 +167,13 @@
                         Text="{
                             Binding TotalItem,
                             UpdateSourceTrigger=PropertyChanged, 
-                        StringFormat={}Total Item {0}}"
+                            StringFormat={}Items to be rejected : {0}}"
                         />
                 </StackPanel>
                 <DataGrid 
                     Margin="20,0,20,0" 
                     ItemsSource="{
-                        Binding RequestFormItemCollection,
+                        Binding GoodReceiveItemRejectCollection,
                         Mode=OneWay,UpdateSourceTrigger=PropertyChanged
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"
@@ -227,7 +236,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.AddOrEditItemCommand
                                             }" 
-                                            CommandParameter="{Binding rf_item_id}">
+                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
                                             <materialDesign:PackIcon 
                                                 Kind="Edit" 
                                                 VerticalContentAlignment="Center"
@@ -253,7 +262,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.DeleteItemCommand
                                             }" 
-                                            CommandParameter="{Binding rf_item_id}">
+                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
                                             <materialDesign:PackIcon 
                                                 Kind="Trash" 
                                                 VerticalContentAlignment="Center"

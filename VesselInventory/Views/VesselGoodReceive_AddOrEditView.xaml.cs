@@ -11,13 +11,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using VesselInventory.Services;
 
 namespace VesselInventory.Views
 {
     /// <summary>
     /// Interaction logic for VesselGoodReceive_AddOrEditView.xaml
     /// </summary>
-    public partial class VesselGoodReceive_AddOrEditView : Window
+    public partial class VesselGoodReceive_AddOrEditView : Window, IClosable
     {
         public VesselGoodReceive_AddOrEditView()
         {

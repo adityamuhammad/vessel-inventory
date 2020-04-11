@@ -54,7 +54,7 @@ namespace VesselInventory.ViewModel
         {
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
             SaveCommand = new RelayCommand(SaveAction, IsSaveCanExecute);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItem,IsAddOrEditItemCanExecute);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction,IsAddOrEditItemCanExecute);
             DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
             ReleaseCommand = new RelayCommand<IClosable>(ReleaseAction,IsReleaseCanExecute);
         }
@@ -306,7 +306,7 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return _requestFormItemRepository.GetRFItemList(rf_id);
+                return _requestFormItemRepository.GetRequestFormItemList(rf_id);
             }
         }
         #endregion
@@ -373,7 +373,7 @@ namespace VesselInventory.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         #region
-        private void AddOrEditItem(object parameter)
+        private void AddOrEditItemAction(object parameter)
         {
             var container = ((App)Application.Current).UnityContainer;
             var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditVM>();

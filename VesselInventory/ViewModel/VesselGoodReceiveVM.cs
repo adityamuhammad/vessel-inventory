@@ -23,8 +23,7 @@ namespace VesselInventory.ViewModel
             InitializeCommands();
             _windowService = windowService;
             _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
-
-            CurrentPage = 1;
+            ResetCurrentPage();
             LoadDataGrid();
         }
 
@@ -47,7 +46,7 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                CurrentPage = 1;
+                ResetCurrentPage();
                 LoadDataGrid();
             }
         }
@@ -75,29 +74,11 @@ namespace VesselInventory.ViewModel
         }
         #endregion
 
-        private void ResetCurrentPage() => CurrentPage = 1;
-        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
-        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
-        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
-        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
 
-        private void NextPageAction(object parameter)
-        {
-            IncrementCurrentPage();
-            LoadDataGrid();
-        }
-        private void PrevPageAction(object parameter)
-        {
-            DecrementCurrentPage();
-            LoadDataGrid();
-        }
-
-        private void UpdateTotalPage()
-        {
-            TotalPage = _vesselGoodReceiveRepository
-                .GetGoodReceiveTotalPage(SearchKeyword);
-        }
-
+        /// <summary>
+        /// Collections and load Method
+        /// </summary>
+        #region
         private IEnumerable<VesselGoodReceive> GoodReceives
         {
             get
@@ -116,6 +97,34 @@ namespace VesselInventory.ViewModel
                 VesselGoodReceiveCollection.Add(_);
             UpdateTotalPage();
         }
+        #endregion
+
+        /// <summary>
+        /// Datagrid and Button Behavior
+        /// </summary>
+        #region
+        private void UpdateTotalPage()
+        {
+            TotalPage = _vesselGoodReceiveRepository
+                .GetGoodReceiveTotalPage(SearchKeyword);
+        }
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+
+        private void NextPageAction(object parameter)
+        {
+            IncrementCurrentPage();
+            LoadDataGrid();
+        }
+
+        private void PrevPageAction(object parameter)
+        {
+            DecrementCurrentPage();
+            LoadDataGrid();
+        }
 
         public void AddOrEditReceiveAction(object parameter)
         {
@@ -128,5 +137,6 @@ namespace VesselInventory.ViewModel
             _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
                     (vesselGoodReceiveAddOrEditVM);
         }
+        #endregion
     }
 }

@@ -10,7 +10,7 @@ namespace VesselInventory.Models
     public partial class VesselGoodReceiveItemReject
     {
         [Key]
-        public int vessel_good_receive_item__reject_id { get; set; }
+        public int vessel_good_receive_item_reject_id { get; set; }
 
         public int vessel_good_receive_id { get; set; }
 
@@ -58,9 +58,8 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string created_by { get; set; }
 
-        public DateTime last_modified_date { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
-        [Required]
         [StringLength(30)]
         public string last_modified_by { get; set; }
 

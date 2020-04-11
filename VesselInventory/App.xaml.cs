@@ -37,12 +37,12 @@ namespace VesselInventory
             base.OnStartup(e);
 
             UnityContainer.RegisterType<IWindowService, WindowService>();
+            UnityContainer.RegisterType<IOService, OpenPdfFileDialog>();
+            UnityContainer.RegisterType<IUploadService, UploadService>();
             UnityContainer.RegisterType<IRequestFormRepository, RequestFormRepository>();
             UnityContainer.RegisterType<IRequestFormItemRepository, RequestFormItemRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveRepository, VesselGoodReceiveRepository>();
-            UnityContainer.RegisterType<IOService, OpenPdfFileDialog>();
-            UnityContainer.RegisterType<IUploadService, UploadService>();
-
+            UnityContainer.RegisterType<IVesselGoodReceiveItemRejectRepository, VesselGoodReceiveItemRejectRepository>();
 
             var homeViewModel = UnityContainer.Resolve<HomeVM>();
             Window window = UnityContainer.Resolve<MainWindow>();

@@ -143,6 +143,7 @@
     <Compile Include="Repository\IRequestFormItemRepository.cs" />
     <Compile Include="Repository\IRequestFormRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveRepository.cs" />
+    <Compile Include="Repository\IVesselGoodReceiveItemRejectRepository.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />

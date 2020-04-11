@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.DTO;
@@ -12,20 +14,29 @@ namespace VesselInventory.ViewModel
     class VesselGoodReceiveAddOrEditVM : ViewModelBase, IParentLoadable
     {
         public RelayCommand SaveCommand { get; private set; }
-        public RelayCommand AddOrEditItemRejectCommand { get; private set; }
+        public RelayCommand AddOrEditItemCommand { get; private set; }
+        public RelayCommand DeleteItemCommand { get; private set; }
+        public RelayCommand<IClosable> CloseCommand { get; private set; }
 
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
+        private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
 
-        public VesselGoodReceiveAddOrEditVM(IVesselGoodReceiveRepository vesselGoodReceiveRepository)
+        public VesselGoodReceiveAddOrEditVM(
+            IVesselGoodReceiveRepository vesselGoodReceiveRepository,
+            IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {
             InitializeCommands();
             _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
+            _vesselGoodReceiveItemRejectRepository = vesselGoodReceiveItemRejectRepository;
         }
 
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
+            //AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction,IsAddOrEditItemCanExecute);
+            //DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
+            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
 
         public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId = 0)
@@ -34,8 +45,10 @@ namespace VesselInventory.ViewModel
             _parentLoadable = parentLoadable;
             if(!IsNewRecord)
             {
-                VesselGoodReceiveEntity = _vesselGoodReceiveRepository.GetById(vessel_good_receive_id);
+                VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                    .GetById(vessel_good_receive_id);
                 IsItemEnabled = true;
+                LoadDataGrid();
             } else
             {
                 IsItemEnabled = false;
@@ -112,9 +125,31 @@ namespace VesselInventory.ViewModel
         #endregion
 
         /// <summary>
-        /// Columns and Entity
+        /// Columns, Entity, And Collections
         /// </summary>
         #region
+           
+        public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
+            = new ObservableCollection<VesselGoodReceiveItemReject>();
+        private IEnumerable<VesselGoodReceiveItemReject> GoodReceiveItemRejectList
+        {
+            get
+            {
+                return _vesselGoodReceiveItemRejectRepository
+                    .GetGoodReceiveItemRejected(vessel_good_receive_id);
+            }
+        }
+        private int _totalItem = 0;
+        public int TotalItem
+        {
+            get => _totalItem;
+            set
+            {
+                _totalItem = value;
+                OnPropertyChanged("TotalItem");
+            }
+        }
+
         private bool IsNewRecord => (vessel_good_receive_id == 0);
         private VesselGoodReceive VesselGoodReceiveEntity { get; set; }  = new VesselGoodReceive();
         private ShipBargeDTO ShipBarge => DataHelper.GetShipBargeApairs();
@@ -213,20 +248,29 @@ namespace VesselInventory.ViewModel
         #endregion
 
         /// <summary>
-        /// Data Methods
+        /// Data Load Methods
         /// </summary>
         #region
         public void LoadDataGrid()
         {
-            throw new System.NotImplementedException();
+            GoodReceiveItemRejectCollection.Clear();
+            foreach (var itemReject in GoodReceiveItemRejectList)
+                GoodReceiveItemRejectCollection.Add(itemReject);
+            TotalItem = GoodReceiveItemRejectCollection.Count;
         }
         #endregion
 
         /// <summary>
-        /// Load Data
+        /// Button behavior
         /// </summary>
         /// <param name="parameter"></param>
         #region
+        private void CloseWindow(IClosable window)
+        {
+            if (window != null)
+                window.Close();
+        }
+
         private void SaveAction(object parameter)
         {
             try
@@ -235,9 +279,11 @@ namespace VesselInventory.ViewModel
                     throw new Exception("Cannot process, The Ship Code does not match.");
 
                 if (IsNewRecord)
-                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository.SaveVesselGoodReceive(VesselGoodReceiveEntity);
+                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                        .SaveVesselGoodReceive(VesselGoodReceiveEntity);
                 else
-                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository.Update(vessel_good_receive_id,VesselGoodReceiveEntity);
+                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                        .Update(vessel_good_receive_id,VesselGoodReceiveEntity);
 
                 IsItemEnabled = true;
                 ResponseMessage.Success("Data saved successfully.");

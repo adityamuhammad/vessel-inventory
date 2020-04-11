@@ -1,6 +1,6 @@
 ﻿<Window x:Class="VesselInventory.Views.RequestForm_ItemAddOrEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        x:Name="AddOrEditItem"
+        x:Name="AddOrEditRequestFormItem_V"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -40,7 +40,7 @@
                 Width="50" 
                 Background="White" 
                 BorderBrush="{x:Null}" 
-                CommandParameter="{Binding ElementName=AddOrEditItem}" 
+                CommandParameter="{Binding ElementName=AddOrEditRequestFormItem_V}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
@@ -68,7 +68,11 @@
                             Binding IsVisibleListBoxItem, 
                             Converter={StaticResource BoolToVisibilityCollapsed} 
                         }">
-                        <ListBox ItemsSource="{Binding ItemCollection}" HorizontalAlignment="Left" Width="590" MaxHeight="200">
+                        <ListBox 
+                            ItemsSource="{Binding ItemCollection}" 
+                            HorizontalAlignment="Left"
+                            Width="590" 
+                            MaxHeight="200">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock>
@@ -131,9 +135,16 @@
                             HorizontalAlignment="Left" 
                             Width="150" 
                             IsReadOnly="True"
-                            Text="{Binding item_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                            />
-                        <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="150" IsEnabled="False">
+                            Text="{
+                                Binding item_name,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged}" 
+                        />
+                        <TextBox 
+                            Margin="10,8,0,0" 
+                            HorizontalAlignment="Left" 
+                            Width="150" 
+                            IsEnabled="False">
                             <TextBox.Text>
                                 <MultiBinding StringFormat="{} {0} / {1}">
                                     <Binding
@@ -149,7 +160,11 @@
                                 </MultiBinding>
                             </TextBox.Text>
                         </TextBox>
-                        <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="150" IsEnabled="False">
+                        <TextBox 
+                            Margin="10,8,0,0" 
+                            HorizontalAlignment="Left" 
+                            Width="150" 
+                            IsEnabled="False">
                             <TextBox.Text>
                                 <MultiBinding StringFormat="{} {0} / {1}">
                                     <Binding
@@ -272,7 +287,7 @@
                     Width="100" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
-                    CommandParameter="{Binding ElementName=AddOrEditItem}" 
+                    CommandParameter="{Binding ElementName=AddOrEditRequestFormItem_V}" 
                     Command="{Binding SaveCommand,Mode=OneWay}" 
                     >
                     <StackPanel Orientation="Horizontal">

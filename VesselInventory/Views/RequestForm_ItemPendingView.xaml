@@ -87,7 +87,7 @@
                     <DataGridTemplateColumn Width="0.5*">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <materialDesign:PackIcon  Kind="Settings"/>
+                                <materialDesign:PackIcon  Kind="TableSettings"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.HeaderTemplate>
                         <DataGridTemplateColumn.CellTemplate>
