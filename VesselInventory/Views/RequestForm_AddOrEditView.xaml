@@ -197,8 +197,7 @@
                     HorizontalAlignment="Left" 
                     ItemsSource="{Binding DepartmentCollection}" 
                     SelectedItem="{Binding department_name}" 
-                    Width="100">
-                </ComboBox>
+                    Width="100"/>
                 <TextBox 
                     Margin="0,10" 
                     HorizontalAlignment="Left" 
@@ -244,7 +243,7 @@
                         Text="{
                             Binding TotalItem,
                             UpdateSourceTrigger=PropertyChanged, 
-                        StringFormat={}Items : {0}}"
+                        StringFormat={}Total : {0} Items}"
                         />
                 </StackPanel>
                 <DataGrid 

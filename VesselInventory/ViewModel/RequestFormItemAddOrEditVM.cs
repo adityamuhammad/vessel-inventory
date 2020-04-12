@@ -43,14 +43,15 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, int rf_id, int rf_item_id = 0)
+        public void InitializeData(IParentLoadable parentLoadable, int requestFormId, int requestFormItemId = 0)
         {
             _parentLoadable = parentLoadable;
-            this.rf_id = rf_id;
-            this.rf_item_id = rf_item_id;
+            this.rf_id = requestFormId;
+            this.rf_item_id = requestFormItemId;
 
             if (!IsNewRecord)
-                RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+                RequestFormItemEntity = 
+                    _requestFormItemRepository.GetById(rf_item_id);
         }
 
         private RequestFormItem RequestFormItemEntity
@@ -389,11 +390,6 @@ namespace VesselInventory.ViewModel
             if (filename != null)
                 attachment_local_path = filename;
         } 
-        private void CloseWindow(IClosable window)
-        {
-            if (window != null)
-                window.Close();
-        }
         #endregion
     }
 }

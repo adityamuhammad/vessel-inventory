@@ -112,8 +112,8 @@
                     <StackPanel>
                         <Label Margin="0,10,0,0" Content="Item ID"/>
                         <Label Margin="0,10,0,0" Content="Item Name"/>
-                        <Label Margin="0,10,0,0" Content="Brand / Type"/>
-                        <Label Margin="0,10,0,0" Content="Color / Size"/>
+                        <Label Margin="0,10,0,0" Content="Brand Id / Type"/>
+                        <Label Margin="0,10,0,0" Content="Color Id / Size"/>
                         <Label Margin="0,10,0,0" Content="Last Req Qty / Date"/>
                         <Label Margin="0,10,0,0" Content="Last Supply Qty / Date"/>
                     </StackPanel>

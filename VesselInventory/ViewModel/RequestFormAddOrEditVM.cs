@@ -41,9 +41,9 @@ namespace VesselInventory.ViewModel
 
         }
         
-        public void InitializeData( IParentLoadable parentLoadable, int rf_id = 0) {
+        public void InitializeData( IParentLoadable parentLoadable, int requestFormId = 0) {
             _parentLoadable = parentLoadable;
-            this.rf_id = rf_id;
+            this.rf_id = requestFormId;
             LoadAttributes();
             if (!IsNewRecord)
                 LoadDataGrid();

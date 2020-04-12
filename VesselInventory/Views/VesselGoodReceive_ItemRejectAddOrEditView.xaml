@@ -23,7 +23,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="4">
-            <TextBlock Margin="10" FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding Title,Mode=OneWay}"/>
+            <TextBlock 
+                Margin="10" 
+               FontSize="15" FontWeight="DemiBold" 
+                HorizontalAlignment="Center" 
+                Text="{Binding Title,Mode=OneWay}"
+             />
             <Button 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"
@@ -51,42 +56,126 @@
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="0,5,0,0" Text="RF Number" Width="120" />
-                                <TextBox Text="" Width="100"/>
+                                <TextBox 
+                                    Text="{
+                                        Binding rf_number,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Width="100"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="0,15,0,0" Text="Item Id" Width="120" />
-                                <TextBox Text="" Margin="0,10,0,0" Width="100"/>
+                                <TextBox 
+                                    Text="{
+                                        Binding item_id,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="0,10,0,0" 
+                                    Width="100"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="0,15,0,0" Text="Item Group Id" Width="120" />
-                                <TextBox Text="" Margin="0,10,0,0" Width="100"/>
+                                <TextBox 
+                                    Text="{
+                                        Binding item_group_id,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="0,10,0,0" 
+                                    Width="100"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="0,15,0,0" Text="Item Name" Width="120" />
-                                <TextBox Text="" Width="100" Margin="0,10,0,0"/>
+                                <TextBox 
+                                    Text="{
+                                        Binding item_name,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Width="100" 
+                                    Margin="0,10,0,0"/>
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="50,5,0,0" Text="Item Dimension" Width="120" />
-                                <TextBox Width="100" Text="" Margin="0,0,0,0"/>
+                                <TextBox 
+                                    Width="100" 
+                                    Text="{
+                                        Binding item_dimension_number,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="0,0,0,0"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="50,15,0,0" Text="Brand / Type" Width="120"/>
-                                <TextBox Width="100" Text="" Margin="0,10,0,0"/>
+                                <TextBlock Margin="50,15,0,0" Text="Brand Id / Type" Width="120"/>
+                                <TextBox 
+                                    Width="20" 
+                                    Text="{
+                                        Binding brand_type_id,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="0,10,0,0"
+                                 />
+                                <TextBox 
+                                    Width="80" 
+                                    Text="{
+                                        Binding brand_type_name,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="10,10,0,0"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Margin="50,15,0,0" Text="Color / Size" Width="120"/>
-                                <TextBox Width="100" Text="" Margin="0,10,0,0"/>
+                                <TextBlock Margin="50,15,0,0" Text="Color Id / Name" Width="120"/>
+                                <TextBox 
+                                    Width="20" 
+                                    Text="{
+                                        Binding color_size_id,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="0,10,0,0"
+                                 />
+                                <TextBox 
+                                    Width="80" 
+                                    Text="{
+                                        Binding color_size_name,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }" 
+                                    Margin="10,10,0,0"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="50,15,0,0" Text="Rejected Qty" Width="120" />
-                                <TextBox Width="100" Margin="0,10,0,0" Text=""/>
+                                <TextBox 
+                                    Width="20" 
+                                    Margin="0,10,0,0" 
+                                    Text="{
+                                        Binding qty,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged
+                                    }"
+                                 />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Margin="50,15,0,0" Text="UOM" Width="120" />
-                                <TextBox Width="100" Margin="0,10,0,0" Text=""/>
+                                <ComboBox 
+                                    Margin="0,10,0,0" 
+                                    HorizontalAlignment="Left" 
+                                    ItemsSource="{Binding UomCollection}" 
+                                    SelectedItem="{Binding uom,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    Width="100"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -99,6 +188,7 @@
                             Width="100" 
                             Background="#FF4E5FBF" 
                             BorderBrush="#FF508B3A" 
+                            CommandParameter="{Binding ElementName=AddOrEditVesselGoodReceiveItemReject_V}"
                             Command="{Binding SaveCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon 

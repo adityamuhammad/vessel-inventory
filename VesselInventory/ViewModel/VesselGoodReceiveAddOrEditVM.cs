@@ -132,7 +132,6 @@ namespace VesselInventory.ViewModel
         /// Columns, Entity, And Collections
         /// </summary>
         #region
-           
         public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
             = new ObservableCollection<VesselGoodReceiveItemReject>();
         private IEnumerable<VesselGoodReceiveItemReject> GoodReceiveItemRejectList
@@ -157,6 +156,12 @@ namespace VesselInventory.ViewModel
         private bool IsNewRecord => (vessel_good_receive_id == 0);
         private VesselGoodReceive VesselGoodReceiveEntity { get; set; }  = new VesselGoodReceive();
         private ShipBargeDTO ShipBarge => DataHelper.GetShipBargeApairs();
+        #endregion
+
+        /// <summary>
+        /// Column Attributes
+        /// </summary>
+        #region
         public DateTime vessel_good_receive_date
         {
             get => VesselGoodReceiveEntity.vessel_good_receive_date;
@@ -272,6 +277,13 @@ namespace VesselInventory.ViewModel
         {
             var container = ((App)Application.Current).UnityContainer;
             var vesselGoodReceiveItemRejectAddOrEditVM = container.Resolve<VesselGoodReceiveItemRejectAddOrEditVM>();
+            if(parameter is null)
+                vesselGoodReceiveItemRejectAddOrEditVM.InitializeData
+                    (this, vesselGoodReceiveId: vessel_good_receive_id);
+            else
+                vesselGoodReceiveItemRejectAddOrEditVM.InitializeData
+                    (this, vessel_good_receive_id,(int)parameter );
+
             _windowService.ShowWindow<VesselGoodReceive_ItemRejectAddOrEditView>(vesselGoodReceiveItemRejectAddOrEditVM);
         }
 
@@ -280,6 +292,7 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
             if (confirmDialog == MessageBoxResult.No)
                 return;
+            _vesselGoodReceiveItemRejectRepository.Delete((int)parameter);
             ResponseMessage.Success("Data deleted successfully.");
             LoadDataGrid();
         }
