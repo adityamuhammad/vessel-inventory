@@ -7,6 +7,7 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
 using Unity;
+using System;
 
 namespace VesselInventory.ViewModel
 {
@@ -17,6 +18,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
+        public RelayCommand OpenDialogReceiveItemDetailCommand { get; private set; }
 
         public VesselGoodReceiveVM(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
@@ -32,7 +34,9 @@ namespace VesselInventory.ViewModel
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             OpenDialogReceiveCommand = new RelayCommand(AddOrEditReceiveAction);
+            OpenDialogReceiveItemDetailCommand = new RelayCommand(ReceiveItemDetailAction);
         }
+
 
         /// <summary>
         /// UI Properties And Attributes
@@ -136,6 +140,15 @@ namespace VesselInventory.ViewModel
                 vesselGoodReceiveAddOrEditVM.InitializeData(this, (int)parameter);
             _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
                     (vesselGoodReceiveAddOrEditVM);
+        }
+
+        private void ReceiveItemDetailAction(object parameter)
+        {
+            var container = ((App)Application.Current).UnityContainer;
+            var vesselGoodReceiveItemVM = container.Resolve<VesselGoodReceiveItemVM>();
+            vesselGoodReceiveItemVM.InitializeData((int)parameter);
+            _windowService.ShowWindow<VesselGoodReceive_ItemDetailView>
+                    (vesselGoodReceiveItemVM);
         }
         #endregion
     }

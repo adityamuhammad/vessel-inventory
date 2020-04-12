@@ -56,16 +56,16 @@ namespace VesselInventory.Models
         [StringLength(15)]
         public string sync_status { get; set; }
 
-        public DateTime created_date { get; set; }
+        public DateTime created_date { get; set; } = DateTime.Now;
 
         [Required]
         [StringLength(30)]
-        public string created_by { get; set; }
+        public string created_by { get; set; } = "Aditya";
 
-        public DateTime last_modified_date { get; set; }
+        public DateTime? last_modified_date { get; set; }
 
-        [Required]
         [StringLength(30)]
         public string last_modified_by { get; set; }
+        public bool is_hidden { get; set; } = false;
     }
 }

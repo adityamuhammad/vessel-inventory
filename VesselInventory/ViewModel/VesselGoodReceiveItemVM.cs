@@ -1,0 +1,42 @@
+﻿using System.Collections.ObjectModel;
+using VesselInventory.Models;
+using VesselInventory.Repository;
+
+namespace VesselInventory.ViewModel
+{
+    class VesselGoodReceiveItemVM : ViewModelBase
+    {
+        private readonly IVesselGoodReceiveItemRepository _vesselGoodReceiveItemRepository;
+        public override string Title => "Detail";
+        public VesselGoodReceiveItemVM(IVesselGoodReceiveItemRepository vesselGoodReceiveItemRepository)
+        {
+            _vesselGoodReceiveItemRepository = vesselGoodReceiveItemRepository;
+        }
+        public void InitializeData(int vesselGoodReceiveId)
+        {
+            LoadDataGrid(vesselGoodReceiveId);
+        }
+
+        private int _totalItem = 0;
+        public int TotalItem
+        {
+            get => _totalItem;
+            set
+            {
+                _totalItem = value;
+                OnPropertyChanged("TotalItem");
+            }
+        }
+
+        public ObservableCollection<VesselGoodReceiveItem> GoodReceiveItemCollection { get; set; } 
+            = new ObservableCollection<VesselGoodReceiveItem>();
+        private void LoadDataGrid(int vesselGoodReceiveId)
+        {
+            GoodReceiveItemCollection.Clear();
+            foreach(var item in _vesselGoodReceiveItemRepository 
+                .GetGoodReceiveItem(vesselGoodReceiveId))
+                GoodReceiveItemCollection.Add(item);
+            TotalItem = GoodReceiveItemCollection.Count;
+        }
+    }
+}

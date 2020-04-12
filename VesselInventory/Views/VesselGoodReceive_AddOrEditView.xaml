@@ -173,8 +173,7 @@
                 <DataGrid 
                     Margin="20,0,20,0" 
                     ItemsSource="{
-                        Binding GoodReceiveItemRejectCollection,
-                        Mode=OneWay,UpdateSourceTrigger=PropertyChanged
+                        Binding GoodReceiveItemRejectCollection
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"
                     MaxHeight="180"

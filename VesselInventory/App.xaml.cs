@@ -38,11 +38,12 @@ namespace VesselInventory
             UnityContainer.RegisterType<IWindowService, WindowService>();
             UnityContainer.RegisterType<IOService, OpenPdfFileDialog>();
             UnityContainer.RegisterType<IUploadService, UploadService>();
+            UnityContainer.RegisterType(typeof(IRepository<>), typeof(Repository<>), new TransientLifetimeManager());
             UnityContainer.RegisterType<IRequestFormRepository, RequestFormRepository>();
             UnityContainer.RegisterType<IRequestFormItemRepository, RequestFormItemRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveRepository, VesselGoodReceiveRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveItemRejectRepository, VesselGoodReceiveItemRejectRepository>();
-            UnityContainer.RegisterType(typeof(IRepository<>), typeof(Repository<>), new TransientLifetimeManager());
+            UnityContainer.RegisterType<IVesselGoodReceiveItemRepository, VesselGoodReceiveItemRepository>();
 
             var homeViewModel = UnityContainer.Resolve<HomeVM>();
             Window window = UnityContainer.Resolve<MainWindow>();
