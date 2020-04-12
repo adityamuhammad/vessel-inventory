@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.DTO;
@@ -8,6 +9,8 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using Unity;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
@@ -16,27 +19,28 @@ namespace VesselInventory.ViewModel
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
-        public RelayCommand<IClosable> CloseCommand { get; private set; }
 
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
+        private readonly IWindowService _windowService;
 
         public VesselGoodReceiveAddOrEditVM(
+            IWindowService windowService,
             IVesselGoodReceiveRepository vesselGoodReceiveRepository,
             IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {
             InitializeCommands();
             _vesselGoodReceiveRepository = vesselGoodReceiveRepository;
             _vesselGoodReceiveItemRejectRepository = vesselGoodReceiveItemRejectRepository;
+            _windowService = windowService;
         }
 
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
-            //AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction,IsAddOrEditItemCanExecute);
-            //DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
-            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
+            DeleteItemCommand = new RelayCommand(DeleteItemAction);
         }
 
         public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId = 0)
@@ -185,7 +189,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-
         public int ship_id
         {
             get => VesselGoodReceiveEntity.ship_id;
@@ -265,10 +268,20 @@ namespace VesselInventory.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         #region
-        private void CloseWindow(IClosable window)
+        private void AddOrEditItemAction(object parameter)
         {
-            if (window != null)
-                window.Close();
+            var container = ((App)Application.Current).UnityContainer;
+            var vesselGoodReceiveItemRejectAddOrEditVM = container.Resolve<VesselGoodReceiveItemRejectAddOrEditVM>();
+            _windowService.ShowWindow<VesselGoodReceive_ItemRejectAddOrEditView>(vesselGoodReceiveItemRejectAddOrEditVM);
+        }
+
+        private void DeleteItemAction(object parameter)
+        {
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
+            if (confirmDialog == MessageBoxResult.No)
+                return;
+            ResponseMessage.Success("Data deleted successfully.");
+            LoadDataGrid();
         }
 
         private void SaveAction(object parameter)

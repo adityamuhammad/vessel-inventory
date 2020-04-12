@@ -25,5 +25,16 @@ namespace VesselInventory.Repository
                     parameters: vesselGoodReceiveId.ToString()).ToList();
             }
         }
+
+        public override int Delete(int id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                var current = context.vessel_good_receive_item_reject.Find(id);
+                current.is_hidden = true;
+                context.SaveChanges();
+                return 1;
+            }
+        }
     }
 }

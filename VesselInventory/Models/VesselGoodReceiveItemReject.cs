@@ -65,5 +65,6 @@ namespace VesselInventory.Models
 
         [StringLength(15)]
         public string sync_status { get; set; }
+        public bool is_hidden { get; set; }
     }
 }

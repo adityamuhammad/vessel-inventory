@@ -25,7 +25,6 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private IParentLoadable _parentLoadable;
 
-        public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
@@ -52,7 +51,6 @@ namespace VesselInventory.ViewModel
 
         private void InitializeCommands()
         {
-            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
             SaveCommand = new RelayCommand(SaveAction, IsSaveCanExecute);
             AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction,IsAddOrEditItemCanExecute);
             DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
@@ -383,12 +381,6 @@ namespace VesselInventory.ViewModel
             else
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
             _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
-        }
-
-        private void CloseWindow(IClosable window)
-        {
-            if (window != null)
-                window.Close();
         }
 
         private int _totalItem = 0;

@@ -48,7 +48,7 @@
             <Grid Margin="20">
                 <StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Margin="0,5,0,0" Width="130" Text="Put Cursor Here To Scan"/>
+                        <TextBlock Margin="0,5,0,0" Width="130" Text="Paste or Scann here"/>
                         <TextBox 
                             Margin="20,0,0,0"
                             Width="100"
@@ -184,7 +184,7 @@
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding item_id}"/>
-                        <DataGridTemplateColumn Width="1.2*">
+                        <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="Item Desctiption"/>
@@ -212,7 +212,7 @@
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <materialDesign:PackIcon  Kind="TableSettings"/>
+                                    <materialDesign:PackIcon Kind="TableSettings"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>

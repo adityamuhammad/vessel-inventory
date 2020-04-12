@@ -15,7 +15,6 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditVM : ViewModelBase
     {
-        public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand OpenFileDialogCommand { get; private set; }
@@ -35,6 +34,13 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
 
+        }
+
+        private void InitializeCommands()
+        {
+            ListBoxChangedCommand = new RelayCommand(AutoCompleteChanged);
+            OpenFileDialogCommand = new RelayCommand(OpenFile);
+            SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
         public void InitializeData(IParentLoadable parentLoadable, int rf_id, int rf_item_id = 0)
@@ -60,13 +66,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void InitializeCommands()
-        {
-            ListBoxChangedCommand = new RelayCommand(AutoCompleteChanged);
-            OpenFileDialogCommand = new RelayCommand(OpenFile);
-            SaveCommand = new RelayCommand<IClosable>(SaveAction);
-            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
-        }
 
         /// <summary>
         /// UI Columns and Field

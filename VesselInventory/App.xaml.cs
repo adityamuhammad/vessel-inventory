@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 using Unity.Injection;
+using Unity.Lifetime;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.ViewModel;
@@ -43,6 +42,7 @@ namespace VesselInventory
             UnityContainer.RegisterType<IRequestFormItemRepository, RequestFormItemRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveRepository, VesselGoodReceiveRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveItemRejectRepository, VesselGoodReceiveItemRejectRepository>();
+            UnityContainer.RegisterType(typeof(IRepository<>), typeof(Repository<>), new TransientLifetimeManager());
 
             var homeViewModel = UnityContainer.Resolve<HomeVM>();
             Window window = UnityContainer.Resolve<MainWindow>();

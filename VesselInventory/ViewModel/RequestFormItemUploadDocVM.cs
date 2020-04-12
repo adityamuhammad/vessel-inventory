@@ -10,7 +10,6 @@ namespace VesselInventory.ViewModel
     {
         public RelayCommand OpenFileDialogCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
-        public RelayCommand<IClosable> CloseCommand { get; private set; }
 
         private readonly IOService _iOService;
         private readonly IUploadService _uploadService;
@@ -37,7 +36,6 @@ namespace VesselInventory.ViewModel
         {
             OpenFileDialogCommand = new RelayCommand(OpenFile);
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
-            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
         }
         private RequestFormItem RequestFormItemEntity
         {
@@ -70,11 +68,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void CloseWindow(IClosable window)
-        {
-            if (window != null)
-                window.Close();
-        }
         private void OpenFile(object parameter)
         {
             var filename = _iOService.OpenFileDialog();

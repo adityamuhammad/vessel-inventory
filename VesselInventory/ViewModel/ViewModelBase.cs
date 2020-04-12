@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using VesselInventory.Services;
 using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
@@ -21,6 +22,15 @@ namespace VesselInventory.ViewModel
         public virtual double Height { get => _height; set => _height = value; }
         public virtual double Width { get => _width; set => _width = value; }
         #endregion
-        public ViewModelBase() { }
+        public RelayCommand<IClosable> CloseCommand { get; private set; }
+        public ViewModelBase()
+        {
+            CloseCommand = new RelayCommand<IClosable>(CloseWindow);
+        }
+        protected void CloseWindow(IClosable window)
+        {
+            if (window != null)
+                window.Close();
+        }
     }
 }

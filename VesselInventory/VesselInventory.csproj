@@ -129,6 +129,7 @@
     <Compile Include="Models\LookupValue.cs" />
     <Compile Include="Models\RequestForm.cs" />
     <Compile Include="Models\RequestFormItem.cs" />
+    <Compile Include="Models\Uom.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VesselInventoryContext.cs" />
     <Compile Include="Models\VesselGoodIssued.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="ViewModel\RequestFormItemUploadDocVM.cs" />
     <Compile Include="ViewModel\RequestFormVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveAddOrEditVM.cs" />
+    <Compile Include="ViewModel\VesselGoodReceiveItemRejectAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\RequestForm_MainView.xaml.cs">
@@ -181,6 +183,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
       <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodReceive_ItemRejectAddOrEditView.xaml.cs">
+      <DependentUpon>VesselGoodReceive_ItemRejectAddOrEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VesselGoodReceive_MainView.xaml.cs">
       <DependentUpon>VesselGoodReceive_MainView.xaml</DependentUpon>
@@ -221,6 +226,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_ItemUploadDocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodReceive_ItemRejectAddOrEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

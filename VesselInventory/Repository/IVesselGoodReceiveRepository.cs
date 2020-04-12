@@ -7,11 +7,11 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodReceiveRepository
     {
-       IEnumerable<VesselGoodReceive> GetGoodReceive(string search_keyword, int page, int rows = 10);
-       int GetGoodReceiveTotalPage(string search_keyword, int rows = 10);
-       VesselGoodReceive GetById(int id);
-       VesselGoodReceive Update(int id, VesselGoodReceive vesselGoodReceive);
-       VesselGoodReceive SaveVesselGoodReceive(VesselGoodReceive vesselGoodReceive);
+        IEnumerable<VesselGoodReceive> GetGoodReceive(string search_keyword, int page, int rows = 10);
+        int GetGoodReceiveTotalPage(string search_keyword, int rows = 10);
+        VesselGoodReceive GetById(int id);
+        VesselGoodReceive Update(int id, VesselGoodReceive vesselGoodReceive);
+        VesselGoodReceive SaveVesselGoodReceive(VesselGoodReceive vesselGoodReceive);
     }
 
     public class VesselGoodReceiveRepository : 
