@@ -212,11 +212,11 @@ namespace VesselInventory.ViewModel
                         .Update(vessel_good_receive_item_reject_id,GoodReceiveItemRejectEntity);
                 LoadDataGrid();
                 CloseWindow(window);
-                ResponseMessage.Success(GlobalMessage.SuccessSave);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
 
             } catch (Exception ex)
             {
-                ResponseMessage.Error(GlobalMessage.Error + ex.Message);
+                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
 
             }
         }

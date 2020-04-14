@@ -348,8 +348,8 @@ namespace VesselInventory.ViewModel
         {
             if(!string.IsNullOrWhiteSpace(attachment_local_path))
             {
-                string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
-                bool IsUploaded = _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+                bool IsUploaded = _uploadService.UploadFile(
+                    attachment_local_path, GlobalNamespace.AttachmentPathLocation);
                 if (IsUploaded)
                     attachment_path = _uploadService.GetUploadedPath();
             }
@@ -374,12 +374,12 @@ namespace VesselInventory.ViewModel
             {
                 Upload();
                 SaveOrUpdate();
-                ResponseMessage.Success(GlobalMessage.SuccessSave);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 LoadParentDataGrid();
                 CloseWindow(window);
             } catch (Exception ex)
             {
-                ResponseMessage.Error(GlobalMessage.Error + ex.Message.ToString());
+                ResponseMessage.Error(GlobalNamespace.Error + ex.Message.ToString());
             }
         }
 

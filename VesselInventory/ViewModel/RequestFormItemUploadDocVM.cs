@@ -76,8 +76,8 @@ namespace VesselInventory.ViewModel
 
         private void Upload()
         {
-            string targetDirectoryPath = @"C:\\VesselInventory\\Attachments\\";
-            bool IsUploaded = _uploadService.UploadFile(attachment_local_path,targetDirectoryPath);
+            bool IsUploaded = _uploadService.UploadFile(
+                attachment_local_path,GlobalNamespace.AttachmentPathLocation);
             if (IsUploaded)
                 attachment_path = _uploadService.GetUploadedPath();
         }
@@ -89,7 +89,7 @@ namespace VesselInventory.ViewModel
                 Upload();
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
                 _parentLoadable.LoadDataGrid();
-                ResponseMessage.Success(GlobalMessage.SuccessSave);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 CloseWindow(window);
             }
             return;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VesselInventory.Commons
 {
-    public static class GlobalMessage
+    public static class GlobalNamespace
     {
         public static string Error => "Oops, Something went wrong.";
         public static string SuccessSave => "Data saved successfully.";
@@ -18,5 +18,6 @@ namespace VesselInventory.Commons
         public static string DeleteConfirmation => "Delete Confirmation";
         public static string DeleteConfirmationDescription => "Are you sure want to delete this data?";
         public static string ShipDoesNotMatch => "Cannot proccess, The Ship is invalid.";
+        public static string AttachmentPathLocation = @"C:\\VesselInventory\\Attachments\\";
     }
 }

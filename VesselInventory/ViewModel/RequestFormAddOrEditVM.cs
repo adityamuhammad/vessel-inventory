@@ -388,11 +388,11 @@ namespace VesselInventory.ViewModel
             if (IsNewRecord)
             {
                 RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
-                ResponseMessage.Success(GlobalMessage.SuccessSave);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
             } else
             {
                 RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
-                ResponseMessage.Success(GlobalMessage.SuccessUpdate);
+                ResponseMessage.Success(GlobalNamespace.SuccessUpdate);
             }
             SetUIEditProperties();
             _parentLoadable.LoadDataGrid();
@@ -400,22 +400,22 @@ namespace VesselInventory.ViewModel
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-                GlobalMessage.DeleteConfirmation,GlobalMessage.DeleteConfirmationDescription);
+                GlobalNamespace.DeleteConfirmation,GlobalNamespace.DeleteConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormItemRepository.Delete((int)parameter);
-            ResponseMessage.Success(GlobalMessage.SuccessDelete);
+            ResponseMessage.Success(GlobalNamespace.SuccessDelete);
             LoadDataGrid();
         }
 
         private void ReleaseAction(IClosable window)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-                GlobalMessage.ReleaseConfirmation, GlobalMessage.ReleaseConfirmationDescription);
+                GlobalNamespace.ReleaseConfirmation, GlobalNamespace.ReleaseConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormRepository.Release(rf_id);
-            ResponseMessage.Success(GlobalMessage.SuccesRelease);
+            ResponseMessage.Success(GlobalNamespace.SuccesRelease);
             _parentLoadable.LoadDataGrid();
             CloseWindow(window);
         }

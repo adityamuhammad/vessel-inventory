@@ -289,11 +289,11 @@ namespace VesselInventory.ViewModel
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-                GlobalMessage.DeleteConfirmation, GlobalMessage.DeleteConfirmationDescription );
+                GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _vesselGoodReceiveItemRejectRepository.Delete((int)parameter);
-            ResponseMessage.Success(GlobalMessage.SuccessDelete);
+            ResponseMessage.Success(GlobalNamespace.SuccessDelete);
             LoadDataGrid();
         }
 
@@ -302,7 +302,7 @@ namespace VesselInventory.ViewModel
             try
             {
                 if (ship_code != ShipBarge.ship_code)
-                    throw new Exception(GlobalMessage.ShipDoesNotMatch);
+                    throw new Exception(GlobalNamespace.ShipDoesNotMatch);
                 if (IsNewRecord)
                     VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                         .SaveVesselGoodReceive(VesselGoodReceiveEntity);
@@ -310,11 +310,11 @@ namespace VesselInventory.ViewModel
                     VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                         .Update(vessel_good_receive_id,VesselGoodReceiveEntity);
                 IsItemEnabled = true;
-                ResponseMessage.Success(GlobalMessage.SuccessSave);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 _parentLoadable.LoadDataGrid();
             } catch (Exception ex)
             {
-                ResponseMessage.Error(GlobalMessage.Error + ex.Message);
+                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
             }
         }
         private bool IsSaveCanExecute(object parameter)
