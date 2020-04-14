@@ -13,7 +13,7 @@ namespace VesselInventory.Repository
         T Save(T entity);
         T GetById(int id);
         T Update(int id, T entity);
-        int Delete(int id);
+        void Delete(int id);
     }
 
     public class Repository<T> : IRepository<T> where T : class
@@ -71,16 +71,15 @@ namespace VesselInventory.Repository
 
         }
 
-        public virtual int Delete(int id)
+        public virtual void Delete(int id)
         {
             using (var context = new VesselInventoryContext())
             {
                 T current = context.Set<T>().Find(id);
                 if (current == null)
-                    return 0;
+                    return;
                 context.Set<T>().Remove(current);
                 context.SaveChanges();
-                return 1;
             }
         }
     }

@@ -15,7 +15,7 @@ namespace VesselInventory.Repository
         RequestFormShipBargeDTO GetRrequestFormShipBarge();
         RequestForm SaveRequestForm(RequestForm requestForm);
         RequestForm Update(int id, RequestForm requestForm);
-        int Release(int id);
+        void Release(int id);
         RequestForm GetById(int id);
     }
     public class RequestFormRepository : 
@@ -78,14 +78,13 @@ namespace VesselInventory.Repository
             }
         }
 
-        public int Release(int id)
+        public void Release(int id)
         {
             using (var context = new VesselInventoryContext())
             {
                 var requestForm = context.rfs.Find(id);
                 requestForm.status = Status.RELEASE.GetDescription();
                 context.SaveChanges();
-                return 1;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace VesselInventory.Repository
         VesselGoodReceiveItemReject GetById(int id);
         VesselGoodReceiveItemReject Save(VesselGoodReceiveItemReject vesselGoodReceiveItemReject);
         VesselGoodReceiveItemReject Update(int id,VesselGoodReceiveItemReject vesselGoodReceiveItemReject);
-        int Delete(int id);
+        void Delete(int id);
         IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId);
     }
 
@@ -26,14 +26,14 @@ namespace VesselInventory.Repository
             }
         }
 
-        public override int Delete(int id)
+        public override void Delete(int id)
         {
             using (var context = new VesselInventoryContext())
             {
                 var current = context.vessel_good_receive_item_reject.Find(id);
+                if (current is null) return;
                 current.is_hidden = true;
                 context.SaveChanges();
-                return 1;
             }
         }
     }
