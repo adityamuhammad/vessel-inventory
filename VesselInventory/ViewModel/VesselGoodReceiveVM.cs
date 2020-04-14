@@ -20,7 +20,8 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
         public RelayCommand OpenDialogReceiveItemDetailCommand { get; private set; }
 
-        public VesselGoodReceiveVM(IWindowService windowService, IVesselGoodReceiveRepository vesselGoodReceiveRepository)
+        public VesselGoodReceiveVM(IWindowService windowService, 
+            IVesselGoodReceiveRepository vesselGoodReceiveRepository)
         {
             InitializeCommands();
             _windowService = windowService;

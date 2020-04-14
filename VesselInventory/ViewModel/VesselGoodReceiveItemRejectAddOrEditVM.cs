@@ -14,9 +14,8 @@ namespace VesselInventory.ViewModel
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IRepository<Uom> _UOMRepository;
-        public VesselGoodReceiveItemRejectAddOrEditVM(
-            IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository,
-            IRepository<Uom> UOMRepository)
+        public VesselGoodReceiveItemRejectAddOrEditVM(IRepository<Uom> UOMRepository,
+            IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {
             _vesselGoodReceiveItemRejectRepository = vesselGoodReceiveItemRejectRepository;
             _UOMRepository = UOMRepository;
@@ -28,7 +27,9 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId, int vesselGoodReceiveItemRejectId = 0)
+        public void InitializeData(
+            IParentLoadable parentLoadable, 
+            int vesselGoodReceiveId, int vesselGoodReceiveItemRejectId = 0)
         {
             _parentLoadable = parentLoadable;
             this.vessel_good_receive_id = vesselGoodReceiveId;
@@ -211,14 +212,13 @@ namespace VesselInventory.ViewModel
                         .Update(vessel_good_receive_item_reject_id,GoodReceiveItemRejectEntity);
                 LoadDataGrid();
                 CloseWindow(window);
-                ResponseMessage.Success("Data saved successfully.");
+                ResponseMessage.Success(GlobalMessage.SuccessSave);
 
             } catch (Exception ex)
             {
-                ResponseMessage.Error("Error : " + ex.Message);
+                ResponseMessage.Error(GlobalMessage.Error + ex.Message);
 
             }
-
         }
         #endregion
     }

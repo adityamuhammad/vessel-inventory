@@ -19,7 +19,8 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private readonly IRequestFormRepository _requestFormRepository;
 
-        public RequestFormVM(IWindowService windowService, IRequestFormRepository requestFormRepository)
+        public RequestFormVM(IWindowService windowService, 
+            IRequestFormRepository requestFormRepository)
         {
             _windowService = windowService;
             _requestFormRepository = requestFormRepository;

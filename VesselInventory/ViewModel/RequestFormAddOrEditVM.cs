@@ -41,7 +41,9 @@ namespace VesselInventory.ViewModel
 
         }
         
-        public void InitializeData( IParentLoadable parentLoadable, int requestFormId = 0) {
+        public void InitializeData( IParentLoadable parentLoadable, 
+            int requestFormId = 0)
+        {
             _parentLoadable = parentLoadable;
             this.rf_id = requestFormId;
             LoadAttributes();
@@ -58,7 +60,7 @@ namespace VesselInventory.ViewModel
         }
 
         /// <summary>
-        /// Attributes
+        /// Column or Field Attributes
         /// </summary>
         #region
         public string status => RequestFormEntity.status;
@@ -97,21 +99,14 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required(ErrorMessage ="Project Number cannot be empty.")]
+        [Required]
+        [Display(Name ="Project Number")]
         public string project_number {
             get => RequestFormEntity.project_number;
             set
             {
                 RequestFormEntity.project_number = value;
                 OnPropertyChanged("project_number");
-            }
-        }
-
-        public bool IsReleased
-        {
-            get
-            {
-                return (status == Status.RELEASE.GetDescription());
             }
         }
 
@@ -263,21 +258,27 @@ namespace VesselInventory.ViewModel
         #endregion
 
         /// <summary>
-        /// UI Collections and Entity
+        /// UI Collections, Entity and Custom Column Attributes
         /// </summary>
         #region
-        private bool IsNewRecord
-        {
-            get
-            {
-                return (rf_id == 0);
-            }
-        }
+        public bool IsReleased => (status == Status.RELEASE.GetDescription());
+        private bool IsNewRecord => (rf_id == 0);
         private RequestFormShipBargeDTO RequestFormShipBarge
         {
             get
             {
                 return _requestFormRepository.GetRrequestFormShipBarge();
+            }
+        }
+
+        private int _totalItem = 0;
+        public int TotalItem
+        {
+            get => _totalItem;
+            set
+            {
+                _totalItem = value;
+                OnPropertyChanged("TotalItem");
             }
         }
 
@@ -377,51 +378,44 @@ namespace VesselInventory.ViewModel
             var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditVM>();
             if (parameter is null)
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id);
-
             else
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
             _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
         }
 
-        private int _totalItem = 0;
-        public int TotalItem
-        {
-            get => _totalItem;
-            set
-            {
-                _totalItem = value;
-                OnPropertyChanged("TotalItem");
-            }
-        }
-
         private void SaveAction(object parameter)
         {
             if (IsNewRecord)
+            {
                 RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
-            else
+                ResponseMessage.Success(GlobalMessage.SuccessSave);
+            } else
+            {
                 RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
-
+                ResponseMessage.Success(GlobalMessage.SuccessUpdate);
+            }
             SetUIEditProperties();
-            ResponseMessage.Success("Data saved successfully.");
             _parentLoadable.LoadDataGrid();
         }
         private void DeleteItemAction(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+                GlobalMessage.DeleteConfirmation,GlobalMessage.DeleteConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormItemRepository.Delete((int)parameter);
-            ResponseMessage.Success("Data deleted successfully.");
+            ResponseMessage.Success(GlobalMessage.SuccessDelete);
             LoadDataGrid();
         }
 
         private void ReleaseAction(IClosable window)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Release Confirmation", "Are you sure?");
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+                GlobalMessage.ReleaseConfirmation, GlobalMessage.ReleaseConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormRepository.Release(rf_id);
-            ResponseMessage.Success("Release successfully to process.");
+            ResponseMessage.Success(GlobalMessage.SuccesRelease);
             _parentLoadable.LoadDataGrid();
             CloseWindow(window);
         }

@@ -17,7 +17,8 @@ namespace VesselInventory.ViewModel
 
         private readonly IWindowService _windowService;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
-        public RequestFormItemPendingVM(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
+        public RequestFormItemPendingVM(IWindowService windowService, 
+            IRequestFormItemRepository requestFormItemRepository)
         {
             _windowService = windowService;
             _requestFormItemRepository = requestFormItemRepository;
@@ -34,32 +35,10 @@ namespace VesselInventory.ViewModel
             UploadDocumentFormCommand = new RelayCommand(OpenUploadDocumentFormAction);
         }
 
-        private string _searchKeyword = string.Empty;
-        public string SearchKeyword
-        {
-            get => _searchKeyword;
-            set
-            {
-                _searchKeyword = value;
-                OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
-            }
-        }
-
-
-        public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } 
-            = new ObservableCollection<ItemPendingDTO>();
-        public void LoadDataGrid()
-        {
-            ItemPendingCollection.Clear();
-            foreach(var _ in _requestFormItemRepository
-                    .GetItemPending(SearchKeyword,CurrentPage))
-                ItemPendingCollection.Add(_);
-            UpdateTotalPage();
-        }
-
-
+        /// <summary>
+        /// UI Properties
+        /// </summary>
+        #region
         private int _currentPage;
         public int CurrentPage
         {
@@ -82,6 +61,41 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private string _searchKeyword = string.Empty;
+        public string SearchKeyword
+        {
+            get => _searchKeyword;
+            set
+            {
+                _searchKeyword = value;
+                OnPropertyChanged("SearchKeyword");
+                ResetCurrentPage();
+                LoadDataGrid();
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Data Collections, Entity and custom attributes
+        /// </summary>
+        #region
+        public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } 
+            = new ObservableCollection<ItemPendingDTO>();
+        #endregion
+
+        /// <summary>
+        /// Load Methods and manipulate data
+        /// </summary>
+        #region
+        public void LoadDataGrid()
+        {
+            ItemPendingCollection.Clear();
+            foreach(var _ in _requestFormItemRepository
+                    .GetItemPending(SearchKeyword,CurrentPage))
+                ItemPendingCollection.Add(_);
+            UpdateTotalPage();
+        }
+
         private void UpdateTotalPage()
         {
             TotalPage = _requestFormItemRepository.
@@ -90,6 +104,14 @@ namespace VesselInventory.ViewModel
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
+        #endregion
+
+        /// <summary>
+        /// Button Behavior
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        #region
         private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
         private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
         private void NextPageAction(object parameter)
@@ -110,5 +132,6 @@ namespace VesselInventory.ViewModel
             _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
                 (requestFormItemUploadDocumentVM);
         }
+        #endregion
     }
 }

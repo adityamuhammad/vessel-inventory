@@ -114,6 +114,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commons\GlobalMessage.cs" />
     <Compile Include="Commons\ResponseMessage.cs" />
     <Compile Include="Commons\UIHelper.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />

@@ -16,8 +16,7 @@ namespace VesselInventory.ViewModel
         private IParentLoadable _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemUploadDocVM(
-            IOService ioService, 
+        public RequestFormItemUploadDocVM( IOService ioService, 
             IUploadService uploadService, 
             IRequestFormItemRepository requestFormItemRepository)
         {
@@ -90,7 +89,7 @@ namespace VesselInventory.ViewModel
                 Upload();
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
                 _parentLoadable.LoadDataGrid();
-                ResponseMessage.Success("Data saved successfully.");
+                ResponseMessage.Success(GlobalMessage.SuccessSave);
                 CloseWindow(window);
             }
             return;

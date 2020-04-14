@@ -24,8 +24,7 @@ namespace VesselInventory.ViewModel
         private readonly IUploadService _uploadService;
         private IParentLoadable _parentLoadable;
 
-        public RequestFormItemAddOrEditVM( 
-            IUploadService uploadService,
+        public RequestFormItemAddOrEditVM( IUploadService uploadService,
             IOService iOService,
             IRequestFormItemRepository requestFormItemRepository )
         {
@@ -43,7 +42,8 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, int requestFormId, int requestFormItemId = 0)
+        public void InitializeData(IParentLoadable parentLoadable, 
+            int requestFormId, int requestFormItemId = 0)
         {
             _parentLoadable = parentLoadable;
             this.rf_id = requestFormId;
@@ -54,22 +54,55 @@ namespace VesselInventory.ViewModel
                     _requestFormItemRepository.GetById(rf_item_id);
         }
 
+        /// <summary>
+        /// UI Collection Data, Entity, And Custom Attributes
+        /// </summary>
+        #region
         private RequestFormItem RequestFormItemEntity
         {
             get; set;
         } = new RequestFormItem();
 
-        private bool IsNewRecord
+        private bool IsNewRecord => (rf_item_id == 0);
+        private string _attachment_local_path = string.Empty;
+        public string attachment_local_path
         {
-            get
+            get => _attachment_local_path;
+            set
             {
-                return (rf_item_id == 0);
+                _attachment_local_path = value;
+                OnPropertyChanged("attachment_local_path");
             }
         }
 
+        public IList<string> ReasonCollection
+        {
+            get
+            {
+                IList<string> reasons = new List<string>();
+                foreach (var _ in DataHelper.GetLookupValues("REASON"))
+                    reasons.Add(_.description);
+                return reasons;
+            }
+        }
+
+        public IList<string> PriorityCollection
+        {
+            get
+            {
+                IList<string> priorities = new List<string>();
+                foreach (var _ in DataHelper.GetLookupValues("PRIORITY"))
+                    priorities.Add(_.description);
+                return priorities;
+            }
+        }
+
+        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } 
+            = new ObservableCollection<ItemGroupDimensionDTO>();
+        #endregion
 
         /// <summary>
-        /// UI Columns and Field
+        /// UI Columns or Field Attributes
         /// </summary>
         #region
         public int rf_id
@@ -105,7 +138,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required(ErrorMessage = "Please select item.")]
+        [Required]
+        [Display(Name ="Item Id")]
         public int item_id
         {
             get => RequestFormItemEntity.item_id;
@@ -176,18 +210,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private string _attachment_local_path = string.Empty;
-        public string attachment_local_path
-        {
-            get => _attachment_local_path;
-            set
-            {
-                _attachment_local_path = value;
-                OnPropertyChanged("attachment_local_path");
-            }
-        }
-
-        [Required(ErrorMessage = "Qty cannot be empty")]
+        [Required]
         public decimal qty
         {
             get => RequestFormItemEntity.qty;
@@ -237,6 +260,7 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("remarks");
             }
         }
+
         public string uom
         {
             get => RequestFormItemEntity.uom;
@@ -285,35 +309,10 @@ namespace VesselInventory.ViewModel
         }
         #endregion
 
-
         /// <summary>
-        /// UI Collection Data and Entity
+        /// Load Methods
         /// </summary>
         #region
-        public IList<string> ReasonCollection
-        {
-            get
-            {
-                IList<string> reasons = new List<string>();
-                foreach (var _ in DataHelper.GetLookupValues("REASON"))
-                    reasons.Add(_.description);
-                return reasons;
-            }
-        }
-
-        public IList<string> PriorityCollection
-        {
-            get
-            {
-                IList<string> priorities = new List<string>();
-                foreach (var _ in DataHelper.GetLookupValues("PRIORITY"))
-                    priorities.Add(_.description);
-                return priorities;
-            }
-        }
-
-        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } 
-            = new ObservableCollection<ItemGroupDimensionDTO>();
         public void LoadItem()
         {
             ItemCollection.Clear();
@@ -375,12 +374,12 @@ namespace VesselInventory.ViewModel
             {
                 Upload();
                 SaveOrUpdate();
-                ResponseMessage.Success("Data saved successfully.");
+                ResponseMessage.Success(GlobalMessage.SuccessSave);
                 LoadParentDataGrid();
                 CloseWindow(window);
             } catch (Exception ex)
             {
-                ResponseMessage.Error("Something went wrong : " + ex.Message.ToString());
+                ResponseMessage.Error(GlobalMessage.Error + ex.Message.ToString());
             }
         }
 

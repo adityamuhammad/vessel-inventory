@@ -125,6 +125,7 @@
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid 
+                CanUserSortColumns="False"
                 HorizontalAlignment="Stretch" 
                 VerticalScrollBarVisibility="Auto" 
                 VerticalAlignment="Top" 

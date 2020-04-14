@@ -27,34 +27,6 @@ namespace VesselInventory.ViewModel
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
         }
 
-        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } 
-            = new ObservableCollection<ItemStatusDTO>();
-
-
-        private IEnumerable<ItemStatusDTO> ItemStatusList
-        {
-            get
-            {
-                return _requestFormItemRepository.
-                    GetItemStatus(
-                        ItemIdSearch,
-                        ItemNameSearch,
-                        ItemStatusSearch,
-                        RFNumberSearch,
-                        DepartmentSearch,
-                        CurrentPage
-                    );
-            }
-        }
-
-        protected void RefreshItemStatus()
-        {
-            ItemStatusCollection.Clear();
-            foreach (var _ in ItemStatusList)
-                ItemStatusCollection.Add(_);
-            UpdateTotalPage();
-        }
-
         private int _currentPage;
         public int CurrentPage
         {
@@ -141,19 +113,38 @@ namespace VesselInventory.ViewModel
                 RefreshItemStatus();
             }
         }
+        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } 
+            = new ObservableCollection<ItemStatusDTO>();
+
+
+        private IEnumerable<ItemStatusDTO> ItemStatusList
+        {
+            get
+            {
+                return _requestFormItemRepository.
+                    GetItemStatus( ItemIdSearch, ItemNameSearch,
+                        ItemStatusSearch, RFNumberSearch,
+                        DepartmentSearch, CurrentPage );
+            }
+        }
+
+        protected void RefreshItemStatus()
+        {
+            ItemStatusCollection.Clear();
+            foreach (var _ in ItemStatusList)
+                ItemStatusCollection.Add(_);
+            UpdateTotalPage();
+        }
+
 
         private int TotalPageFromDatabase
         {
             get
             {
                 return _requestFormItemRepository.
-                            GetItemStatusTotalPage(
-                                ItemIdSearch, 
-                                ItemNameSearch, 
-                                ItemStatusSearch, 
-                                RFNumberSearch, 
-                                DepartmentSearch
-                            );
+                            GetItemStatusTotalPage( ItemIdSearch, 
+                                ItemNameSearch, ItemStatusSearch, 
+                                RFNumberSearch, DepartmentSearch );
 
             }
         }

@@ -25,8 +25,7 @@ namespace VesselInventory.ViewModel
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IWindowService _windowService;
 
-        public VesselGoodReceiveAddOrEditVM(
-            IWindowService windowService,
+        public VesselGoodReceiveAddOrEditVM( IWindowService windowService,
             IVesselGoodReceiveRepository vesselGoodReceiveRepository,
             IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {
@@ -289,11 +288,12 @@ namespace VesselInventory.ViewModel
 
         private void DeleteItemAction(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation("Delete Confirmation","Are you sure?" );
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+                GlobalMessage.DeleteConfirmation, GlobalMessage.DeleteConfirmationDescription );
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _vesselGoodReceiveItemRejectRepository.Delete((int)parameter);
-            ResponseMessage.Success("Data deleted successfully.");
+            ResponseMessage.Success(GlobalMessage.SuccessDelete);
             LoadDataGrid();
         }
 
@@ -302,21 +302,19 @@ namespace VesselInventory.ViewModel
             try
             {
                 if (ship_code != ShipBarge.ship_code)
-                    throw new Exception("Cannot process, The Ship Code does not match.");
-
+                    throw new Exception(GlobalMessage.ShipDoesNotMatch);
                 if (IsNewRecord)
                     VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                         .SaveVesselGoodReceive(VesselGoodReceiveEntity);
                 else
                     VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                         .Update(vessel_good_receive_id,VesselGoodReceiveEntity);
-
                 IsItemEnabled = true;
-                ResponseMessage.Success("Data saved successfully.");
+                ResponseMessage.Success(GlobalMessage.SuccessSave);
                 _parentLoadable.LoadDataGrid();
             } catch (Exception ex)
             {
-                ResponseMessage.Error("Error  : " + ex.Message);
+                ResponseMessage.Error(GlobalMessage.Error + ex.Message);
             }
         }
         private bool IsSaveCanExecute(object parameter)
