@@ -25,7 +25,7 @@ namespace VesselInventory.ViewModel
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IWindowService _windowService;
 
-        public VesselGoodReceiveAddOrEditVM( IWindowService windowService,
+        public VesselGoodReceiveAddOrEditVM(IWindowService windowService,
             IVesselGoodReceiveRepository vesselGoodReceiveRepository,
             IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {

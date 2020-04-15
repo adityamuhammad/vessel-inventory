@@ -30,9 +30,9 @@ namespace VesselInventory.ViewModel
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
-        public RequestFormAddOrEditVM( IWindowService windowService, 
+        public RequestFormAddOrEditVM(IWindowService windowService, 
             IRequestFormRepository requestFormRepository, 
-            IRequestFormItemRepository requestFormItemRepository )
+            IRequestFormItemRepository requestFormItemRepository)
         {
             _windowService = windowService;
             _requestFormRepository = requestFormRepository;

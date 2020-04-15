@@ -16,7 +16,7 @@ namespace VesselInventory.ViewModel
         private IParentLoadable _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemUploadDocVM( IOService ioService, 
+        public RequestFormItemUploadDocVM(IOService ioService, 
             IUploadService uploadService, 
             IRequestFormItemRepository requestFormItemRepository)
         {
