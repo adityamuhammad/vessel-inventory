@@ -6,6 +6,7 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
     using VesselInventory.Commons.Enums;
+    using VesselInventory.Utility;
 
     [Table("vessel_good_receive")]
     public partial class VesselGoodReceive
@@ -42,7 +43,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(30)]
-        public string created_by { get; set; } = "Aditya";
+        public string created_by { get; set; } = Auth.Instance.username;
 
         public DateTime? last_modified_date { get; set; }
 

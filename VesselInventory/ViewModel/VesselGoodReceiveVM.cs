@@ -139,7 +139,7 @@ namespace VesselInventory.ViewModel
                 vesselGoodReceiveAddOrEditVM.InitializeData(this);
             else
                 vesselGoodReceiveAddOrEditVM.InitializeData(this, (int)parameter);
-            _windowService.ShowWindow<VesselGoodReceive_AddOrEditView>
+            _windowService.ShowDialogWindow<VesselGoodReceive_AddOrEditView>
                     (vesselGoodReceiveAddOrEditVM);
         }
 
@@ -148,7 +148,7 @@ namespace VesselInventory.ViewModel
             var container = ((App)Application.Current).UnityContainer;
             var vesselGoodReceiveItemVM = container.Resolve<VesselGoodReceiveItemVM>();
             vesselGoodReceiveItemVM.InitializeData((int)parameter);
-            _windowService.ShowWindow<VesselGoodReceive_ItemDetailView>
+            _windowService.ShowDialogWindow<VesselGoodReceive_ItemDetailView>
                     (vesselGoodReceiveItemVM);
         }
         #endregion

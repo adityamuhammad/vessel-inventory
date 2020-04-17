@@ -211,9 +211,11 @@
                                 Text="{
                                     Binding qty, 
                                     UpdateSourceTrigger=PropertyChanged,
+                                    StringFormat=N2,
                                     ValidatesOnNotifyDataErrors=True,
                                     ValidatesOnDataErrors=True}"
-                                />
+                                >
+                            </TextBox>
                             <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                             <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                         </StackPanel>

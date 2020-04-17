@@ -146,7 +146,8 @@
                         Binding project_number, 
                         UpdateSourceTrigger=PropertyChanged,
                         ValidatesOnNotifyDataErrors=True,
-                        ValidatesOnDataErrors=True}"/>
+                        ValidatesOnDataErrors=True
+                    }"/>
 
                 <DatePicker
                     Margin="0,10" 

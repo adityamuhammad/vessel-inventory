@@ -213,7 +213,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public decimal qty
         {
-            get => RequestFormItemEntity.qty;
+            get
+            {
+                return RequestFormItemEntity.qty;
+            }
             set
             {
                 RequestFormItemEntity.qty = value;

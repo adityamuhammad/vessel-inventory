@@ -37,7 +37,7 @@
                 <Setter Property="Foreground" Value="#FF1368BD"/>
             </Style>
 
-            <!-- style validation -->           
+            <!-- style validation -->
             <Style 
                 TargetType="{x:Type TextBox}" 
                 x:Key="validation" 
@@ -65,7 +65,41 @@
                             Property="ToolTip"    
                             Value="{
                                 Binding RelativeSource={RelativeSource Self},
-                                Path=(Validation.Errors)[0].ErrorContent}" 
+                                Path=(Validation.Errors)/ErrorContent}" 
+                         />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- style validation -->           
+            <Style 
+                TargetType="{x:Type PasswordBox}" 
+                x:Key="validationPassword" 
+                BasedOn="{StaticResource MaterialDesignPasswordBox}">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder x:Name="errorControl" />
+                                </StackPanel>
+                                <TextBlock 
+                                    Text="{
+                                        Binding AdornedElement.ToolTip, 
+                                        ElementName=errorControl
+                                    }" 
+                                    Foreground="Red" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter 
+                            Property="ToolTip"    
+                            Value="{
+                                Binding RelativeSource={RelativeSource Self},
+                                Path=(Validation.Errors)/ErrorContent}" 
                          />
                     </Trigger>
                 </Style.Triggers>

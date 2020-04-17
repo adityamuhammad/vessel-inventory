@@ -9,6 +9,7 @@ using Unity.Lifetime;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.ViewModel;
+using VesselInventory.Views;
 
 namespace VesselInventory
 {
@@ -42,9 +43,8 @@ namespace VesselInventory
             UnityContainer.RegisterType<IVesselGoodReceiveItemRejectRepository, VesselGoodReceiveItemRejectRepository>();
             UnityContainer.RegisterType<IVesselGoodReceiveItemRepository, VesselGoodReceiveItemRepository>();
 
-            var homeViewModel = UnityContainer.Resolve<HomeVM>();
-            Window window = UnityContainer.Resolve<MainWindow>();
-            window.DataContext = homeViewModel;
+            Window window = UnityContainer.Resolve<Login_View>();
+            window.DataContext = UnityContainer.Resolve<LoginVM>();
             window.Show();
         }
     }

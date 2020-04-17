@@ -118,7 +118,7 @@ namespace VesselInventory.ViewModel
             else
                 requestFormAddOrEditVM.InitializeData(this, (int)parameter);
 
-            _windowService.ShowWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
+            _windowService.ShowDialogWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
         private int TotalPageFromDatabase

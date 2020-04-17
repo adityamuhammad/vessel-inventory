@@ -380,7 +380,7 @@ namespace VesselInventory.ViewModel
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id);
             else
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
-            _windowService.ShowWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
+            _windowService.ShowDialogWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
         }
 
         private void SaveAction(object parameter)

@@ -129,7 +129,7 @@ namespace VesselInventory.ViewModel
             var container = ((App)Application.Current).UnityContainer;
             var requestFormItemUploadDocumentVM = container.Resolve<RequestFormItemUploadDocVM>();
             requestFormItemUploadDocumentVM.InitializeData(this, (int)parameter);
-            _windowService.ShowWindow<RequestForm_ItemUploadDocumentView>
+            _windowService.ShowDialogWindow<RequestForm_ItemUploadDocumentView>
                 (requestFormItemUploadDocumentVM);
         }
         #endregion

@@ -6,6 +6,7 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
     using VesselInventory.Commons.Enums;
+    using VesselInventory.Utility;
 
     [Table("rf_item")]
     public partial class RequestFormItem
@@ -64,7 +65,7 @@ namespace VesselInventory.Models
         public DateTime? created_date { get; set; } = DateTime.Now;
 
         [StringLength(30)]
-        public string created_by { get; set; }
+        public string created_by { get; set; } = Auth.Instance.username;
 
         public DateTime? last_modified_date { get; set; }
 

@@ -5,6 +5,7 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using VesselInventory.Utility;
 
     [Table("vessel_good_issued")]
     public partial class VesselGoodIssued
@@ -33,11 +34,11 @@ namespace VesselInventory.Models
         [StringLength(15)]
         public string sync_status { get; set; }
 
-        public DateTime created_date { get; set; }
+        public DateTime created_date { get; set; } = DateTime.Now;
 
         [Required]
         [StringLength(30)]
-        public string created_by { get; set; }
+        public string created_by { get; set; } = Auth.Instance.username;
 
         public DateTime? last_modified_date { get; set; }
 

@@ -283,7 +283,7 @@ namespace VesselInventory.ViewModel
                 vesselGoodReceiveItemRejectAddOrEditVM.InitializeData
                     (this, vessel_good_receive_id,(int)parameter );
 
-            _windowService.ShowWindow<VesselGoodReceive_ItemRejectAddOrEditView>(vesselGoodReceiveItemRejectAddOrEditVM);
+            _windowService.ShowDialogWindow<VesselGoodReceive_ItemRejectAddOrEditView>(vesselGoodReceiveItemRejectAddOrEditVM);
         }
 
         private void DeleteItemAction(object parameter)

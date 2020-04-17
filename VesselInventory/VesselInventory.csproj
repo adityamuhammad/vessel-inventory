@@ -114,7 +114,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commons\GlobalMessage.cs" />
+    <Compile Include="Commons\GlobalNamespace.cs" />
+    <Compile Include="Commons\PasswordBoxHelper.cs" />
     <Compile Include="Commons\ResponseMessage.cs" />
     <Compile Include="Commons\UIHelper.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
@@ -152,11 +153,13 @@
     <Compile Include="Services\IParentLoadable.cs" />
     <Compile Include="Services\IUploadService.cs" />
     <Compile Include="Services\IWindowService.cs" />
+    <Compile Include="Utility\Auth.cs" />
     <Compile Include="Utility\Navigate.cs" />
     <Compile Include="Utility\ObservableObject.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="Utility\ToastNotification.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
+    <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\RequestFormAddOrEditVM.cs" />
     <Compile Include="ViewModel\RequestFormVMBase.cs" />
     <Compile Include="ViewModel\RequestFormItemAddOrEditVM.cs" />
@@ -169,6 +172,9 @@
     <Compile Include="ViewModel\VesselGoodReceiveItemVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Views\Login_View.xaml.cs">
+      <DependentUpon>Login_View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RequestForm_MainView.xaml.cs">
       <DependentUpon>RequestForm_MainView.xaml</DependentUpon>
     </Compile>
@@ -211,6 +217,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Login_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RequestForm_MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
