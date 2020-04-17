@@ -1,6 +1,6 @@
-﻿namespace VesselInventory.DTO
+﻿namespace VesselInventory.Dto
 {
-    public class ShipBargeDTO
+    public class ShipBargeDto
     {
         public int ship_intial_id { get; set; }
         public int ship_id { get; set; }

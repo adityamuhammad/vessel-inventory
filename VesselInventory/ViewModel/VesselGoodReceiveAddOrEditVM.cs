@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -154,7 +154,7 @@ namespace VesselInventory.ViewModel
 
         private bool IsNewRecord => (vessel_good_receive_id == 0);
         private VesselGoodReceive VesselGoodReceiveEntity { get; set; }  = new VesselGoodReceive();
-        private ShipBargeDTO ShipBarge => DataHelper.GetShipBargeApairs();
+        private ShipBargeDto ShipBarge => DataHelper.GetShipBargeApairs();
         #endregion
 
         /// <summary>

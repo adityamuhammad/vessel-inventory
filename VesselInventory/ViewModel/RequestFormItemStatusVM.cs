@@ -113,11 +113,11 @@ namespace VesselInventory.ViewModel
                 RefreshItemStatus();
             }
         }
-        public ObservableCollection<ItemStatusDTO> ItemStatusCollection { get; } 
-            = new ObservableCollection<ItemStatusDTO>();
+        public ObservableCollection<ItemStatusDto> ItemStatusCollection { get; } 
+            = new ObservableCollection<ItemStatusDto>();
 
 
-        private IEnumerable<ItemStatusDTO> ItemStatusList
+        private IEnumerable<ItemStatusDto> ItemStatusList
         {
             get
             {

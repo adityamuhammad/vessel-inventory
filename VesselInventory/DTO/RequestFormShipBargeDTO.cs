@@ -1,6 +1,6 @@
-﻿namespace VesselInventory.DTO
+﻿namespace VesselInventory.Dto
 {
-    public class RequestFormShipBargeDTO
+    public class RequestFormShipBargeDto
     {
         public string rf_number { get; set; }
         public int ship_initial_id { get; set; }

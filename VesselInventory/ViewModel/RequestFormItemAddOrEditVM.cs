@@ -1,14 +1,14 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
-using System;
-using System.Collections.Generic;
 using VesselInventory.Commons;
 
 namespace VesselInventory.ViewModel
@@ -97,8 +97,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<ItemGroupDimensionDTO> ItemCollection { get; set; } 
-            = new ObservableCollection<ItemGroupDimensionDTO>();
+        public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
+            = new ObservableCollection<ItemGroupDimensionDto>();
         #endregion
 
         /// <summary>
@@ -326,7 +326,7 @@ namespace VesselInventory.ViewModel
         private void AutoCompleteChanged(object parameter)
         {
             IsVisibleListBoxItem = false;
-            ItemGroupDimensionDTO item = (ItemGroupDimensionDTO)parameter;
+            ItemGroupDimensionDto item = (ItemGroupDimensionDto)parameter;
             if (item != null)
             {
                 item_id = item.item_id;

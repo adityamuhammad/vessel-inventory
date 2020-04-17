@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -13,9 +13,9 @@ namespace VesselInventory.Repository
         RequestFormItem Update(int id, RequestFormItem requestFormItem);
         void Delete(int id) ;
         IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
-        IEnumerable<ItemStatusDTO> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
+        IEnumerable<ItemStatusDto> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
         int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
-        IEnumerable<ItemPendingDTO> GetItemPending(string rf_number, int page, int rows = 10);
+        IEnumerable<ItemPendingDto> GetItemPending(string rf_number, int page, int rows = 10);
         int GetItemPendingTotalPage(string rf_number, int rows = 10);
     }
 
@@ -36,7 +36,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<ItemStatusDTO> GetItemStatus ( string item_id = "", string item_name = "", string item_status = "", string rf_number = "", string department_name = "", int page = 1, int rows = 10 )
+        public IEnumerable<ItemStatusDto> GetItemStatus ( string item_id = "", string item_name = "", string item_status = "", string rf_number = "", string department_name = "", int page = 1, int rows = 10 )
         {
             Regex numericRegex = new Regex(@"^\d+$");
             if (!numericRegex.IsMatch(item_id))
@@ -44,7 +44,7 @@ namespace VesselInventory.Repository
 
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<ItemStatusDTO>(
+                return context.Database.SqlQuery<ItemStatusDto>(
                     "usp_RequestFormItem_GetItemStatusList @p0, @p1, @p2, @p3, @p4,@p5, @p6",
                     parameters: new[]
                     {
@@ -80,11 +80,11 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<ItemPendingDTO> GetItemPending(string rf_number = "", int page = 1, int rows = 10)
+        public IEnumerable<ItemPendingDto> GetItemPending(string rf_number = "", int page = 1, int rows = 10)
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<ItemPendingDTO>(
+                return context.Database.SqlQuery<ItemPendingDto>(
                     "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2",
                     parameters: new[]
                     {

@@ -1,6 +1,6 @@
-﻿namespace VesselInventory.DTO
+﻿namespace VesselInventory.Dto
 {
-    public class ItemGroupDimensionDTO
+    public class ItemGroupDimensionDto
     {
         public int item_id { get; set; }
         public string item_name { get; set; }

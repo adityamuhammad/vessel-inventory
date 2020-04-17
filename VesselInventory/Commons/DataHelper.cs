@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 
 namespace VesselInventory.Commons.HelperFunctions
@@ -20,21 +20,21 @@ namespace VesselInventory.Commons.HelperFunctions
             }
         }
 
-        public static IEnumerable<ItemGroupDimensionDTO> GetItems(string search_keyword = "")
+        public static IEnumerable<ItemGroupDimensionDto> GetItems(string search_keyword = "")
         {
             using (var context = new VesselInventoryContext()) {
-                return context.Database.SqlQuery<ItemGroupDimensionDTO>("usp_Item_GetItemList @p0",
+                return context.Database.SqlQuery<ItemGroupDimensionDto>("usp_Item_GetItemList @p0",
                     parameters: new[] {
                         search_keyword
                     }).ToList();
             }
         }
 
-        public static ShipBargeDTO GetShipBargeApairs()
+        public static ShipBargeDto GetShipBargeApairs()
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<ShipBargeDTO>("usp_Generic_GetCurrentShipBargeApairs").Single();
+                return context.Database.SqlQuery<ShipBargeDto>("usp_Generic_GetCurrentShipBargeApairs").Single();
             }
         }
 

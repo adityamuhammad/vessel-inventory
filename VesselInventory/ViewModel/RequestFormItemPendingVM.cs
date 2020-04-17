@@ -79,8 +79,8 @@ namespace VesselInventory.ViewModel
         /// Data Collections, Entity and custom attributes
         /// </summary>
         #region
-        public ObservableCollection<ItemPendingDTO> ItemPendingCollection { get; } 
-            = new ObservableCollection<ItemPendingDTO>();
+        public ObservableCollection<ItemPendingDto> ItemPendingCollection { get; } 
+            = new ObservableCollection<ItemPendingDto>();
         #endregion
 
         /// <summary>

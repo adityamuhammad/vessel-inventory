@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
@@ -263,7 +263,7 @@ namespace VesselInventory.ViewModel
         #region
         public bool IsReleased => (status == Status.RELEASE.GetDescription());
         private bool IsNewRecord => (rf_id == 0);
-        private RequestFormShipBargeDTO RequestFormShipBarge
+        private RequestFormShipBargeDto RequestFormShipBarge
         {
             get
             {

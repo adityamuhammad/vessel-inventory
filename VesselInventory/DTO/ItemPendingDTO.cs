@@ -1,6 +1,6 @@
-﻿namespace VesselInventory.DTO
+﻿namespace VesselInventory.Dto
 {
-    public class ItemPendingDTO
+    public class ItemPendingDto
     {
         public int rf_item_id { get; set; }
         public int item_id { get; set; }

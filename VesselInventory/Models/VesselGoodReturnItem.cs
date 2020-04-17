@@ -51,7 +51,7 @@ namespace VesselInventory.Models
         [StringLength(15)]
         public string sync_status { get; set; }
 
-        public DateTime created_date { get; set; }
+        public DateTime created_date { get; set; } = DateTime.Now;
 
         [Required]
         [StringLength(30)]

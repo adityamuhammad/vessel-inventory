@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace VesselInventory.DTO
+namespace VesselInventory.Dto
 {
-    public class ItemStatusDTO
+    public class ItemStatusDto
     {
         public int item_id { get; set; }
         public string item_description { get; set; }

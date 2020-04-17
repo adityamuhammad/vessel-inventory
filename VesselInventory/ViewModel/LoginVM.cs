@@ -51,7 +51,7 @@ namespace VesselInventory.ViewModel
 
         private void LoginAction(IClosable window)
         {
-            Auth.Instance.username = "Aditya";
+            Auth.Instance.username = username;
             var container = (((App)Application.Current)).UnityContainer;
             _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
             CloseWindow(window);
