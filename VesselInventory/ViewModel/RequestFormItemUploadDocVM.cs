@@ -87,12 +87,17 @@ namespace VesselInventory.ViewModel
             if (!string.IsNullOrWhiteSpace(attachment_local_path))
             {
                 Upload();
-                _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
+                Update();
                 _parentLoadable.LoadDataGrid();
-                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 CloseWindow(window);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
             }
             return;
+        }
+
+        private void Update()
+        {
+            _requestFormItemRepository.Update(rf_item_id, RequestFormItemEntity);
         }
     }
 }

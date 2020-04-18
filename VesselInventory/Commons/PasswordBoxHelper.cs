@@ -13,12 +13,12 @@ namespace VesselInventory.Commons
 
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordBoxHelper), 
-            new PropertyMetadata(false, Attach));
+                typeof(bool), typeof(PasswordBoxHelper), 
+                new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", 
-           typeof(bool), typeof(PasswordBoxHelper));
+               typeof(bool), typeof(PasswordBoxHelper));
 
 
         public static void SetAttach(DependencyObject dp, bool value)

@@ -25,8 +25,7 @@ namespace VesselInventory.ViewModel
             get; set;
         } = new User();
 
-        [Required]
-        [Display(Name ="Username")]
+        [Required(ErrorMessage ="*")]
         public string username
         {
             get => User.username;
@@ -37,8 +36,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required]
-        [Display(Name ="Password")]
+        [Required(ErrorMessage ="*")]
         public string password
         {
             get => User.password;

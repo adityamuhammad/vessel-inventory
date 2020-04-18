@@ -48,10 +48,7 @@ namespace VesselInventory.ViewModel
             _parentLoadable = parentLoadable;
             this.rf_id = requestFormId;
             this.rf_item_id = requestFormItemId;
-
-            if (!IsNewRecord)
-                RequestFormItemEntity = 
-                    _requestFormItemRepository.GetById(rf_item_id);
+            SetUIAttributesValue();
         }
 
         /// <summary>
@@ -63,7 +60,6 @@ namespace VesselInventory.ViewModel
             get; set;
         } = new RequestFormItem();
 
-        private bool IsNewRecord => (rf_item_id == 0);
         private string _attachment_local_path = string.Empty;
         public string attachment_local_path
         {
@@ -80,7 +76,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 IList<string> reasons = new List<string>();
-                foreach (var _ in DataHelper.GetLookupValues("REASON"))
+                foreach (var _ in CommonDataHelper.GetLookupValues("REASON"))
                     reasons.Add(_.description);
                 return reasons;
             }
@@ -91,7 +87,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 IList<string> priorities = new List<string>();
-                foreach (var _ in DataHelper.GetLookupValues("PRIORITY"))
+                foreach (var _ in CommonDataHelper.GetLookupValues("PRIORITY"))
                     priorities.Add(_.description);
                 return priorities;
             }
@@ -316,10 +312,16 @@ namespace VesselInventory.ViewModel
         /// Load Methods
         /// </summary>
         #region
+        private void SetUIAttributesValue()
+        {
+            if (!RecordHelper.IsNewRecord(rf_item_id))
+                RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+        }
+
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in DataHelper.GetItems(ItemSelectKeyword))
+            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword))
                 ItemCollection.Add(_);
         }
 
@@ -360,7 +362,7 @@ namespace VesselInventory.ViewModel
 
         private void SaveOrUpdate()
         {
-            if (IsNewRecord)
+            if (RecordHelper.IsNewRecord(rf_item_id))
                 _requestFormItemRepository.Save(RequestFormItemEntity);
             else
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
@@ -377,12 +379,12 @@ namespace VesselInventory.ViewModel
             {
                 Upload();
                 SaveOrUpdate();
-                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 LoadParentDataGrid();
                 CloseWindow(window);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
             } catch (Exception ex)
             {
-                ResponseMessage.Error(GlobalNamespace.Error + ex.Message.ToString());
+                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
             }
         }
 

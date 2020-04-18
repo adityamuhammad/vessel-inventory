@@ -9,6 +9,7 @@ namespace VesselInventory.Commons
     public static class GlobalNamespace
     {
         public static string Error => "Oops, Something went wrong.";
+        public static string ErrorSave => "Data failed to save.";
         public static string SuccessSave => "Data saved successfully.";
         public static string SuccessUpdate => "Data updated successfully.";
         public static string SuccessDelete => "Data deleted successfully.";

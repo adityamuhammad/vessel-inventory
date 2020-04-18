@@ -34,11 +34,8 @@ namespace VesselInventory.ViewModel
             _parentLoadable = parentLoadable;
             this.vessel_good_receive_id = vesselGoodReceiveId;
             this.vessel_good_receive_item_reject_id = vesselGoodReceiveItemRejectId;
-            if(!IsNewRecord)
-                GoodReceiveItemRejectEntity = _vesselGoodReceiveItemRejectRepository
-                    .GetById(vessel_good_receive_item_reject_id);
+            LoadAttributesValue();
         }
-
         ///<summary>
         /// UI Properties
         /// </summary>
@@ -49,7 +46,6 @@ namespace VesselInventory.ViewModel
         /// Collection and Entities
         /// </summary>
         #region
-        private bool IsNewRecord => (vessel_good_receive_item_reject_id == 0);
         private VesselGoodReceiveItemReject GoodReceiveItemRejectEntity
         {
             get; set;
@@ -190,6 +186,13 @@ namespace VesselInventory.ViewModel
         /// Load Data Methods
         /// </summary>
         #region
+        private void LoadAttributesValue()
+        {
+            if (!RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
+                GoodReceiveItemRejectEntity = _vesselGoodReceiveItemRejectRepository
+                    .GetById(vessel_good_receive_item_reject_id);
+        }
+
         public void LoadDataGrid()
         {
             _parentLoadable.LoadDataGrid();
@@ -204,21 +207,27 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if(IsNewRecord)
-                    _vesselGoodReceiveItemRejectRepository
-                        .Save(GoodReceiveItemRejectEntity);
-                else
-                    _vesselGoodReceiveItemRejectRepository
-                        .Update(vessel_good_receive_item_reject_id,GoodReceiveItemRejectEntity);
+                SaveOrUpdate();
                 LoadDataGrid();
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
 
             }
+        }
+
+        private void SaveOrUpdate()
+        {
+            if (RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
+                _vesselGoodReceiveItemRejectRepository
+                    .Save(GoodReceiveItemRejectEntity);
+            else
+                _vesselGoodReceiveItemRejectRepository
+                    .Update(vessel_good_receive_item_reject_id, GoodReceiveItemRejectEntity);
         }
         #endregion
     }

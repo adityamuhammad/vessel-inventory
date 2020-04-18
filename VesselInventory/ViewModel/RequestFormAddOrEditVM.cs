@@ -47,8 +47,7 @@ namespace VesselInventory.ViewModel
             _parentLoadable = parentLoadable;
             this.rf_id = requestFormId;
             LoadAttributes();
-            if (!IsNewRecord)
-                LoadDataGrid();
+            LoadDataGrid();
         }
 
         private void InitializeCommands()
@@ -111,12 +110,11 @@ namespace VesselInventory.ViewModel
         }
 
         [Required]
+        [Display(Name ="Department Name")]
         public string department_name
         {
             get
             {
-                if (RequestFormEntity.department_name is null)
-                    RequestFormEntity.department_name = DepartmentCollection.First();
                 return RequestFormEntity.department_name;
             }
             set
@@ -262,7 +260,6 @@ namespace VesselInventory.ViewModel
         /// </summary>
         #region
         public bool IsReleased => (status == Status.RELEASE.GetDescription());
-        private bool IsNewRecord => (rf_id == 0);
         private RequestFormShipBargeDto RequestFormShipBarge
         {
             get
@@ -293,7 +290,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 IList<string> departmens = new List<string>();
-                foreach (var _ in DataHelper.GetLookupValues("DEPARTMENT"))
+                foreach (var _ in CommonDataHelper.GetLookupValues("DEPARTMENT"))
                     departmens.Add(_.description);
                 return departmens;
             }
@@ -305,7 +302,8 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return _requestFormItemRepository.GetRequestFormItemList(rf_id);
+                return _requestFormItemRepository
+                    .GetRequestFormItemList(rf_id);
             }
         }
         #endregion
@@ -316,6 +314,7 @@ namespace VesselInventory.ViewModel
         #region
         public void LoadDataGrid()
         {
+            if (RecordHelper.IsNewRecord(rf_id)) return;
             RequestFormItemCollection.Clear();
             foreach (var _ in RequestFormItemList)
                 RequestFormItemCollection.Add(_);
@@ -355,7 +354,7 @@ namespace VesselInventory.ViewModel
 
         private void LoadAttributes()
         {
-            if (!IsNewRecord)
+            if (!RecordHelper.IsNewRecord(rf_id))
             {
                 SetUIEditProperties();
                 RequestFormEntity = _requestFormRepository.GetById(rf_id);
@@ -383,24 +382,34 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
         }
 
+        private void SaveOrUpdate()
+        {
+            if (RecordHelper.IsNewRecord(rf_id))
+                RequestFormEntity = _requestFormRepository
+                    .SaveRequestForm(RequestFormEntity);
+            else
+                RequestFormEntity = _requestFormRepository
+                    .Update(rf_id, RequestFormEntity);
+        }
         private void SaveAction(object parameter)
         {
-            if (IsNewRecord)
+            try
             {
-                RequestFormEntity = _requestFormRepository.SaveRequestForm(RequestFormEntity);
+                SaveOrUpdate();
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            } else
+                _parentLoadable.LoadDataGrid();
+                SetUIEditProperties();
+            } catch (Exception ex)
             {
-                RequestFormEntity = _requestFormRepository.Update(rf_id, RequestFormEntity);
-                ResponseMessage.Success(GlobalNamespace.SuccessUpdate);
+                ResponseMessage.Error (GlobalNamespace.Error 
+                    + GlobalNamespace.ErrorSave + ex.Message);
             }
-            SetUIEditProperties();
-            _parentLoadable.LoadDataGrid();
         }
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-                GlobalNamespace.DeleteConfirmation,GlobalNamespace.DeleteConfirmationDescription);
+                GlobalNamespace.DeleteConfirmation,
+                GlobalNamespace.DeleteConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormItemRepository.Delete((int)parameter);
@@ -411,7 +420,8 @@ namespace VesselInventory.ViewModel
         private void ReleaseAction(IClosable window)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-                GlobalNamespace.ReleaseConfirmation, GlobalNamespace.ReleaseConfirmationDescription);
+                GlobalNamespace.ReleaseConfirmation, 
+                GlobalNamespace.ReleaseConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
                 return;
             _requestFormRepository.Release(rf_id);
@@ -424,7 +434,8 @@ namespace VesselInventory.ViewModel
         {
             if (string.IsNullOrWhiteSpace(project_number))
                 return false;
-
+            if (string.IsNullOrWhiteSpace(department_name))
+                return false;
             return IsReleasedCanExecute();
         }
 

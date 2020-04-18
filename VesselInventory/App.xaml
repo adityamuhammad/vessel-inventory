@@ -54,6 +54,7 @@
                                         Binding AdornedElement.ToolTip, 
                                         ElementName=errorControl
                                     }" 
+                                    FontSize="9"
                                     Foreground="Red" />
                             </StackPanel>
                         </ControlTemplate>
@@ -88,6 +89,41 @@
                                         Binding AdornedElement.ToolTip, 
                                         ElementName=errorControl
                                     }" 
+                                    Foreground="Red" />
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter 
+                            Property="ToolTip"    
+                            Value="{
+                                Binding RelativeSource={RelativeSource Self},
+                                Path=(Validation.Errors)/ErrorContent}" 
+                         />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- style validation -->           
+            <Style 
+                TargetType="{x:Type ComboBox}" 
+                x:Key="validationCombobox" 
+                BasedOn="{StaticResource MaterialDesignComboBox}">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <StackPanel>
+                                    <AdornedElementPlaceholder x:Name="errorControl" />
+                                </StackPanel>
+                                <TextBlock 
+                                    Text="{
+                                        Binding AdornedElement.ToolTip, 
+                                        ElementName=errorControl
+                                    }" 
+                                    FontSize="9"
                                     Foreground="Red" />
                             </StackPanel>
                         </ControlTemplate>

@@ -46,19 +46,9 @@ namespace VesselInventory.ViewModel
         {
             vessel_good_receive_id = vesselGoodReceiveId;
             _parentLoadable = parentLoadable;
-            if(!IsNewRecord)
-            {
-                VesselGoodReceiveEntity = _vesselGoodReceiveRepository
-                    .GetById(vessel_good_receive_id);
-                IsItemEnabled = true;
-                LoadDataGrid();
-            } else
-            {
-                IsItemEnabled = false;
-                vessel_good_receive_number = DataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ship_code;
-                vessel_good_receive_date = DateTime.Now;
-            }
+            LoadAttributesValue();
         }
+
 
         /// <summary>
         /// UI Props
@@ -108,7 +98,7 @@ namespace VesselInventory.ViewModel
 
                 } catch (Exception ex)
                 {
-                    ResponseMessage.Error("The format is invalid, details :" + ex.Message);
+                    ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
                 }
                 _textScann = "";
                 OnPropertyChanged("TextScann");
@@ -152,9 +142,8 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private bool IsNewRecord => (vessel_good_receive_id == 0);
         private VesselGoodReceive VesselGoodReceiveEntity { get; set; }  = new VesselGoodReceive();
-        private ShipBargeDto ShipBarge => DataHelper.GetShipBargeApairs();
+        private ShipBargeDto ShipBarge => CommonDataHelper.GetShipBargeApairs();
         #endregion
 
         /// <summary>
@@ -258,6 +247,23 @@ namespace VesselInventory.ViewModel
         /// Data Load Methods
         /// </summary>
         #region
+        private void LoadAttributesValue()
+        {
+            if (RecordHelper.IsNewRecord(vessel_good_receive_id))
+            {
+                LoadDataGrid();
+                IsItemEnabled = false;
+                vessel_good_receive_number = CommonDataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ship_code;
+                vessel_good_receive_date = DateTime.Now;
+            }
+            else
+            {
+                VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                    .GetById(vessel_good_receive_id);
+                IsItemEnabled = true;
+            }
+        }
+
         public void LoadDataGrid()
         {
             GoodReceiveItemRejectCollection.Clear();
@@ -303,7 +309,8 @@ namespace VesselInventory.ViewModel
             {
                 if (ship_code != ShipBarge.ship_code)
                     throw new Exception(GlobalNamespace.ShipDoesNotMatch);
-                if (IsNewRecord)
+
+                if (RecordHelper.IsNewRecord(vessel_good_receive_id))
                     VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                         .SaveVesselGoodReceive(VesselGoodReceiveEntity);
                 else

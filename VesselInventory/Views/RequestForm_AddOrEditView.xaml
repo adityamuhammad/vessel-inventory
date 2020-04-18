@@ -196,8 +196,13 @@
                 <ComboBox 
                     Margin="0,10" 
                     HorizontalAlignment="Left" 
+                    Style="{StaticResource validationCombobox}"
                     ItemsSource="{Binding DepartmentCollection}" 
-                    SelectedItem="{Binding department_name}" 
+                    SelectedItem="{
+                        Binding department_name,
+                        ValidatesOnNotifyDataErrors=True,
+                        ValidatesOnDataErrors=True
+                    }" 
                     Width="100"/>
                 <TextBox 
                     Margin="0,10" 

@@ -5,25 +5,23 @@ using VesselInventory.Models;
 
 namespace VesselInventory.Commons.HelperFunctions
 {
-    public static class DataHelper
+    public static class CommonDataHelper
     {
         public static IEnumerable<LookupValue> GetLookupValues(string lookupType)
         {
             using (var context = new VesselInventoryContext()) {
-                return context.Database.SqlQuery<LookupValue>("usp_LookupValue_GetLookupValueList @p0",
-                    parameters: new[] {
-                        lookupType
-                    }).ToList();
+                return context.Database
+                    .SqlQuery<LookupValue>
+                    ("usp_LookupValue_GetLookupValueList @p0", lookupType).ToList();
             }
         }
 
         public static IEnumerable<ItemGroupDimensionDto> GetItems(string search_keyword)
         {
             using (var context = new VesselInventoryContext()) {
-                return context.Database.SqlQuery<ItemGroupDimensionDto>("usp_Item_GetItemList @p0",
-                    parameters: new[] {
-                        search_keyword
-                    }).ToList();
+                return context.Database
+                    .SqlQuery<ItemGroupDimensionDto>
+                        ("usp_Item_GetItemList @p0", search_keyword).ToList();
             }
         }
 
@@ -31,7 +29,9 @@ namespace VesselInventory.Commons.HelperFunctions
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<ShipBargeDto>("usp_Generic_GetCurrentShipBargeApairs").Single();
+                return context.Database
+                    .SqlQuery<ShipBargeDto>
+                    ("usp_Generic_GetCurrentShipBargeApairs").Single();
             }
         }
 
@@ -39,9 +39,9 @@ namespace VesselInventory.Commons.HelperFunctions
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<string>("usp_DocSequence_GetSequenceNumber @p0", 
-                        parameters:  sequence_id.ToString() 
-                    ).Single();
+                return context.Database
+                    .SqlQuery<string>
+                        ("usp_DocSequence_GetSequenceNumber @p0", sequence_id).Single();
             }
         }
     }

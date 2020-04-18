@@ -116,6 +116,7 @@
     </ApplicationDefinition>
     <Compile Include="Commons\GlobalNamespace.cs" />
     <Compile Include="Commons\PasswordBoxHelper.cs" />
+    <Compile Include="Commons\RecordHelper.cs" />
     <Compile Include="Commons\ResponseMessage.cs" />
     <Compile Include="Commons\UIHelper.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
@@ -125,7 +126,7 @@
     <Compile Include="Dto\ItemStatusDto.cs" />
     <Compile Include="Dto\RequestFormShipBargeDto.cs" />
     <Compile Include="Commons\Enums.cs" />
-    <Compile Include="Commons\DataHelper.cs" />
+    <Compile Include="Commons\CommonDataHelper.cs" />
     <Compile Include="Dto\ShipBargeDTO.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\LookupValue.cs" />
