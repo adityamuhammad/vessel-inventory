@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using VesselInventory.Commons.Enums;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Models;
 using System.Transactions;
 
@@ -12,14 +12,14 @@ namespace VesselInventory.Repository
     {
         IEnumerable<RequestForm> GetRequestFormList(string search, int page, int rows = 10);
         int GetRequestFormTotalPage(string search, int rows = 10);
-        RequestFormShipBargeDTO GetRrequestFormShipBarge();
+        RequestFormShipBargeDto GetRrequestFormShipBarge();
         RequestForm SaveRequestForm(RequestForm requestForm);
         RequestForm Update(int id, RequestForm requestForm);
         void Release(int id);
         RequestForm GetById(int id);
     }
     public class RequestFormRepository : 
-        Repository<RequestForm>, 
+        GenericRepository<RequestForm>, 
         IRequestFormRepository
     {
         public RequestFormRepository() { }
@@ -38,41 +38,33 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<RequestForm> GetRequestFormList(string search = "",int page = 1,int rows = 10)
+        public IEnumerable<RequestForm> GetRequestFormList(string search, int page = 1,int rows = 10)
         {
             using(var context = new VesselInventoryContext())
             {
-                return context.rfs.SqlQuery(
+                return context.request_form.SqlQuery(
                     "usp_RequestForm_GetRequestFormList @p0, @p1, @p2", 
-                    parameters: new[] {
-                        search,
-                        page.ToString(),
-                        rows.ToString()
-                    }
+                    parameters: new object[] { search, page, rows }
                 ).ToList();
             }
         }
 
-        public int GetRequestFormTotalPage(string search = "", int rows = 10)
+        public int GetRequestFormTotalPage(string search, int rows = 10)
         {
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestForm_GetRequestFormPages @p0, @p1",
-                    parameters: new[]
-                    {
-                        search,
-                        rows.ToString()
-                    }
+                    parameters: new object[] { search, rows }
                 ).Single();
             }
         }
 
-        public RequestFormShipBargeDTO GetRrequestFormShipBarge()
+        public RequestFormShipBargeDto GetRrequestFormShipBarge()
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.Database.SqlQuery<RequestFormShipBargeDTO>(
+                return context.Database.SqlQuery<RequestFormShipBargeDto>(
                     "usp_RequestForm_GetRequestFormShipBarge"
                 ).Single();
             }
@@ -82,7 +74,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                var requestForm = context.rfs.Find(id);
+                var requestForm = context.request_form.Find(id);
                 requestForm.status = Status.RELEASE.GetDescription();
                 context.SaveChanges();
             }

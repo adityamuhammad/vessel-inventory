@@ -69,6 +69,7 @@
                 VerticalScrollBarVisibility="Auto" 
                 VerticalAlignment="Top" 
                 Margin="20,0,20,0"
+                CanUserSortColumns="False"
                 CanUserAddRows="False" 
                 ItemsSource="{
                     Binding ItemPendingCollection

@@ -13,14 +13,20 @@ namespace VesselInventory.Repository
         RequestFormItem Update(int id, RequestFormItem requestFormItem);
         void Delete(int id) ;
         IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
-        IEnumerable<ItemStatusDto> GetItemStatus(string item_id, string item_name, string item_status, string rf_number, string department_name, int page, int rows = 10);
-        int GetItemStatusTotalPage(string item_id, string item_name, string item_status, string rf_number, string department_name, int rows = 10);
+        IEnumerable<ItemStatusDto> GetItemStatus(
+            string item_id, string item_name, 
+            string item_status, string rf_number, 
+            string department_name, int page, int rows = 10);
+        int GetItemStatusTotalPage(
+            string item_id, string item_name, 
+            string item_status, string rf_number, 
+            string department_name, int rows = 10);
         IEnumerable<ItemPendingDto> GetItemPending(string rf_number, int page, int rows = 10);
         int GetItemPendingTotalPage(string rf_number, int rows = 10);
     }
 
     public class RequestFormItemRepository : 
-        Repository<RequestFormItem>, 
+        GenericRepository<RequestFormItem>, 
         IRequestFormItemRepository
     {
         public RequestFormItemRepository() { }
@@ -29,83 +35,78 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.rf_item.SqlQuery(
-                    "usp_RequestFormItem_GetRFItemList @p0",
-                    parameters: new[] { rf_id.ToString() }
-                    ).ToList();
+                return (from item in context.request_form_item
+                        where item.rf_id == rf_id && 
+                        item.is_hidden == false select item)
+                        .ToList();
             }
         }
 
-        public IEnumerable<ItemStatusDto> GetItemStatus ( string item_id = "", string item_name = "", string item_status = "", string rf_number = "", string department_name = "", int page = 1, int rows = 10 )
+        public IEnumerable<ItemStatusDto> GetItemStatus(string item_id, 
+            string item_name, string item_status, 
+            string rf_number, string department_name, 
+            int page = 1, int rows = 10)
         {
             Regex numericRegex = new Regex(@"^\d+$");
             if (!numericRegex.IsMatch(item_id))
-                item_id = "";
+                item_id = null;
 
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemStatusDto>(
                     "usp_RequestFormItem_GetItemStatusList @p0, @p1, @p2, @p3, @p4,@p5, @p6",
-                    parameters: new[]
-                    {
+                    parameters: new object[] {
                         item_id,
                         item_name,
                         item_status,
                         rf_number,
                         department_name,
-                        page.ToString(),
-                        rows.ToString(),
+                        page,
+                        rows,
                     }).ToList();
             }
         }
-        public int GetItemStatusTotalPage ( string item_id = "", string item_name = "", string item_status = "", string rf_number = "", string department_name = "", int rows = 10 )
+        public int GetItemStatusTotalPage (string item_id, 
+            string item_name, string item_status, 
+            string rf_number, string department_name, 
+            int rows = 10)
         {
             Regex numericRegex = new Regex(@"^\d+$");
             if (!numericRegex.IsMatch(item_id))
-                item_id = "";
+                item_id = null;
 
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemStatusPages @p0, @p1, @p2, @p3, @p4, @p5",
-                    parameters: new[]
-                    {
+                    parameters: new object[] {
                         item_id,
                         item_name,
                         item_status,
                         rf_number,
                         department_name,
-                        rows.ToString(),
+                        rows,
                     }).Single();
             }
         }
 
-        public IEnumerable<ItemPendingDto> GetItemPending(string rf_number = "", int page = 1, int rows = 10)
+        public IEnumerable<ItemPendingDto> GetItemPending(string rf_number, int page = 1, int rows = 10)
         {
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemPendingDto>(
                     "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2",
-                    parameters: new[]
-                    {
-                        rf_number,
-                        page.ToString(),
-                        rows.ToString(),
-                    }).ToList();
+                    parameters: new object[] { rf_number, page, rows, }).ToList();
             }
         }
 
-        public int GetItemPendingTotalPage(string rf_number = "", int rows = 10)
+        public int GetItemPendingTotalPage(string rf_number, int rows = 10)
         {
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemPendingPages @p0, @p1",
-                    parameters: new[]
-                    {
-                        rf_number,
-                        rows.ToString(),
-                    }).Single();
+                    parameters: new object[] { rf_number, rows }).Single();
             }
         }
 
@@ -113,7 +114,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                var current = context.rf_item.Find(id);
+                var current = context.request_form_item.Find(id);
                 if (current is null) return;
                 current.is_hidden = true;
                 context.SaveChanges();

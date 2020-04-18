@@ -13,8 +13,8 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
-        private readonly IRepository<Uom> _UOMRepository;
-        public VesselGoodReceiveItemRejectAddOrEditVM(IRepository<Uom> UOMRepository,
+        private readonly IGenericRepository<Uom> _UOMRepository;
+        public VesselGoodReceiveItemRejectAddOrEditVM(IGenericRepository<Uom> UOMRepository,
             IVesselGoodReceiveItemRejectRepository vesselGoodReceiveItemRejectRepository)
         {
             _vesselGoodReceiveItemRejectRepository = vesselGoodReceiveItemRejectRepository;

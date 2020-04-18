@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
 using System.Collections.Generic;

@@ -142,7 +142,7 @@
     <Compile Include="Models\VesselGoodReceiveItemReject.cs" />
     <Compile Include="Models\VesselGoodReturn.cs" />
     <Compile Include="Models\VesselGoodReturnItem.cs" />
-    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\IRequestFormItemRepository.cs" />
     <Compile Include="Repository\IRequestFormRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRepository.cs" />
@@ -167,6 +167,7 @@
     <Compile Include="ViewModel\RequestFormItemStatusVM.cs" />
     <Compile Include="ViewModel\RequestFormItemUploadDocVM.cs" />
     <Compile Include="ViewModel\RequestFormVM.cs" />
+    <Compile Include="ViewModel\VesselGoodIssuedVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveItemRejectAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveItemVM.cs" />

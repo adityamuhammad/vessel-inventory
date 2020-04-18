@@ -13,16 +13,17 @@ namespace VesselInventory.Repository
     }
 
     public class VesselGoodReceiveItemRejectRepository :
-        Repository<VesselGoodReceiveItemReject>,
+        GenericRepository<VesselGoodReceiveItemReject>,
         IVesselGoodReceiveItemRejectRepository
     {
         public IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId)
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.vessel_good_receive_item_reject.SqlQuery(
-                    "usp_VesselGoodReceiveItemReject_GetVesselGoodReceiveItemRejectedList @p0",
-                    parameters: vesselGoodReceiveId.ToString()).ToList();
+                return (from item in context.vessel_good_receive_item_reject
+                        where item.vessel_good_receive_id == vesselGoodReceiveId && 
+                        item.is_hidden == false select item)
+                        .ToList();
             }
         }
 

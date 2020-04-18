@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VesselInventory.Dto;
 using VesselInventory.Models;
 
@@ -20,7 +17,7 @@ namespace VesselInventory.Commons.HelperFunctions
             }
         }
 
-        public static IEnumerable<ItemGroupDimensionDto> GetItems(string search_keyword = "")
+        public static IEnumerable<ItemGroupDimensionDto> GetItems(string search_keyword)
         {
             using (var context = new VesselInventoryContext()) {
                 return context.Database.SqlQuery<ItemGroupDimensionDto>("usp_Item_GetItemList @p0",

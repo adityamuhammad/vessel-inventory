@@ -5,7 +5,6 @@ namespace VesselInventory.Utility
     public class Auth
     {
         private static Auth _auth;
-        private User User;
         private Auth() { }
         public static Auth Instance
         {

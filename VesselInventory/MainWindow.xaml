@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Name="MainWindow_V"
         xmlns:local="clr-namespace:VesselInventory"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:viewmodels="clr-namespace:VesselInventory.ViewModel"
@@ -74,7 +75,17 @@
                             <Button Content="Settings"/>
                             <Button Content="Help"/>
                             <Separator/>
-                            <Button x:Name="buttonLogoutClicked" Content="Logout"/>
+                            <Button
+                                Command="{Binding LogoutCommand}"
+                                CommandParameter="{Binding ElementName=MainWindow_V}"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                        Kind="Logout" 
+                                        Foreground="Black"/>
+                                    <TextBlock Margin="10,0,0,0" Text="Logout"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </Grid>

@@ -23,9 +23,11 @@ namespace VesselInventory.ViewModel
         public virtual double Width { get => _width; set => _width = value; }
         #endregion
         public RelayCommand<IClosable> CloseCommand { get; private set; }
+        public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public ViewModelBase()
         {
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
+            LogoutCommand = new RelayCommand<IClosable>(CloseWindow);
         }
         protected void CloseWindow(IClosable window)
         {

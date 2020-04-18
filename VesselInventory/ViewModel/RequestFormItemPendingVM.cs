@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using VesselInventory.DTO;
+using VesselInventory.Dto;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;

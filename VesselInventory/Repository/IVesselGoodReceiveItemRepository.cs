@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -17,9 +14,10 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.vessel_good_receive_item.SqlQuery(
-                    "usp_VesselGoodReceiveItem_GetVesselGoodReceiveItemList @p0",
-                    parameters: vesselGoodReceiveId.ToString()).ToList();
+                return (from item in context.vessel_good_receive_item
+                        where item.vessel_good_receive_id == vesselGoodReceiveId && 
+                        item.is_hidden == false select item)
+                        .ToList();
             }
         }
     }

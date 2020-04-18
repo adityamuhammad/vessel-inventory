@@ -14,8 +14,8 @@ namespace VesselInventory.Models
 
         public virtual DbSet<Item> items { get; set; }
         public virtual DbSet<Uom> uom { get; set; }
-        public virtual DbSet<RequestForm> rfs { get; set; }
-        public virtual DbSet<RequestFormItem> rf_item { get; set; }
+        public virtual DbSet<RequestForm> request_form { get; set; }
+        public virtual DbSet<RequestFormItem> request_form_item { get; set; }
         public virtual DbSet<User> users { get; set; }
         public virtual DbSet<VesselGoodIssued> vessel_good_issued { get; set; }
         public virtual DbSet<VesselGoodIssuedItem> vessel_good_issued_item { get; set; }

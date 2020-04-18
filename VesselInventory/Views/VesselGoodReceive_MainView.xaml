@@ -58,6 +58,7 @@
                 VerticalAlignment="Top" 
                 Margin="20,0,20,0"
                 CanUserAddRows="False" 
+                CanUserSortColumns="False"
                 ItemsSource="{
                     Binding VesselGoodReceiveCollection
                 }" 
