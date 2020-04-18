@@ -10,16 +10,15 @@ namespace VesselInventory.Services
     }
     public class WindowService : IWindowService
     {
+        private IUnityContainer container = ((App)Application.Current).UnityContainer;
         public void ShowDialogWindow<T>(object ViewModel) where T: Window, new()
         {
-            var container = ((App)Application.Current).UnityContainer;
             var window = container.Resolve<T>();
             window.DataContext = ViewModel;
             window.ShowDialog();
         }
         public void ShowWindow<T>(object ViewModel) where T: Window, new()
         {
-            var container = ((App)Application.Current).UnityContainer;
             var window = container.Resolve<T>();
             window.DataContext = ViewModel;
             window.Show();

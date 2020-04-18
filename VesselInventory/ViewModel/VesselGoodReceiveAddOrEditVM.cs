@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Unity;
 using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Dto;
@@ -9,7 +10,6 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
-using Unity;
 using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
@@ -289,7 +289,8 @@ namespace VesselInventory.ViewModel
                 vesselGoodReceiveItemRejectAddOrEditVM.InitializeData
                     (this, vessel_good_receive_id,(int)parameter );
 
-            _windowService.ShowDialogWindow<VesselGoodReceive_ItemRejectAddOrEditView>(vesselGoodReceiveItemRejectAddOrEditVM);
+            _windowService.ShowDialogWindow<VesselGoodReceive_ItemRejectAddOrEditView>
+                (vesselGoodReceiveItemRejectAddOrEditVM);
         }
 
         private void DeleteItemAction(object parameter)
