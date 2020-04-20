@@ -56,7 +56,7 @@
                 Command="{Binding OpenDialogRequestFormCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Ship" Foreground="White"/>
-                    <TextBlock Text="Request"/>
+                    <TextBlock Text="New Request"/>
                 </StackPanel>
             </Button>
              <TextBlock 

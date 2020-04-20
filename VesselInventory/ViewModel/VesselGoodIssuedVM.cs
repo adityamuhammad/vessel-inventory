@@ -1,14 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using VesselInventory.Models;
+using VesselInventory.Repository;
+using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
 {
     class VesselGoodIssuedVM : ViewModelBase
     {
-        public VesselGoodIssuedVM() { }
+        private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
+        public RelayCommand NextPageCommand { get; private set; }
+        public RelayCommand PrevPageCommand { get; private set; }
+        public VesselGoodIssuedVM(IVesselGoodIssuedRepository vesselGoodIssuedRepository)
+        {
+            _vesselGoodIssuedRepository = vesselGoodIssuedRepository;
+            InitializeCommands();
+            ResetCurrentPage();
+            LoadDataGrid();
+        }
+        private void InitializeCommands()
+        {
+            NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
+            PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
+        }
 
         /// <summary>
         /// UI properties
@@ -54,28 +68,44 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
+        public ObservableCollection<VesselGoodIssued> VesselGoodIssuedCollection { get; } 
+            = new ObservableCollection<VesselGoodIssued>();
+        #endregion
+
+        /// <summary>
+        /// Load Method and behavior
+        /// </summary>
         private void LoadDataGrid()
         {
-            throw new NotImplementedException();
+            VesselGoodIssuedCollection.Clear();
+            foreach (var goodIssued in _vesselGoodIssuedRepository
+                .GetGoodIssued(SearchKeyword,CurrentPage))
+                VesselGoodIssuedCollection.Add(goodIssued);
+            UpdateTotalPage();
         }
-        #endregion
-        //private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
-        private void ResetCurrentPage() => CurrentPage = 1;
-        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
-        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
-        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
-        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+        
+        private void UpdateTotalPage()
+        {
+            TotalPage = _vesselGoodIssuedRepository
+                .GetGoodIssuedTotalPage(SearchKeyword);
+        }
 
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
             LoadDataGrid();
         }
+        private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
 
         private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();
             LoadDataGrid();
         }
+        private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+
+        private void ResetCurrentPage() => CurrentPage = 1;
+        private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
+        private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
     }
 }

@@ -98,8 +98,8 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             VesselGoodReceiveCollection.Clear();
-            foreach (var _ in GoodReceives)
-                VesselGoodReceiveCollection.Add(_);
+            foreach (var goodReceive in GoodReceives)
+                VesselGoodReceiveCollection.Add(goodReceive);
             UpdateTotalPage();
         }
         #endregion

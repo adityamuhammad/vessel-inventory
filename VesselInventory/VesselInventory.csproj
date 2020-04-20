@@ -146,6 +146,7 @@
     <Compile Include="Repository\IGenericRepository.cs" />
     <Compile Include="Repository\IRequestFormItemRepository.cs" />
     <Compile Include="Repository\IRequestFormRepository.cs" />
+    <Compile Include="Repository\IVesselGoodIssuedRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRejectRepository.cs" />
@@ -194,6 +195,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
       <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodIssued_MainView.xaml.cs">
+      <DependentUpon>VesselGoodIssued_MainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VesselGoodReceive_ItemDetailView.xaml.cs">
       <DependentUpon>VesselGoodReceive_ItemDetailView.xaml</DependentUpon>
@@ -244,6 +248,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_ItemUploadDocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodIssued_MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

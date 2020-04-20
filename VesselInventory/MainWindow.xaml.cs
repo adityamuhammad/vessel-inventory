@@ -31,6 +31,11 @@ namespace VesselInventory
                     DataContext = container.Resolve<VesselGoodReceiveVM>();
                     break;
                 case 3:
+                    DataContext = container.Resolve<VesselGoodIssuedVM>();
+                    break;
+                case 4:
+                    break;
+                case 5:
                     break;
             }
         }

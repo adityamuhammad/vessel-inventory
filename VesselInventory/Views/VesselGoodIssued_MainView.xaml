@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="VesselInventory.Views.VesselGoodReceive_MainView"
+﻿<UserControl x:Class="VesselInventory.Views.VesselGoodIssued_MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -29,7 +29,7 @@
                 Command="{Binding OpenDialogReceiveCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
-                    <TextBlock Text="New Receive"/>
+                    <TextBlock Text="New Issued"/>
                 </StackPanel>
             </Button>
             <TextBlock 
@@ -60,17 +60,15 @@
                 CanUserAddRows="False" 
                 CanUserSortColumns="False"
                 ItemsSource="{
-                    Binding VesselGoodReceiveCollection
+                    Binding VesselGoodIssuedCollection
                 }" 
                 RowStyle="{StaticResource DataGridRowMedium}"
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Vessel GRN" Binding="{Binding vessel_good_receive_number}"/>
-                    <DataGridTextColumn Width="1*" Header="GIN" Binding="{Binding good_issued_number}"/>
+                    <DataGridTextColumn Width="1*" Header="Vessel GIN" Binding="{Binding vessel_good_issued_number}"/>
                     <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Barge Name" Binding="{Binding barge_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Received Date" Binding="{Binding vessel_good_receive_date, StringFormat={}{0:yyyy-MM-dd}}"/> 
+                    <DataGridTextColumn Width="1*" Header="Issued Date" Binding="{Binding vessel_good_issued_date, StringFormat={}{0:yyyy-MM-dd}}"/> 
                     <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
@@ -165,5 +163,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-
 </UserControl>
