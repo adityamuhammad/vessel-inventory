@@ -40,6 +40,7 @@ namespace VesselInventory.ViewModel
         /// UI Properties
         /// </summary>
         #region
+        public override string Title => "Good Receive Item (Reject)";
         #endregion
 
         ///<summary>

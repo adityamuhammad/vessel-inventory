@@ -16,12 +16,12 @@ namespace VesselInventory.Commons.HelperFunctions
             }
         }
 
-        public static IEnumerable<ItemGroupDimensionDto> GetItems(string search_keyword)
+        public static IEnumerable<ItemGroupDimensionDto> GetItems(string search, string tableReference, int? idReference)
         {
             using (var context = new VesselInventoryContext()) {
                 return context.Database
                     .SqlQuery<ItemGroupDimensionDto>
-                        ("usp_Item_GetItemList @p0", search_keyword).ToList();
+                        ("usp_Item_GetItemList @p0, @p1, @p2",parameters: new object[] { search, tableReference, idReference }).ToList();
             }
         }
 

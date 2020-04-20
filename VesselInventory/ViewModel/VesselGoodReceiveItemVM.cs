@@ -7,7 +7,6 @@ namespace VesselInventory.ViewModel
     class VesselGoodReceiveItemVM : ViewModelBase
     {
         private readonly IVesselGoodReceiveItemRepository _vesselGoodReceiveItemRepository;
-        public override string Title => "Detail";
         public VesselGoodReceiveItemVM(IVesselGoodReceiveItemRepository vesselGoodReceiveItemRepository)
         {
             _vesselGoodReceiveItemRepository = vesselGoodReceiveItemRepository;
@@ -17,6 +16,7 @@ namespace VesselInventory.ViewModel
             LoadDataGrid(vesselGoodReceiveId);
         }
 
+        public override string Title => "Good Receive Item Detail";
         private int _totalItem = 0;
         public int TotalItem
         {

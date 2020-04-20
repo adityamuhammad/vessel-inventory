@@ -20,16 +20,16 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenFileDialogCommand { get; private set; }
 
         private readonly IRequestFormItemRepository _requestFormItemRepository;
-        private readonly IOService _iOService;
+        private readonly IOService _IOService;
         private readonly IUploadService _uploadService;
         private IParentLoadable _parentLoadable;
 
         public RequestFormItemAddOrEditVM(IUploadService uploadService,
-            IOService iOService,
+            IOService IOService,
             IRequestFormItemRepository requestFormItemRepository)
         {
             _uploadService = uploadService;
-            _iOService = iOService;
+            _IOService = IOService;
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
 
@@ -275,6 +275,7 @@ namespace VesselInventory.ViewModel
         /// UI Properties Behaviour
         /// </summary>
         #region
+        public override string Title => "Request Form Item";
         private string _itemSelectKeyword = string.Empty;
         public string ItemSelectKeyword
         {
@@ -321,7 +322,7 @@ namespace VesselInventory.ViewModel
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword))
+            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "rf",rf_id))
                 ItemCollection.Add(_);
         }
 
@@ -390,7 +391,7 @@ namespace VesselInventory.ViewModel
 
         private void OpenFile(object parameter)
         {
-            var filename =_iOService.OpenFileDialog();
+            var filename =_IOService.OpenFileDialog();
             if (filename != null)
                 attachment_local_path = filename;
         } 

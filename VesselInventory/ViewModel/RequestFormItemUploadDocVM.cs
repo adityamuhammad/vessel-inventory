@@ -11,16 +11,16 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenFileDialogCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
 
-        private readonly IOService _iOService;
+        private readonly IOService _IOService;
         private readonly IUploadService _uploadService;
         private IParentLoadable _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemUploadDocVM(IOService ioService, 
+        public RequestFormItemUploadDocVM(IOService IOService, 
             IUploadService uploadService, 
             IRequestFormItemRepository requestFormItemRepository)
         {
-            _iOService = ioService;
+            _IOService = IOService;
             _uploadService = uploadService;
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
@@ -36,6 +36,7 @@ namespace VesselInventory.ViewModel
             OpenFileDialogCommand = new RelayCommand(OpenFile);
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
+        public override string Title => "Upload Item Document";
         private RequestFormItem RequestFormItemEntity
         {
             get; set;
@@ -69,7 +70,7 @@ namespace VesselInventory.ViewModel
 
         private void OpenFile(object parameter)
         {
-            var filename = _iOService.OpenFileDialog();
+            var filename = _IOService.OpenFileDialog();
             if (filename != null)
                 attachment_local_path = filename;
         }

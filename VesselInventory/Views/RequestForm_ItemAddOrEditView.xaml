@@ -78,14 +78,13 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding 
-                                            StringFormat="{}{0} / {1} {2} {3} {4} {5} / {6} / {7}">
+                                            StringFormat="{}{0} / {1} {2} {3} {4} {5} / {6}">
                                                 <Binding Path="item_id"/>
                                                 <Binding Path="item_name"/>
                                                 <Binding Path="brand_type_id"/>
                                                 <Binding Path="brand_type_name"/>
                                                 <Binding Path="color_size_id"/>
                                                 <Binding Path="color_size_name"/>
-                                                <Binding Path="uom"/>
                                                 <Binding Path="item_group_name"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
@@ -216,7 +215,7 @@
                                     ValidatesOnDataErrors=True}"
                                 >
                             </TextBox>
-                            <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
+                            <TextBox Margin="10,8,0,0" Text="{Binding uom, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                             <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                         </StackPanel>
 

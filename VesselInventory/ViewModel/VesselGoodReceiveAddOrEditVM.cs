@@ -54,6 +54,7 @@ namespace VesselInventory.ViewModel
         /// UI Props
         /// </summary>
         #region
+        public override string Title => "Good Receive";
         private bool _IsItemEnabled;
         public bool IsItemEnabled
         {
