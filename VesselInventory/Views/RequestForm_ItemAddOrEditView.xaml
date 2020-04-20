@@ -15,6 +15,7 @@
         Width="700" WindowStyle="None">
 
     <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         <converters:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsed"/>
     </Window.Resources>
 
@@ -51,18 +52,21 @@
         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <StackPanel Margin="50,50,50,0">
                 <StackPanel Margin="0,0,0,0">
-
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Search Item" Width="135"/>
-                        <TextBox 
-                            Width="450"
-                            HorizontalAlignment="Left"
-                            Text="{
-                                Binding ItemSelectKeyword,
-                                Mode=TwoWay,
-                                UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-
+                    <Grid Visibility="{
+                            Binding IsVisibleSearchItem,
+                            Converter={StaticResource BoolToVisibility} 
+                        }">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Search Item" Width="135"/>
+                            <TextBox 
+                                Width="450"
+                                HorizontalAlignment="Left"
+                                Text="{
+                                    Binding ItemSelectKeyword,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                    </Grid>
                     <Grid
                         Visibility="{
                             Binding IsVisibleListBoxItem, 
@@ -264,7 +268,7 @@
                             HorizontalContentAlignment="Center">
                             <StackPanel Orientation="Horizontal">
                                 <materialDesign:PackIcon 
-                                    Kind="File" 
+                                    Kind="DotsHorizontal" 
                                     VerticalContentAlignment="Center"
                                     HorizontalContentAlignment="Center"
                                     VerticalAlignment="Center" 

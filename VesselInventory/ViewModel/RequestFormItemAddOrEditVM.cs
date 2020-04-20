@@ -295,6 +295,23 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private bool _IsVisibleSearchItem = true;
+        public bool IsVisibleSearchItem {
+            get
+            {
+                if (!RecordHelper.IsNewRecord(rf_item_id))
+                    _IsVisibleSearchItem = false;
+                return _IsVisibleSearchItem;
+            }
+            set
+            {
+                if  (_IsVisibleSearchItem == value)
+                    return;
+                _IsVisibleSearchItem = value;
+                OnPropertyChanged("IsVisibleSearchItem");
+            }
+        }
+
         private bool _IsVisibleListBoxItem = false;
         public bool IsVisibleListBoxItem
         {
@@ -322,7 +339,7 @@ namespace VesselInventory.ViewModel
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "rf",rf_id))
+            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "rf", rf_id))
                 ItemCollection.Add(_);
         }
 
