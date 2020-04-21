@@ -1,19 +1,27 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
+using Unity;
+using System.Windows;
+using VesselInventory.Services;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodIssuedVM : ViewModelBase
+    class VesselGoodIssuedVM : ViewModelBase, IParentLoadable
     {
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
+        private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
+        private readonly IWindowService _windowService;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public VesselGoodIssuedVM(IVesselGoodIssuedRepository vesselGoodIssuedRepository)
+        public RelayCommand OpenDialogIssuedCommand { get; private set; }
+        public VesselGoodIssuedVM(IVesselGoodIssuedRepository vesselGoodIssuedRepository,
+            IWindowService windowService)
         {
             _vesselGoodIssuedRepository = vesselGoodIssuedRepository;
+            _windowService = windowService;
             InitializeCommands();
             ResetCurrentPage();
             LoadDataGrid();
@@ -22,7 +30,9 @@ namespace VesselInventory.ViewModel
         {
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
+            OpenDialogIssuedCommand = new RelayCommand(AddOrEditIssuedAction);
         }
+
 
         /// <summary>
         /// UI properties
@@ -75,7 +85,7 @@ namespace VesselInventory.ViewModel
         /// <summary>
         /// Load Method and behavior
         /// </summary>
-        private void LoadDataGrid()
+        public void LoadDataGrid()
         {
             VesselGoodIssuedCollection.Clear();
             foreach (var goodIssued in _vesselGoodIssuedRepository
@@ -90,6 +100,19 @@ namespace VesselInventory.ViewModel
                 .GetGoodIssuedTotalPage(SearchKeyword);
         }
 
+        /// <summary>
+        /// Button Actions
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void AddOrEditIssuedAction(object parameter)
+        {
+            var vesselGoodIssuedAddOrEditVM = _unityContainer.Resolve<VesselGoodIssuedAddOrEditVM>();
+            if (parameter is null)
+                vesselGoodIssuedAddOrEditVM.InitializeData(this);
+            else
+                vesselGoodIssuedAddOrEditVM.InitializeData(this, (int)parameter);
+            _windowService.ShowDialogWindow<VesselGoodIssued_AddOrEditView>(vesselGoodIssuedAddOrEditVM);
+        }
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();

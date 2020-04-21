@@ -7,7 +7,6 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
 using Unity;
-using System;
 
 namespace VesselInventory.ViewModel
 {
@@ -15,6 +14,7 @@ namespace VesselInventory.ViewModel
     {
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IWindowService _windowService;
+        private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
@@ -29,7 +29,6 @@ namespace VesselInventory.ViewModel
             ResetCurrentPage();
             LoadDataGrid();
         }
-
         private void InitializeCommands()
         {
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
@@ -133,8 +132,7 @@ namespace VesselInventory.ViewModel
 
         public void AddOrEditReceiveAction(object parameter)
         {
-            var container = ((App)Application.Current).UnityContainer;
-            var vesselGoodReceiveAddOrEditVM = container.Resolve<VesselGoodReceiveAddOrEditVM>();
+            var vesselGoodReceiveAddOrEditVM = _unityContainer.Resolve<VesselGoodReceiveAddOrEditVM>();
             if (parameter is null)
                 vesselGoodReceiveAddOrEditVM.InitializeData(this);
             else
@@ -145,8 +143,7 @@ namespace VesselInventory.ViewModel
 
         private void ReceiveItemDetailAction(object parameter)
         {
-            var container = ((App)Application.Current).UnityContainer;
-            var vesselGoodReceiveItemVM = container.Resolve<VesselGoodReceiveItemVM>();
+            var vesselGoodReceiveItemVM = _unityContainer.Resolve<VesselGoodReceiveItemVM>();
             vesselGoodReceiveItemVM.InitializeData((int)parameter);
             _windowService.ShowDialogWindow<VesselGoodReceive_ItemDetailView>
                     (vesselGoodReceiveItemVM);

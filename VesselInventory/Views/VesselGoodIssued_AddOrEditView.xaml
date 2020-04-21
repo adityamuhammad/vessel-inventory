@@ -1,20 +1,20 @@
-﻿<Window x:Class="VesselInventory.Views.VesselGoodReceive_AddOrEditView"
+﻿<Window x:Class="VesselInventory.Views.VesselGoodIssued_AddOrEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VesselInventory.Views"
-        x:Name="VesselGoodReceiveAddOrEdit_V"
+        x:Name="VesselGoodIssuedAddOrEdit_V"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:VesselInventory.Views"
         mc:Ignorable="d"
-        Height="450" 
-        Width="800"
+        Title="VesselGoodIssued_AddOrEditView" 
+        Height="450" Width="700"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="200"/>
+            <RowDefinition Height="180"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -23,77 +23,77 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <TextBlock Margin="10" 
-                       FontSize="15" 
-                       FontWeight="DemiBold" 
-                       HorizontalAlignment="Center" 
-                       Text="{Binding Title,Mode=OneWay}"/>
+            <TextBlock 
+               Margin="10" 
+               FontSize="15" 
+               FontWeight="DemiBold" 
+               HorizontalAlignment="Center" 
+               Text="{Binding Title,Mode=OneWay}"
+            />
             <Button 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"
                 Width="50" 
                 Background="White" 
                 BorderBrush="{x:Null}" 
-                CommandParameter="{Binding ElementName=VesselGoodReceiveAddOrEdit_V}" 
-                Command="{Binding CloseCommand,Mode=OneWay}" 
+                CommandParameter="{
+                    Binding ElementName=VesselGoodIssuedAddOrEdit_V
+                }" 
+                Command="{
+                    Binding CloseCommand,
+                    Mode=OneWay
+                }" 
                 >
-                <materialDesign:PackIcon 
-                    Kind="Close" 
-                    Foreground="Black"/>
+                <materialDesign:PackIcon Kind="Close" Foreground="Black"/>
             </Button>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="0">
-            <Grid Margin="40,30,0,0">
+            <Grid Margin="40,20,0,0">
                 <StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Margin="0,5,0,0" Width="130" Text="Paste or Scann here"/>
-                        <TextBox 
-                            Margin="20,0,0,0"
-                            Width="100"
-                            Text="{
-                                Binding TextScann,
-                                Mode=TwoWay,
-                                UpdateSourceTrigger=PropertyChanged}"
-                        />
-                    </StackPanel>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Margin="0,5" Width="130" Text="Vessel GRN"/>
+                        <TextBlock Margin="0,5" Width="80" Text="Vessel GIN"/>
                         <TextBox 
                             IsEnabled="False" 
                             Margin="20,0,0,0" 
                             Width="100" 
-                            Text="{ Binding vessel_good_receive_number, Mode=OneTime}"
+                            Text="{ Binding vessel_good_issued_number, Mode=OneTime}"
                         />
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Margin="0,10" Width="130" Text="Receive Date"/>
-                        <DatePicker
-                            Margin="20,5" 
-                            SelectedDate="{Binding vessel_good_receive_date}" 
-                            HorizontalAlignment="Left">
-                        </DatePicker>
+                        <TextBlock Margin="0,5" Width="80" Text="Ship"/>
+                        <TextBox 
+                            IsEnabled="False" 
+                            Margin="20,0,0,0" 
+                            Width="100" 
+                            Text="{ Binding ship_name, Mode=OneTime}"
+                        />
                     </StackPanel>
                 </StackPanel>
             </Grid>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
-            <Grid Margin="40,30,40,0">
+            <Grid Margin="40,20,0,0">
                 <StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Office GIN"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding good_issued_number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Margin="0,10" Width="80" Text="Issue Date"/>
+                        <DatePicker
+                            Margin="20,5" 
+                            SelectedDate="{Binding vessel_good_issued_date}" 
+                            HorizontalAlignment="Left">
+                        </DatePicker>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Vessel ID / Code / Name"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding ship_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Barge ID / Code/ Name"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding barge_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Width="80" Margin="0,5,0,0" Text="Notes"/>
+                        <TextBox 
+                            Margin="0,10" 
+                            HorizontalAlignment="Left" 
+                            Height="50" 
+                            AcceptsReturn="True" 
+                            AcceptsTab="True" 
+                            TextWrapping="Wrap" 
+                            Width="150" 
+                            Text="{Binding notes}"
+                         />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -125,7 +125,7 @@
             <Separator 
                 Margin="0"
                 Background="LightGray" 
-                VerticalAlignment="Top">
+                VerticalAlignment="Top" Grid.ColumnSpan="2">
             </Separator>
         </Grid>
         <Grid 
@@ -142,7 +142,7 @@
                         Margin="40,10,0,10" 
                         HorizontalAlignment="Left" 
                         Width="135" 
-                        Background="Orange" 
+                        Background="#FF4E5FBF" 
                         BorderBrush="{x:Null}"
                         Height="23"
                         Command="{Binding AddOrEditItemCommand}"
@@ -152,7 +152,7 @@
                                 Kind="PlusBox" 
                                 FontSize="5"
                                 Foreground="White"/>
-                            <TextBlock FontSize="10" Text="Add Rejected Item"/>
+                            <TextBlock FontSize="10" Text="Add Item"/>
                         </StackPanel>
                     </Button>
                     <TextBlock 
@@ -162,13 +162,13 @@
                         Text="{
                             Binding TotalItem,
                             UpdateSourceTrigger=PropertyChanged, 
-                            StringFormat={}Items to be rejected : {0}}"
+                            StringFormat={}Total : {0} Items}"
                         />
                 </StackPanel>
                 <DataGrid 
                     Margin="20,0,20,0" 
                     ItemsSource="{
-                        Binding GoodReceiveItemRejectCollection
+                        Binding GoodIssuedItemCollections
                     }" 
                     RowStyle="{StaticResource DataGridRowMedium}"
                     MaxHeight="180"
@@ -202,7 +202,6 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
                         <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
-                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -230,7 +229,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.AddOrEditItemCommand
                                             }" 
-                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
+                                            CommandParameter="{Binding vessel_good_issued_item_id}">
                                             <materialDesign:PackIcon 
                                                 Kind="Edit" 
                                                 VerticalContentAlignment="Center"
@@ -256,7 +255,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.DeleteItemCommand
                                             }" 
-                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
+                                            CommandParameter="{Binding vessel_good_issued_item_id}">
                                             <materialDesign:PackIcon 
                                                 Kind="Trash" 
                                                 VerticalContentAlignment="Center"
@@ -273,4 +272,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</Window> 
+</Window>

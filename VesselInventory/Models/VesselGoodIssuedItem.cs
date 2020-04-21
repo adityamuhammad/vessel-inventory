@@ -3,6 +3,7 @@ namespace VesselInventory.Models
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using VesselInventory.Commons.Enums;
     using VesselInventory.Utility;
 
     [Table("vessel_good_issued_item")]
@@ -49,7 +50,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string sync_status { get; set; }
+        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
 
         public DateTime created_date { get; set; } = DateTime.Now;
 
@@ -61,5 +62,6 @@ namespace VesselInventory.Models
 
         [StringLength(30)]
         public string last_modified_by { get; set; }
+        public bool is_hidden { get; set; } = false;
     }
 }

@@ -16,7 +16,7 @@ namespace VesselInventory.Models
         public DateTime vessel_good_journal_date { get; set; }
 
         [Required]
-        [StringLength(1)]
+        [StringLength(10)]
         public string in_out { get; set; }
 
         [Required]

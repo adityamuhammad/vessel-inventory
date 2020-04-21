@@ -119,7 +119,7 @@ namespace VesselInventory.ViewModel
         #endregion
 
         /// <summary>
-        /// Columns, Entity, And Collections
+        /// Entity, And Collections
         /// </summary>
         #region
         public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
@@ -151,26 +151,25 @@ namespace VesselInventory.ViewModel
         /// Column Attributes
         /// </summary>
         #region
-        public DateTime vessel_good_receive_date
+        public int vessel_good_receive_id
         {
-            get => VesselGoodReceiveEntity.vessel_good_receive_date;
-            set
-            {
-                VesselGoodReceiveEntity.vessel_good_receive_date = DateTime.Parse(value.ToString());
-                OnPropertyChanged("vessel_good_receive");
-            }
+            get => VesselGoodReceiveEntity.vessel_good_receive_id;
+            set => VesselGoodReceiveEntity.vessel_good_receive_id = value;
         }
-
         public string vessel_good_receive_number
         {
             get => VesselGoodReceiveEntity.vessel_good_receive_number;
             set => VesselGoodReceiveEntity.vessel_good_receive_number = value;
         }
 
-        public int vessel_good_receive_id
+        public DateTime vessel_good_receive_date
         {
-            get => VesselGoodReceiveEntity.vessel_good_receive_id;
-            set => VesselGoodReceiveEntity.vessel_good_receive_id = value;
+            get => VesselGoodReceiveEntity.vessel_good_receive_date;
+            set
+            {
+                VesselGoodReceiveEntity.vessel_good_receive_date = DateTime.Parse(value.ToString());
+                OnPropertyChanged("vessel_good_issued");
+            }
         }
 
         public string good_issued_number
@@ -252,7 +251,6 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(vessel_good_receive_id))
             {
-                LoadDataGrid();
                 IsItemEnabled = false;
                 vessel_good_receive_number = CommonDataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ship_code;
                 vessel_good_receive_date = DateTime.Now;
@@ -262,6 +260,7 @@ namespace VesselInventory.ViewModel
                 VesselGoodReceiveEntity = _vesselGoodReceiveRepository
                     .GetById(vessel_good_receive_id);
                 IsItemEnabled = true;
+                LoadDataGrid();
             }
         }
 
@@ -304,7 +303,6 @@ namespace VesselInventory.ViewModel
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
             LoadDataGrid();
         }
-
         private void SaveAction(object parameter)
         {
             try
@@ -312,12 +310,7 @@ namespace VesselInventory.ViewModel
                 if (ship_code != ShipBarge.ship_code)
                     throw new Exception(GlobalNamespace.ShipDoesNotMatch);
 
-                if (RecordHelper.IsNewRecord(vessel_good_receive_id))
-                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository
-                        .SaveVesselGoodReceive(VesselGoodReceiveEntity);
-                else
-                    VesselGoodReceiveEntity = _vesselGoodReceiveRepository
-                        .Update(vessel_good_receive_id,VesselGoodReceiveEntity);
+                SaveOrUpdate();
                 IsItemEnabled = true;
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 _parentLoadable.LoadDataGrid();
@@ -326,6 +319,16 @@ namespace VesselInventory.ViewModel
                 ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
             }
         }
+        private void SaveOrUpdate()
+        {
+            if (RecordHelper.IsNewRecord(vessel_good_receive_id))
+                VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                    .SaveVesselGoodReceive(VesselGoodReceiveEntity);
+            else
+                VesselGoodReceiveEntity = _vesselGoodReceiveRepository
+                    .Update(vessel_good_receive_id,VesselGoodReceiveEntity);
+        }
+
         private bool IsSaveCanExecute(object parameter)
         {
             if (ship_id < 1 || barge_id < 1)

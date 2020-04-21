@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -37,9 +38,18 @@ namespace VesselInventory.Repository
             }
         }
 
-        public VesselGoodIssued SaveVesselGoodIssued(VesselGoodIssued vesselGoodReceive)
+        public VesselGoodIssued SaveVesselGoodIssued(VesselGoodIssued vesselGoodIssued)
         {
-            throw new System.NotImplementedException();
+            using(var scope = new TransactionScope())
+            {
+                base.Save(vesselGoodIssued);
+                using(var context = new VesselInventoryContext())
+                {
+                    context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 3");
+                }
+                scope.Complete();
+                return vesselGoodIssued;
+            }
         }
     }
 }

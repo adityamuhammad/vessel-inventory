@@ -26,7 +26,7 @@
                 Width="157" 
                 Background="#FF4E5FBF" 
                 BorderBrush="#FF508B3A" 
-                Command="{Binding OpenDialogReceiveCommand}">
+                Command="{Binding OpenDialogIssuedCommand}">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
                     <TextBlock Text="New Issued"/>
@@ -95,37 +95,11 @@
                                                     x:Type DataGrid
                                                 },
                                             Mode=FindAncestor},
-                                            Path=DataContext.OpenDialogReceiveCommand
+                                            Path=DataContext.OpenDialogIssuedCommand
                                         }" 
-                                        CommandParameter="{Binding vessel_good_receive_id}">
+                                        CommandParameter="{Binding vessel_good_issued_id}">
                                         <materialDesign:PackIcon 
                                             Kind="Edit" 
-                                            VerticalContentAlignment="Center"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalAlignment="Center" 
-                                            HorizontalAlignment="Center"/>
-                                    </Button>
-                                    <Button 
-                                        BorderBrush="#FF4E5FBF" 
-                                        Background="White" 
-                                        Foreground="#FF4E5FBF" 
-                                        Height="20"
-                                        Width="40"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        HorizontalContentAlignment="Center"
-                                        Command="{
-                                            Binding RelativeSource={
-                                                RelativeSource AncestorType={
-                                                    x:Type DataGrid
-                                                },
-                                            Mode=FindAncestor},
-                                            Path=DataContext.OpenDialogReceiveItemDetailCommand
-                                        }" 
-                                        CommandParameter="{Binding vessel_good_receive_id}">
-                                        <materialDesign:PackIcon 
-                                            Kind="Information" 
                                             VerticalContentAlignment="Center"
                                             HorizontalContentAlignment="Center"
                                             VerticalAlignment="Center" 
