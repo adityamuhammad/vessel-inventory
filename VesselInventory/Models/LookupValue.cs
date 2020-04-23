@@ -21,7 +21,5 @@
         [StringLength(5)]
         public string abbreviation { get; set; }
 
-        [StringLength(5)]
-        public string value { get; set; }
     }
 }

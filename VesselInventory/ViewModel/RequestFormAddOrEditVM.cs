@@ -259,7 +259,7 @@ namespace VesselInventory.ViewModel
         /// UI Collections, Entity and Custom Column Attributes
         /// </summary>
         #region
-        public bool IsReleased => (status == Status.RELEASE.GetDescription());
+        public bool IsReleased => (status == Status.Release.GetDescription());
         private RequestFormShipBargeDto RequestFormShipBarge
         {
             get

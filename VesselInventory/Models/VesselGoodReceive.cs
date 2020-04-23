@@ -52,7 +52,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(10)]
-        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
+        public string sync_status { get; set; } = SyncStatus.Not_Sync.GetDescription();
         public bool is_hidden { get; set; } = false;
     }
 }

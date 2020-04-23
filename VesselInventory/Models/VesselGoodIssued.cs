@@ -32,7 +32,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
+        public string sync_status { get; set; } = SyncStatus.Not_Sync.GetDescription();
 
         public DateTime created_date { get; set; } = DateTime.Now;
 

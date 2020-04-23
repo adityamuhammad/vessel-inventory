@@ -7,8 +7,10 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodIssuedRepository
     {
-        IEnumerable<VesselGoodIssued> GetGoodIssued(string search, int page, int rows = 10);
-        int GetGoodIssuedTotalPage(string search, int rows = 10);
+        IEnumerable<VesselGoodIssued> GetGoodIssued(
+            string search, int page, int rows, 
+            string sortColumnName, string sortBy);
+        int GetGoodIssuedTotalPage(string search, int rows);
         VesselGoodIssued GetById(int id);
         VesselGoodIssued Update(int id, VesselGoodIssued vesselGoodReceive);
         VesselGoodIssued SaveVesselGoodIssued(VesselGoodIssued vesselGoodReceive);
@@ -18,13 +20,15 @@ namespace VesselInventory.Repository
         GenericRepository<VesselGoodIssued>,
         IVesselGoodIssuedRepository
     {
-        public IEnumerable<VesselGoodIssued> GetGoodIssued(string search, int page, int rows)
+        public IEnumerable<VesselGoodIssued> GetGoodIssued(
+            string search, int page, int rows, 
+            string sortColumnName, string sortBy)
         {
             using (var context = new VesselInventoryContext())
             {
                 return context.vessel_good_issued.SqlQuery (
-                        "usp_VesselGoodIssued_GetGoodIssuedList @p0, @p1, @p2",
-                        parameters: new object[] { search, page, rows }).ToList();
+                        "usp_VesselGoodIssued_GetGoodIssuedList @p0, @p1, @p2, @p3, @p4",
+                        parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
             }
         }
 

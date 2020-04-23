@@ -333,13 +333,15 @@ namespace VesselInventory.ViewModel
         private void SetUIAttributesValue()
         {
             if (!RecordHelper.IsNewRecord(rf_item_id))
-                RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+                RequestFormItemEntity = _requestFormItemRepository
+                    .GetById(rf_item_id);
         }
 
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "rf", rf_id))
+            foreach(var _ in CommonDataHelper
+                .GetItems(ItemSelectKeyword, "rf_item", rf_id))
                 ItemCollection.Add(_);
         }
 

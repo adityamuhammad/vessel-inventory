@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Unity;
 using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Dto;
@@ -10,6 +11,7 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
@@ -22,6 +24,7 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
         private readonly IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository; 
+        private readonly IUnityContainer container = ((App)Application.Current).UnityContainer;
         public VesselGoodIssuedAddOrEditVM(IWindowService windowService, 
             IVesselGoodIssuedRepository vesselGoodIssuedRepository,
             IVesselGoodIssuedItemRepository vesselGoodIssuedItemRepository)
@@ -175,7 +178,8 @@ namespace VesselInventory.ViewModel
 
         private void AddOrEditItemAction(object parameter)
         {
-            throw new NotImplementedException();
+            var vesselGoodIssuedItemAddOrEditVM = container.Resolve<VesselGoodIssuedItemAddOrEditVM>();
+            _windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
         }
 
         private bool IsSaveCanExecute(object parameter)

@@ -171,6 +171,7 @@
     <Compile Include="ViewModel\RequestFormItemUploadDocVM.cs" />
     <Compile Include="ViewModel\RequestFormVM.cs" />
     <Compile Include="ViewModel\VesselGoodIssuedAddOrEditVM.cs" />
+    <Compile Include="ViewModel\VesselGoodIssuedItemAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodIssuedVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveItemRejectAddOrEditVM.cs" />
@@ -200,6 +201,9 @@
     </Compile>
     <Compile Include="Views\VesselGoodIssued_AddOrEditView.xaml.cs">
       <DependentUpon>VesselGoodIssued_AddOrEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodIssued_ItemAddOrEditView.xaml.cs">
+      <DependentUpon>VesselGoodIssued_ItemAddOrEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VesselGoodIssued_MainView.xaml.cs">
       <DependentUpon>VesselGoodIssued_MainView.xaml</DependentUpon>
@@ -257,6 +261,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VesselGoodIssued_AddOrEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodIssued_ItemAddOrEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

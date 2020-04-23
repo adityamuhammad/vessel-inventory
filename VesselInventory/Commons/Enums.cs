@@ -10,15 +10,17 @@ namespace VesselInventory.Commons.Enums
 {
     public enum Status
     {
-        DRAFT,
-        RELEASE
+        [Description("DRAFT")]
+        Draft,
+        [Description("RELEASE")]
+        Release
     }
     public enum SyncStatus
     {
         [Description("SYNC")]
-        SYNC = 1,
+        Sync,
         [Description("NOT SYNC")]
-        NOT_SYNC = 0,
+        Not_Sync
     }
 
 

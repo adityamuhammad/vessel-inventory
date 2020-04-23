@@ -34,7 +34,11 @@ namespace VesselInventory.Services
             if (File.Exists(localPath))
             {
                 fileName = Path.GetFileName(localPath);
-                _uploadedPath = Path.Combine(targetDirectoryPath, DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + '_' +  fileName);
+                _uploadedPath = Path.Combine(
+                    targetDirectoryPath, 
+                    DateTime.Now.ToString("yyyy-MM-dd")
+                    + '_' + DateTime.Now.Ticks 
+                    + '_' +  fileName);
 
                 File.Copy(localPath, _uploadedPath);
                 return true;

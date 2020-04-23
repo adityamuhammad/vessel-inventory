@@ -49,6 +49,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private int DataGridRows => 10;
         private int _totalPage;
         public int TotalPage
         {
@@ -89,7 +90,7 @@ namespace VesselInventory.ViewModel
         {
             VesselGoodIssuedCollection.Clear();
             foreach (var goodIssued in _vesselGoodIssuedRepository
-                .GetGoodIssued(SearchKeyword,CurrentPage))
+                .GetGoodIssued(SearchKeyword,CurrentPage, DataGridRows, "vessel_good_issued_id", "DESC"))
                 VesselGoodIssuedCollection.Add(goodIssued);
             UpdateTotalPage();
         }
@@ -97,7 +98,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _vesselGoodIssuedRepository
-                .GetGoodIssuedTotalPage(SearchKeyword);
+                .GetGoodIssuedTotalPage(SearchKeyword, DataGridRows);
         }
 
         /// <summary>

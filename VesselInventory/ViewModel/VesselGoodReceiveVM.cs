@@ -83,12 +83,13 @@ namespace VesselInventory.ViewModel
         /// Collections and load Method
         /// </summary>
         #region
+        private int DataGridRows => 10;
         private IEnumerable<VesselGoodReceive> GoodReceives
         {
             get
             {
                 return _vesselGoodReceiveRepository.
-                    GetGoodReceive(SearchKeyword, CurrentPage);
+                    GetGoodReceive(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_receive_id", "DESC");
             }
         }
 
@@ -110,7 +111,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _vesselGoodReceiveRepository
-                .GetGoodReceiveTotalPage(SearchKeyword);
+                .GetGoodReceiveTotalPage(SearchKeyword,DataGridRows);
         }
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

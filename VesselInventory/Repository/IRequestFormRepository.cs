@@ -75,7 +75,7 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 var requestForm = context.request_form.Find(id);
-                requestForm.status = Status.RELEASE.GetDescription();
+                requestForm.status = Status.Release.GetDescription();
                 context.SaveChanges();
             }
         }

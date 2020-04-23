@@ -39,6 +39,7 @@ namespace VesselInventory.ViewModel
         /// UI Properties
         /// </summary>
         #region
+        private int DataGridRows => 10;
         private int _currentPage;
         public int CurrentPage
         {
@@ -91,7 +92,9 @@ namespace VesselInventory.ViewModel
         {
             ItemPendingCollection.Clear();
             foreach(var _ in _requestFormItemRepository
-                    .GetItemPending(SearchKeyword,CurrentPage))
+                    .GetItemPendingList(
+                        SearchKeyword,CurrentPage, 
+                        DataGridRows, "rf.rf_number", "DESC" ))
                 ItemPendingCollection.Add(_);
             UpdateTotalPage();
         }
@@ -99,7 +102,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _requestFormItemRepository.
-                GetItemPendingTotalPage(SearchKeyword);
+                GetItemPendingTotalPage(SearchKeyword, DataGridRows);
         }
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

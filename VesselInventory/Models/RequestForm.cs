@@ -34,7 +34,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string status { get; set; } = Status.DRAFT.GetDescription();
+        public string status { get; set; } = Status.Draft.GetDescription();
 
         public int ship_id { get; set; }
 
@@ -46,9 +46,9 @@ namespace VesselInventory.Models
         public string notes { get; set; }
 
         [StringLength(15)]
-        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
+        public string sync_status { get; set; } = SyncStatus.Not_Sync.GetDescription();
 
-        public DateTime? created_date { get; set; }
+        public DateTime? created_date { get; set; } = DateTime.Now;
 
         [StringLength(30)]
         public string created_by { get; set; } = Auth.Instance.username;

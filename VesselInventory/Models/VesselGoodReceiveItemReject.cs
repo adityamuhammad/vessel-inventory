@@ -66,7 +66,7 @@ namespace VesselInventory.Models
         public string last_modified_by { get; set; }
 
         [StringLength(15)]
-        public string sync_status { get; set; } = SyncStatus.NOT_SYNC.GetDescription();
+        public string sync_status { get; set; } = SyncStatus.Not_Sync.GetDescription();
         public bool is_hidden { get; set; } = false;
     }
 }

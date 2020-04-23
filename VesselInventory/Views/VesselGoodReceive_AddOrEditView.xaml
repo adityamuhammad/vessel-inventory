@@ -162,7 +162,7 @@
                         Text="{
                             Binding TotalItem,
                             UpdateSourceTrigger=PropertyChanged, 
-                            StringFormat={}Items to be rejected : {0}}"
+                            StringFormat={}Rejected : {0} Items}"
                         />
                 </StackPanel>
                 <DataGrid 

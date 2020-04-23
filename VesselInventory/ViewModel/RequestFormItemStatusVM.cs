@@ -27,6 +27,7 @@ namespace VesselInventory.ViewModel
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
         }
 
+        private int DataGridRows => 10;
         private int _currentPage;
         public int CurrentPage
         {
@@ -122,9 +123,9 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormItemRepository.
-                    GetItemStatus( ItemIdSearch, ItemNameSearch,
+                    GetItemStatusList( ItemIdSearch, ItemNameSearch,
                         ItemStatusSearch, RFNumberSearch,
-                        DepartmentSearch, CurrentPage );
+                        DepartmentSearch, CurrentPage, DataGridRows, "rf.rf_number",  "DESC" );
             }
         }
 
@@ -144,7 +145,7 @@ namespace VesselInventory.ViewModel
                 return _requestFormItemRepository.
                             GetItemStatusTotalPage( ItemIdSearch, 
                                 ItemNameSearch, ItemStatusSearch, 
-                                RFNumberSearch, DepartmentSearch );
+                                RFNumberSearch, DepartmentSearch, DataGridRows );
 
             }
         }
