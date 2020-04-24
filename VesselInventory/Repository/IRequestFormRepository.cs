@@ -5,6 +5,7 @@ using VesselInventory.Commons.Enums;
 using VesselInventory.Dto;
 using VesselInventory.Models;
 using System.Transactions;
+using VesselInventory.Utility;
 
 namespace VesselInventory.Repository
 {
@@ -75,6 +76,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 var requestForm = context.request_form.Find(id);
+                requestForm.last_modified_by = Auth.Instance.personalname;
+                requestForm.last_modified_date = DateTime.Now;
                 requestForm.status = Status.Release.GetDescription();
                 context.SaveChanges();
             }

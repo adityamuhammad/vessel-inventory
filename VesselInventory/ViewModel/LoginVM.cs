@@ -20,29 +20,38 @@ namespace VesselInventory.ViewModel
             LoginCommand = new RelayCommand<IClosable>(LoginAction);
         }
 
-        private User User
+        private string _personalname;
+        [Required(ErrorMessage ="*")]
+        public string personalname
         {
-            get; set;
-        } = new User();
+            get => _personalname;
+            set
+            {
+                _personalname = value;
+                OnPropertyChanged("personalname");
+            }
+        }
 
+        private string _username;
         [Required(ErrorMessage ="*")]
         public string username
         {
-            get => User.username;
+            get => _username;
             set
             {
-                User.username = value;
+                _username = value;
                 OnPropertyChanged("username");
             }
         }
 
+        private string _password;
         [Required(ErrorMessage ="*")]
         public string password
         {
-            get => User.password;
+            get => _password;
             set
             {
-                User.password = value;
+                _password = value;
                 OnPropertyChanged("password");
             }
         }
@@ -50,6 +59,7 @@ namespace VesselInventory.ViewModel
         private void LoginAction(IClosable window)
         {
             Auth.Instance.username = username;
+            Auth.Instance.personalname = personalname;
             var container = (((App)Application.Current)).UnityContainer;
             _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
             CloseWindow(window);

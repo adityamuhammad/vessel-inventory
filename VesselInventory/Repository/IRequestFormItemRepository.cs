@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using VesselInventory.Dto;
 using VesselInventory.Models;
+using VesselInventory.Utility;
 
 namespace VesselInventory.Repository
 {
@@ -50,9 +52,6 @@ namespace VesselInventory.Repository
             string rf_number, string department_name, 
             int page, int rows, string sortColumnName, string sortBy)
         {
-            Regex numericRegex = new Regex(@"^\d+$");
-            if (!numericRegex.IsMatch(item_id))
-                item_id = null;
 
             using (var context = new VesselInventoryContext())
             {
@@ -69,12 +68,8 @@ namespace VesselInventory.Repository
         public int GetItemStatusTotalPage (string item_id, 
             string item_name, string item_status, 
             string rf_number, string department_name, 
-            int rows = 10)
+            int rows)
         {
-            Regex numericRegex = new Regex(@"^\d+$");
-            if (!numericRegex.IsMatch(item_id))
-                item_id = null;
-
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
@@ -98,7 +93,7 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemPendingDto>(
-                    "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2",
+                    "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2, @p3, @p4",
                     parameters: new object[] { rf_number, page, rows, sortColumnName, sortBy }).ToList();
             }
         }
@@ -120,6 +115,8 @@ namespace VesselInventory.Repository
                 var current = context.request_form_item.Find(id);
                 if (current is null) return;
                 current.is_hidden = true;
+                current.last_modified_date = DateTime.Now;
+                current.last_modified_by = Auth.Instance.personalname;
                 context.SaveChanges();
             }
         }

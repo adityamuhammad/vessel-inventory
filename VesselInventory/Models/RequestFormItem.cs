@@ -65,7 +65,7 @@ namespace VesselInventory.Models
         public DateTime? created_date { get; set; } = DateTime.Now;
 
         [StringLength(30)]
-        public string created_by { get; set; } = Auth.Instance.username;
+        public string created_by { get; set; } = Auth.Instance.personalname;
 
         public DateTime? last_modified_date { get; set; }
 

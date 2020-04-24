@@ -385,11 +385,18 @@ namespace VesselInventory.ViewModel
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(rf_id))
+            {
                 RequestFormEntity = _requestFormRepository
                     .SaveRequestForm(RequestFormEntity);
-            else
+
+            } else
+            {
+                RequestFormEntity.last_modified_by = Auth.Instance.personalname;
+                RequestFormEntity.last_modified_date = DateTime.Now;
                 RequestFormEntity = _requestFormRepository
                     .Update(rf_id, RequestFormEntity);
+
+            }
         }
         private void SaveAction(object parameter)
         {

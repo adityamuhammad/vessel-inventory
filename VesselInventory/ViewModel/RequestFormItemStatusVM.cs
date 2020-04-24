@@ -3,6 +3,7 @@ using VesselInventory.Dto;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace VesselInventory.ViewModel
 {
@@ -63,13 +64,17 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private string _itemIdSearch = string.Empty;
+        private string _itemIdSearch;
         public string ItemIdSearch
         {
             get => _itemIdSearch;
             set
             {
+                Regex numericRegex = new Regex(@"^\d+$");
                 _itemIdSearch = value;
+                if (!numericRegex.IsMatch(value.ToString()) || _itemIdSearch.StartsWith("0"))
+                    _itemIdSearch = null;
+
                 OnPropertyChanged("ItemIdSearch");
                 ResetCurrentPage();
                 RefreshItemStatus();
@@ -123,9 +128,9 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormItemRepository.
-                    GetItemStatusList( ItemIdSearch, ItemNameSearch,
+                    GetItemStatusList(ItemIdSearch, ItemNameSearch,
                         ItemStatusSearch, RFNumberSearch,
-                        DepartmentSearch, CurrentPage, DataGridRows, "rf.rf_number",  "DESC" );
+                        DepartmentSearch, CurrentPage, DataGridRows, "rf.rf_number",  "DESC");
             }
         }
 
@@ -143,9 +148,9 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormItemRepository.
-                            GetItemStatusTotalPage( ItemIdSearch, 
+                            GetItemStatusTotalPage(ItemIdSearch, 
                                 ItemNameSearch, ItemStatusSearch, 
-                                RFNumberSearch, DepartmentSearch, DataGridRows );
+                                RFNumberSearch, DepartmentSearch, DataGridRows);
 
             }
         }
