@@ -387,7 +387,7 @@ namespace VesselInventory.ViewModel
             if (RecordHelper.IsNewRecord(rf_id))
             {
                 RequestFormDataView = _requestFormRepository
-                    .SaveRequestForm(RequestFormDataView);
+                    .SaveTransaction(RequestFormDataView);
 
             } else
             {

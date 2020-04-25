@@ -179,6 +179,10 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             var vesselGoodIssuedItemAddOrEditVM = container.Resolve<VesselGoodIssuedItemAddOrEditVM>();
+            if (parameter is null)
+                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id);
+            else
+                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id, (int)parameter);
             _windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
         }
 
@@ -189,21 +193,33 @@ namespace VesselInventory.ViewModel
 
         private void SaveAction(object parameter)
         {
-            SaveOrUpdate();
-            IsItemEnabled = true;
-            _parentLoadable.LoadDataGrid();
-            ResponseMessage.Success(GlobalNamespace.SuccessSave);
+            try
+            {
+                SaveOrUpdate();
+                IsItemEnabled = true;
+                _parentLoadable.LoadDataGrid();
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
+            } catch (Exception ex) {
+                ResponseMessage.Error(GlobalNamespace.ErrorSave + ' ' + ex.Message);
+            }
         }
 
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(vessel_good_issued_id))
+            {
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .SaveVesselGoodIssued(VesselGoodIssuedDataView);
-            else
+                    .SaveTransaction(VesselGoodIssuedDataView);
+
+            } else
+            {
+                VesselGoodIssuedDataView.last_modified_by = Auth.Instance.personalname;
+                VesselGoodIssuedDataView.last_modified_date = DateTime.Now;
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .Update(vessel_good_issued_id,VesselGoodIssuedDataView);
-        }
+                    .Update(vessel_good_issued_id,
+                    VesselGoodIssuedDataView);
+            }
+                        }
         #endregion
     }
 }

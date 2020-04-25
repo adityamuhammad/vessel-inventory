@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Dto;
 using VesselInventory.Models;
@@ -11,17 +12,32 @@ using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodIssuedItemAddOrEditVM : ViewModelBase, IParentLoadable
+    class VesselGoodIssuedItemAddOrEditVM : ViewModelBase
     {
         public override string Title => "Good Issued Item";
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
-        IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository;
+        private readonly IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository;
+        private IParentLoadable _parentLoadable;
         public VesselGoodIssuedItemAddOrEditVM(IVesselGoodIssuedItemRepository vesselGoodIssuedItemRepository)
         {
             _vesselGoodIssuedItemRepository = vesselGoodIssuedItemRepository;
+            InitializeCommands();
+        }
+
+        private void InitializeCommands()
+        {
             ListBoxChangedCommand = new RelayCommand(AutoCompleteChanged);
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
+        }
+
+        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodIssuedId, int vesselGoodIssuedItemId = 0)
+        {
+            vessel_good_issued_id = vesselGoodIssuedId;
+            vessel_good_issued_item_id = vesselGoodIssuedItemId;
+            _parentLoadable = parentLoadable;
+            if (!RecordHelper.IsNewRecord(vesselGoodIssuedItemId))
+                VesselGoodIssuedItemDataView = _vesselGoodIssuedItemRepository.GetById(vessel_good_issued_item_id);
         }
 
         private string _itemSelectKeyword = string.Empty;
@@ -183,14 +199,22 @@ namespace VesselInventory.ViewModel
         {
             ItemCollection.Clear();
             foreach(var _ in CommonDataHelper
-                .GetItems(ItemSelectKeyword, "vessel_good_issued_item", 20))
+                .GetItems(ItemSelectKeyword, "vessel_good_issued_item", vessel_good_issued_id))
                 ItemCollection.Add(_);
         }
 
         private void SaveAction(IClosable window)
         {
-            _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
-            CloseWindow(window);
+            try
+            {
+                _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
+                _parentLoadable.LoadDataGrid();
+                CloseWindow(window);
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
+            } catch (Exception ex)
+            {
+                ResponseMessage.Error(ex.Message);
+            }
         }
 
         private void AutoCompleteChanged(object parameter)
@@ -210,11 +234,6 @@ namespace VesselInventory.ViewModel
                 uom = item.uom;
                 ItemSelectKeyword = string.Empty;
             }
-        }
-
-        public void LoadDataGrid()
-        {
-            throw new NotImplementedException();
         }
     }
 }

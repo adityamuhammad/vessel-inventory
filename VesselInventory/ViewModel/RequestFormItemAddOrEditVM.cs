@@ -383,9 +383,14 @@ namespace VesselInventory.ViewModel
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(rf_item_id))
+            {
                 _requestFormItemRepository.Save(RequestFormItemDataView);
-            else
+            } else
+            {
+                RequestFormItemDataView.last_modified_by = Auth.Instance.personalname;
+                RequestFormItemDataView.last_modified_date = DateTime.Now;
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemDataView);
+            }
         }
 
         private void LoadParentDataGrid()

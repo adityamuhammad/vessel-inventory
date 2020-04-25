@@ -3,12 +3,8 @@ using System.Linq;
 using VesselInventory.Models;
 namespace VesselInventory.Repository
 {
-    public interface IVesselGoodReceiveItemRejectRepository
+    public interface IVesselGoodReceiveItemRejectRepository : IGenericRepository<VesselGoodReceiveItemReject>
     {
-        VesselGoodReceiveItemReject GetById(int id);
-        VesselGoodReceiveItemReject Save(VesselGoodReceiveItemReject vesselGoodReceiveItemReject);
-        VesselGoodReceiveItemReject Update(int id,VesselGoodReceiveItemReject vesselGoodReceiveItemReject);
-        void Delete(int id);
         IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId);
     }
 

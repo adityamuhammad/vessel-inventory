@@ -5,15 +5,13 @@ using VesselInventory.Models;
 
 namespace VesselInventory.Repository
 {
-    public interface IVesselGoodIssuedRepository
+    public interface IVesselGoodIssuedRepository : IGenericRepository<VesselGoodIssued>
     {
         IEnumerable<VesselGoodIssued> GetGoodIssued(
             string search, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetGoodIssuedTotalPage(string search, int rows);
-        VesselGoodIssued GetById(int id);
-        VesselGoodIssued Update(int id, VesselGoodIssued vesselGoodReceive);
-        VesselGoodIssued SaveVesselGoodIssued(VesselGoodIssued vesselGoodReceive);
+        VesselGoodIssued SaveTransaction(VesselGoodIssued vesselGoodReceive);
     }
 
     public class VesselGoodIssuedRepository :
@@ -42,7 +40,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public VesselGoodIssued SaveVesselGoodIssued(VesselGoodIssued vesselGoodIssued)
+        public VesselGoodIssued SaveTransaction(VesselGoodIssued vesselGoodIssued)
         {
             using(var scope = new TransactionScope())
             {

@@ -279,7 +279,7 @@
                                                 <Binding Path="item_name"/>
                                                 <Binding Path="brand_type_id"/>
                                                 <Binding Path="brand_type_name"/>
-                                                <Binding Path="color_size_name"/>
+                                                <Binding Path="color_size_id"/>
                                                 <Binding Path="color_size_name"/>
                                             </MultiBinding>
                                         </TextBlock.Text>

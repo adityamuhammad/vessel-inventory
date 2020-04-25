@@ -1,4 +1,5 @@
-﻿using VesselInventory.Commons;
+﻿using System;
+using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -98,6 +99,8 @@ namespace VesselInventory.ViewModel
 
         private void Update()
         {
+            RequestFormItemDataView.last_modified_by = Auth.Instance.personalname;
+            RequestFormItemDataView.last_modified_date = DateTime.Now;
             _requestFormItemRepository.Update(rf_item_id, RequestFormItemDataView);
         }
     }

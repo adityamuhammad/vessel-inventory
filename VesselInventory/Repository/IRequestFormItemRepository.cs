@@ -8,12 +8,8 @@ using VesselInventory.Utility;
 
 namespace VesselInventory.Repository
 {
-    public interface IRequestFormItemRepository
+    public interface IRequestFormItemRepository : IGenericRepository<RequestFormItem>
     {
-        RequestFormItem GetById(int id);
-        RequestFormItem Save(RequestFormItem requestFormItem);
-        RequestFormItem Update(int id, RequestFormItem requestFormItem);
-        void Delete(int id) ;
         IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
         IEnumerable<ItemStatusDto> GetItemStatusList(
             string item_id, string item_name, 

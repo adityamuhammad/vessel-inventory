@@ -9,15 +9,13 @@ using VesselInventory.Utility;
 
 namespace VesselInventory.Repository
 {
-    public interface IRequestFormRepository
+    public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
         IEnumerable<RequestForm> GetRequestFormList(string search, int page, int rows = 10);
         int GetRequestFormTotalPage(string search, int rows = 10);
         RequestFormShipBargeDto GetRrequestFormShipBarge();
-        RequestForm SaveRequestForm(RequestForm requestForm);
-        RequestForm Update(int id, RequestForm requestForm);
+        RequestForm SaveTransaction(RequestForm requestForm);
         void Release(int id);
-        RequestForm GetById(int id);
     }
     public class RequestFormRepository : 
         GenericRepository<RequestForm>, 
@@ -25,7 +23,7 @@ namespace VesselInventory.Repository
     {
         public RequestFormRepository() { }
 
-        public RequestForm SaveRequestForm(RequestForm rf)
+        public RequestForm SaveTransaction(RequestForm rf)
         {
             using (var scope = new TransactionScope())
             {

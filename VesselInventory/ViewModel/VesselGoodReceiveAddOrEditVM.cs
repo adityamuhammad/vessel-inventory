@@ -323,7 +323,7 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(vessel_good_receive_id))
                 VesselGoodReceiveDataView = _vesselGoodReceiveRepository
-                    .SaveVesselGoodReceive(VesselGoodReceiveDataView);
+                    .SaveTransaction(VesselGoodReceiveDataView);
             else
                 VesselGoodReceiveDataView = _vesselGoodReceiveRepository
                     .Update(vessel_good_receive_id,VesselGoodReceiveDataView);
