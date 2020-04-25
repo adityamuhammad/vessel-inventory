@@ -171,11 +171,6 @@ namespace VesselInventory.ViewModel
         /// </summary>
         /// <param name="parameter"></param>
         #region
-        private void DeleteItemAction(object parameter)
-        {
-            throw new NotImplementedException();
-        }
-
         private void AddOrEditItemAction(object parameter)
         {
             var vesselGoodIssuedItemAddOrEditVM = container.Resolve<VesselGoodIssuedItemAddOrEditVM>();
@@ -189,6 +184,17 @@ namespace VesselInventory.ViewModel
         private bool IsSaveCanExecute(object parameter)
         {
             return true;
+        }
+
+        private void DeleteItemAction(object parameter)
+        {
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+                GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
+            if (confirmDialog == MessageBoxResult.No)
+                return;
+            _vesselGoodIssuedItemRepository.DeleteTransaction((int)parameter);
+            ResponseMessage.Success(GlobalNamespace.SuccessDelete);
+            LoadDataGrid();
         }
 
         private void SaveAction(object parameter)
@@ -219,7 +225,7 @@ namespace VesselInventory.ViewModel
                     .Update(vessel_good_issued_id,
                     VesselGoodIssuedDataView);
             }
-                        }
+        }
         #endregion
     }
 }

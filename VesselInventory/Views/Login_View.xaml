@@ -57,6 +57,7 @@
                             Foreground="#FF4E5FBF" 
                             Style="{StaticResource validation}"
                             Margin="15,15,0,0" 
+                            MaxLength="30"
                             Width="120"
                             Text="{
                                 Binding personalname,
@@ -78,6 +79,7 @@
                             Style="{StaticResource validation}"
                             Margin="15,15,0,0" 
                             Width="120"
+                            MaxLength="30"
                             Text="{
                                 Binding username,
                                 Mode=TwoWay,

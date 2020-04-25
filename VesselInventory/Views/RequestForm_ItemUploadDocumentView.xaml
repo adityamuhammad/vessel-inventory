@@ -61,7 +61,7 @@
                 HorizontalContentAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon 
-                        Kind="File" 
+                        Kind="DotsHorizontal" 
                         VerticalContentAlignment="Center"
                         HorizontalContentAlignment="Center"
                         VerticalAlignment="Center" 

@@ -15,6 +15,7 @@ namespace VesselInventory.Models
 
         public int vessel_good_return_id { get; set; }
 
+        public int item_id { get; set; }
         public int item_group_id { get; set; }
 
         [Required]

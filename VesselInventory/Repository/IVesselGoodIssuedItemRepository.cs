@@ -10,8 +10,9 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodIssuedItemRepository : IGenericRepository<VesselGoodIssuedItem>
     {
-        int SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem);
+        void SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem);
         void UpdateTransaction(int id,VesselGoodIssuedItem vesselGoodIssuedItem);
+        void DeleteTransaction(int id); 
         IEnumerable<VesselGoodIssuedItem> GetGoodIssuedItem(int vesselGoodIssuedId);
     }
 
@@ -19,11 +20,11 @@ namespace VesselInventory.Repository
         GenericRepository<VesselGoodIssuedItem>,
         IVesselGoodIssuedItemRepository
     {
-        public int SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem)
+        public void SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem)
         {
             using (var context = new VesselInventoryContext())
             {
-                StringBuilder execSp = new StringBuilder("");
+                StringBuilder execSp = new StringBuilder();
                 execSp.Append("usp_VesselGoodIssuedItem_SaveTransaction");
                 execSp.Append(" @vessel_good_issued_id,");
                 execSp.Append(" @item_id,");
@@ -40,7 +41,7 @@ namespace VesselInventory.Repository
                 execSp.Append(" @created_date,");
                 execSp.Append(" @sync_status,");
                 execSp.Append(" @is_hidden");
-                return context.Database.ExecuteSqlCommand
+                context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
                      new SqlParameter("@vessel_good_issued_id", vesselGoodIssuedItem.vessel_good_issued_id),
                      new SqlParameter("@item_id", vesselGoodIssuedItem.item_id),
@@ -61,17 +62,22 @@ namespace VesselInventory.Repository
             }
         }
         public void UpdateTransaction(int id,VesselGoodIssuedItem vesselGoodIssuedItem)
-        { }
-        public override void Delete(int id)
         {
             using (var context = new VesselInventoryContext())
             {
-                var current = context.vessel_good_issued_item.Find(id);
-                if (current is null) return;
-                current.is_hidden = true;
-                current.last_modified_date = DateTime.Now;
-                current.last_modified_by = Auth.Instance.personalname;
-                context.SaveChanges();
+                StringBuilder execSp = new StringBuilder();
+                execSp.Append("usp_VesselGoodIssuedItem_UpdateTransaction");
+                execSp.Append(" @vessel_good_issued_item_id,");
+                execSp.Append(" @qty,");
+                execSp.Append(" @last_modified_by,");
+                execSp.Append(" @last_modified_date");
+                context.Database.ExecuteSqlCommand
+                    (execSp.ToString(),
+                     new SqlParameter("@vessel_good_issued_item_id", vesselGoodIssuedItem.vessel_good_issued_item_id),
+                     new SqlParameter("@qty", vesselGoodIssuedItem.qty),
+                     new SqlParameter("@last_modified_by", Auth.Instance.personalname),
+                     new SqlParameter("@last_modified_date", DateTime.Now)
+                     );
             }
         }
 
@@ -84,6 +90,24 @@ namespace VesselInventory.Repository
                         item.is_hidden == false select item)
                         .ToList();
 
+            }
+        }
+
+        public void DeleteTransaction(int id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                StringBuilder execSp = new StringBuilder();
+                execSp.Append("usp_VesselGoodIssuedItem_DeleteTransaction");
+                execSp.Append(" @vessel_good_issued_item_id,");
+                execSp.Append(" @last_modified_by,");
+                execSp.Append(" @last_modified_date");
+                context.Database.ExecuteSqlCommand
+                    (execSp.ToString(),
+                     new SqlParameter("@vessel_good_issued_item_id", id),
+                     new SqlParameter("@last_modified_by", Auth.Instance.personalname),
+                     new SqlParameter("@last_modified_date", DateTime.Now)
+                     );
             }
         }
     }

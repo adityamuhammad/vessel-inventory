@@ -36,8 +36,16 @@ namespace VesselInventory.ViewModel
             vessel_good_issued_id = vesselGoodIssuedId;
             vessel_good_issued_item_id = vesselGoodIssuedItemId;
             _parentLoadable = parentLoadable;
-            if (!RecordHelper.IsNewRecord(vesselGoodIssuedItemId))
+            LoadAttributes();
+        }
+
+        private void LoadAttributes()
+        {
+            if (!RecordHelper.IsNewRecord(vessel_good_issued_item_id))
+            {
                 VesselGoodIssuedItemDataView = _vesselGoodIssuedItemRepository.GetById(vessel_good_issued_item_id);
+                IsVisibleSearchItem = false;
+            }
         }
 
         private string _itemSelectKeyword = string.Empty;
@@ -207,7 +215,10 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
+                if (RecordHelper.IsNewRecord(vessel_good_issued_item_id))
+                    _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
+                else
+                    _vesselGoodIssuedItemRepository.UpdateTransaction(vessel_good_issued_item_id,VesselGoodIssuedItemDataView);
                 _parentLoadable.LoadDataGrid();
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
