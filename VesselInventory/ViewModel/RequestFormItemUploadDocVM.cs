@@ -27,7 +27,7 @@ namespace VesselInventory.ViewModel
         }
         public void InitializeData(IParentLoadable parentLoadable, int rf_item_id)
         {
-            RequestFormItemEntity = _requestFormItemRepository.GetById(rf_item_id);
+            RequestFormItemDataView = _requestFormItemRepository.GetById(rf_item_id);
             _parentLoadable = parentLoadable;
         }
 
@@ -37,14 +37,14 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
         public override string Title => "Upload Item Document";
-        private RequestFormItem RequestFormItemEntity
+        private RequestFormItem RequestFormItemDataView
         {
             get; set;
         } = new RequestFormItem();
 
         public int rf_item_id {
-            get => RequestFormItemEntity.rf_item_id;
-            set => RequestFormItemEntity.rf_item_id = value;
+            get => RequestFormItemDataView.rf_item_id;
+            set => RequestFormItemDataView.rf_item_id = value;
         }
 
         private string _attachment_local_path = string.Empty;
@@ -60,10 +60,10 @@ namespace VesselInventory.ViewModel
 
         public string attachment_path
         {
-            get => RequestFormItemEntity.attachment_path;
+            get => RequestFormItemDataView.attachment_path;
             set
             {
-                RequestFormItemEntity.attachment_path = value;
+                RequestFormItemDataView.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -98,7 +98,7 @@ namespace VesselInventory.ViewModel
 
         private void Update()
         {
-            _requestFormItemRepository.Update(rf_item_id, RequestFormItemEntity);
+            _requestFormItemRepository.Update(rf_item_id, RequestFormItemDataView);
         }
     }
 }

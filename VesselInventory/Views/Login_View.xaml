@@ -59,7 +59,7 @@
                             Margin="15,15,0,0" 
                             Width="120"
                             Text="{
-                                Binding username,
+                                Binding personalname,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnNotifyDataErrors=True,

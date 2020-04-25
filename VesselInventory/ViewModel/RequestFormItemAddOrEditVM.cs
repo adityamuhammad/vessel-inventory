@@ -55,7 +55,7 @@ namespace VesselInventory.ViewModel
         /// UI Collection Data, Entity, And Custom Attributes
         /// </summary>
         #region
-        private RequestFormItem RequestFormItemEntity
+        private RequestFormItem RequestFormItemDataView
         {
             get; set;
         } = new RequestFormItem();
@@ -103,34 +103,34 @@ namespace VesselInventory.ViewModel
         #region
         public int rf_id
         {
-            get => RequestFormItemEntity.rf_id;
+            get => RequestFormItemDataView.rf_id;
             set
             {
-                RequestFormItemEntity.rf_id = value;
+                RequestFormItemDataView.rf_id = value;
             }
         }
         public int rf_item_id
         {
-            get => RequestFormItemEntity.rf_item_id;
+            get => RequestFormItemDataView.rf_item_id;
             set
             {
-                RequestFormItemEntity.rf_item_id = value;
+                RequestFormItemDataView.rf_item_id = value;
             }
         }
         public string item_dimension_number
         {
-            get => RequestFormItemEntity.item_dimension_number;
+            get => RequestFormItemDataView.item_dimension_number;
             set
             {
-                RequestFormItemEntity.item_dimension_number = value;
+                RequestFormItemDataView.item_dimension_number = value;
             }
         }
         public int? item_group_id
         {
-            get => RequestFormItemEntity.item_group_id;
+            get => RequestFormItemDataView.item_group_id;
             set
             {
-                RequestFormItemEntity.item_group_id = value;
+                RequestFormItemDataView.item_group_id = value;
             }
         }
 
@@ -138,70 +138,70 @@ namespace VesselInventory.ViewModel
         [Display(Name ="Item Id")]
         public int item_id
         {
-            get => RequestFormItemEntity.item_id;
+            get => RequestFormItemDataView.item_id;
             set
             {
-                RequestFormItemEntity.item_id = value;
+                RequestFormItemDataView.item_id = value;
                 OnPropertyChanged("item_id");
             }
         }
 
         public string item_name
         {
-            get => RequestFormItemEntity.item_name;
+            get => RequestFormItemDataView.item_name;
             set
             {
-                RequestFormItemEntity.item_name = value;
+                RequestFormItemDataView.item_name = value;
                 OnPropertyChanged("item_name");
             }
         }
 
         public string brand_type_id
         {
-            get => RequestFormItemEntity.brand_type_id;
+            get => RequestFormItemDataView.brand_type_id;
             set
             {
-                RequestFormItemEntity.brand_type_id = value;
+                RequestFormItemDataView.brand_type_id = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
 
         public string brand_type_name
         {
-            get => RequestFormItemEntity.brand_type_name;
+            get => RequestFormItemDataView.brand_type_name;
             set
             {
-                RequestFormItemEntity.brand_type_name = value;
+                RequestFormItemDataView.brand_type_name = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
 
         public string color_size_id
         {
-            get => RequestFormItemEntity.color_size_id;
+            get => RequestFormItemDataView.color_size_id;
             set
             {
-                RequestFormItemEntity.color_size_id = value;
+                RequestFormItemDataView.color_size_id = value;
                 OnPropertyChanged("color_size_id");
             }
         }
 
         public string color_size_name
         {
-            get => RequestFormItemEntity.color_size_name;
+            get => RequestFormItemDataView.color_size_name;
             set
             {
-                RequestFormItemEntity.color_size_name = value;
+                RequestFormItemDataView.color_size_name = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public string attachment_path
         {
-            get => RequestFormItemEntity.attachment_path;
+            get => RequestFormItemDataView.attachment_path;
             set
             {
-                RequestFormItemEntity.attachment_path = value;
+                RequestFormItemDataView.attachment_path = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -211,11 +211,11 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return RequestFormItemEntity.qty;
+                return RequestFormItemDataView.qty;
             }
             set
             {
-                RequestFormItemEntity.qty = value;
+                RequestFormItemDataView.qty = value;
                 OnPropertyChanged("qty");
             }
         }
@@ -224,13 +224,13 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (RequestFormItemEntity.reason is null)
-                    RequestFormItemEntity.reason = ReasonCollection.First();
-                return RequestFormItemEntity.reason;
+                if (RequestFormItemDataView.reason is null)
+                    RequestFormItemDataView.reason = ReasonCollection.First();
+                return RequestFormItemDataView.reason;
             }
             set
             {
-                RequestFormItemEntity.reason = value;
+                RequestFormItemDataView.reason = value;
                 OnPropertyChanged("reason");
             }
         }
@@ -239,40 +239,40 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (RequestFormItemEntity.priority is null)
-                    RequestFormItemEntity.priority = PriorityCollection.First();
-                return RequestFormItemEntity.priority;
+                if (RequestFormItemDataView.priority is null)
+                    RequestFormItemDataView.priority = PriorityCollection.First();
+                return RequestFormItemDataView.priority;
             }
             set
             {
-                RequestFormItemEntity.priority = value;
+                RequestFormItemDataView.priority = value;
                 OnPropertyChanged("priority");
             }
         }
 
         public string remarks
         {
-            get => RequestFormItemEntity.remarks;
+            get => RequestFormItemDataView.remarks;
             set
             {
-                RequestFormItemEntity.remarks = value;
+                RequestFormItemDataView.remarks = value;
                 OnPropertyChanged("remarks");
             }
         }
 
         public string uom
         {
-            get => RequestFormItemEntity.uom;
+            get => RequestFormItemDataView.uom;
             set
             {
-                RequestFormItemEntity.uom = value;
+                RequestFormItemDataView.uom = value;
                 OnPropertyChanged("uom");
             }
         }
         #endregion
 
         /// <summary>
-        /// UI Properties Behaviour
+        /// UI Properties Behavior
         /// </summary>
         #region
         public override string Title => "Request Form Item";
@@ -333,7 +333,7 @@ namespace VesselInventory.ViewModel
         private void SetUIAttributesValue()
         {
             if (!RecordHelper.IsNewRecord(rf_item_id))
-                RequestFormItemEntity = _requestFormItemRepository
+                RequestFormItemDataView = _requestFormItemRepository
                     .GetById(rf_item_id);
         }
 
@@ -383,9 +383,9 @@ namespace VesselInventory.ViewModel
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(rf_item_id))
-                _requestFormItemRepository.Save(RequestFormItemEntity);
+                _requestFormItemRepository.Save(RequestFormItemDataView);
             else
-                _requestFormItemRepository.Update(rf_item_id,RequestFormItemEntity);
+                _requestFormItemRepository.Update(rf_item_id,RequestFormItemDataView);
         }
 
         private void LoadParentDataGrid()

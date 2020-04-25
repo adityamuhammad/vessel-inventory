@@ -74,41 +74,41 @@ namespace VesselInventory.ViewModel
         #region
         public int vessel_good_issued_id
         {
-            get => VesselGoodIssuedEntity.vessel_good_issued_id;
-            set => VesselGoodIssuedEntity.vessel_good_issued_id = value;
+            get => VesselGoodIssuedDataView.vessel_good_issued_id;
+            set => VesselGoodIssuedDataView.vessel_good_issued_id = value;
         }
         public string vessel_good_issued_number
         {
-            get => VesselGoodIssuedEntity.vessel_good_issued_number;
-            set => VesselGoodIssuedEntity.vessel_good_issued_number = value;
+            get => VesselGoodIssuedDataView.vessel_good_issued_number;
+            set => VesselGoodIssuedDataView.vessel_good_issued_number = value;
         }
 
         public DateTime vessel_good_issued_date
         {
-            get => VesselGoodIssuedEntity.vessel_good_issued_date;
+            get => VesselGoodIssuedDataView.vessel_good_issued_date;
             set
             {
-                VesselGoodIssuedEntity.vessel_good_issued_date = DateTime.Parse(value.ToString());
+                VesselGoodIssuedDataView.vessel_good_issued_date = DateTime.Parse(value.ToString());
                 OnPropertyChanged("vessel_good_issued_date");
             }
         }
         public int ship_id
         {
-            get => VesselGoodIssuedEntity.ship_id;
-            set => VesselGoodIssuedEntity.ship_id = value;
+            get => VesselGoodIssuedDataView.ship_id;
+            set => VesselGoodIssuedDataView.ship_id = value;
         }
 
         public string ship_name
         {
-            get => VesselGoodIssuedEntity.ship_name;
-            set => VesselGoodIssuedEntity.ship_name = value;
+            get => VesselGoodIssuedDataView.ship_name;
+            set => VesselGoodIssuedDataView.ship_name = value;
         }
         public string notes
         {
-            get => VesselGoodIssuedEntity.notes;
+            get => VesselGoodIssuedDataView.notes;
             set
             {
-                VesselGoodIssuedEntity.notes = value;
+                VesselGoodIssuedDataView.notes = value;
                 OnPropertyChanged("notes");
             }
         }
@@ -130,7 +130,7 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("TotalItem");
             }
         }
-        private VesselGoodIssued VesselGoodIssuedEntity { get; set; }  = new VesselGoodIssued();
+        private VesselGoodIssued VesselGoodIssuedDataView { get; set; }  = new VesselGoodIssued();
         private ShipBargeDto ShipBarge => CommonDataHelper.GetShipBargeApairs();
         #endregion
 
@@ -149,7 +149,7 @@ namespace VesselInventory.ViewModel
                 ship_name = ShipBarge.ship_name;
             } else
             {
-                VesselGoodIssuedEntity = _vesselGoodIssuedRepository
+                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
                     .GetById(vessel_good_issued_id);
                 IsItemEnabled = true;
                 LoadDataGrid();
@@ -198,11 +198,11 @@ namespace VesselInventory.ViewModel
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(vessel_good_issued_id))
-                VesselGoodIssuedEntity = _vesselGoodIssuedRepository
-                    .SaveVesselGoodIssued(VesselGoodIssuedEntity);
+                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
+                    .SaveVesselGoodIssued(VesselGoodIssuedDataView);
             else
-                VesselGoodIssuedEntity = _vesselGoodIssuedRepository
-                    .Update(vessel_good_issued_id,VesselGoodIssuedEntity);
+                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
+                    .Update(vessel_good_issued_id,VesselGoodIssuedDataView);
         }
         #endregion
     }

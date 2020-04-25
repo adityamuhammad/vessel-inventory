@@ -62,7 +62,7 @@ namespace VesselInventory.ViewModel
         /// Column or Field Attributes
         /// </summary>
         #region
-        public string status => RequestFormEntity.status;
+        public string status => RequestFormDataView.status;
         public int barge_id { get; set; }
         public string barge_name { get; set; }
         public string ship_code { get; set; }
@@ -70,30 +70,30 @@ namespace VesselInventory.ViewModel
 
         public int ship_id
         {
-            get => RequestFormEntity.ship_id;
-            set => RequestFormEntity.ship_id = value;
+            get => RequestFormDataView.ship_id;
+            set => RequestFormDataView.ship_id = value;
         }
         public int rf_id
         {
-            get => RequestFormEntity.rf_id;
-            set => RequestFormEntity.rf_id = value;
+            get => RequestFormDataView.rf_id;
+            set => RequestFormDataView.rf_id = value;
         }
 
         public string rf_number
         {
-            get => RequestFormEntity.rf_number;
+            get => RequestFormDataView.rf_number;
             set
             {
-                RequestFormEntity.rf_number = value;
+                RequestFormDataView.rf_number = value;
                 OnPropertyChanged("rf_number");
             }
         }
         public string ship_name
         {
-            get => RequestFormEntity.ship_name;
+            get => RequestFormDataView.ship_name;
             set
             {
-                RequestFormEntity.ship_name = value;
+                RequestFormDataView.ship_name = value;
                 OnPropertyChanged("ship_name");
             }
         }
@@ -101,10 +101,10 @@ namespace VesselInventory.ViewModel
         [Required]
         [Display(Name ="Project Number")]
         public string project_number {
-            get => RequestFormEntity.project_number;
+            get => RequestFormDataView.project_number;
             set
             {
-                RequestFormEntity.project_number = value;
+                RequestFormDataView.project_number = value;
                 OnPropertyChanged("project_number");
             }
         }
@@ -115,11 +115,11 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return RequestFormEntity.department_name;
+                return RequestFormDataView.department_name;
             }
             set
             {
-                RequestFormEntity.department_name = value;
+                RequestFormDataView.department_name = value;
                 OnPropertyChanged("department_name");
             }
         }
@@ -129,14 +129,14 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (RequestFormEntity.target_delivery_date == default(DateTime) )
-                    RequestFormEntity.target_delivery_date = DateTime.Now;
-                return RequestFormEntity.target_delivery_date;
+                if (RequestFormDataView.target_delivery_date == default(DateTime) )
+                    RequestFormDataView.target_delivery_date = DateTime.Now;
+                return RequestFormDataView.target_delivery_date;
 
             }
             set
             {
-                RequestFormEntity.target_delivery_date = DateTime.Parse(value.ToString());
+                RequestFormDataView.target_delivery_date = DateTime.Parse(value.ToString());
                 OnPropertyChanged("target_delivery_date");
             }
         }
@@ -145,10 +145,10 @@ namespace VesselInventory.ViewModel
         [Required]
         public string notes
         {
-            get => RequestFormEntity.notes;
+            get => RequestFormDataView.notes;
             set
             {
-                RequestFormEntity.notes = value;
+                RequestFormDataView.notes = value;
                 OnPropertyChanged("notes");
             }
         }
@@ -279,7 +279,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private RequestForm RequestFormEntity
+        private RequestForm RequestFormDataView
         {
             get;
             set;
@@ -357,7 +357,7 @@ namespace VesselInventory.ViewModel
             if (!RecordHelper.IsNewRecord(rf_id))
             {
                 SetUIEditProperties();
-                RequestFormEntity = _requestFormRepository.GetById(rf_id);
+                RequestFormDataView = _requestFormRepository.GetById(rf_id);
             } else
             {
                 SetUIAddProperties();
@@ -386,15 +386,15 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(rf_id))
             {
-                RequestFormEntity = _requestFormRepository
-                    .SaveRequestForm(RequestFormEntity);
+                RequestFormDataView = _requestFormRepository
+                    .SaveRequestForm(RequestFormDataView);
 
             } else
             {
-                RequestFormEntity.last_modified_by = Auth.Instance.personalname;
-                RequestFormEntity.last_modified_date = DateTime.Now;
-                RequestFormEntity = _requestFormRepository
-                    .Update(rf_id, RequestFormEntity);
+                RequestFormDataView.last_modified_by = Auth.Instance.personalname;
+                RequestFormDataView.last_modified_date = DateTime.Now;
+                RequestFormDataView = _requestFormRepository
+                    .Update(rf_id, RequestFormDataView);
 
             }
         }
@@ -408,8 +408,8 @@ namespace VesselInventory.ViewModel
                 SetUIEditProperties();
             } catch (Exception ex)
             {
-                ResponseMessage.Error (GlobalNamespace.Error 
-                    + GlobalNamespace.ErrorSave + ex.Message);
+                ResponseMessage.Error(GlobalNamespace.Error + ' '
+                    + GlobalNamespace.ErrorSave + ' ' + ex.InnerException.Message);
             }
         }
         private void DeleteItemAction(object parameter)

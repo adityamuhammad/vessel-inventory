@@ -47,7 +47,7 @@ namespace VesselInventory.ViewModel
         /// Collection and Entities
         /// </summary>
         #region
-        private VesselGoodReceiveItemReject GoodReceiveItemRejectEntity
+        private VesselGoodReceiveItemReject GoodReceiveItemRejectDataView
         {
             get; set;
         } = new VesselGoodReceiveItemReject();
@@ -71,113 +71,113 @@ namespace VesselInventory.ViewModel
         #region
         private int vessel_good_receive_item_reject_id
         {
-            get => GoodReceiveItemRejectEntity.vessel_good_receive_item_reject_id;
-            set => GoodReceiveItemRejectEntity.vessel_good_receive_item_reject_id = value;
+            get => GoodReceiveItemRejectDataView.vessel_good_receive_item_reject_id;
+            set => GoodReceiveItemRejectDataView.vessel_good_receive_item_reject_id = value;
         }
         public int vessel_good_receive_id
         {
-            get => GoodReceiveItemRejectEntity.vessel_good_receive_id;
-            set => GoodReceiveItemRejectEntity.vessel_good_receive_id = value;
+            get => GoodReceiveItemRejectDataView.vessel_good_receive_id;
+            set => GoodReceiveItemRejectDataView.vessel_good_receive_id = value;
         }
 
         public string rf_number
         {
-            get => GoodReceiveItemRejectEntity.rf_number;
+            get => GoodReceiveItemRejectDataView.rf_number;
             set
             {
-                GoodReceiveItemRejectEntity.rf_number = value;
+                GoodReceiveItemRejectDataView.rf_number = value;
                 OnPropertyChanged("rf_number");
             }
         }
         public int item_id
         {
-            get => GoodReceiveItemRejectEntity.item_id;
+            get => GoodReceiveItemRejectDataView.item_id;
             set
             {
-                GoodReceiveItemRejectEntity.item_id = value;
+                GoodReceiveItemRejectDataView.item_id = value;
                 OnPropertyChanged("item_id");
             }
         }
         public int item_group_id
         {
-            get => GoodReceiveItemRejectEntity.item_group_id;
+            get => GoodReceiveItemRejectDataView.item_group_id;
             set
             {
-                GoodReceiveItemRejectEntity.item_group_id = value;
+                GoodReceiveItemRejectDataView.item_group_id = value;
                 OnPropertyChanged("item_group_id");
             }
         }
         public string item_name
         {
-            get => GoodReceiveItemRejectEntity.item_name;
+            get => GoodReceiveItemRejectDataView.item_name;
             set
             {
-                GoodReceiveItemRejectEntity.item_name = value;
+                GoodReceiveItemRejectDataView.item_name = value;
                 OnPropertyChanged("item_name");
             }
         }
         public string item_dimension_number
         {
-            get => GoodReceiveItemRejectEntity.item_dimension_number;
+            get => GoodReceiveItemRejectDataView.item_dimension_number;
             set
             {
-                GoodReceiveItemRejectEntity.item_dimension_number = value;
+                GoodReceiveItemRejectDataView.item_dimension_number = value;
                 OnPropertyChanged("item_dimension_number");
             }
         }
         public string brand_type_id
         {
-            get => GoodReceiveItemRejectEntity.brand_type_id;
+            get => GoodReceiveItemRejectDataView.brand_type_id;
             set
             {
-                GoodReceiveItemRejectEntity.brand_type_id = value;
+                GoodReceiveItemRejectDataView.brand_type_id = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
         public string brand_type_name
         {
-            get => GoodReceiveItemRejectEntity.brand_type_name;
+            get => GoodReceiveItemRejectDataView.brand_type_name;
             set
             {
-                GoodReceiveItemRejectEntity.brand_type_name = value;
+                GoodReceiveItemRejectDataView.brand_type_name = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
         public string color_size_id
         {
-            get => GoodReceiveItemRejectEntity.color_size_id;
+            get => GoodReceiveItemRejectDataView.color_size_id;
             set
             {
-                GoodReceiveItemRejectEntity.color_size_id = value;
+                GoodReceiveItemRejectDataView.color_size_id = value;
                 OnPropertyChanged("color_size_id");
             }
         }
         public string color_size_name
         {
-            get => GoodReceiveItemRejectEntity.color_size_name;
+            get => GoodReceiveItemRejectDataView.color_size_name;
             set
             {
-                GoodReceiveItemRejectEntity.color_size_name = value;
+                GoodReceiveItemRejectDataView.color_size_name = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public decimal qty
         {
-            get => GoodReceiveItemRejectEntity.qty;
+            get => GoodReceiveItemRejectDataView.qty;
             set
             {
-                GoodReceiveItemRejectEntity.qty = value;
+                GoodReceiveItemRejectDataView.qty = value;
                 OnPropertyChanged("qty");
             }
         }
 
         public string uom
         {
-            get => GoodReceiveItemRejectEntity.uom;
+            get => GoodReceiveItemRejectDataView.uom;
             set
             {
-                GoodReceiveItemRejectEntity.uom = value;
+                GoodReceiveItemRejectDataView.uom = value;
                 OnPropertyChanged("uom");
             }
         }
@@ -190,7 +190,7 @@ namespace VesselInventory.ViewModel
         private void LoadAttributesValue()
         {
             if (!RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
-                GoodReceiveItemRejectEntity = _vesselGoodReceiveItemRejectRepository
+                GoodReceiveItemRejectDataView = _vesselGoodReceiveItemRejectRepository
                     .GetById(vessel_good_receive_item_reject_id);
         }
 
@@ -225,10 +225,10 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
                 _vesselGoodReceiveItemRejectRepository
-                    .Save(GoodReceiveItemRejectEntity);
+                    .Save(GoodReceiveItemRejectDataView);
             else
                 _vesselGoodReceiveItemRejectRepository
-                    .Update(vessel_good_receive_item_reject_id, GoodReceiveItemRejectEntity);
+                    .Update(vessel_good_receive_item_reject_id, GoodReceiveItemRejectDataView);
         }
         #endregion
     }
