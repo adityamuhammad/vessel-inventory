@@ -5,6 +5,7 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Validations;
 
 namespace VesselInventory.ViewModel
 {
@@ -221,14 +222,24 @@ namespace VesselInventory.ViewModel
             }
         }
 
+        private void ItemCheckUnique()
+        {
+            if (ItemUniqueValidator.ValidateVesselGoodReceiveItemReject(GoodReceiveItemRejectDataView))
+                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
+        }
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
+            {
+                ItemCheckUnique();
                 _vesselGoodReceiveItemRejectRepository
                     .Save(GoodReceiveItemRejectDataView);
+            }
             else
+            {
                 _vesselGoodReceiveItemRejectRepository
                     .Update(vessel_good_receive_item_reject_id, GoodReceiveItemRejectDataView);
+            }
         }
         #endregion
     }

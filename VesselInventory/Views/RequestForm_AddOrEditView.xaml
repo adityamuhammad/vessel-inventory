@@ -139,14 +139,11 @@
 
                 <TextBox 
                     Margin="0,10" 
-                    Style="{StaticResource validation}" 
                     HorizontalAlignment="Left" 
                     Width="150" 
                     Text="{
                         Binding project_number, 
-                        UpdateSourceTrigger=PropertyChanged,
-                        ValidatesOnNotifyDataErrors=True,
-                        ValidatesOnDataErrors=True
+                        UpdateSourceTrigger=PropertyChanged
                     }"/>
 
                 <DatePicker

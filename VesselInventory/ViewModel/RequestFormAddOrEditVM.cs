@@ -98,8 +98,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required]
-        [Display(Name ="Project Number")]
         public string project_number {
             get => RequestFormDataView.project_number;
             set
@@ -439,8 +437,6 @@ namespace VesselInventory.ViewModel
 
         private bool IsSaveCanExecute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(project_number))
-                return false;
             if (string.IsNullOrWhiteSpace(department_name))
                 return false;
             return IsReleasedCanExecute();

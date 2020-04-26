@@ -8,6 +8,7 @@ namespace VesselInventory.Commons
 {
     public static class GlobalNamespace
     {
+        public static string ItemDimensionAlreadyExist => "Item and Dimension already exist.";
         public static string Error => "Oops, Something went wrong.";
         public static string ErrorSave => "Data failed to save.";
         public static string SuccessSave => "Data saved successfully.";

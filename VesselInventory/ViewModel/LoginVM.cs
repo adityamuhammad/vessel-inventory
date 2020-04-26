@@ -10,6 +10,7 @@ namespace VesselInventory.ViewModel
 {
     public class LoginVM : ViewModelBase
     {
+        public override string Title => "Login";
         public RelayCommand<IClosable> LoginCommand { get; private set; }
 
         private readonly IWindowService _windowService;

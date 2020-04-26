@@ -9,6 +9,7 @@ using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Validations;
 
 namespace VesselInventory.ViewModel
 {
@@ -44,7 +45,6 @@ namespace VesselInventory.ViewModel
             if (!RecordHelper.IsNewRecord(vessel_good_issued_item_id))
             {
                 VesselGoodIssuedItemDataView = _vesselGoodIssuedItemRepository.GetById(vessel_good_issued_item_id);
-                IsVisibleSearchItem = false;
             }
         }
 
@@ -66,20 +66,10 @@ namespace VesselInventory.ViewModel
                 }
             }
         }
-        private bool _IsVisibleSearchItem = true;
         public bool IsVisibleSearchItem {
             get
             {
-                if (true)
-                    _IsVisibleSearchItem = true;
-                return _IsVisibleSearchItem;
-            }
-            set
-            {
-                if  (_IsVisibleSearchItem == value)
-                    return;
-                _IsVisibleSearchItem = value;
-                OnPropertyChanged("IsVisibleSearchItem");
+                return (RecordHelper.IsNewRecord(vessel_good_issued_item_id));
             }
         }
 
@@ -215,16 +205,37 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if (RecordHelper.IsNewRecord(vessel_good_issued_item_id))
-                    _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
-                else
-                    _vesselGoodIssuedItemRepository.UpdateTransaction(vessel_good_issued_item_id,VesselGoodIssuedItemDataView);
+                SaveOrUpdate();
                 _parentLoadable.LoadDataGrid();
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 ResponseMessage.Error(ex.Message);
+            }
+        }
+
+        private void ItemCheckUnique()
+        {
+            if (ItemUniqueValidator.ValidateVesselGoodIssuedItem(VesselGoodIssuedItemDataView))
+                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
+        }
+
+        private void SaveOrUpdate()
+        {
+            if (RecordHelper.IsNewRecord(vessel_good_issued_item_id))
+            {
+                ItemCheckUnique();
+                _vesselGoodIssuedItemRepository
+                    .SaveTransaction(VesselGoodIssuedItemDataView);
+
+            } else
+            {
+                _vesselGoodIssuedItemRepository
+                    .UpdateTransaction(vessel_good_issued_item_id, 
+                    VesselGoodIssuedItemDataView);
+
             }
         }
 

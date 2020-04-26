@@ -10,6 +10,7 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Commons;
+using VesselInventory.Validations;
 
 namespace VesselInventory.ViewModel
 {
@@ -295,20 +296,10 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private bool _IsVisibleSearchItem = true;
         public bool IsVisibleSearchItem {
             get
             {
-                if (!RecordHelper.IsNewRecord(rf_item_id))
-                    _IsVisibleSearchItem = false;
-                return _IsVisibleSearchItem;
-            }
-            set
-            {
-                if  (_IsVisibleSearchItem == value)
-                    return;
-                _IsVisibleSearchItem = value;
-                OnPropertyChanged("IsVisibleSearchItem");
+                return (RecordHelper.IsNewRecord(rf_item_id));
             }
         }
 
@@ -384,6 +375,7 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(rf_item_id))
             {
+                ItemCheckUnique();
                 _requestFormItemRepository.Save(RequestFormItemDataView);
             } else
             {
@@ -396,6 +388,12 @@ namespace VesselInventory.ViewModel
         private void LoadParentDataGrid()
         {
             _parentLoadable.LoadDataGrid();
+        }
+
+        private void ItemCheckUnique()
+        {
+            if (ItemUniqueValidator.ValidateRequestFormItem(RequestFormItemDataView))
+                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
         }
 
         private void SaveAction(IClosable window)
