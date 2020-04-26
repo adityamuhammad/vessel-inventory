@@ -164,6 +164,7 @@
                                     Text="{
                                         Binding qty,
                                         Mode=TwoWay,
+                                        StringFormat=N2,
                                         UpdateSourceTrigger=PropertyChanged
                                     }"
                                  />

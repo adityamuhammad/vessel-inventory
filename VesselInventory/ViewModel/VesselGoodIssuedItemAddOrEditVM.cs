@@ -212,7 +212,7 @@ namespace VesselInventory.ViewModel
             }
             catch (Exception ex)
             {
-                ResponseMessage.Error(ex.Message);
+                ResponseMessage.Error(GlobalNamespace.Error + ' ' + GlobalNamespace.ErrorSave + ' ' +ex.Message);
             }
         }
 

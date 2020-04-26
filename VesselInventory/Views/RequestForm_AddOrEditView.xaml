@@ -272,7 +272,7 @@
                                 <DataTemplate>
                                     <TextBlock>
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{} {0} {1} {2} - {3} {4} ">
+                                            <MultiBinding StringFormat="{} {0} {1} {2} {3} {4} ">
                                                 <Binding Path="item_name"/>
                                                 <Binding Path="brand_type_id"/>
                                                 <Binding Path="brand_type_name"/>
