@@ -11,7 +11,7 @@ namespace VesselInventory.Repository
     public interface IRequestFormItemRepository : IGenericRepository<RequestFormItem>
     {
         IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
-        IEnumerable<ItemStatusDto> GetItemStatusList(
+        IEnumerable<ItemStatusDto> GetItemStatusDataGrid(
             string item_id, string item_name, 
             string item_status, string rf_number, 
             string department_name, int page, int rows,
@@ -20,7 +20,7 @@ namespace VesselInventory.Repository
             string item_id, string item_name, 
             string item_status, string rf_number, 
             string department_name, int rows);
-        IEnumerable<ItemPendingDto> GetItemPendingList(
+        IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
             string rf_number, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetItemPendingTotalPage(string rf_number, int rows);
@@ -43,7 +43,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<ItemStatusDto> GetItemStatusList(string item_id, 
+        public IEnumerable<ItemStatusDto> GetItemStatusDataGrid(string item_id, 
             string item_name, string item_status, 
             string rf_number, string department_name, 
             int page, int rows, string sortColumnName, string sortBy)
@@ -81,7 +81,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<ItemPendingDto> GetItemPendingList(
+        public IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
             string rf_number, int page, int rows,
             string sortColumnName, string sortBy
             )

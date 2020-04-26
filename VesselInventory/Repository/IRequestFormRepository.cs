@@ -11,7 +11,7 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
-        IEnumerable<RequestForm> GetRequestFormList(string search, int page, int rows = 10);
+        IEnumerable<RequestForm> GetRequestFormDataGrid(string search, int page, int rows);
         int GetRequestFormTotalPage(string search, int rows = 10);
         RequestFormShipBargeDto GetRrequestFormShipBarge();
         RequestForm SaveTransaction(RequestForm requestForm);
@@ -37,7 +37,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public IEnumerable<RequestForm> GetRequestFormList(string search, int page = 1,int rows = 10)
+        public IEnumerable<RequestForm> GetRequestFormDataGrid(string search, int page, int rows)
         {
             using(var context = new VesselInventoryContext())
             {

@@ -7,7 +7,7 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodReceiveRepository : IGenericRepository<VesselGoodReceive>
     {
-        IEnumerable<VesselGoodReceive> GetGoodReceive(
+        IEnumerable<VesselGoodReceive> GetGoodReceiveDataGrid(
             string search, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetGoodReceiveTotalPage(string search, int rows);
@@ -20,7 +20,7 @@ namespace VesselInventory.Repository
     {
         public VesselGoodReceiveRepository() { }
 
-        public IEnumerable<VesselGoodReceive> GetGoodReceive(
+        public IEnumerable<VesselGoodReceive> GetGoodReceiveDataGrid(
             string search , int page, int rows, 
             string sortColumnName, string sortBy)
         {

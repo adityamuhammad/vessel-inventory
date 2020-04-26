@@ -84,14 +84,13 @@ namespace VesselInventory.ViewModel
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 
             = new ObservableCollection<RequestForm>();
 
+        private int DataGridRows => 10;
         private IEnumerable<RequestForm> RequestFormList
         {
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormList(
-                        SearchKeyword, CurrentPage
-                     );
+                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows);
             }
         }
         #endregion

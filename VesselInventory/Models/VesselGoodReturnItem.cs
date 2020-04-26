@@ -42,6 +42,11 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string color_size_name { get; set; }
 
+        [Required]
+        [StringLength(30)]
+        public string reason { get; set; }
+
+        [Required]
         public decimal qty { get; set; }
 
         [Required]
@@ -62,5 +67,6 @@ namespace VesselInventory.Models
 
         [StringLength(30)]
         public string last_modified_by { get; set; }
+        public bool is_hidden { get; set; } = false;
     }
 }

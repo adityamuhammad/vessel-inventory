@@ -20,10 +20,6 @@ namespace VesselInventory.Models
         [Column(TypeName = "date")]
         public DateTime vessel_good_return_date { get; set; }
 
-        [Required]
-        [StringLength(30)]
-        public string reason { get; set; }
-
         public int ship_id { get; set; }
 
         [Required]

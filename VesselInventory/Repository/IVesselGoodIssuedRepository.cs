@@ -7,7 +7,7 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodIssuedRepository : IGenericRepository<VesselGoodIssued>
     {
-        IEnumerable<VesselGoodIssued> GetGoodIssued(
+        IEnumerable<VesselGoodIssued> GetGoodIssuedDataGrid(
             string search, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetGoodIssuedTotalPage(string search, int rows);
@@ -18,7 +18,7 @@ namespace VesselInventory.Repository
         GenericRepository<VesselGoodIssued>,
         IVesselGoodIssuedRepository
     {
-        public IEnumerable<VesselGoodIssued> GetGoodIssued(
+        public IEnumerable<VesselGoodIssued> GetGoodIssuedDataGrid(
             string search, int page, int rows, 
             string sortColumnName, string sortBy)
         {

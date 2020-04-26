@@ -49,6 +49,12 @@
             <views:VesselGoodIssued_MainView DataContext="{Binding}"/>
         </DataTemplate>
 
+        <DataTemplate 
+            x:Name="VesselGoodReturn_Main" 
+            DataType="{x:Type viewmodels:VesselGoodReturnVM}">
+            <views:VesselGoodReturn_MainView DataContext="{Binding}"/>
+        </DataTemplate>
+
     </Window.Resources>
     <Grid Background="LightGray">
 

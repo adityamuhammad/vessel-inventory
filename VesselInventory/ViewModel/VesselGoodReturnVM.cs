@@ -1,38 +1,36 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
-using Unity;
-using System.Windows;
-using VesselInventory.Services;
-using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodIssuedVM : ViewModelBase, IParentLoadable
+    class VesselGoodReturnVM : ViewModelBase
     {
-        private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
-        private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
-        private readonly IWindowService _windowService;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public RelayCommand OpenDialogIssuedCommand { get; private set; }
-        public VesselGoodIssuedVM(IVesselGoodIssuedRepository vesselGoodIssuedRepository,
-            IWindowService windowService)
+        public RelayCommand OpenDialogReturnCommand { get; private set; }
+
+        private readonly IVesselGoodReturnRepository _vesselGoodReturnRepository;
+        public VesselGoodReturnVM(IVesselGoodReturnRepository vesselGoodReturnRepository)
         {
-            _vesselGoodIssuedRepository = vesselGoodIssuedRepository;
-            _windowService = windowService;
+            _vesselGoodReturnRepository = vesselGoodReturnRepository;
             InitializeCommands();
             ResetCurrentPage();
             LoadDataGrid();
+
         }
         private void InitializeCommands()
         {
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
-            OpenDialogIssuedCommand = new RelayCommand(AddOrEditIssuedAction);
+            OpenDialogReturnCommand = new RelayCommand(AddOrEditReturnAction);
         }
-
 
         /// <summary>
         /// UI properties
@@ -79,44 +77,34 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodIssued> VesselGoodIssuedCollection { get; } 
-            = new ObservableCollection<VesselGoodIssued>();
+        public ObservableCollection<VesselGoodReturn> VesselGoodReturnCollection { get; } 
+            = new ObservableCollection<VesselGoodReturn>();
         #endregion
 
         /// <summary>
         /// Load Method and behavior
         /// </summary>
-        #region
         public void LoadDataGrid()
         {
-            VesselGoodIssuedCollection.Clear();
-            foreach (var goodIssued in _vesselGoodIssuedRepository
-                .GetGoodIssuedDataGrid(SearchKeyword,CurrentPage, DataGridRows, "vessel_good_issued_id", "DESC"))
-                VesselGoodIssuedCollection.Add(goodIssued);
+            VesselGoodReturnCollection.Clear();
+            foreach (var goodReturn in _vesselGoodReturnRepository
+                .GetGoodReturnDataGrid(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_return_id", "DESC"))
+                VesselGoodReturnCollection.Add(goodReturn);
             UpdateTotalPage();
         }
         
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodIssuedRepository
-                .GetGoodIssuedTotalPage(SearchKeyword, DataGridRows);
+            TotalPage = _vesselGoodReturnRepository
+                .GetGoodReturnTotalPage(SearchKeyword, DataGridRows);
         }
-        #endregion
 
-        /// <summary>
-        /// Button Actions
-        /// </summary>
-        /// <param name="parameter"></param>
-        #region
-        private void AddOrEditIssuedAction(object parameter)
+
+        private void AddOrEditReturnAction(object obj)
         {
-            var vesselGoodIssuedAddOrEditVM = _unityContainer.Resolve<VesselGoodIssuedAddOrEditVM>();
-            if (parameter is null)
-                vesselGoodIssuedAddOrEditVM.InitializeData(this);
-            else
-                vesselGoodIssuedAddOrEditVM.InitializeData(this, (int)parameter);
-            _windowService.ShowDialogWindow<VesselGoodIssued_AddOrEditView>(vesselGoodIssuedAddOrEditVM);
+            throw new NotImplementedException();
         }
+
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
@@ -134,6 +122,5 @@ namespace VesselInventory.ViewModel
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;
-        #endregion
     }
 }

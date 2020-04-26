@@ -92,7 +92,7 @@ namespace VesselInventory.ViewModel
         {
             ItemPendingCollection.Clear();
             foreach(var _ in _requestFormItemRepository
-                    .GetItemPendingList(
+                    .GetItemPendingDataGrid(
                         SearchKeyword,CurrentPage, 
                         DataGridRows, "rf.rf_number", "DESC" ))
                 ItemPendingCollection.Add(_);

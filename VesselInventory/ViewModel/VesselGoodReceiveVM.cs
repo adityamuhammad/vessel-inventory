@@ -89,7 +89,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _vesselGoodReceiveRepository.
-                    GetGoodReceive(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_receive_id", "DESC");
+                    GetGoodReceiveDataGrid(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_receive_id", "DESC");
             }
         }
 
