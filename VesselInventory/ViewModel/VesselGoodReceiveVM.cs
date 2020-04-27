@@ -12,6 +12,7 @@ namespace VesselInventory.ViewModel
 {
     public class VesselGoodReceiveVM : ViewModelBase, IParentLoadable
     {
+        public override string Title => "Receive Goods";
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IWindowService _windowService;
         private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;

@@ -12,6 +12,7 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormVM : RequestFormVMBase, IParentLoadable
     {
+        public override string Title => "Request Form";
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
@@ -90,7 +91,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows);
+                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows, "rf_id", "desc");
             }
         }
         #endregion

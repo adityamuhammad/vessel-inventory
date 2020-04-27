@@ -72,7 +72,7 @@
             <StackPanel VerticalAlignment="Center">
                 <Grid>
                     <TextBlock 
-                        Text="Vessel Inventory" 
+                        Text="{Binding Title, StringFormat={}{0} - Vessel Inventory}" 
                         Foreground="White" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center" 

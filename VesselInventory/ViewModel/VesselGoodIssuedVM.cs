@@ -11,6 +11,7 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodIssuedVM : ViewModelBase, IParentLoadable
     {
+        public override string Title => "Issued Goods";
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
         private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
         private readonly IWindowService _windowService;

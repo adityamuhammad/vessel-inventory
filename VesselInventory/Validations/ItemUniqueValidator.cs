@@ -26,13 +26,13 @@ namespace VesselInventory.Validations
         {
             using (var context =  new VesselInventoryContext())
             {
-                int result = context.Database.SqlQuery<int>
+                return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("rf_item", "rf_id"),
                     new SqlParameter("@id", data.rf_id),
                     new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number)
-                    ).SingleOrDefault();
-                return result == 1;
+                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    .SingleOrDefault()
+                    .Equals(1);
             }
             
         }
@@ -41,13 +41,13 @@ namespace VesselInventory.Validations
         {
             using (var context =  new VesselInventoryContext())
             {
-                int result = context.Database.SqlQuery<int>
+                return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_issued_item", "vessel_good_issued_id"),
                     new SqlParameter("@id", data.vessel_good_issued_id),
                     new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number)
-                    ).SingleOrDefault();
-                return result == 1;
+                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    .SingleOrDefault()
+                    .Equals(1);
             }
             
         }
@@ -55,13 +55,13 @@ namespace VesselInventory.Validations
         {
             using (var context =  new VesselInventoryContext())
             {
-                int result = context.Database.SqlQuery<int>
+                return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_receive_item_reject", "vessel_good_receive_id"),
                     new SqlParameter("@id", data.vessel_good_receive_id),
                     new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number)
-                    ).SingleOrDefault();
-                return result == 1;
+                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    .SingleOrDefault()
+                    .Equals(1);
             }
             
         }

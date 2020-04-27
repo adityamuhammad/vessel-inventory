@@ -8,6 +8,7 @@ namespace VesselInventory.ViewModel
 {
     class HomeVM : ViewModelBase
     {
+        public override string Title => "Home";
         public HomeVM()
         {
         }

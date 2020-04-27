@@ -12,6 +12,7 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodReturnVM : ViewModelBase
     {
+        public override string Title => "Return Goods";
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReturnCommand { get; private set; }
