@@ -26,6 +26,9 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string ship_name { get; set; }
 
+        [Column(TypeName = "text")]
+        public string notes { get; set; }
+
         [Required]
         [StringLength(15)]
         public string sync_status { get; set; }

@@ -128,7 +128,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 if (RequestFormDataView.target_delivery_date == default(DateTime) )
-                    RequestFormDataView.target_delivery_date = DateTime.Now;
+                    RequestFormDataView.target_delivery_date = DateTime.Now.AddDays(4);
                 return RequestFormDataView.target_delivery_date;
 
             }

@@ -13,7 +13,7 @@ namespace VesselInventory.ViewModel
     {
         public override string Title => "Issued Goods";
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
-        private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         private readonly IWindowService _windowService;
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -111,7 +111,7 @@ namespace VesselInventory.ViewModel
         #region
         private void AddOrEditIssuedAction(object parameter)
         {
-            var vesselGoodIssuedAddOrEditVM = _unityContainer.Resolve<VesselGoodIssuedAddOrEditVM>();
+            var vesselGoodIssuedAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedAddOrEditVM>();
             if (parameter is null)
                 vesselGoodIssuedAddOrEditVM.InitializeData(this);
             else

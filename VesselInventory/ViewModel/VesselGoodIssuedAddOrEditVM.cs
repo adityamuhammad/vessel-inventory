@@ -24,7 +24,7 @@ namespace VesselInventory.ViewModel
         private readonly IWindowService _windowService;
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
         private readonly IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository; 
-        private readonly IUnityContainer container = ((App)Application.Current).UnityContainer;
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         public VesselGoodIssuedAddOrEditVM(IWindowService windowService, 
             IVesselGoodIssuedRepository vesselGoodIssuedRepository,
             IVesselGoodIssuedItemRepository vesselGoodIssuedItemRepository)
@@ -85,7 +85,12 @@ namespace VesselInventory.ViewModel
 
         public DateTime vessel_good_issued_date
         {
-            get => VesselGoodIssuedDataView.vessel_good_issued_date;
+            get
+            {
+                if (VesselGoodIssuedDataView.vessel_good_issued_date == default(DateTime) )
+                    VesselGoodIssuedDataView.vessel_good_issued_date = DateTime.Now;
+                return VesselGoodIssuedDataView.vessel_good_issued_date;
+            }
             set
             {
                 VesselGoodIssuedDataView.vessel_good_issued_date = DateTime.Parse(value.ToString());
@@ -173,7 +178,7 @@ namespace VesselInventory.ViewModel
         #region
         private void AddOrEditItemAction(object parameter)
         {
-            var vesselGoodIssuedItemAddOrEditVM = container.Resolve<VesselGoodIssuedItemAddOrEditVM>();
+            var vesselGoodIssuedItemAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedItemAddOrEditVM>();
             if (parameter is null)
                 vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id);
             else

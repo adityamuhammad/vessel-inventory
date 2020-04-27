@@ -4,13 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Unity;
 using VesselInventory.Models;
 using VesselInventory.Repository;
+using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReturnVM : ViewModelBase
+    class VesselGoodReturnVM : ViewModelBase, IParentLoadable
     {
         public override string Title => "Return Goods";
         public RelayCommand NextPageCommand { get; private set; }
@@ -18,9 +22,13 @@ namespace VesselInventory.ViewModel
         public RelayCommand OpenDialogReturnCommand { get; private set; }
 
         private readonly IVesselGoodReturnRepository _vesselGoodReturnRepository;
-        public VesselGoodReturnVM(IVesselGoodReturnRepository vesselGoodReturnRepository)
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
+        private readonly IWindowService _windowService;
+        public VesselGoodReturnVM(IWindowService windowService, 
+            IVesselGoodReturnRepository vesselGoodReturnRepository)
         {
             _vesselGoodReturnRepository = vesselGoodReturnRepository;
+            _windowService = windowService;
             InitializeCommands();
             ResetCurrentPage();
             LoadDataGrid();
@@ -101,9 +109,14 @@ namespace VesselInventory.ViewModel
         }
 
 
-        private void AddOrEditReturnAction(object obj)
+        private void AddOrEditReturnAction(object parameter)
         {
-            throw new NotImplementedException();
+            var vesselGoodReturnAddOrEditVM = UnityContainer.Resolve<VesselGoodReturnAddOrEditVM>();
+            //if (parameter is null)
+                //vesselGoodReturnAddOrEditVM.InitializeData(this);
+            //else
+                //vesselGoodIssuedAddOrEditVM.InitializeData(this, (int)parameter);
+            _windowService.ShowDialogWindow<VesselGoodReturn_AddOrEditView>(vesselGoodReturnAddOrEditVM);
         }
 
         private void NextPageAction(object parameter)
