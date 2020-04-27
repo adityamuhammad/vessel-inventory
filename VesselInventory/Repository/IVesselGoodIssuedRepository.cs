@@ -14,9 +14,9 @@ namespace VesselInventory.Repository
         VesselGoodIssued SaveTransaction(VesselGoodIssued vesselGoodReceive);
     }
 
-    public class VesselGoodIssuedRepository :
-        GenericRepository<VesselGoodIssued>,
-        IVesselGoodIssuedRepository
+    public class VesselGoodIssuedRepository 
+        : GenericRepository<VesselGoodIssued>
+        , IVesselGoodIssuedRepository
     {
         public IEnumerable<VesselGoodIssued> GetGoodIssuedDataGrid(
             string search, int page, int rows, 
@@ -44,7 +44,7 @@ namespace VesselInventory.Repository
         {
             using(var scope = new TransactionScope())
             {
-                base.Save(vesselGoodIssued);
+                Save(vesselGoodIssued);
                 using(var context = new VesselInventoryContext())
                 {
                     context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 3");

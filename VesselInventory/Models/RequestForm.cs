@@ -22,7 +22,6 @@ namespace VesselInventory.Models
         public DateTime? rf_date { get; set; }
 
         [StringLength(25)]
-        [Required]
         public string project_number { get; set; }
 
         [Required]

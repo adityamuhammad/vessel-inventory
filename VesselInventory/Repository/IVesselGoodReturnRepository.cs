@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -14,6 +15,7 @@ namespace VesselInventory.Repository
             string search, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetGoodReturnTotalPage(string search, int rows);
+        VesselGoodReturn SaveTransaction(VesselGoodReturn vesselGoodReturn);
     }
 
     public class VesselGoodReturnRepository
@@ -39,6 +41,20 @@ namespace VesselInventory.Repository
                 return context.Database.SqlQuery<int>(
                         "usp_VesselGoodReturn_GetGoodReturnPages @p0, @p1",
                         parameters: new object[] { search, rows }).Single();
+            }
+        }
+
+        public VesselGoodReturn SaveTransaction(VesselGoodReturn vesselGoodReturn)
+        {
+            using(var scope = new TransactionScope())
+            {
+                Save(vesselGoodReturn);
+                using(var context = new VesselInventoryContext())
+                {
+                    context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 4");
+                }
+                scope.Complete();
+                return vesselGoodReturn;
             }
         }
     }

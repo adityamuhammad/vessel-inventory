@@ -10,16 +10,28 @@ namespace VesselInventory.Repository
 {
     public interface IVesselGoodIssuedItemRepository : IGenericRepository<VesselGoodIssuedItem>
     {
+        IEnumerable<VesselGoodIssuedItem> GetGoodIssuedItem(int vesselGoodIssuedId);
         void SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem);
         void UpdateTransaction(int id,VesselGoodIssuedItem vesselGoodIssuedItem);
         void DeleteTransaction(int id); 
-        IEnumerable<VesselGoodIssuedItem> GetGoodIssuedItem(int vesselGoodIssuedId);
     }
 
-    public class VesselGoodIssuedItemRepository : 
-        GenericRepository<VesselGoodIssuedItem>,
-        IVesselGoodIssuedItemRepository
+    public class VesselGoodIssuedItemRepository 
+        : GenericRepository<VesselGoodIssuedItem>
+        , IVesselGoodIssuedItemRepository
     {
+        public IEnumerable<VesselGoodIssuedItem> GetGoodIssuedItem(int vesselGoodIssuedId)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                return (from item in context.vessel_good_issued_item
+                        where item.vessel_good_issued_id == vesselGoodIssuedId && 
+                        item.is_hidden == false select item)
+                        .ToList();
+
+            }
+        }
+
         public void SaveTransaction(VesselGoodIssuedItem vesselGoodIssuedItem)
         {
             using (var context = new VesselInventoryContext())
@@ -80,19 +92,6 @@ namespace VesselInventory.Repository
                      );
             }
         }
-
-        public IEnumerable<VesselGoodIssuedItem> GetGoodIssuedItem(int vesselGoodIssuedId)
-        {
-            using (var context = new VesselInventoryContext())
-            {
-                return (from item in context.vessel_good_issued_item
-                        where item.vessel_good_issued_id == vesselGoodIssuedId && 
-                        item.is_hidden == false select item)
-                        .ToList();
-
-            }
-        }
-
         public void DeleteTransaction(int id)
         {
             using (var context = new VesselInventoryContext())

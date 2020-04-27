@@ -65,5 +65,19 @@ namespace VesselInventory.Validations
             }
             
         }
+        public static bool ValidateVesselGoodReturnItem(VesselGoodReturnItem data)
+        {
+            using (var context =  new VesselInventoryContext())
+            {
+                return context.Database.SqlQuery<int>
+                    (FetchOneRowSqlStatement("vessel_good_return_item", "vessel_good_return_id"),
+                    new SqlParameter("@id", data.vessel_good_return_id),
+                    new SqlParameter("@item_id", data.item_id),
+                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    .SingleOrDefault()
+                    .Equals(1);
+            }
+            
+        }
     }
 }

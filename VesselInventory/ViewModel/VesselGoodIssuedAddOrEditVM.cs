@@ -37,7 +37,7 @@ namespace VesselInventory.ViewModel
 
         private void InitializeCommands()
         {
-            SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
+            SaveCommand = new RelayCommand(SaveAction);
             AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
             DeleteItemCommand = new RelayCommand(DeleteItemAction);
         }
@@ -186,11 +186,6 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
         }
 
-        private bool IsSaveCanExecute(object parameter)
-        {
-            return true;
-        }
-
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
@@ -211,7 +206,7 @@ namespace VesselInventory.ViewModel
                 _parentLoadable.LoadDataGrid();
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
             } catch (Exception ex) {
-                ResponseMessage.Error(GlobalNamespace.ErrorSave + ' ' + ex.Message);
+                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.ErrorSave, ex.Message));
             }
         }
 

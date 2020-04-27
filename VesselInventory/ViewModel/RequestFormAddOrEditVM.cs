@@ -41,13 +41,11 @@ namespace VesselInventory.ViewModel
 
         }
         
-        public void InitializeData( IParentLoadable parentLoadable, 
-            int requestFormId = 0)
+        public void InitializeData(IParentLoadable parentLoadable, int requestFormId = 0)
         {
             _parentLoadable = parentLoadable;
-            this.rf_id = requestFormId;
+            rf_id = requestFormId;
             LoadAttributes();
-            LoadDataGrid();
         }
 
         private void InitializeCommands()
@@ -228,29 +226,31 @@ namespace VesselInventory.ViewModel
             get => _IsCheckedBargeRequest;
             set
             {
-                if  (_IsCheckedBargeRequest == value)
+                if (_IsCheckedBargeRequest == value)
                     return;
                 _IsCheckedBargeRequest = value;
 
                 if (RequestFormShipBarge is null)
                     return;
 
-                if (_IsCheckedBargeRequest)
-                {
-                    rf_number = RequestFormShipBarge.rf_number + '-' + ship_code + '-' + barge_code;
-                    ship_name = RequestFormShipBarge.barge_name;
-                    ship_id = RequestFormShipBarge.barge_id;
-                }
-                else
-                {
-                    rf_number = RequestFormShipBarge.rf_number + '-' + ship_code;
-                    ship_name = RequestFormShipBarge.ship_name;
-                    ship_id = RequestFormShipBarge.ship_id;
-                }
+                RenameSequenceNumber();
                 OnPropertyChanged("IsCheckedBargeRequest");
             }
         }
 
+        private void RenameSequenceNumber()
+        {
+            if (_IsCheckedBargeRequest)
+            {
+                rf_number = string.Format("{0}-{1}-{2}", RequestFormShipBarge.rf_number, ship_code, barge_code);
+                ship_name = RequestFormShipBarge.barge_name;
+                ship_id = RequestFormShipBarge.barge_id;
+            } else {
+                rf_number = string.Format("{0}-{1}", RequestFormShipBarge.rf_number, ship_code);
+                ship_name = RequestFormShipBarge.ship_name;
+                ship_id = RequestFormShipBarge.ship_id;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -312,7 +312,6 @@ namespace VesselInventory.ViewModel
         #region
         public void LoadDataGrid()
         {
-            if (RecordHelper.IsNewRecord(rf_id)) return;
             RequestFormItemCollection.Clear();
             foreach (var _ in RequestFormItemList)
                 RequestFormItemCollection.Add(_);
@@ -339,7 +338,7 @@ namespace VesselInventory.ViewModel
             IsVisibleBargeCheck = true;
         }
 
-        private void SetAttributes(int rf_id_params)
+        private void SetValueAttributes()
         {
             ship_code = RequestFormShipBarge.ship_code;
             barge_code = RequestFormShipBarge.barge_code;
@@ -347,7 +346,7 @@ namespace VesselInventory.ViewModel
             barge_id = RequestFormShipBarge.barge_id;
             ship_name = RequestFormShipBarge.ship_name;
             barge_name = RequestFormShipBarge.barge_name;
-            rf_number = RequestFormShipBarge.rf_number + '-' + ship_code;
+            rf_number = string.Format("{0}-{1}", RequestFormShipBarge.rf_number, ship_code);
         }
 
         private void LoadAttributes()
@@ -356,10 +355,11 @@ namespace VesselInventory.ViewModel
             {
                 SetUIEditProperties();
                 RequestFormDataView = _requestFormRepository.GetById(rf_id);
+                LoadDataGrid();
             } else
             {
                 SetUIAddProperties();
-                SetAttributes(rf_id);
+                SetValueAttributes();
             }
         }
         #endregion
@@ -401,13 +401,15 @@ namespace VesselInventory.ViewModel
             try
             {
                 SaveOrUpdate();
-                ResponseMessage.Success(GlobalNamespace.SuccessSave);
                 _parentLoadable.LoadDataGrid();
                 SetUIEditProperties();
+                ResponseMessage.Success(GlobalNamespace.SuccessSave);
             } catch (Exception ex)
             {
-                ResponseMessage.Error(GlobalNamespace.Error + ' '
-                    + GlobalNamespace.ErrorSave + ' ' + ex.InnerException.Message);
+                ResponseMessage.Error(string.Format("{0} {1} {2}", 
+                    GlobalNamespace.Error, 
+                    GlobalNamespace.ErrorSave,
+                    ex.Message));
             }
         }
         private void DeleteItemAction(object parameter)

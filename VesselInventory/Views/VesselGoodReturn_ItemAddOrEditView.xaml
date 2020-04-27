@@ -1,10 +1,10 @@
-﻿<Window x:Class="VesselInventory.Views.VesselGoodIssued_ItemAddOrEditView"
+﻿<Window x:Class="VesselInventory.Views.VesselGoodReturn_ItemAddOrEditView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VesselInventory.Views"
-        x:Name="AddOrEditVesselGoodIssuedItem_V"
+        x:Name="AddOrEditVesselGoodReturnItem_V"
         xmlns:ie="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:VesselInventory.Converters"
@@ -41,7 +41,7 @@
                 Width="50" 
                 Background="White" 
                 BorderBrush="{x:Null}" 
-                CommandParameter="{Binding ElementName=AddOrEditVesselGoodIssuedItem_V}" 
+                CommandParameter="{Binding ElementName=AddOrEditVesselGoodReturnItem_V}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 
                 >
                 <materialDesign:PackIcon 
@@ -219,7 +219,7 @@
                         Width="100" 
                         Background="#FF4E5FBF" 
                         BorderBrush="#FF508B3A" 
-                        CommandParameter="{Binding ElementName=AddOrEditVesselGoodIssuedItem_V}"
+                        CommandParameter="{Binding ElementName=AddOrEditVesselGoodReturnItem_V}"
                         Command="{Binding SaveCommand}">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon 

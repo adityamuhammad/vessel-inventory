@@ -112,10 +112,10 @@ namespace VesselInventory.ViewModel
         private void AddOrEditReturnAction(object parameter)
         {
             var vesselGoodReturnAddOrEditVM = UnityContainer.Resolve<VesselGoodReturnAddOrEditVM>();
-            //if (parameter is null)
-                //vesselGoodReturnAddOrEditVM.InitializeData(this);
-            //else
-                //vesselGoodIssuedAddOrEditVM.InitializeData(this, (int)parameter);
+            if (parameter is null)
+                vesselGoodReturnAddOrEditVM.InitializeData(this);
+            else
+                vesselGoodReturnAddOrEditVM.InitializeData(this, (int)parameter);
             _windowService.ShowDialogWindow<VesselGoodReturn_AddOrEditView>(vesselGoodReturnAddOrEditVM);
         }
 

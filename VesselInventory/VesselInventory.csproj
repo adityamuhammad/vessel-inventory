@@ -151,6 +151,7 @@
     <Compile Include="Repository\IVesselGoodReceiveItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRejectRepository.cs" />
+    <Compile Include="Repository\IVesselGoodReturnItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReturnRepository.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="ViewModel\VesselGoodReceiveItemVM.cs" />
     <Compile Include="ViewModel\VesselGoodReceiveVM.cs" />
     <Compile Include="ViewModel\VesselGoodReturnAddOrEditVM.cs" />
+    <Compile Include="ViewModel\VesselGoodReturnItemAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReturnVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="Views\Login_View.xaml.cs">
@@ -226,6 +228,9 @@
     </Compile>
     <Compile Include="Views\VesselGoodReturn_AddOrEditView.xaml.cs">
       <DependentUpon>VesselGoodReturn_AddOrEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VesselGoodReturn_ItemAddOrEditView.xaml.cs">
+      <DependentUpon>VesselGoodReturn_ItemAddOrEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VesselGoodReturn_MainView.xaml.cs">
       <DependentUpon>VesselGoodReturn_MainView.xaml</DependentUpon>
@@ -299,6 +304,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\VesselGoodReturn_AddOrEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VesselGoodReturn_ItemAddOrEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

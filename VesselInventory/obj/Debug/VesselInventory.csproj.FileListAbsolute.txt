@@ -73,3 +73,5 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Ve
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReturn_MainView.baml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReturn_AddOrEditView.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReturn_AddOrEditView.baml
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReturn_ItemAddOrEditView.g.cs
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\VesselGoodReturn_ItemAddOrEditView.baml

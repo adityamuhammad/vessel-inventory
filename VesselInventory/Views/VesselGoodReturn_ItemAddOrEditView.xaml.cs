@@ -16,11 +16,11 @@ using VesselInventory.Services;
 namespace VesselInventory.Views
 {
     /// <summary>
-    /// Interaction logic for VesselGoodReturn_AddOrEditView.xaml
+    /// Interaction logic for VesselGoodReturn_ItemAddOrEditView.xaml
     /// </summary>
-    public partial class VesselGoodReturn_AddOrEditView : Window, IClosable
+    public partial class VesselGoodReturn_ItemAddOrEditView : Window, IClosable
     {
-        public VesselGoodReturn_AddOrEditView()
+        public VesselGoodReturn_ItemAddOrEditView()
         {
             InitializeComponent();
         }

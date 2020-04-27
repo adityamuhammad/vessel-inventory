@@ -10,8 +10,10 @@ using VesselInventory.Commons;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Dto;
 using VesselInventory.Models;
+using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
@@ -23,17 +25,30 @@ namespace VesselInventory.ViewModel
         private IParentLoadable _parentLoadable;
         private readonly IWindowService _windowService;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
-        public VesselGoodReturnAddOrEditVM(IWindowService windowService)
+        private readonly IVesselGoodReturnRepository _vesselGoodReturnRepository;
+        private readonly IVesselGoodReturnItemRepository _vesselGoodReturnItemRepository;
+        public VesselGoodReturnAddOrEditVM( IWindowService windowService,
+            IVesselGoodReturnRepository vesselGoodReturnRepository,
+            IVesselGoodReturnItemRepository vesselGoodReturnItemRepository)
         {
             _windowService = windowService;
+            _vesselGoodReturnRepository = vesselGoodReturnRepository;
+            _vesselGoodReturnItemRepository = vesselGoodReturnItemRepository;
             InitializeCommands();
         }
 
         private void InitializeCommands()
         {
-            SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
+            SaveCommand = new RelayCommand(SaveAction);
             AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
             DeleteItemCommand = new RelayCommand(DeleteItemAction);
+        }
+
+        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReturnId = 0)
+        {
+            _parentLoadable = parentLoadable;
+            vessel_good_return_id = vesselGoodReturnId;
+            LoadAttributes();
         }
 
         /// <summary>
@@ -132,28 +147,29 @@ namespace VesselInventory.ViewModel
 
         private void LoadAttributes()
         {
-            //if(RecordHelper.IsNewRecord(vessel_good_return_id))
-            //{
-            //    IsItemEnabled = false;
-            //    vessel_good_return_number = CommonDataHelper.GetSequenceNumber(3) + '-' + ShipBarge.ship_code;
-            //    ship_id = ShipBarge.ship_id;
-            //    ship_name = ShipBarge.ship_name;
-            //} else
-            //{
-            //    VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-            //        .GetById(vessel_good_issued_id);
-            //    IsItemEnabled = true;
-            //    LoadDataGrid();
-            //}
+            if (RecordHelper.IsNewRecord(vessel_good_return_id))
+            {
+                IsItemEnabled = false;
+                vessel_good_return_number = CommonDataHelper.GetSequenceNumber(4) + '-' + ShipBarge.ship_code;
+                ship_id = ShipBarge.ship_id;
+                ship_name = ShipBarge.ship_name;
+            }
+            else
+            {
+                VesselGoodReturnDataView = _vesselGoodReturnRepository
+                    .GetById(vessel_good_return_id);
+                IsItemEnabled = true;
+                LoadDataGrid();
+            }
 
         }
         public void LoadDataGrid()
         {
-            //GoodIssuedItemCollections.Clear();
-            //foreach (var item in _vesselGoodIssuedItemRepository
-            //    .GetGoodIssuedItem(vessel_good_issued_id))
-            //    GoodIssuedItemCollections.Add(item);
-            //TotalItem = GoodIssuedItemCollections.Count;
+            GoodReturnItemCollections.Clear();
+            foreach (var item in _vesselGoodReturnItemRepository
+                .GetGoodReturnItem(vessel_good_return_id))
+                GoodReturnItemCollections.Add(item);
+            TotalItem = GoodReturnItemCollections.Count;
         }
         #endregion
         /// <summary>
@@ -163,17 +179,12 @@ namespace VesselInventory.ViewModel
         #region
         private void AddOrEditItemAction(object parameter)
         {
-            //var vesselGoodIssuedItemAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedItemAddOrEditVM>();
-            //if (parameter is null)
-            //    vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id);
-            //else
-            //    vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id, (int)parameter);
-            //_windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
-        }
-
-        private bool IsSaveCanExecute(object parameter)
-        {
-            return true;
+            var vesselGoodReturnItemAddOrEditVM = UnityContainer.Resolve<VesselGoodReturnItemAddOrEditVM>();
+            if (parameter is null)
+                vesselGoodReturnItemAddOrEditVM.InitializeData(this, vessel_good_return_id);
+            else
+                vesselGoodReturnItemAddOrEditVM.InitializeData(this, vessel_good_return_id, (int)parameter);
+            _windowService.ShowDialogWindow<VesselGoodReturn_ItemAddOrEditView>(vesselGoodReturnItemAddOrEditVM);
         }
 
         private void DeleteItemAction(object parameter)
@@ -195,26 +206,28 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = true;
                 _parentLoadable.LoadDataGrid();
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            } catch (Exception ex) {
-                ResponseMessage.Error(GlobalNamespace.ErrorSave + ' ' + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.ErrorSave, ex.Message));
             }
         }
 
         private void SaveOrUpdate()
         {
-            //if (RecordHelper.IsNewRecord(vessel_good_issued_id))
-            //{
-            //    VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-            //        .SaveTransaction(VesselGoodIssuedDataView);
-
-            //} else
-            //{
-            //    VesselGoodIssuedDataView.last_modified_by = Auth.Instance.personalname;
-            //    VesselGoodIssuedDataView.last_modified_date = DateTime.Now;
-            //    VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-            //        .Update(vessel_good_issued_id,
-            //        VesselGoodIssuedDataView);
-            //}
+            if (RecordHelper.IsNewRecord(vessel_good_return_id))
+            {
+                VesselGoodReturnDataView = _vesselGoodReturnRepository
+                    .SaveTransaction(VesselGoodReturnDataView);
+            }
+            else
+            {
+                VesselGoodReturnDataView.last_modified_by = Auth.Instance.personalname;
+                VesselGoodReturnDataView.last_modified_date = DateTime.Now;
+                VesselGoodReturnDataView = _vesselGoodReturnRepository
+                    .Update(vessel_good_return_id,
+                    VesselGoodReturnDataView);
+            }
         }
         #endregion
     }
