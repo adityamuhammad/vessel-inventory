@@ -190,6 +190,31 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("uom");
             }
         }
+        public string reason
+        {
+            get
+            {
+                if (VesselGoodReturnItemDataView.reason is null)
+                    VesselGoodReturnItemDataView.reason = ReasonCollection.First();
+                return VesselGoodReturnItemDataView.reason;
+            }
+            set
+            {
+                VesselGoodReturnItemDataView.reason = value;
+                OnPropertyChanged("reason");
+            }
+        }
+
+        public IList<string> ReasonCollection
+        {
+            get
+            {
+                IList<string> reasons = new List<string>();
+                foreach (var _ in CommonDataHelper.GetLookupValues("REASON"))
+                    reasons.Add(_.description);
+                return reasons;
+            }
+        }
 
         public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
             = new ObservableCollection<ItemGroupDimensionDto>();

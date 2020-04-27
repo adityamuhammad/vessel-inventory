@@ -189,13 +189,13 @@ namespace VesselInventory.ViewModel
 
         private void DeleteItemAction(object parameter)
         {
-            //MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
-            //    GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
-            //if (confirmDialog == MessageBoxResult.No)
-            //    return;
-            //_vesselGoodIssuedItemRepository.DeleteTransaction((int)parameter);
-            //ResponseMessage.Success(GlobalNamespace.SuccessDelete);
-            //LoadDataGrid();
+            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+                GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription);
+            if (confirmDialog == MessageBoxResult.No)
+                return;
+            _vesselGoodReturnItemRepository.DeleteTransaction((int)parameter);
+            ResponseMessage.Success(GlobalNamespace.SuccessDelete);
+            LoadDataGrid();
         }
 
         private void SaveAction(object parameter)

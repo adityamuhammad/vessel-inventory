@@ -9,13 +9,12 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:VesselInventory.Converters"
         mc:Ignorable="d"
-        Height="350" 
+        Height="370" 
         Width="450"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
     <Window.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         <converters:BoolToVisibilityCollapsedConverter x:Key="BoolToVisibilityCollapsed"/>
     </Window.Resources>
     <Grid>
@@ -57,7 +56,7 @@
                             <StackPanel>
                                 <Grid Visibility="{
                                         Binding IsVisibleSearchItem,
-                                        Converter={StaticResource BoolToVisibility} 
+                                        Converter={StaticResource BoolToVisibilityCollapsed} 
                                     }">
                                     <StackPanel Orientation="Horizontal">
                                         <Label Content="Search Item" Width="120"/>
@@ -203,6 +202,16 @@
                                         UpdateSourceTrigger=PropertyChanged
                                     }"
                                  />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0,15,0,0" Text="Reason" Width="120" />
+                                <ComboBox 
+                                    Margin="0,8,0,0" 
+                                    HorizontalAlignment="Left" 
+                                    ItemsSource="{Binding ReasonCollection}" 
+                                    SelectedItem="{Binding reason}" 
+                                    Width="120"
+                                />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
