@@ -11,6 +11,7 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemPendingVM : RequestFormVMBase, IParentLoadable
     {
+        public override string Title => "Pending Items";
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentFormCommand { get; private set; }

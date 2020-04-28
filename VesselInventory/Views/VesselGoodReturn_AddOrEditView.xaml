@@ -201,6 +201,7 @@
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
                         <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
+                        <DataGridTextColumn Width="auto" Header="Reason" Binding="{Binding reason}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>

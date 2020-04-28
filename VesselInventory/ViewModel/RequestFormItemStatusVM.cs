@@ -9,6 +9,7 @@ namespace VesselInventory.ViewModel
 {
     class RequestFormItemStatusVM : RequestFormVMBase
     {
+        public override string Title => "Tracking Items";
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
 

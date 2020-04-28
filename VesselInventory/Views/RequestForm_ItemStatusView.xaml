@@ -22,19 +22,19 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <Button
                     Background="LightGray" 
-                    Content="List" 
+                    Content="Requests" 
                     Style="{StaticResource TransparentStyle}" 
                     Command="{Binding SwitchTabCommand}"
                     CommandParameter="List"
                     />
                 <Button 
-                    Content="Item Status" 
+                    Content="Tracking Items" 
                     Style="{StaticResource TransparentStyle}" 
                     Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemStatus"
                     />
                 <Button 
-                    Content="Item Pending" 
+                    Content="Pending Items" 
                     Style="{StaticResource TransparentStyle}" 
                     Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemPending"
