@@ -14,9 +14,9 @@ namespace VesselInventory.Repository
         VesselGoodReceive SaveTransaction(VesselGoodReceive vesselGoodReceive);
     }
 
-    public class VesselGoodReceiveRepository : 
-        GenericRepository<VesselGoodReceive>, 
-        IVesselGoodReceiveRepository
+    public class VesselGoodReceiveRepository 
+        : GenericRepository<VesselGoodReceive>
+        , IVesselGoodReceiveRepository
     {
         public VesselGoodReceiveRepository() { }
 

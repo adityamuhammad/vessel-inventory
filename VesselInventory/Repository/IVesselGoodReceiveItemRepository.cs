@@ -8,7 +8,8 @@ namespace VesselInventory.Repository
     {
         IEnumerable<VesselGoodReceiveItem> GetGoodReceiveItem(int vesselGoodReceiveId);
     }
-    public class VesselGoodReceiveItemRepository : IVesselGoodReceiveItemRepository
+    public class VesselGoodReceiveItemRepository 
+        : IVesselGoodReceiveItemRepository
     {
         public IEnumerable<VesselGoodReceiveItem> GetGoodReceiveItem(int vesselGoodReceiveId)
         {

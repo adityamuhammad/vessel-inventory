@@ -8,9 +8,9 @@ namespace VesselInventory.Repository
         IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId);
     }
 
-    public class VesselGoodReceiveItemRejectRepository :
-        GenericRepository<VesselGoodReceiveItemReject>,
-        IVesselGoodReceiveItemRejectRepository
+    public class VesselGoodReceiveItemRejectRepository 
+        : GenericRepository<VesselGoodReceiveItemReject>
+        , IVesselGoodReceiveItemRejectRepository
     {
         public IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId)
         {

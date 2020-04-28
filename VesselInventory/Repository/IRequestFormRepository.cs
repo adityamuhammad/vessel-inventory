@@ -19,9 +19,9 @@ namespace VesselInventory.Repository
         RequestForm SaveTransaction(RequestForm requestForm);
         void Release(int id);
     }
-    public class RequestFormRepository : 
-        GenericRepository<RequestForm>, 
-        IRequestFormRepository
+    public class RequestFormRepository 
+        : GenericRepository<RequestForm>
+        , IRequestFormRepository
     {
         public RequestFormRepository() { }
 
@@ -29,7 +29,7 @@ namespace VesselInventory.Repository
         {
             using (var scope = new TransactionScope())
             {
-                base.Save(rf);
+                Save(rf);
                 using (var context = new VesselInventoryContext())
                 {
                     context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 1");

@@ -26,9 +26,9 @@ namespace VesselInventory.Repository
         int GetItemPendingTotalPage(string rf_number, int rows);
     }
 
-    public class RequestFormItemRepository : 
-        GenericRepository<RequestFormItem>, 
-        IRequestFormItemRepository
+    public class RequestFormItemRepository 
+        : GenericRepository<RequestFormItem>
+        , IRequestFormItemRepository
     {
         public RequestFormItemRepository() { }
 
