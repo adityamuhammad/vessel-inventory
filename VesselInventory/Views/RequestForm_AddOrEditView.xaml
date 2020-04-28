@@ -348,6 +348,32 @@
                                                 VerticalAlignment="Center" 
                                                 HorizontalAlignment="Center"/>
                                         </Button>
+                                        <Button 
+                                            BorderBrush="Black" 
+                                            Background="White" 
+                                            Foreground="Black" 
+                                            Height="20"
+                                            Width="40"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            Command="{
+                                                Binding RelativeSource={
+                                                    RelativeSource AncestorType={
+                                                        x:Type DataGrid
+                                                    },
+                                                Mode=FindAncestor},
+                                                Path=DataContext.PreviewPdfCommand
+                                            }" 
+                                            CommandParameter="{Binding attachment_path}">
+                                            <materialDesign:PackIcon 
+                                                Kind="FilePdfBox" 
+                                                VerticalContentAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalAlignment="Center" 
+                                                HorizontalAlignment="Center"/>
+                                        </Button>
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

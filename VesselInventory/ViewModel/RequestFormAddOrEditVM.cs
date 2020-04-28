@@ -27,6 +27,7 @@ namespace VesselInventory.ViewModel
 
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
+        public RelayCommand PreviewPdfCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand<IClosable> ReleaseCommand { get; private set; }
 
@@ -38,7 +39,6 @@ namespace VesselInventory.ViewModel
             _requestFormRepository = requestFormRepository;
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
-
         }
         
         public void InitializeData(IParentLoadable parentLoadable, int requestFormId = 0)
@@ -54,6 +54,7 @@ namespace VesselInventory.ViewModel
             AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction,IsAddOrEditItemCanExecute);
             DeleteItemCommand = new RelayCommand(DeleteItemAction,IsDeleteItemCanExecute);
             ReleaseCommand = new RelayCommand<IClosable>(ReleaseAction,IsReleaseCanExecute);
+            PreviewPdfCommand = new RelayCommand(PreviewPdfAction);
         }
 
         /// <summary>
@@ -378,6 +379,17 @@ namespace VesselInventory.ViewModel
             else
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id, (int)parameter);
             _windowService.ShowDialogWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
+        }
+
+        private void PreviewPdfAction(object parameter)
+        {
+            var container = ((App)Application.Current).UnityContainer;
+            var previewPdf = container.Resolve<PreviewPdf>();
+            if (parameter != null)
+            {
+                previewPdf.ShowAttachment(parameter.ToString());
+                previewPdf.Show();
+            }
         }
 
         private void SaveOrUpdate()
