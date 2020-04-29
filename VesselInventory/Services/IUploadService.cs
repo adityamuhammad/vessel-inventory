@@ -36,10 +36,10 @@ namespace VesselInventory.Services
                 fileName = Path.GetFileName(localPath);
                 _uploadedPath = Path.Combine(
                     targetDirectoryPath, 
-                    DateTime.Now.ToString("yyyy-MM-dd")
-                    + '_' + DateTime.Now.Ticks 
-                    + '_' +  fileName);
-
+                    string.Format("{0}_{1}_{2}", 
+                        DateTime.Now.ToString("yyyy-MM-dd"), 
+                        DateTime.Now.Ticks,
+                        fileName));
                 File.Copy(localPath, _uploadedPath);
                 return true;
             }

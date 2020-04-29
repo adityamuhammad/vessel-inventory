@@ -28,7 +28,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                return context.vessel_good_return.SqlQuery (
+                return context.VesselGoodReturn.SqlQuery (
                         "usp_VesselGoodReturn_GetGoodReturnList @p0, @p1, @p2, @p3, @p4",
                         parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
             }

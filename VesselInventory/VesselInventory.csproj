@@ -121,6 +121,7 @@
     <Compile Include="Commons\UIHelper.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GridLengthConverter.cs" />
+    <Compile Include="Dto\BargeDto.cs" />
     <Compile Include="Dto\ItemGroupDimensionDto.cs" />
     <Compile Include="Dto\ItemPendingDto.cs" />
     <Compile Include="Dto\ItemStatusDto.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Models\LookupValue.cs" />
     <Compile Include="Models\RequestForm.cs" />
     <Compile Include="Models\RequestFormItem.cs" />
+    <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\Uom.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VesselInventoryContext.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="ViewModel\RequestFormItemStatusVM.cs" />
     <Compile Include="ViewModel\RequestFormItemUploadDocVM.cs" />
     <Compile Include="ViewModel\RequestFormVM.cs" />
+    <Compile Include="ViewModel\SettingsVM.cs" />
     <Compile Include="ViewModel\VesselGoodIssuedAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodIssuedItemAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodIssuedVM.cs" />
@@ -207,6 +210,9 @@
     </Compile>
     <Compile Include="Views\RequestForm_ItemUploadDocumentView.xaml.cs">
       <DependentUpon>RequestForm_ItemUploadDocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings_View.xaml.cs">
+      <DependentUpon>Settings_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\VesselGoodIssued_AddOrEditView.xaml.cs">
       <DependentUpon>VesselGoodIssued_AddOrEditView.xaml</DependentUpon>
@@ -279,6 +285,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RequestForm_ItemUploadDocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

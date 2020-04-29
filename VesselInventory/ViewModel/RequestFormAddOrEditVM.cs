@@ -15,6 +15,7 @@ using System.Windows;
 using VesselInventory.Commons.Enums;
 using System.Collections.Generic;
 using Unity;
+using System.IO;
 
 namespace VesselInventory.ViewModel
 {
@@ -24,6 +25,7 @@ namespace VesselInventory.ViewModel
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IWindowService _windowService;
         private IParentLoadable _parentLoadable;
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
 
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
@@ -372,8 +374,7 @@ namespace VesselInventory.ViewModel
         #region
         private void AddOrEditItemAction(object parameter)
         {
-            var container = ((App)Application.Current).UnityContainer;
-            var requestFormItemAddOrEditVM = container.Resolve<RequestFormItemAddOrEditVM>();
+            var requestFormItemAddOrEditVM = UnityContainer.Resolve<RequestFormItemAddOrEditVM>();
             if (parameter is null)
                 requestFormItemAddOrEditVM.InitializeData(this, rf_id);
             else
@@ -383,13 +384,20 @@ namespace VesselInventory.ViewModel
 
         private void PreviewPdfAction(object parameter)
         {
-            var container = ((App)Application.Current).UnityContainer;
-            var previewPdf = container.Resolve<PreviewPdf>();
-            if (parameter != null)
+
+            string attachmentLocation = (string)parameter;
+            if (string.IsNullOrWhiteSpace(attachmentLocation))
             {
-                previewPdf.ShowAttachment(parameter.ToString());
-                previewPdf.Show();
+                ResponseMessage.Warning(GlobalNamespace.AttachmentNotUploaded);
+                return;
             }
+            if (!File.Exists(attachmentLocation)){
+                ResponseMessage.Warning(GlobalNamespace.AttachmentMissing);
+                return;
+            }
+            var previewPdf = UnityContainer.Resolve<PreviewPdf>();
+            previewPdf.SetAttachment(attachmentLocation);
+            previewPdf.ShowDialog();
         }
 
         private void SaveOrUpdate()

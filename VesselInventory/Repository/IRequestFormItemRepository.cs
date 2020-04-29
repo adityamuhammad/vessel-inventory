@@ -36,7 +36,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                return (from item in context.request_form_item
+                return (from item in context.RequestFormItem
                         where item.rf_id == rf_id && 
                         item.is_hidden == false select item)
                         .ToList();
@@ -108,7 +108,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                var current = context.request_form_item.Find(id);
+                var current = context.RequestFormItem.Find(id);
                 if (current is null) return;
                 current.is_hidden = true;
                 current.last_modified_date = DateTime.Now;

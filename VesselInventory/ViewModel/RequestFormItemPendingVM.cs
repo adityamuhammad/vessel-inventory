@@ -6,6 +6,8 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
 using Unity;
+using VesselInventory.Commons;
+using System.IO;
 
 namespace VesselInventory.ViewModel
 {
@@ -15,7 +17,9 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentFormCommand { get; private set; }
+        public RelayCommand PreviewPdfCommand { get; private set; }
 
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         private readonly IWindowService _windowService;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         public RequestFormItemPendingVM(IWindowService windowService, 
@@ -34,6 +38,7 @@ namespace VesselInventory.ViewModel
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             UploadDocumentFormCommand = new RelayCommand(OpenUploadDocumentFormAction);
+            PreviewPdfCommand = new RelayCommand(PreviewPdfAction);
         }
 
         /// <summary>
@@ -130,11 +135,27 @@ namespace VesselInventory.ViewModel
         }
         private void OpenUploadDocumentFormAction(object parameter)
         {
-            var container = ((App)Application.Current).UnityContainer;
-            var requestFormItemUploadDocumentVM = container.Resolve<RequestFormItemUploadDocVM>();
+            var requestFormItemUploadDocumentVM = UnityContainer.Resolve<RequestFormItemUploadDocVM>();
             requestFormItemUploadDocumentVM.InitializeData(this, (int)parameter);
             _windowService.ShowDialogWindow<RequestForm_ItemUploadDocumentView>
                 (requestFormItemUploadDocumentVM);
+        }
+        private void PreviewPdfAction(object parameter)
+        {
+
+            string attachmentLocation = (string)parameter;
+            if (string.IsNullOrWhiteSpace(attachmentLocation))
+            {
+                ResponseMessage.Warning(GlobalNamespace.AttachmentNotUploaded);
+                return;
+            }
+            if (!File.Exists(attachmentLocation)){
+                ResponseMessage.Warning(GlobalNamespace.AttachmentMissing);
+                return;
+            }
+            var previewPdf = UnityContainer.Resolve<PreviewPdf>();
+            previewPdf.SetAttachment(attachmentLocation);
+            previewPdf.ShowDialog();
         }
         #endregion
     }

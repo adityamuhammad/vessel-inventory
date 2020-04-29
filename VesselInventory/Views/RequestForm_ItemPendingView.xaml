@@ -78,14 +78,14 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="0.5*" Header="Item Id" Binding="{Binding item_id}"/>
-                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
-                    <DataGridTextColumn Width="2*" Header="Item Description" Binding="{Binding item_description}"/>
-                    <DataGridTextColumn Width="0.5*" Header="QTY" Binding="{Binding qty}"/>
-                    <DataGridTextColumn Width="0.5*" Header="UOM" Binding="{Binding uom}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding item_id}"/>
+                    <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
+                    <DataGridTextColumn Width="1.5*" Header="Item Description" Binding="{Binding item_description}"/>
+                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding qty}"/>
+                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
                     <DataGridTextColumn Width="0.5*" Header="Priority" Binding="{Binding priority}"/>
                     <DataGridTextColumn Width="1*" Header="Attachment Status" Binding="{Binding attachment_status}"/>
-                    <DataGridTemplateColumn Width="0.5*">
+                    <DataGridTemplateColumn Width="0.7*">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <materialDesign:PackIcon  Kind="TableSettings"/>
@@ -115,6 +115,32 @@
                                         CommandParameter="{Binding rf_item_id}">
                                         <materialDesign:PackIcon 
                                             Kind="Upload" 
+                                            VerticalContentAlignment="Center"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Center"/>
+                                    </Button>
+                                    <Button 
+                                        BorderBrush="Black" 
+                                        Background="White" 
+                                        Foreground="Black" 
+                                        Height="20"
+                                        Width="40"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalContentAlignment="Center"
+                                        Command="{
+                                            Binding RelativeSource={
+                                                RelativeSource AncestorType={
+                                                    x:Type DataGrid
+                                                },
+                                            Mode=FindAncestor},
+                                            Path=DataContext.PreviewPdfCommand
+                                        }" 
+                                        CommandParameter="{Binding attachment_path}">
+                                        <materialDesign:PackIcon 
+                                            Kind="FilePdfBox" 
                                             VerticalContentAlignment="Center"
                                             HorizontalContentAlignment="Center"
                                             VerticalAlignment="Center" 

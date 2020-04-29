@@ -20,6 +20,12 @@
     <Window.Resources>
 
         <DataTemplate 
+            x:Name="Settings_Main" 
+            DataType="{x:Type viewmodels:SettingsVM}">
+            <views:Settings_View DataContext="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate 
             x:Name="RequestForm_Main" 
             DataType="{x:Type viewmodels:RequestFormVM}">
             <views:RequestForm_MainView DataContext="{Binding}"/>
@@ -84,8 +90,24 @@
                         PlacementMode="BottomAndAlignCentres" 
                         StaysOpen="False">
                         <StackPanel Width="150">
-                            <Button Content="Settings"/>
-                            <Button Content="Help"/>
+                            <Button
+                                Command="{Binding SettingCommand}"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                        Kind="Settings" 
+                                        Foreground="Black"/>
+                                    <TextBlock Margin="10,0,0,0" Text="Settings"/>
+                                </StackPanel>
+                            </Button>
+                            <Button>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                        Kind="Help" 
+                                        Foreground="Black"/>
+                                    <TextBlock Margin="10,0,0,0" Text="Help"/>
+                                </StackPanel>
+                            </Button>
                             <Separator/>
                             <Button
                                 Command="{Binding LogoutCommand}"

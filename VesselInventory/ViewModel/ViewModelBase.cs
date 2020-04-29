@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using VesselInventory.Services;
 using VesselInventory.Utility;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
@@ -24,11 +25,20 @@ namespace VesselInventory.ViewModel
         #endregion
         public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
+        public RelayCommand SettingCommand { get; private set; }
         public ViewModelBase()
         {
             CloseCommand = new RelayCommand<IClosable>(CloseWindow);
             LogoutCommand = new RelayCommand<IClosable>(CloseWindow);
+            SettingCommand = new RelayCommand(SettingAction);
         }
+
+        private void SettingAction(object obj)
+        {
+            var container = ((App)Application.Current).UnityContainer;
+            Navigate.To(container.Resolve<SettingsVM>());
+        }
+
         protected void CloseWindow(IClosable window)
         {
             if (window != null)

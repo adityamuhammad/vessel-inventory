@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="VesselInventory.Views.Settings_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VesselInventory.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid Margin="40,20,0,0">
+                <StackPanel>
+                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="0,5" Width="30" Text="Ship"/>
+                            <TextBox 
+                                IsEnabled="False" 
+                                Margin="20,0,0,0" 
+                                Width="100" 
+                                Text="{ Binding ship_name, Mode=OneTime}" 
+                             />
+                        </StackPanel>
+                        <StackPanel Margin="40,0,0,0" Orientation="Horizontal">
+                            <TextBlock Margin="0,5" Width="40" Text="Barge"/>
+                            <ComboBox 
+                                Margin="0,0,0,0" 
+                                HorizontalAlignment="Left" 
+                                ItemsSource="{Binding BargeCollection}" 
+                                DisplayMemberPath="barge_name"
+                                SelectedValuePath="barge_id"
+                                SelectedValue="{Binding barge_id}"
+                                Width="120"
+                            />
+                        </StackPanel>
+                        <StackPanel Margin="20,0,0,0" Orientation="Horizontal">
+                            <Button 
+                                HorizontalAlignment="Left" 
+                                Width="130" 
+                                Background="#FF4E5FBF" 
+                                BorderBrush="{x:Null}"
+                                Height="23"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                        Kind="ContentSaveSettingsOutline" 
+                                        FontSize="5"
+                                        Foreground="White"/>
+                                    <TextBlock FontSize="10" Text="Save Changes"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</UserControl>

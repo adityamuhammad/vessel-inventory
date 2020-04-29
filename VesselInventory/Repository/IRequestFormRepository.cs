@@ -45,7 +45,7 @@ namespace VesselInventory.Repository
         {
             using(var context = new VesselInventoryContext())
             {
-                return context.request_form.SqlQuery(
+                return context.RequestForm.SqlQuery(
                     "usp_RequestForm_GetRequestFormList @p0, @p1, @p2, @p3, @p4", 
                     parameters: new object[] { search, page, rows, sortColumnName, sortBy }
                 ).ToList();
@@ -77,7 +77,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                var requestForm = context.request_form.Find(id);
+                var requestForm = context.RequestForm.Find(id);
                 requestForm.last_modified_by = Auth.Instance.personalname;
                 requestForm.last_modified_date = DateTime.Now;
                 requestForm.status = Status.Release.GetDescription();

@@ -24,7 +24,7 @@ namespace VesselInventory.Repository
         {
             using (var context = new VesselInventoryContext())
             {
-                return (from item in context.vessel_good_issued_item
+                return (from item in context.VesselGoodIssuedItem
                         where item.vessel_good_issued_id == vesselGoodIssuedId && 
                         item.is_hidden == false select item)
                         .ToList();

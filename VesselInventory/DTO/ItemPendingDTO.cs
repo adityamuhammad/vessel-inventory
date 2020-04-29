@@ -8,6 +8,7 @@
         public decimal qty { get; set; }
         public string uom { get; set; }
         public string priority { get; set; }
+        public string attachment_path { get; set; }
         public string attachment_status { get; set; }
         public string rf_number { get; set; }
     }

@@ -10,24 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace VesselInventory.Views
 {
     /// <summary>
-    /// Interaction logic for PreviewPdf.xaml
+    /// Interaction logic for Settings_View.xaml
     /// </summary>
-    public partial class PreviewPdf : Window
+    public partial class Settings_View : UserControl
     {
-        public PreviewPdf()
+        public Settings_View()
         {
             InitializeComponent();
-        }
-
-        public void SetAttachment(string attachmentLocation)
-        {
-            attachmentLocation = attachmentLocation.Replace("\\\\", "\\");
-            PreviewPdfTemplate.Navigate(new Uri(attachmentLocation));
         }
     }
 }

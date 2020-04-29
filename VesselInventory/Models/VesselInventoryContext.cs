@@ -12,19 +12,21 @@ namespace VesselInventory.Models
         {
         }
 
-        public virtual DbSet<Item> items { get; set; }
-        public virtual DbSet<Uom> uom { get; set; }
-        public virtual DbSet<RequestForm> request_form { get; set; }
-        public virtual DbSet<RequestFormItem> request_form_item { get; set; }
-        public virtual DbSet<User> users { get; set; }
-        public virtual DbSet<VesselGoodIssued> vessel_good_issued { get; set; }
-        public virtual DbSet<VesselGoodIssuedItem> vessel_good_issued_item { get; set; }
-        public virtual DbSet<VesselGoodJournal> vessel_good_journal { get; set; }
-        public virtual DbSet<VesselGoodReceive> vessel_good_receive { get; set; }
-        public virtual DbSet<VesselGoodReceiveItem> vessel_good_receive_item { get; set; }
-        public virtual DbSet<VesselGoodReceiveItemReject> vessel_good_receive_item_reject { get; set; }
-        public virtual DbSet<VesselGoodReturn> vessel_good_return { get; set; }
-        public virtual DbSet<VesselGoodReturnItem> vessel_good_return_item { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Uom> UOM { get; set; }
+        public virtual DbSet<Ship> Ship { get; set; }
+        public virtual DbSet<Ship> ShipInitial { get; set; }
+        public virtual DbSet<RequestForm> RequestForm { get; set; }
+        public virtual DbSet<RequestFormItem> RequestFormItem { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<VesselGoodIssued> VesselGoodIssued { get; set; }
+        public virtual DbSet<VesselGoodIssuedItem> VesselGoodIssuedItem { get; set; }
+        public virtual DbSet<VesselGoodJournal> VesselGoodJournal { get; set; }
+        public virtual DbSet<VesselGoodReceive> VesselGoodReceive { get; set; }
+        public virtual DbSet<VesselGoodReceiveItem> VesselGoodReceiveItem { get; set; }
+        public virtual DbSet<VesselGoodReceiveItemReject> VesselGoodReceiveItemReject { get; set; }
+        public virtual DbSet<VesselGoodReturn> VesselGoodReturn { get; set; }
+        public virtual DbSet<VesselGoodReturnItem> VesselGoodReturnItem { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
