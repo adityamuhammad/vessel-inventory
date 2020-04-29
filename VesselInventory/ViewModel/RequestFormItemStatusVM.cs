@@ -131,7 +131,7 @@ namespace VesselInventory.ViewModel
                 return _requestFormItemRepository.
                     GetItemStatusDataGrid(ItemIdSearch, ItemNameSearch,
                         ItemStatusSearch, RFNumberSearch,
-                        DepartmentSearch, CurrentPage, DataGridRows, "rf.rf_number",  "DESC");
+                        DepartmentSearch, CurrentPage, DataGridRows, "RequestForm.RequestFormNumber",  "DESC");
             }
         }
 

@@ -5,6 +5,7 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using VesselInventory.Commons.Enums;
 
     [Table("RequestForm")]
     public partial class RequestForm
@@ -60,7 +61,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string SyncStatus { get; set; }
+        public string SyncStatus { get; set; } 
 
         public bool IsHidden { get; set; }
 
