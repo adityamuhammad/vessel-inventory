@@ -134,6 +134,7 @@
     <Compile Include="Models\RequestForm.cs" />
     <Compile Include="Models\RequestFormItem.cs" />
     <Compile Include="Models\Ship.cs" />
+    <Compile Include="Models\ShipInitial.cs" />
     <Compile Include="Models\Uom.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\VesselInventoryContext.cs" />

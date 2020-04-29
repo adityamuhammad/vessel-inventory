@@ -388,7 +388,7 @@ namespace VesselInventory.ViewModel
             string attachmentLocation = (string)parameter;
             if (string.IsNullOrWhiteSpace(attachmentLocation))
             {
-                ResponseMessage.Warning(GlobalNamespace.AttachmentNotUploaded);
+                ResponseMessage.Info(GlobalNamespace.AttachmentNotUploaded);
                 return;
             }
             if (!File.Exists(attachmentLocation)){

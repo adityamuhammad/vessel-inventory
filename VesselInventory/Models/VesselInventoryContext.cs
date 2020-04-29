@@ -15,7 +15,7 @@ namespace VesselInventory.Models
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Uom> UOM { get; set; }
         public virtual DbSet<Ship> Ship { get; set; }
-        public virtual DbSet<Ship> ShipInitial { get; set; }
+        public virtual DbSet<ShipInitial> ShipInitial { get; set; }
         public virtual DbSet<RequestForm> RequestForm { get; set; }
         public virtual DbSet<RequestFormItem> RequestFormItem { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -30,45 +30,6 @@ namespace VesselInventory.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RequestForm>()
-                .Property(e => e.notes)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<RequestFormItem>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<RequestFormItem>()
-                .Property(e => e.remarks)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<VesselGoodIssued>()
-                .Property(e => e.notes)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<VesselGoodIssuedItem>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<VesselGoodJournal>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<VesselGoodReceive>()
-                .Property(e => e.sync_status)
-                .IsFixedLength();
-
-            modelBuilder.Entity<VesselGoodReceiveItem>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<VesselGoodReceiveItemReject>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<VesselGoodReturnItem>()
-                .Property(e => e.qty)
-                .HasPrecision(10, 2);
         }
     }
 }

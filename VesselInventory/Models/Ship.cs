@@ -24,8 +24,6 @@ namespace VesselInventory.Models
         [StringLength(10)]
         public string ship_code { get; set; }
 
-        [StringLength(20)]
-        public string ship_alias_axapta{ get; set; }
         public bool is_barge { get; set; }
     }
 }

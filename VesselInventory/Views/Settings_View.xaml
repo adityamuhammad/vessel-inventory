@@ -35,7 +35,7 @@
                                 ItemsSource="{Binding BargeCollection}" 
                                 DisplayMemberPath="barge_name"
                                 SelectedValuePath="barge_id"
-                                SelectedValue="{Binding barge_id}"
+                                SelectedValue="{Binding barge_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                 Width="120"
                             />
                         </StackPanel>
@@ -45,6 +45,7 @@
                                 Width="130" 
                                 Background="#FF4E5FBF" 
                                 BorderBrush="{x:Null}"
+                                Command="{Binding ChangeBargeCommand}"
                                 Height="23"
                                 >
                                 <StackPanel Orientation="Horizontal">
