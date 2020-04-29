@@ -13,7 +13,7 @@ namespace VesselInventory.Repository
     {
         public IEnumerable<VesselGoodReceiveItem> GetGoodReceiveItem(int vesselGoodReceiveId)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.VesselGoodReceiveItem
                         where item.VesselGoodReceiveId == vesselGoodReceiveId && 

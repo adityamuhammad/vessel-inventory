@@ -1,4 +1,4 @@
-﻿namespace VesselInventory.Models
+namespace VesselInventory.Models
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +6,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("LookupValue")]
     public partial class LookupValue
     {
-        [Key]
         public int LookupValueId { get; set; }
 
         [StringLength(50)]
@@ -19,6 +19,5 @@
 
         [StringLength(5)]
         public string Abbreviation { get; set; }
-
     }
 }

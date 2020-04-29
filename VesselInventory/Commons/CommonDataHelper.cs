@@ -9,7 +9,7 @@ namespace VesselInventory.Commons.HelperFunctions
     {
         public static IEnumerable<LookupValue> GetLookupValues(string lookupType)
         {
-            using (var context = new VesselInventoryContext()) {
+            using (var context = new AppVesselInventoryContext()) {
                 return context.Database
                     .SqlQuery<LookupValue>
                     ("usp_LookupValue_GetLookupValueList @p0", lookupType).ToList();
@@ -18,7 +18,7 @@ namespace VesselInventory.Commons.HelperFunctions
 
         public static IEnumerable<ItemGroupDimensionDto> GetItems(string search, string tableReference, int? idReference)
         {
-            using (var context = new VesselInventoryContext()) {
+            using (var context = new AppVesselInventoryContext()) {
                 return context.Database
                     .SqlQuery<ItemGroupDimensionDto>
                         ("usp_Item_GetItemList @p0, @p1, @p2",parameters: new object[] { search, tableReference, idReference }).ToList();
@@ -27,7 +27,7 @@ namespace VesselInventory.Commons.HelperFunctions
 
         public static ShipBargeDto GetShipBargeApairs()
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database
                     .SqlQuery<ShipBargeDto>
@@ -37,7 +37,7 @@ namespace VesselInventory.Commons.HelperFunctions
 
         public static string GetSequenceNumber(int sequenceId)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database
                     .SqlQuery<string>

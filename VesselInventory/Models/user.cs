@@ -6,9 +6,9 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("User")]
     public partial class User
     {
-        [Key]
         public int UserId { get; set; }
 
         [Required]
@@ -16,7 +16,6 @@ namespace VesselInventory.Models
         public string Username { get; set; }
 
         [Required]
-        [StringLength(255)]
         public string Password { get; set; }
 
         public int ShipId { get; set; }

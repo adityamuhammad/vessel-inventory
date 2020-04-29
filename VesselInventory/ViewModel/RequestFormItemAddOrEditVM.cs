@@ -126,7 +126,7 @@ namespace VesselInventory.ViewModel
                 RequestFormItemDataView.ItemDimensionNumber = value;
             }
         }
-        public int? item_group_id
+        public int item_group_id
         {
             get => RequestFormItemDataView.ItemGroupId;
             set

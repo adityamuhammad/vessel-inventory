@@ -11,7 +11,6 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
-        RequestForm FindData(int id);
         IEnumerable<RequestForm> GetRequestFormDataGrid(
             string search, int page, int rows, 
             string sortByColumnName, string sortBy);
@@ -31,7 +30,7 @@ namespace VesselInventory.Repository
             using (var scope = new TransactionScope())
             {
                 Save(rf);
-                using (var context = new VesselInventoryContext())
+                using (var context = new AppVesselInventoryContext())
                 {
                     context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 1");
                 }
@@ -44,7 +43,7 @@ namespace VesselInventory.Repository
             string search, int page, int rows,
             string sortColumnName, string sortBy)
         {
-            using(var context = new VesselInventoryContext())
+            using(var context = new AppVesselInventoryContext())
             {
                 return context.RequestForm.SqlQuery(
                     "usp_RequestForm_GetRequestFormList @p0, @p1, @p2, @p3, @p4", 
@@ -55,7 +54,7 @@ namespace VesselInventory.Repository
 
         public int GetRequestFormTotalPage(string search, int rows)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestForm_GetRequestFormPages @p0, @p1",
@@ -66,7 +65,7 @@ namespace VesselInventory.Repository
 
         public RequestFormShipBargeDto GetRrequestFormShipBarge()
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<RequestFormShipBargeDto>(
                     "usp_RequestForm_GetRequestFormShipBarge"
@@ -76,7 +75,7 @@ namespace VesselInventory.Repository
 
         public void Release(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 var requestForm = context.RequestForm.Find(id);
                 requestForm.LastModifiedBy = Auth.Instance.personalname;
@@ -86,12 +85,5 @@ namespace VesselInventory.Repository
             }
         }
 
-        public RequestForm FindData(int id)
-        {
-            using (var context = new VesselInventoryContext())
-            {
-                return context.RequestForm.Find(id);
-            }
-        }
     }
 }

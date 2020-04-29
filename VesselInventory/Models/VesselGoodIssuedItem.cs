@@ -1,14 +1,14 @@
 namespace VesselInventory.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using VesselInventory.Commons.Enums;
-    using VesselInventory.Utility;
+    using System.Data.Entity.Spatial;
 
+    [Table("VesselGoodIssuedItem")]
     public partial class VesselGoodIssuedItem
     {
-        [Key]
         public int VesselGoodIssuedItemId { get; set; }
 
         public int VesselGoodIssuedId { get; set; }
@@ -49,18 +49,21 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
+        public string SyncStatus { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
-        public bool IsHidden { get; set; } = false;
+
+        public bool IsHidden { get; set; }
+
+        public virtual VesselGoodIssued VesselGoodIssued { get; set; }
     }
 }

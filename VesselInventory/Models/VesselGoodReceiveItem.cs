@@ -5,11 +5,10 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using VesselInventory.Utility;
 
+    [Table("VesselGoodReceiveItem")]
     public partial class VesselGoodReceiveItem
     {
-        [Key]
         public int VesselGoodReceiveItemId { get; set; }
 
         public int VesselGoodReceiveId { get; set; }
@@ -56,16 +55,19 @@ namespace VesselInventory.Models
         [StringLength(15)]
         public string SyncStatus { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime created_date { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        public string CreatedDate { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
-        public bool IsHidden { get; set; } = false;
+
+        public bool IsHidden { get; set; }
+
+        public virtual VesselGoodReceive VesselGoodReceive { get; set; }
     }
 }

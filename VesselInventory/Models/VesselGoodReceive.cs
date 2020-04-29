@@ -5,24 +5,29 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using VesselInventory.Commons.Enums;
-    using VesselInventory.Utility;
 
+    [Table("VesselGoodReceive")]
     public partial class VesselGoodReceive
     {
-        [Key]
-        public int VesselGoodReceiveId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VesselGoodReceive()
+        {
+            VesselGoodReceiveItemReject = new HashSet<VesselGoodReceiveItemReject>();
+            VesselGoodReceiveItem = new HashSet<VesselGoodReceiveItem>();
+        }
 
-        [Required]
-        [StringLength(25)]
-        public string VesselGoodReceiveNumber { get; set; }
+        public int VesselGoodReceiveId { get; set; }
 
         [Required]
         [StringLength(25)]
         public string OfficeGoodIssuedNumber { get; set; }
 
+        [Required]
+        [StringLength(25)]
+        public string VesselGoodReceiveNumber { get; set; }
+
         [Column(TypeName = "date")]
-        public DateTime VesselGoodReceiveDate { get; set; } = DateTime.Now;
+        public DateTime? VesselGoodReceiveDate { get; set; }
 
         public int ShipId { get; set; }
 
@@ -36,20 +41,27 @@ namespace VesselInventory.Models
         [StringLength(30)]
         public string BargeName { get; set; }
 
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        [Required]
+        [StringLength(10)]
+        public string SyncStatus { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
-        public bool IsHidden { get; set; } = false;
+        public bool IsHidden { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VesselGoodReceiveItemReject> VesselGoodReceiveItemReject { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VesselGoodReceiveItem> VesselGoodReceiveItem { get; set; }
     }
 }

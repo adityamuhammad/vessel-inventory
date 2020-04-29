@@ -34,7 +34,7 @@ namespace VesselInventory.Repository
 
         public IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.RequestFormItem
                         where item.RequestFormId == rf_id && 
@@ -49,7 +49,7 @@ namespace VesselInventory.Repository
             int page, int rows, string sortColumnName, string sortBy)
         {
 
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemStatusDto>(
                     "usp_RequestFormItem_GetItemStatusList @p0, @p1, @p2, @p3, @p4,@p5, @p6, @p7, @p8",
@@ -66,7 +66,7 @@ namespace VesselInventory.Repository
             string rf_number, string department_name, 
             int rows)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemStatusPages @p0, @p1, @p2, @p3, @p4, @p5",
@@ -86,7 +86,7 @@ namespace VesselInventory.Repository
             string sortColumnName, string sortBy
             )
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemPendingDto>(
                     "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2, @p3, @p4",
@@ -96,7 +96,7 @@ namespace VesselInventory.Repository
 
         public int GetItemPendingTotalPage(string rf_number, int rows)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemPendingPages @p0, @p1",
@@ -106,7 +106,7 @@ namespace VesselInventory.Repository
 
         public override void Delete(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 var current = context.RequestFormItem.Find(id);
                 if (current is null) return;

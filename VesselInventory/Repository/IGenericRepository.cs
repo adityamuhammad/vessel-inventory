@@ -20,7 +20,7 @@ namespace VesselInventory.Repository
     {
         public virtual IEnumerable<T> GetAll()
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Set<T>().ToList();
             }
@@ -28,7 +28,7 @@ namespace VesselInventory.Repository
 
         public virtual IEnumerable<T> GetWhere(Expression<Func<T, bool>> predicate)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Set<T>().Where(predicate).ToList();
             }
@@ -36,7 +36,7 @@ namespace VesselInventory.Repository
 
         public virtual T Save(T entity)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 context.Set<T>().Add(entity);
                 context.SaveChanges();
@@ -46,7 +46,7 @@ namespace VesselInventory.Repository
 
         public virtual T GetById(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Set<T>().Find(id);
             }
@@ -55,7 +55,7 @@ namespace VesselInventory.Repository
 
         public virtual T Update(int id, T entity)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 if (entity == null)
                     return null;
@@ -73,7 +73,7 @@ namespace VesselInventory.Repository
 
         public virtual void Delete(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 T current = context.Set<T>().Find(id);
                 if (current == null)

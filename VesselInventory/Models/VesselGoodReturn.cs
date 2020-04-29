@@ -5,17 +5,21 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using VesselInventory.Commons.Enums;
-    using VesselInventory.Utility;
 
+    [Table("VesselGoodReturn")]
     public partial class VesselGoodReturn
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VesselGoodReturn()
+        {
+            VesselGoodReturnItem = new HashSet<VesselGoodReturnItem>();
+        }
+
         public int VesselGoodReturnId { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string VesselGoodreturnNumber { get; set; }
+        public string VesselGoodReturnNumber { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime VesselGoodReturnDate { get; set; }
@@ -29,20 +33,24 @@ namespace VesselInventory.Models
         [Column(TypeName = "text")]
         public string Notes { get; set; }
 
-        [Required]
-        [StringLength(15)]
-        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
-
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
-        public bool IsHidden { get; set; } = false;
+
+        [Required]
+        [StringLength(15)]
+        public string SyncStatus { get; set; }
+
+        public bool IsHidden { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VesselGoodReturnItem> VesselGoodReturnItem { get; set; }
     }
 }

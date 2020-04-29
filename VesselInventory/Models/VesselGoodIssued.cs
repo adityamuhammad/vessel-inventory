@@ -5,12 +5,16 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-    using VesselInventory.Commons.Enums;
-    using VesselInventory.Utility;
 
+    [Table("VesselGoodIssued")]
     public partial class VesselGoodIssued
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public VesselGoodIssued()
+        {
+            VesselGoodIssuedItem = new HashSet<VesselGoodIssuedItem>();
+        }
+
         public int VesselGoodIssuedId { get; set; }
 
         [Required]
@@ -31,18 +35,22 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
+        public string SyncStatus { get; set; }
 
-        public DateTime CreatedDAte { get; set; } = DateTime.Now;
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
-        public bool IsHidden { get; set; } = false;
+
+        public bool IsHidden { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<VesselGoodIssuedItem> VesselGoodIssuedItem { get; set; }
     }
 }

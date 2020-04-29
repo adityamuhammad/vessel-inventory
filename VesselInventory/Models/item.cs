@@ -6,9 +6,9 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("Item")]
     public partial class Item
     {
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ItemId { get; set; }
 

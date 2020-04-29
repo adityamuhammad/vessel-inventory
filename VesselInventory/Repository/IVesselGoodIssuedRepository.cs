@@ -22,7 +22,7 @@ namespace VesselInventory.Repository
             string search, int page, int rows, 
             string sortColumnName, string sortBy)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.VesselGoodIssued.SqlQuery (
                         "usp_VesselGoodIssued_GetGoodIssuedList @p0, @p1, @p2, @p3, @p4",
@@ -32,7 +32,7 @@ namespace VesselInventory.Repository
 
         public int GetGoodIssuedTotalPage(string search, int rows)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                         "usp_VesselGoodIssued_GetGoodIssuedPages @p0, @p1",
@@ -45,7 +45,7 @@ namespace VesselInventory.Repository
             using(var scope = new TransactionScope())
             {
                 Save(vesselGoodIssued);
-                using(var context = new VesselInventoryContext())
+                using(var context = new AppVesselInventoryContext())
                 {
                     context.Database.ExecuteSqlCommand("usp_DocSequence_IncrementSeqNumber 3");
                 }

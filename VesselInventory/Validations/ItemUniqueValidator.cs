@@ -24,7 +24,7 @@ namespace VesselInventory.Validations
         }
         public static bool ValidateRequestFormItem(RequestFormItem data)
         {
-            using (var context =  new VesselInventoryContext())
+            using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("rf_item", "rf_id"),
@@ -39,7 +39,7 @@ namespace VesselInventory.Validations
 
         public static bool ValidateVesselGoodIssuedItem(VesselGoodIssuedItem data)
         {
-            using (var context =  new VesselInventoryContext())
+            using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_issued_item", "vessel_good_issued_id"),
@@ -53,7 +53,7 @@ namespace VesselInventory.Validations
         }
         public static bool ValidateVesselGoodReceiveItemReject(VesselGoodReceiveItemReject data)
         {
-            using (var context =  new VesselInventoryContext())
+            using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_receive_item_reject", "vessel_good_receive_id"),
@@ -67,7 +67,7 @@ namespace VesselInventory.Validations
         }
         public static bool ValidateVesselGoodReturnItem(VesselGoodReturnItem data)
         {
-            using (var context =  new VesselInventoryContext())
+            using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_return_item", "vessel_good_return_id"),

@@ -6,24 +6,17 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("VesselGoodJournal")]
     public partial class VesselGoodJournal
     {
-        [Key]
         public int VesselGoodJournalId { get; set; }
-
-        [Column(TypeName = "date")]
-        public DateTime VesselGoodJournalDate { get; set; }
-
-        [Required]
-        [StringLength(10)]
-        public string InOut { get; set; }
 
         [Required]
         [StringLength(25)]
         public string DocumentReference { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(50)]
         public string DocumentType { get; set; }
 
         public int ItemId { get; set; }
@@ -56,10 +49,23 @@ namespace VesselInventory.Models
 
         public decimal Qty { get; set; }
 
+        [Required]
+        [StringLength(10)]
+        public string InOut { get; set; }
+
         public int ShipId { get; set; }
 
         [Required]
         [StringLength(30)]
         public string ShipName { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime VesselGoodJournalDate { get; set; }
+
+        [Required]
+        [StringLength(15)]
+        public string SyncStatus { get; set; }
+
+        public bool IsHidden { get; set; }
     }
 }

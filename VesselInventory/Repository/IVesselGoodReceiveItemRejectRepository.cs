@@ -14,7 +14,7 @@ namespace VesselInventory.Repository
     {
         public IEnumerable<VesselGoodReceiveItemReject> GetGoodReceiveItemRejected(int vesselGoodReceiveId)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.VesselGoodReceiveItemReject
                         where item.VesselGoodReceiveId == vesselGoodReceiveId && 
@@ -25,7 +25,7 @@ namespace VesselInventory.Repository
 
         public override void Delete(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 var current = context.VesselGoodReceiveItemReject.Find(id);
                 if (current is null) return;

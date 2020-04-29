@@ -23,7 +23,7 @@ namespace VesselInventory.Repository
     {
         public void DeleteTransaction(int id)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 StringBuilder execSp = new StringBuilder();
                 execSp.Append("usp_VesselGoodReturnItem_DeleteTransaction");
@@ -41,7 +41,7 @@ namespace VesselInventory.Repository
 
         public IEnumerable<VesselGoodReturnItem> GetGoodReturnItem(int vesselGoodReturnId)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.VesselGoodReturnItem
                         where item.VesselGoodReturnId == vesselGoodReturnId && 
@@ -52,7 +52,7 @@ namespace VesselInventory.Repository
 
         public void SaveTransaction(VesselGoodReturnItem vesselGoodReturnItem)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 StringBuilder execSp = new StringBuilder();
                 execSp.Append("usp_VesselGoodReturnItem_SaveTransaction");
@@ -96,7 +96,7 @@ namespace VesselInventory.Repository
 
         public void UpdateTransaction(int id, VesselGoodReturnItem vesselGoodReturnItem)
         {
-            using (var context = new VesselInventoryContext())
+            using (var context = new AppVesselInventoryContext())
             {
                 StringBuilder execSp = new StringBuilder();
                 execSp.Append("usp_VesselGoodReturnItem_UpdateTransaction");

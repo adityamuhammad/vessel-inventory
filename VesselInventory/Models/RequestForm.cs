@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Spatial;
-using VesselInventory.Commons.Enums;
-using VesselInventory.Utility;
 namespace VesselInventory.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
-    public class RequestForm
+    [Table("RequestForm")]
+    public partial class RequestForm
     {
-        [Key]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public RequestForm()
+        {
+            RequestFormItem = new HashSet<RequestFormItem>();
+        }
+
         public int RequestFormId { get; set; }
 
         [Required]
@@ -32,7 +36,7 @@ namespace VesselInventory.Models
 
         [Required]
         [StringLength(15)]
-        public string Status { get; set; } = Commons.Enums.Status.Draft.GetDescription();
+        public string Status { get; set; }
 
         public int ShipId { get; set; }
 
@@ -43,19 +47,24 @@ namespace VesselInventory.Models
         [Column(TypeName = "text")]
         public string Notes { get; set; }
 
-        [StringLength(15)]
-        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
+        public DateTime CreatedDate { get; set; }
 
-        public DateTime? CreatedDate { get; set; } = DateTime.Now;
-
-        [StringLength(30)]
         [Required]
-        public string CreatedBy { get; set; } = Auth.Instance.personalname;
+        [StringLength(30)]
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
         public string LastModifiedBy { get; set; }
-        public bool IsHidden { get; set; } = false;
+
+        [Required]
+        [StringLength(15)]
+        public string SyncStatus { get; set; }
+
+        public bool IsHidden { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RequestFormItem> RequestFormItem { get; set; }
     }
 }

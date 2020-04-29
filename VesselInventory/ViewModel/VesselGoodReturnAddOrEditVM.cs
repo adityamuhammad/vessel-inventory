@@ -81,8 +81,8 @@ namespace VesselInventory.ViewModel
         }
         public string vessel_good_return_number
         {
-            get => VesselGoodReturnDataView.VesselGoodreturnNumber;
-            set => VesselGoodReturnDataView.VesselGoodreturnNumber = value;
+            get => VesselGoodReturnDataView.VesselGoodReturnNumber;
+            set => VesselGoodReturnDataView.VesselGoodReturnNumber = value;
         }
 
         public DateTime vessel_good_return_date

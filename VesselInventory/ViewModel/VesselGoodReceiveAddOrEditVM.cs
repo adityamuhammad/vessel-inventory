@@ -158,7 +158,7 @@ namespace VesselInventory.ViewModel
             set => VesselGoodReceiveDataView.VesselGoodReceiveNumber = value;
         }
 
-        public DateTime vessel_good_receive_date
+        public DateTime? vessel_good_receive_date
         {
             get => VesselGoodReceiveDataView.VesselGoodReceiveDate;
             set

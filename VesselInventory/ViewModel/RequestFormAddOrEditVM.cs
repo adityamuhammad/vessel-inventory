@@ -353,7 +353,7 @@ namespace VesselInventory.ViewModel
             if (!RecordHelper.IsNewRecord(RequestFormId))
             {
                 SetUIEditProperties();
-                RequestFormDataView = _requestFormRepository.FindData(RequestFormId);
+                RequestFormDataView = _requestFormRepository.GetById(RequestFormId);
                 LoadDataGrid();
             }
             else
