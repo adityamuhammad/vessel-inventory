@@ -133,7 +133,7 @@
                     IsEnabled="False" 
                     Width="150" 
                     Text="{
-                        Binding rf_number,
+                        Binding RequestFormNumber,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -142,13 +142,13 @@
                     HorizontalAlignment="Left" 
                     Width="150" 
                     Text="{
-                        Binding project_number, 
+                        Binding ProjectNumber, 
                         UpdateSourceTrigger=PropertyChanged
                     }"/>
 
                 <DatePicker
                     Margin="0,10" 
-                    SelectedDate="{Binding target_delivery_date}" 
+                    SelectedDate="{Binding TargetDeliveryDate}" 
                     HorizontalAlignment="Left">
                 </DatePicker>
             </StackPanel>
@@ -187,7 +187,7 @@
                     IsEnabled="False" 
                     Width="100" 
                     Text="{
-                        Binding ship_name,
+                        Binding ShipName,
                         Mode=TwoWay,
                         UpdateSourceTrigger=PropertyChanged }"/>
                 <ComboBox 
@@ -196,7 +196,7 @@
                     Style="{StaticResource validationCombobox}"
                     ItemsSource="{Binding DepartmentCollection}" 
                     SelectedItem="{
-                        Binding department_name,
+                        Binding DepartmentName,
                         ValidatesOnNotifyDataErrors=True,
                         ValidatesOnDataErrors=True
                     }" 
@@ -209,7 +209,7 @@
                     AcceptsTab="True" 
                     TextWrapping="Wrap" 
                     Width="150" 
-                    Text="{Binding notes}"/>
+                    Text="{Binding Notes}"/>
             </StackPanel>
         </Grid>
 

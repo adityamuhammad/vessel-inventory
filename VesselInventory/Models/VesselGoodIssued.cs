@@ -8,42 +8,41 @@ namespace VesselInventory.Models
     using VesselInventory.Commons.Enums;
     using VesselInventory.Utility;
 
-    [Table("vessel_good_issued")]
     public partial class VesselGoodIssued
     {
         [Key]
-        public int vessel_good_issued_id { get; set; }
+        public int VesselGoodIssuedId { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string vessel_good_issued_number { get; set; }
+        public string VesselGoodIssuedNumber { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime vessel_good_issued_date { get; set; }
+        public DateTime VesselGoodIssuedDate { get; set; }
 
-        public int ship_id { get; set; }
+        public int ShipId { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string ship_name { get; set; }
+        public string ShipName { get; set; }
 
         [Column(TypeName = "text")]
-        public string notes { get; set; }
+        public string Notes { get; set; }
 
         [Required]
         [StringLength(15)]
-        public string sync_status { get; set; } = SyncStatus.Not_Sync.GetDescription();
+        public string SyncStatus { get; set; } = Commons.Enums.SyncStatus.Not_Sync.GetDescription();
 
-        public DateTime created_date { get; set; } = DateTime.Now;
+        public DateTime CreatedDAte { get; set; } = DateTime.Now;
 
         [Required]
         [StringLength(30)]
-        public string created_by { get; set; } = Auth.Instance.personalname;
+        public string CreatedBy { get; set; } = Auth.Instance.personalname;
 
-        public DateTime? last_modified_date { get; set; }
+        public DateTime? LastModifiedDate { get; set; }
 
         [StringLength(30)]
-        public string last_modified_by { get; set; }
-        public bool is_hidden { get; set; } = false;
+        public string LastModifiedBy { get; set; }
+        public bool IsHidden { get; set; } = false;
     }
 }

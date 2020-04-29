@@ -59,7 +59,7 @@ namespace VesselInventory.ViewModel
             {
                 IList<string> uoms = new List<string>();
                 foreach (var uom in _UOMRepository.GetAll())
-                    uoms.Add(uom.uom_name);
+                    uoms.Add(uom.UomName);
                 return uoms;
             }
         }
@@ -72,113 +72,113 @@ namespace VesselInventory.ViewModel
         #region
         private int vessel_good_receive_item_reject_id
         {
-            get => GoodReceiveItemRejectDataView.vessel_good_receive_item_reject_id;
-            set => GoodReceiveItemRejectDataView.vessel_good_receive_item_reject_id = value;
+            get => GoodReceiveItemRejectDataView.VesselGoodReceiveItemRejectId;
+            set => GoodReceiveItemRejectDataView.VesselGoodReceiveItemRejectId = value;
         }
         public int vessel_good_receive_id
         {
-            get => GoodReceiveItemRejectDataView.vessel_good_receive_id;
-            set => GoodReceiveItemRejectDataView.vessel_good_receive_id = value;
+            get => GoodReceiveItemRejectDataView.VesselGoodReceiveId;
+            set => GoodReceiveItemRejectDataView.VesselGoodReceiveId = value;
         }
 
         public string rf_number
         {
-            get => GoodReceiveItemRejectDataView.rf_number;
+            get => GoodReceiveItemRejectDataView.RequestFormNumber;
             set
             {
-                GoodReceiveItemRejectDataView.rf_number = value;
+                GoodReceiveItemRejectDataView.RequestFormNumber = value;
                 OnPropertyChanged("rf_number");
             }
         }
         public int item_id
         {
-            get => GoodReceiveItemRejectDataView.item_id;
+            get => GoodReceiveItemRejectDataView.ItemId;
             set
             {
-                GoodReceiveItemRejectDataView.item_id = value;
+                GoodReceiveItemRejectDataView.ItemId = value;
                 OnPropertyChanged("item_id");
             }
         }
         public int item_group_id
         {
-            get => GoodReceiveItemRejectDataView.item_group_id;
+            get => GoodReceiveItemRejectDataView.ItemGroupId;
             set
             {
-                GoodReceiveItemRejectDataView.item_group_id = value;
+                GoodReceiveItemRejectDataView.ItemGroupId = value;
                 OnPropertyChanged("item_group_id");
             }
         }
         public string item_name
         {
-            get => GoodReceiveItemRejectDataView.item_name;
+            get => GoodReceiveItemRejectDataView.ItemName;
             set
             {
-                GoodReceiveItemRejectDataView.item_name = value;
+                GoodReceiveItemRejectDataView.ItemName = value;
                 OnPropertyChanged("item_name");
             }
         }
         public string item_dimension_number
         {
-            get => GoodReceiveItemRejectDataView.item_dimension_number;
+            get => GoodReceiveItemRejectDataView.ItemDimensionNumber;
             set
             {
-                GoodReceiveItemRejectDataView.item_dimension_number = value;
+                GoodReceiveItemRejectDataView.ItemDimensionNumber = value;
                 OnPropertyChanged("item_dimension_number");
             }
         }
         public string brand_type_id
         {
-            get => GoodReceiveItemRejectDataView.brand_type_id;
+            get => GoodReceiveItemRejectDataView.BrandTypeId;
             set
             {
-                GoodReceiveItemRejectDataView.brand_type_id = value;
+                GoodReceiveItemRejectDataView.BrandTypeId = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
         public string brand_type_name
         {
-            get => GoodReceiveItemRejectDataView.brand_type_name;
+            get => GoodReceiveItemRejectDataView.BrandTypeName;
             set
             {
-                GoodReceiveItemRejectDataView.brand_type_name = value;
+                GoodReceiveItemRejectDataView.BrandTypeName = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
         public string color_size_id
         {
-            get => GoodReceiveItemRejectDataView.color_size_id;
+            get => GoodReceiveItemRejectDataView.ColorSizeId;
             set
             {
-                GoodReceiveItemRejectDataView.color_size_id = value;
+                GoodReceiveItemRejectDataView.ColorSizeId = value;
                 OnPropertyChanged("color_size_id");
             }
         }
         public string color_size_name
         {
-            get => GoodReceiveItemRejectDataView.color_size_name;
+            get => GoodReceiveItemRejectDataView.ColorSizeName;
             set
             {
-                GoodReceiveItemRejectDataView.color_size_name = value;
+                GoodReceiveItemRejectDataView.ColorSizeName = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public decimal qty
         {
-            get => GoodReceiveItemRejectDataView.qty;
+            get => GoodReceiveItemRejectDataView.Qty;
             set
             {
-                GoodReceiveItemRejectDataView.qty = value;
+                GoodReceiveItemRejectDataView.Qty = value;
                 OnPropertyChanged("qty");
             }
         }
 
         public string uom
         {
-            get => GoodReceiveItemRejectDataView.uom;
+            get => GoodReceiveItemRejectDataView.Uom;
             set
             {
-                GoodReceiveItemRejectDataView.uom = value;
+                GoodReceiveItemRejectDataView.Uom = value;
                 OnPropertyChanged("uom");
             }
         }

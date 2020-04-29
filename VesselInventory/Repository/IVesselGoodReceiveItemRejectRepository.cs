@@ -17,8 +17,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return (from item in context.VesselGoodReceiveItemReject
-                        where item.vessel_good_receive_id == vesselGoodReceiveId && 
-                        item.is_hidden == false select item)
+                        where item.VesselGoodReceiveId == vesselGoodReceiveId && 
+                        item.IsHidden == false select item)
                         .ToList();
             }
         }
@@ -29,7 +29,7 @@ namespace VesselInventory.Repository
             {
                 var current = context.VesselGoodReceiveItemReject.Find(id);
                 if (current is null) return;
-                current.is_hidden = true;
+                current.IsHidden = true;
                 context.SaveChanges();
             }
         }

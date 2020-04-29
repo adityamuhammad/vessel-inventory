@@ -37,8 +37,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return (from item in context.RequestFormItem
-                        where item.rf_id == rf_id && 
-                        item.is_hidden == false select item)
+                        where item.RequestFormId == rf_id && 
+                        item.IsHidden == false select item)
                         .ToList();
             }
         }
@@ -110,9 +110,9 @@ namespace VesselInventory.Repository
             {
                 var current = context.RequestFormItem.Find(id);
                 if (current is null) return;
-                current.is_hidden = true;
-                current.last_modified_date = DateTime.Now;
-                current.last_modified_by = Auth.Instance.personalname;
+                current.IsHidden = true;
+                current.LastModifiedDate = DateTime.Now;
+                current.LastModifiedBy = Auth.Instance.personalname;
                 context.SaveChanges();
             }
         }

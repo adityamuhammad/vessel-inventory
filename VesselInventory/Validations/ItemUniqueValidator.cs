@@ -28,9 +28,9 @@ namespace VesselInventory.Validations
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("rf_item", "rf_id"),
-                    new SqlParameter("@id", data.rf_id),
-                    new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    new SqlParameter("@id", data.RequestFormId),
+                    new SqlParameter("@item_id", data.ItemId),
+                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }
@@ -43,9 +43,9 @@ namespace VesselInventory.Validations
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_issued_item", "vessel_good_issued_id"),
-                    new SqlParameter("@id", data.vessel_good_issued_id),
-                    new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    new SqlParameter("@id", data.VesselGoodIssuedId),
+                    new SqlParameter("@item_id", data.ItemId),
+                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }
@@ -57,9 +57,9 @@ namespace VesselInventory.Validations
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_receive_item_reject", "vessel_good_receive_id"),
-                    new SqlParameter("@id", data.vessel_good_receive_id),
-                    new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    new SqlParameter("@id", data.VesselGoodReceiveId),
+                    new SqlParameter("@item_id", data.ItemId),
+                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }
@@ -71,9 +71,9 @@ namespace VesselInventory.Validations
             {
                 return context.Database.SqlQuery<int>
                     (FetchOneRowSqlStatement("vessel_good_return_item", "vessel_good_return_id"),
-                    new SqlParameter("@id", data.vessel_good_return_id),
-                    new SqlParameter("@item_id", data.item_id),
-                    new SqlParameter("@item_dimension_number", data.item_dimension_number))
+                    new SqlParameter("@id", data.VesselGoodReturnId),
+                    new SqlParameter("@item_id", data.ItemId),
+                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }

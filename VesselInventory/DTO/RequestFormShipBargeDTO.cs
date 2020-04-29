@@ -2,13 +2,13 @@
 {
     public class RequestFormShipBargeDto
     {
-        public string rf_number { get; set; }
-        public int ship_initial_id { get; set; }
-        public int ship_id { get; set; }
-        public int barge_id { get; set; }
-        public string ship_name { get; set; }
-        public string barge_name { get; set; }
-        public string ship_code { get; set; }
-        public string barge_code { get; set; }
+        public string RequestFormNumber { get; set; }
+        public int ShipInitialId { get; set; }
+        public int ShipId { get; set; }
+        public int BargeId { get; set; }
+        public string ShipName { get; set; }
+        public string Bargename { get; set; }
+        public string ShipCode { get; set; }
+        public string BargeCode { get; set; }
     }
 }

@@ -78,7 +78,7 @@ namespace VesselInventory.ViewModel
             {
                 IList<string> reasons = new List<string>();
                 foreach (var _ in CommonDataHelper.GetLookupValues("REASON"))
-                    reasons.Add(_.description);
+                    reasons.Add(_.Descriptions);
                 return reasons;
             }
         }
@@ -89,7 +89,7 @@ namespace VesselInventory.ViewModel
             {
                 IList<string> priorities = new List<string>();
                 foreach (var _ in CommonDataHelper.GetLookupValues("PRIORITY"))
-                    priorities.Add(_.description);
+                    priorities.Add(_.Descriptions);
                 return priorities;
             }
         }
@@ -104,34 +104,34 @@ namespace VesselInventory.ViewModel
         #region
         public int rf_id
         {
-            get => RequestFormItemDataView.rf_id;
+            get => RequestFormItemDataView.RequestFormId;
             set
             {
-                RequestFormItemDataView.rf_id = value;
+                RequestFormItemDataView.RequestFormId = value;
             }
         }
         public int rf_item_id
         {
-            get => RequestFormItemDataView.rf_item_id;
+            get => RequestFormItemDataView.RequestFormItemId;
             set
             {
-                RequestFormItemDataView.rf_item_id = value;
+                RequestFormItemDataView.RequestFormItemId = value;
             }
         }
         public string item_dimension_number
         {
-            get => RequestFormItemDataView.item_dimension_number;
+            get => RequestFormItemDataView.ItemDimensionNumber;
             set
             {
-                RequestFormItemDataView.item_dimension_number = value;
+                RequestFormItemDataView.ItemDimensionNumber = value;
             }
         }
         public int? item_group_id
         {
-            get => RequestFormItemDataView.item_group_id;
+            get => RequestFormItemDataView.ItemGroupId;
             set
             {
-                RequestFormItemDataView.item_group_id = value;
+                RequestFormItemDataView.ItemGroupId = value;
             }
         }
 
@@ -139,70 +139,70 @@ namespace VesselInventory.ViewModel
         [Display(Name ="Item Id")]
         public int item_id
         {
-            get => RequestFormItemDataView.item_id;
+            get => RequestFormItemDataView.ItemId;
             set
             {
-                RequestFormItemDataView.item_id = value;
+                RequestFormItemDataView.ItemId = value;
                 OnPropertyChanged("item_id");
             }
         }
 
         public string item_name
         {
-            get => RequestFormItemDataView.item_name;
+            get => RequestFormItemDataView.ItemName;
             set
             {
-                RequestFormItemDataView.item_name = value;
+                RequestFormItemDataView.ItemName = value;
                 OnPropertyChanged("item_name");
             }
         }
 
         public string brand_type_id
         {
-            get => RequestFormItemDataView.brand_type_id;
+            get => RequestFormItemDataView.BrandTypeId;
             set
             {
-                RequestFormItemDataView.brand_type_id = value;
+                RequestFormItemDataView.BrandTypeId = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
 
         public string brand_type_name
         {
-            get => RequestFormItemDataView.brand_type_name;
+            get => RequestFormItemDataView.BrandTypeName;
             set
             {
-                RequestFormItemDataView.brand_type_name = value;
+                RequestFormItemDataView.BrandTypeName = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
 
         public string color_size_id
         {
-            get => RequestFormItemDataView.color_size_id;
+            get => RequestFormItemDataView.ColorSizeId;
             set
             {
-                RequestFormItemDataView.color_size_id = value;
+                RequestFormItemDataView.ColorSizeId = value;
                 OnPropertyChanged("color_size_id");
             }
         }
 
         public string color_size_name
         {
-            get => RequestFormItemDataView.color_size_name;
+            get => RequestFormItemDataView.ColorSizeName;
             set
             {
-                RequestFormItemDataView.color_size_name = value;
+                RequestFormItemDataView.ColorSizeName = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public string attachment_path
         {
-            get => RequestFormItemDataView.attachment_path;
+            get => RequestFormItemDataView.AttachmentPath;
             set
             {
-                RequestFormItemDataView.attachment_path = value;
+                RequestFormItemDataView.AttachmentPath = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -212,11 +212,11 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                return RequestFormItemDataView.qty;
+                return RequestFormItemDataView.Qty;
             }
             set
             {
-                RequestFormItemDataView.qty = value;
+                RequestFormItemDataView.Qty = value;
                 OnPropertyChanged("qty");
             }
         }
@@ -225,13 +225,13 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (RequestFormItemDataView.reason is null)
-                    RequestFormItemDataView.reason = ReasonCollection.First();
-                return RequestFormItemDataView.reason;
+                if (RequestFormItemDataView.Reason is null)
+                    RequestFormItemDataView.Reason = ReasonCollection.First();
+                return RequestFormItemDataView.Reason;
             }
             set
             {
-                RequestFormItemDataView.reason = value;
+                RequestFormItemDataView.Reason = value;
                 OnPropertyChanged("reason");
             }
         }
@@ -240,33 +240,33 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (RequestFormItemDataView.priority is null)
-                    RequestFormItemDataView.priority = PriorityCollection.First();
-                return RequestFormItemDataView.priority;
+                if (RequestFormItemDataView.Priority is null)
+                    RequestFormItemDataView.Priority = PriorityCollection.First();
+                return RequestFormItemDataView.Priority;
             }
             set
             {
-                RequestFormItemDataView.priority = value;
+                RequestFormItemDataView.Priority = value;
                 OnPropertyChanged("priority");
             }
         }
 
         public string remarks
         {
-            get => RequestFormItemDataView.remarks;
+            get => RequestFormItemDataView.Remarks;
             set
             {
-                RequestFormItemDataView.remarks = value;
+                RequestFormItemDataView.Remarks = value;
                 OnPropertyChanged("remarks");
             }
         }
 
         public string uom
         {
-            get => RequestFormItemDataView.uom;
+            get => RequestFormItemDataView.Uom;
             set
             {
-                RequestFormItemDataView.uom = value;
+                RequestFormItemDataView.Uom = value;
                 OnPropertyChanged("uom");
             }
         }
@@ -342,15 +342,15 @@ namespace VesselInventory.ViewModel
             ItemGroupDimensionDto item = (ItemGroupDimensionDto)parameter;
             if (item != null)
             {
-                item_id = item.item_id;
-                item_name = item.item_name;
-                brand_type_id = item.brand_type_id;
-                brand_type_name = item.brand_type_name;
-                color_size_id = item.color_size_id;
-                color_size_name = item.color_size_name;
-                item_dimension_number = item.item_dimension_number;
-                item_group_id = item.item_group_id;
-                uom = item.uom;
+                item_id = item.ItemId;
+                item_name = item.ItemName;
+                brand_type_id = item.BrandTypeId;
+                brand_type_name = item.BrandTypeName;
+                color_size_id = item.ColorSizeId;
+                color_size_name = item.ColorSizeName;
+                item_dimension_number = item.ItemDimensionNumber;
+                item_group_id = item.ItemGroupId;
+                uom = item.Uom;
                 ItemSelectKeyword = string.Empty;
             }
         }
@@ -379,8 +379,8 @@ namespace VesselInventory.ViewModel
                 _requestFormItemRepository.Save(RequestFormItemDataView);
             } else
             {
-                RequestFormItemDataView.last_modified_by = Auth.Instance.personalname;
-                RequestFormItemDataView.last_modified_date = DateTime.Now;
+                RequestFormItemDataView.LastModifiedBy = Auth.Instance.personalname;
+                RequestFormItemDataView.LastModifiedDate = DateTime.Now;
                 _requestFormItemRepository.Update(rf_item_id,RequestFormItemDataView);
             }
         }

@@ -93,12 +93,12 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
-                    <DataGridTextColumn Width="1*" Header="Project Number" Binding="{Binding project_number}"/>
-                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding status}"/>
-                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
+                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="Project Number" Binding="{Binding ProjectNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding DepartmentName}"/>
+                    <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding Status}"/>
+                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ShipName}"/>
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding SyncStatus}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -126,7 +126,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.OpenDialogRequestFormCommand
                                         }" 
-                                        CommandParameter="{Binding rf_id}">
+                                        CommandParameter="{Binding RequestFormId}">
                                         <materialDesign:PackIcon 
                                             Kind="Edit" 
                                             VerticalContentAlignment="Center"

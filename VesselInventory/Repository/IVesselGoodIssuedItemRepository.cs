@@ -25,8 +25,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return (from item in context.VesselGoodIssuedItem
-                        where item.vessel_good_issued_id == vesselGoodIssuedId && 
-                        item.is_hidden == false select item)
+                        where item.VesselGoodIssuedId == vesselGoodIssuedId && 
+                        item.IsHidden == false select item)
                         .ToList();
 
             }
@@ -55,21 +55,21 @@ namespace VesselInventory.Repository
                 execSp.Append(" @is_hidden");
                 context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
-                     new SqlParameter("@vessel_good_issued_id", vesselGoodIssuedItem.vessel_good_issued_id),
-                     new SqlParameter("@item_id", vesselGoodIssuedItem.item_id),
-                     new SqlParameter("@item_name", vesselGoodIssuedItem.item_name),
-                     new SqlParameter("@brand_type_id", vesselGoodIssuedItem.brand_type_id),
-                     new SqlParameter("@brand_type_name", vesselGoodIssuedItem.brand_type_name),
-                     new SqlParameter("@color_size_id", vesselGoodIssuedItem.color_size_id),
-                     new SqlParameter("@color_size_name", vesselGoodIssuedItem.color_size_name),
-                     new SqlParameter("@item_dimension_number", vesselGoodIssuedItem.item_dimension_number),
-                     new SqlParameter("@item_group_id", vesselGoodIssuedItem.item_group_id),
-                     new SqlParameter("@qty", vesselGoodIssuedItem.qty),
-                     new SqlParameter("@uom", vesselGoodIssuedItem.uom),
-                     new SqlParameter("@created_by", vesselGoodIssuedItem.created_by),
-                     new SqlParameter("@created_date", vesselGoodIssuedItem.created_date),
-                     new SqlParameter("@sync_status", vesselGoodIssuedItem.sync_status),
-                     new SqlParameter("@is_hidden", vesselGoodIssuedItem.is_hidden)
+                     new SqlParameter("@vessel_good_issued_id", vesselGoodIssuedItem.VesselGoodIssuedId),
+                     new SqlParameter("@item_id", vesselGoodIssuedItem.ItemId),
+                     new SqlParameter("@item_name", vesselGoodIssuedItem.ItemName),
+                     new SqlParameter("@brand_type_id", vesselGoodIssuedItem.BrandTypeId),
+                     new SqlParameter("@brand_type_name", vesselGoodIssuedItem.BrandTypeName),
+                     new SqlParameter("@color_size_id", vesselGoodIssuedItem.ColorSizeId),
+                     new SqlParameter("@color_size_name", vesselGoodIssuedItem.ColorSizeName),
+                     new SqlParameter("@item_dimension_number", vesselGoodIssuedItem.ItemDimensionNumber),
+                     new SqlParameter("@item_group_id", vesselGoodIssuedItem.ItemGroupId),
+                     new SqlParameter("@qty", vesselGoodIssuedItem.Qty),
+                     new SqlParameter("@uom", vesselGoodIssuedItem.Uom),
+                     new SqlParameter("@created_by", vesselGoodIssuedItem.CreatedBy),
+                     new SqlParameter("@created_date", vesselGoodIssuedItem.CreatedDate),
+                     new SqlParameter("@sync_status", vesselGoodIssuedItem.SyncStatus),
+                     new SqlParameter("@is_hidden", vesselGoodIssuedItem.IsHidden)
                      );
             }
         }
@@ -85,8 +85,8 @@ namespace VesselInventory.Repository
                 execSp.Append(" @last_modified_date");
                 context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
-                     new SqlParameter("@vessel_good_issued_item_id", vesselGoodIssuedItem.vessel_good_issued_item_id),
-                     new SqlParameter("@qty", vesselGoodIssuedItem.qty),
+                     new SqlParameter("@vessel_good_issued_item_id", vesselGoodIssuedItem.VesselGoodIssuedItemId),
+                     new SqlParameter("@qty", vesselGoodIssuedItem.Qty),
                      new SqlParameter("@last_modified_by", Auth.Instance.personalname),
                      new SqlParameter("@last_modified_date", DateTime.Now)
                      );

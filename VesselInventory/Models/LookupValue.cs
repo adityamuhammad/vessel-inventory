@@ -6,20 +6,19 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("lookup_value")]
     public partial class LookupValue
     {
         [Key]
-        public int lookup_value_id { get; set; }
+        public int LookupValueId { get; set; }
 
         [StringLength(50)]
-        public string description { get; set; }
+        public string Descriptions { get; set; }
 
         [StringLength(50)]
-        public string lookup_type { get; set; }
+        public string LookupType { get; set; }
 
         [StringLength(5)]
-        public string abbreviation { get; set; }
+        public string Abbreviation { get; set; }
 
     }
 }

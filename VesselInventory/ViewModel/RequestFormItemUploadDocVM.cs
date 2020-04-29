@@ -44,8 +44,8 @@ namespace VesselInventory.ViewModel
         } = new RequestFormItem();
 
         public int rf_item_id {
-            get => RequestFormItemDataView.rf_item_id;
-            set => RequestFormItemDataView.rf_item_id = value;
+            get => RequestFormItemDataView.RequestFormItemId;
+            set => RequestFormItemDataView.RequestFormItemId = value;
         }
 
         private string _attachment_local_path = string.Empty;
@@ -61,10 +61,10 @@ namespace VesselInventory.ViewModel
 
         public string attachment_path
         {
-            get => RequestFormItemDataView.attachment_path;
+            get => RequestFormItemDataView.AttachmentPath;
             set
             {
-                RequestFormItemDataView.attachment_path = value;
+                RequestFormItemDataView.AttachmentPath = value;
                 OnPropertyChanged("attachment_path");
             }
         }
@@ -99,8 +99,8 @@ namespace VesselInventory.ViewModel
 
         private void Update()
         {
-            RequestFormItemDataView.last_modified_by = Auth.Instance.personalname;
-            RequestFormItemDataView.last_modified_date = DateTime.Now;
+            RequestFormItemDataView.LastModifiedBy = Auth.Instance.personalname;
+            RequestFormItemDataView.LastModifiedDate = DateTime.Now;
             _requestFormItemRepository.Update(rf_item_id, RequestFormItemDataView);
         }
     }

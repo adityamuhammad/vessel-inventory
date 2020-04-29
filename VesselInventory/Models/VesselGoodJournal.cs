@@ -6,61 +6,60 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("vessel_good_journal")]
     public partial class VesselGoodJournal
     {
         [Key]
-        public int vessel_good_journal_id { get; set; }
+        public int VesselGoodJournalId { get; set; }
 
         [Column(TypeName = "date")]
-        public DateTime vessel_good_journal_date { get; set; }
+        public DateTime VesselGoodJournalDate { get; set; }
 
         [Required]
         [StringLength(10)]
-        public string in_out { get; set; }
+        public string InOut { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string document_reference { get; set; }
+        public string DocumentReference { get; set; }
 
         [Required]
         [StringLength(10)]
-        public string document_type { get; set; }
+        public string DocumentType { get; set; }
 
-        public int item_id { get; set; }
+        public int ItemId { get; set; }
 
-        public int item_group_id { get; set; }
+        public int ItemGroupId { get; set; }
 
         [Required]
         [StringLength(25)]
-        public string item_dimension_number { get; set; }
+        public string ItemDimensionNumber { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string item_name { get; set; }
+        public string ItemName { get; set; }
 
         [Required]
         [StringLength(5)]
-        public string brand_type_id { get; set; }
+        public string BrandTypeId { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string brand_type_name { get; set; }
+        public string BrandTypeName { get; set; }
 
         [Required]
         [StringLength(5)]
-        public string color_size_id { get; set; }
+        public string ColorSizeId { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string color_size_name { get; set; }
+        public string ColorSizeName { get; set; }
 
-        public decimal qty { get; set; }
+        public decimal Qty { get; set; }
 
-        public int ship_id { get; set; }
+        public int ShipId { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string ship_name { get; set; }
+        public string ShipName { get; set; }
     }
 }

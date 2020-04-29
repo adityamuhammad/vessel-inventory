@@ -4,16 +4,16 @@ namespace VesselInventory.Dto
 {
     public class ItemStatusDto
     {
-        public int item_id { get; set; }
-        public string item_description { get; set; }
-        public decimal? qty { get; set; }
-        public string uom { get; set; }
-        public string item_group_name { get; set; }
-        public string priority { get; set; }
-        public string rf_number { get; set; }
-        public string item_status { get; set; }
-        public string department_name { get; set; }
-        public DateTime target_delivery_date { get; set; }
-        public string sync_status { get; set; }
+        public int ItemId { get; set; }
+        public string ItemDescriptions { get; set; }
+        public decimal Qty { get; set; }
+        public string Uom { get; set; }
+        public string ItemGroupName { get; set; }
+        public string Priority { get; set; }
+        public string RequestFormNumber { get; set; }
+        public string ItemStatus { get; set; }
+        public string DepartmentName { get; set; }
+        public DateTime TargetDeliveryDate { get; set; }
+        public string SyncStatus { get; set; }
     }
 }

@@ -6,22 +6,21 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("user")]
     public partial class User
     {
         [Key]
-        public int user_id { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string username { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
-        public int ship_id { get; set; }
+        public int ShipId { get; set; }
 
-        public int department_id { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace VesselInventory.Models
 {
-    [Table("uom")]
     public class Uom
     {
         [Key]
-        public int uom_id { get; set; }
-        public string uom_name { get; set; }
+        public int UomId { get; set; }
+        public string UomName { get; set; }
     }
 }

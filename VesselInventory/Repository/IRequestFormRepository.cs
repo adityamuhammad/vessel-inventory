@@ -11,10 +11,11 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
+        RequestForm FindData(int id);
         IEnumerable<RequestForm> GetRequestFormDataGrid(
             string search, int page, int rows, 
             string sortByColumnName, string sortBy);
-        int GetRequestFormTotalPage(string search, int rows = 10);
+        int GetRequestFormTotalPage(string search, int rows);
         RequestFormShipBargeDto GetRrequestFormShipBarge();
         RequestForm SaveTransaction(RequestForm requestForm);
         void Release(int id);
@@ -52,7 +53,7 @@ namespace VesselInventory.Repository
             }
         }
 
-        public int GetRequestFormTotalPage(string search, int rows = 10)
+        public int GetRequestFormTotalPage(string search, int rows)
         {
             using (var context = new VesselInventoryContext())
             {
@@ -78,10 +79,18 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 var requestForm = context.RequestForm.Find(id);
-                requestForm.last_modified_by = Auth.Instance.personalname;
-                requestForm.last_modified_date = DateTime.Now;
-                requestForm.status = Status.Release.GetDescription();
+                requestForm.LastModifiedBy = Auth.Instance.personalname;
+                requestForm.LastModifiedDate = DateTime.Now;
+                requestForm.Status = Status.Release.GetDescription();
                 context.SaveChanges();
+            }
+        }
+
+        public RequestForm FindData(int id)
+        {
+            using (var context = new VesselInventoryContext())
+            {
+                return context.RequestForm.Find(id);
             }
         }
     }

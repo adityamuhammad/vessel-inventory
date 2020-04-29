@@ -24,7 +24,7 @@ namespace VesselInventory.ViewModel
         {
             _shipRepository = shipRepository;
             _shipInitialRepository = shipInitialRepository;
-            barge_id = ShipInitialDataView.barge_id;
+            barge_id = ShipInitialDataView.BargeId;
             ShipInitialDataView = _shipInitialRepository.GetById(ship_initial_id);
             ChangeBargeCommand = new RelayCommand(ChangeBarge);
         }
@@ -38,17 +38,17 @@ namespace VesselInventory.ViewModel
         private ShipBargeDto ShipBarge => CommonDataHelper.GetShipBargeApairs();
         public ShipInitial ShipInitialDataView { get; set; } = new ShipInitial();
         public int ship_initial_id => 1;
-        public string ship_name => ShipBarge.ship_name;
-        public int ship_id => ShipInitialDataView.ship_id;
+        public string ship_name => ShipBarge.ShipName;
+        public int ship_id => ShipInitialDataView.ShipId;
         public int barge_id
         {
             get
             {
-                return ShipInitialDataView.barge_id;
+                return ShipInitialDataView.BargeId;
             }
             set
             {
-                ShipInitialDataView.barge_id = value;
+                ShipInitialDataView.BargeId = value;
                 OnPropertyChanged("barge_id");
             }
         } 
@@ -56,11 +56,11 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                var ship = _shipRepository.GetWhere(_ => _.is_barge == true).ToList();
+                var ship = _shipRepository.GetWhere(_ => _.IsBarge == true).ToList();
                 var data = (from barge in ship
                             select new BargeDto {
-                                    barge_id = barge.ship_id,
-                                    barge_name = barge.ship_name});
+                                    BargeId = barge.ShipId,
+                                    BargeName = barge.ShipName});
                 return data.ToList();
             }
         }

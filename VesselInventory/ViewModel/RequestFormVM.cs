@@ -85,13 +85,13 @@ namespace VesselInventory.ViewModel
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 
             = new ObservableCollection<RequestForm>();
 
-        private int DataGridRows => 10;
+        public int DataGridRows => 10;
         private IEnumerable<RequestForm> RequestFormList
         {
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows, "rf_id", "desc");
+                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows, "RequestFormId", "desc");
             }
         }
         #endregion
@@ -121,12 +121,13 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
+        public int DataGridRow => 10;
         private int TotalPageFromDatabase
         {
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormTotalPage(SearchKeyword);
+                    GetRequestFormTotalPage(SearchKeyword, DataGridRow);
             }
         }
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;

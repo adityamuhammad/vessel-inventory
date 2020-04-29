@@ -35,13 +35,13 @@ namespace VesselInventory.Commons.HelperFunctions
             }
         }
 
-        public static string GetSequenceNumber(int sequence_id)
+        public static string GetSequenceNumber(int sequenceId)
         {
             using (var context = new VesselInventoryContext())
             {
                 return context.Database
                     .SqlQuery<string>
-                        ("usp_DocSequence_GetSequenceNumber @p0", sequence_id).Single();
+                        ("usp_DocSequence_GetSequenceNumber @p0", sequenceId).Single();
             }
         }
     }

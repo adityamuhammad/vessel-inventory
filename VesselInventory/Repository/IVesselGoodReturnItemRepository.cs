@@ -44,8 +44,8 @@ namespace VesselInventory.Repository
             using (var context = new VesselInventoryContext())
             {
                 return (from item in context.VesselGoodReturnItem
-                        where item.vessel_good_return_id == vesselGoodReturnId && 
-                        item.is_hidden == false select item)
+                        where item.VesselGoodReturnId == vesselGoodReturnId && 
+                        item.IsHidden == false select item)
                         .ToList();
             }
         }
@@ -74,22 +74,22 @@ namespace VesselInventory.Repository
                 execSp.Append(" @is_hidden");
                 context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
-                     new SqlParameter("@vessel_good_return_id", vesselGoodReturnItem.vessel_good_return_id),
-                     new SqlParameter("@item_id", vesselGoodReturnItem.item_id),
-                     new SqlParameter("@item_name", vesselGoodReturnItem.item_name),
-                     new SqlParameter("@brand_type_id", vesselGoodReturnItem.brand_type_id),
-                     new SqlParameter("@brand_type_name", vesselGoodReturnItem.brand_type_name),
-                     new SqlParameter("@color_size_id", vesselGoodReturnItem.color_size_id),
-                     new SqlParameter("@color_size_name", vesselGoodReturnItem.color_size_name),
-                     new SqlParameter("@item_dimension_number", vesselGoodReturnItem.item_dimension_number),
-                     new SqlParameter("@item_group_id", vesselGoodReturnItem.item_group_id),
-                     new SqlParameter("@qty", vesselGoodReturnItem.qty),
-                     new SqlParameter("@uom", vesselGoodReturnItem.uom),
-                     new SqlParameter("@reason", vesselGoodReturnItem.reason),
-                     new SqlParameter("@created_by", vesselGoodReturnItem.created_by),
-                     new SqlParameter("@created_date", vesselGoodReturnItem.created_date),
-                     new SqlParameter("@sync_status", vesselGoodReturnItem.sync_status),
-                     new SqlParameter("@is_hidden", vesselGoodReturnItem.is_hidden)
+                     new SqlParameter("@vessel_good_return_id", vesselGoodReturnItem.VesselGoodReturnId),
+                     new SqlParameter("@item_id", vesselGoodReturnItem.ItemId),
+                     new SqlParameter("@item_name", vesselGoodReturnItem.ItemName),
+                     new SqlParameter("@brand_type_id", vesselGoodReturnItem.BrandTypeId),
+                     new SqlParameter("@brand_type_name", vesselGoodReturnItem.BrandTypeName),
+                     new SqlParameter("@color_size_id", vesselGoodReturnItem.ColorSizeId),
+                     new SqlParameter("@color_size_name", vesselGoodReturnItem.ColorSizeName),
+                     new SqlParameter("@item_dimension_number", vesselGoodReturnItem.ItemDimensionNumber),
+                     new SqlParameter("@item_group_id", vesselGoodReturnItem.ItemGroupId),
+                     new SqlParameter("@qty", vesselGoodReturnItem.Qty),
+                     new SqlParameter("@uom", vesselGoodReturnItem.Uom),
+                     new SqlParameter("@reason", vesselGoodReturnItem.Reason),
+                     new SqlParameter("@created_by", vesselGoodReturnItem.CreatedBy),
+                     new SqlParameter("@created_date", vesselGoodReturnItem.CreatedDate),
+                     new SqlParameter("@sync_status", vesselGoodReturnItem.SyncStatus),
+                     new SqlParameter("@is_hidden", vesselGoodReturnItem.IsHidden)
                      );
             }
         }
@@ -107,9 +107,9 @@ namespace VesselInventory.Repository
                 execSp.Append(" @last_modified_date");
                 context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
-                     new SqlParameter("@vessel_good_return_item_id", vesselGoodReturnItem.vessel_good_return_item_id),
-                     new SqlParameter("@qty", vesselGoodReturnItem.qty),
-                     new SqlParameter("@reason", vesselGoodReturnItem.reason),
+                     new SqlParameter("@vessel_good_return_item_id", vesselGoodReturnItem.VesselGoodReturnItemId),
+                     new SqlParameter("@qty", vesselGoodReturnItem.Qty),
+                     new SqlParameter("@reason", vesselGoodReturnItem.Reason),
                      new SqlParameter("@last_modified_by", Auth.Instance.personalname),
                      new SqlParameter("@last_modified_date", DateTime.Now)
                      );

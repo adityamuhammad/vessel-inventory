@@ -90,103 +90,103 @@ namespace VesselInventory.ViewModel
 
         public int vessel_good_return_item_id
         {
-            get => VesselGoodReturnItemDataView.vessel_good_return_item_id;
-            set => VesselGoodReturnItemDataView.vessel_good_return_item_id = value;
+            get => VesselGoodReturnItemDataView.VesselGoodReturnItemId;
+            set => VesselGoodReturnItemDataView.VesselGoodReturnItemId = value;
         }
 
         public int vessel_good_return_id
         {
-            get => VesselGoodReturnItemDataView.vessel_good_return_id;
-            set => VesselGoodReturnItemDataView.vessel_good_return_id = value;
+            get => VesselGoodReturnItemDataView.VesselGoodReturnId;
+            set => VesselGoodReturnItemDataView.VesselGoodReturnId = value;
         }
 
         public int item_group_id
         {
-            get => VesselGoodReturnItemDataView.item_group_id;
-            set => VesselGoodReturnItemDataView.item_group_id = value;
+            get => VesselGoodReturnItemDataView.ItemGroupId;
+            set => VesselGoodReturnItemDataView.ItemGroupId = value;
         }
 
         public string item_dimension_number
         {
-            get => VesselGoodReturnItemDataView.item_dimension_number;
-            set => VesselGoodReturnItemDataView.item_dimension_number = value;
+            get => VesselGoodReturnItemDataView.ItemDimensionNumber;
+            set => VesselGoodReturnItemDataView.ItemDimensionNumber = value;
         }
 
         public int item_id
         {
-            get => VesselGoodReturnItemDataView.item_id;
+            get => VesselGoodReturnItemDataView.ItemId;
             set
             {
-                VesselGoodReturnItemDataView.item_id = value;
+                VesselGoodReturnItemDataView.ItemId = value;
                 OnPropertyChanged("item_id");
             }
         }
 
         public string item_name
         {
-            get => VesselGoodReturnItemDataView.item_name;
+            get => VesselGoodReturnItemDataView.ItemName;
             set
             {
-                VesselGoodReturnItemDataView.item_name = value;
+                VesselGoodReturnItemDataView.ItemName = value;
                 OnPropertyChanged("item_name");
             }
         }
 
         public string brand_type_id
         {
-            get => VesselGoodReturnItemDataView.brand_type_id;
+            get => VesselGoodReturnItemDataView.BrandTypeId;
             set
             {
-                VesselGoodReturnItemDataView.brand_type_id = value;
+                VesselGoodReturnItemDataView.BrandTypeId = value;
                 OnPropertyChanged("brand_type_id");
             }
         }
 
         public string brand_type_name
         {
-            get => VesselGoodReturnItemDataView.brand_type_name;
+            get => VesselGoodReturnItemDataView.BrandTypeName;
             set
             {
-                VesselGoodReturnItemDataView.brand_type_name = value;
+                VesselGoodReturnItemDataView.BrandTypeName = value;
                 OnPropertyChanged("brand_type_name");
             }
         }
         public string color_size_id
         {
-            get => VesselGoodReturnItemDataView.color_size_id;
+            get => VesselGoodReturnItemDataView.ColorSizeId;
             set
             {
-                VesselGoodReturnItemDataView.color_size_id = value;
+                VesselGoodReturnItemDataView.ColorSizeId = value;
                 OnPropertyChanged("color_size_id");
             }
         }
 
         public string color_size_name
         {
-            get => VesselGoodReturnItemDataView.color_size_name;
+            get => VesselGoodReturnItemDataView.ColorSizeName;
             set
             {
-                VesselGoodReturnItemDataView.color_size_name = value;
+                VesselGoodReturnItemDataView.ColorSizeName = value;
                 OnPropertyChanged("color_size_name");
             }
         }
 
         public decimal qty
         {
-            get => VesselGoodReturnItemDataView.qty;
+            get => VesselGoodReturnItemDataView.Qty;
             set
             {
-                VesselGoodReturnItemDataView.qty = value;
+                VesselGoodReturnItemDataView.Qty = value;
                 OnPropertyChanged("qty");
             }
         }
 
         public string uom
         {
-            get => VesselGoodReturnItemDataView.uom;
+            get => VesselGoodReturnItemDataView.Uom;
             set
             {
-                VesselGoodReturnItemDataView.uom = value;
+                VesselGoodReturnItemDataView.Uom = value;
                 OnPropertyChanged("uom");
             }
         }
@@ -194,13 +194,13 @@ namespace VesselInventory.ViewModel
         {
             get
             {
-                if (VesselGoodReturnItemDataView.reason is null)
-                    VesselGoodReturnItemDataView.reason = ReasonCollection.First();
-                return VesselGoodReturnItemDataView.reason;
+                if (VesselGoodReturnItemDataView.Reason is null)
+                    VesselGoodReturnItemDataView.Reason = ReasonCollection.First();
+                return VesselGoodReturnItemDataView.Reason;
             }
             set
             {
-                VesselGoodReturnItemDataView.reason = value;
+                VesselGoodReturnItemDataView.Reason = value;
                 OnPropertyChanged("reason");
             }
         }
@@ -211,7 +211,7 @@ namespace VesselInventory.ViewModel
             {
                 IList<string> reasons = new List<string>();
                 foreach (var _ in CommonDataHelper.GetLookupValues("REASON"))
-                    reasons.Add(_.description);
+                    reasons.Add(_.Descriptions);
                 return reasons;
             }
         }
@@ -272,15 +272,15 @@ namespace VesselInventory.ViewModel
             ItemGroupDimensionDto item = (ItemGroupDimensionDto)parameter;
             if (item != null)
             {
-                item_id = item.item_id;
-                item_name = item.item_name;
-                brand_type_id = item.brand_type_id;
-                brand_type_name = item.brand_type_name;
-                color_size_id = item.color_size_id;
-                color_size_name = item.color_size_name;
-                item_dimension_number = item.item_dimension_number;
-                item_group_id = item.item_group_id;
-                uom = item.uom;
+                item_id = item.ItemId;
+                item_name = item.ItemName;
+                brand_type_id = item.BrandTypeId;
+                brand_type_name = item.BrandTypeName;
+                color_size_id = item.ColorSizeId;
+                color_size_name = item.ColorSizeName;
+                item_dimension_number = item.ItemDimensionNumber;
+                item_group_id = item.ItemGroupId;
+                uom = item.Uom;
                 ItemSelectKeyword = string.Empty;
             }
         }

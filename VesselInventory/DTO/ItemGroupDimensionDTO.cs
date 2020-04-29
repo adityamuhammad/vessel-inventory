@@ -2,15 +2,15 @@
 {
     public class ItemGroupDimensionDto
     {
-        public int item_id { get; set; }
-        public string item_name { get; set; }
-        public string uom { get; set; }
-        public string item_dimension_number { get; set; }
-        public string brand_type_id { get; set; }
-        public string brand_type_name { get; set; }
-        public string color_size_id { get; set; }
-        public string color_size_name { get; set; }
-        public int item_group_id { get; set; }
-        public string item_group_name { get; set; }
+        public int ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string Uom { get; set; }
+        public string ItemDimensionNumber { get; set; }
+        public string BrandTypeId { get; set; }
+        public string BrandTypeName { get; set; }
+        public string ColorSizeId { get; set; }
+        public string ColorSizeName { get; set; }
+        public int ItemGroupId { get; set; }
+        public string ItemGroupName { get; set; }
     }
 }

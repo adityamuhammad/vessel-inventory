@@ -6,25 +6,24 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("item")]
     public partial class Item
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int item_id { get; set; }
+        public int ItemId { get; set; }
 
-        public int item_group_id { get; set; }
+        public int ItemGroupId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string item_name { get; set; }
+        public string ItemName { get; set; }
 
         [Required]
         [StringLength(10)]
-        public string uom { get; set; }
+        public string Uom { get; set; }
 
         [Required]
         [StringLength(15)]
-        public string sync_status { get; set; }
+        public string SyncStatus { get; set; }
     }
 }

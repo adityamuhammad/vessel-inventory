@@ -8,22 +8,21 @@ using System.Threading.Tasks;
 
 namespace VesselInventory.Models
 {
-    [Table("ship")]
     public partial class Ship
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int ship_id { get; set; }
+        public int ShipId { get; set; }
 
 
         [Required]
         [StringLength(30)]
-        public string ship_name { get; set; }
+        public string ShipName { get; set; }
 
         [Required]
         [StringLength(10)]
-        public string ship_code { get; set; }
+        public string ShipCode { get; set; }
 
-        public bool is_barge { get; set; }
+        public bool IsBarge { get; set; }
     }
 }

@@ -86,13 +86,11 @@ namespace VesselInventory.ViewModel
                         if (i == 1)
                             ship_id = int.Parse(textScanList[i]);
                         if (i == 2)
-                            ship_code = textScanList[i];
                         if (i == 3)
                             ship_name = textScanList[i];
                         if (i == 4)
                             barge_id = int.Parse(textScanList[i]);
                         if (i == 5)
-                            barge_code = textScanList[i];
                         if (i == 6)
                             barge_name = textScanList[i];
                     }
@@ -109,10 +107,8 @@ namespace VesselInventory.ViewModel
         {
             good_issued_number = "";
             ship_id = 0;
-            ship_code = "";
             ship_name = "";
             barge_id = 0;
-            barge_code = "";
             barge_name = "";
         }
 
@@ -153,91 +149,72 @@ namespace VesselInventory.ViewModel
         #region
         public int vessel_good_receive_id
         {
-            get => VesselGoodReceiveDataView.vessel_good_receive_id;
-            set => VesselGoodReceiveDataView.vessel_good_receive_id = value;
+            get => VesselGoodReceiveDataView.VesselGoodReceiveId;
+            set => VesselGoodReceiveDataView.VesselGoodReceiveId = value;
         }
         public string vessel_good_receive_number
         {
-            get => VesselGoodReceiveDataView.vessel_good_receive_number;
-            set => VesselGoodReceiveDataView.vessel_good_receive_number = value;
+            get => VesselGoodReceiveDataView.VesselGoodReceiveNumber;
+            set => VesselGoodReceiveDataView.VesselGoodReceiveNumber = value;
         }
 
         public DateTime vessel_good_receive_date
         {
-            get => VesselGoodReceiveDataView.vessel_good_receive_date;
+            get => VesselGoodReceiveDataView.VesselGoodReceiveDate;
             set
             {
-                VesselGoodReceiveDataView.vessel_good_receive_date = DateTime.Parse(value.ToString());
+                VesselGoodReceiveDataView.VesselGoodReceiveDate = DateTime.Parse(value.ToString());
                 OnPropertyChanged("vessel_good_issued");
             }
         }
 
         public string good_issued_number
         {
-            get => VesselGoodReceiveDataView.good_issued_number;
+            get => VesselGoodReceiveDataView.OfficeGoodIssuedNumber;
             set
             {
-                VesselGoodReceiveDataView.good_issued_number = value;
+                VesselGoodReceiveDataView.OfficeGoodIssuedNumber = value;
                 OnPropertyChanged("good_issued_number");
             }
         }
 
         public int ship_id
         {
-            get => VesselGoodReceiveDataView.ship_id;
+            get => VesselGoodReceiveDataView.ShipId;
             set
             {
-                VesselGoodReceiveDataView.ship_id = value;
+                VesselGoodReceiveDataView.ShipId = value;
                 OnPropertyChanged("ship_id");
             }
         }
 
         public int barge_id
         {
-            get => VesselGoodReceiveDataView.barge_id;
+            get => VesselGoodReceiveDataView.BargeId;
             set
             {
-                VesselGoodReceiveDataView.barge_id = value;
+                VesselGoodReceiveDataView.BargeId = value;
                 OnPropertyChanged("barge_id");
-            }
-        }
-
-        public string ship_code
-        {
-            get => VesselGoodReceiveDataView.ship_code;
-            set
-            {
-                VesselGoodReceiveDataView.ship_code = value;
-                OnPropertyChanged("ship_code");
             }
         }
 
         public string ship_name
         {
-            get => VesselGoodReceiveDataView.ship_name;
+            get => VesselGoodReceiveDataView.ShipName;
             set
             {
-                VesselGoodReceiveDataView.ship_name = value;
+                VesselGoodReceiveDataView.ShipName = value;
                 OnPropertyChanged("ship_name");
             }
         }
 
-        public string barge_code
-        {
-            get => VesselGoodReceiveDataView.barge_code;
-            set
-            {
-                VesselGoodReceiveDataView.barge_code = value;
-                OnPropertyChanged("barge_code");
-            }
-        }
 
         public string barge_name
         {
-            get => VesselGoodReceiveDataView.barge_name;
+            get => VesselGoodReceiveDataView.BargeName;
             set
             {
-                VesselGoodReceiveDataView.barge_name = value;
+                VesselGoodReceiveDataView.BargeName = value;
                 OnPropertyChanged("barge_name");
             }
         }
@@ -252,7 +229,7 @@ namespace VesselInventory.ViewModel
             if (RecordHelper.IsNewRecord(vessel_good_receive_id))
             {
                 IsItemEnabled = false;
-                vessel_good_receive_number = CommonDataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ship_code;
+                vessel_good_receive_number = CommonDataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ShipCode;
                 vessel_good_receive_date = DateTime.Now;
             }
             else
@@ -307,8 +284,8 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if (ship_code != ShipBarge.ship_code)
-                    throw new Exception(GlobalNamespace.ShipDoesNotMatch);
+                //if (ship_code != ShipBarge.ShipCode)
+                //    throw new Exception(GlobalNamespace.ShipDoesNotMatch);
 
                 SaveOrUpdate();
                 IsItemEnabled = true;
