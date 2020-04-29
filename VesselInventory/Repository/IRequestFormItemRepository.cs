@@ -12,18 +12,18 @@ namespace VesselInventory.Repository
     {
         IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
         IEnumerable<ItemStatusDto> GetItemStatusDataGrid(
-            string item_id, string item_name, 
-            string item_status, string rf_number, 
-            string department_name, int page, int rows,
+            string itemId, string itemName, 
+            string itemStatus, string requestFormNumber, 
+            string departmentName, int page, int rows,
             string sortColumnName, string sortBy);
         int GetItemStatusTotalPage(
-            string item_id, string item_name, 
-            string item_status, string rf_number, 
-            string department_name, int rows);
+            string itemId, string itemName, 
+            string itemStatus, string requestFormNumber, 
+            string departmentName, int rows);
         IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
             string rf_number, int page, int rows, 
             string sortColumnName, string sortBy);
-        int GetItemPendingTotalPage(string rf_number, int rows);
+        int GetItemPendingTotalPage(string requestFormNumber, int rows);
     }
 
     public class RequestFormItemRepository 
@@ -32,20 +32,20 @@ namespace VesselInventory.Repository
     {
         public RequestFormItemRepository() { }
 
-        public IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id)
+        public IEnumerable<RequestFormItem> GetRequestFormItemList(int requestFormId)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.RequestFormItem
-                        where item.RequestFormId == rf_id && 
+                        where item.RequestFormId == requestFormId && 
                         item.IsHidden == false select item)
                         .ToList();
             }
         }
 
-        public IEnumerable<ItemStatusDto> GetItemStatusDataGrid(string item_id, 
-            string item_name, string item_status, 
-            string rf_number, string department_name, 
+        public IEnumerable<ItemStatusDto> GetItemStatusDataGrid(
+            string itemId, string itemName, string itemStatus, 
+            string requestFormNumber, string departmentName, 
             int page, int rows, string sortColumnName, string sortBy)
         {
 
@@ -54,35 +54,34 @@ namespace VesselInventory.Repository
                 return context.Database.SqlQuery<ItemStatusDto>(
                     "usp_RequestFormItem_GetItemStatusList @p0, @p1, @p2, @p3, @p4,@p5, @p6, @p7, @p8",
                     parameters: new object[] {
-                        item_id, item_name,
-                        item_status, rf_number,
-                        department_name, page,
+                        itemId, itemName,
+                        itemStatus, requestFormNumber,
+                        departmentName, page,
                         rows, sortColumnName, sortBy
                     }).ToList();
             }
         }
-        public int GetItemStatusTotalPage (string item_id, 
-            string item_name, string item_status, 
-            string rf_number, string department_name, 
-            int rows)
+        public int GetItemStatusTotalPage (
+            string itemId, string itemName, string itemStatus, 
+            string requestFormNumber, string departmentName, int rows)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemStatusPages @p0, @p1, @p2, @p3, @p4, @p5",
                     parameters: new object[] {
-                        item_id,
-                        item_name,
-                        item_status,
-                        rf_number,
-                        department_name,
+                        itemId,
+                        itemName,
+                        itemStatus,
+                        requestFormNumber,
+                        departmentName,
                         rows,
                     }).Single();
             }
         }
 
         public IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
-            string rf_number, int page, int rows,
+            string search, int page, int rows,
             string sortColumnName, string sortBy
             )
         {
@@ -90,17 +89,17 @@ namespace VesselInventory.Repository
             {
                 return context.Database.SqlQuery<ItemPendingDto>(
                     "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2, @p3, @p4",
-                    parameters: new object[] { rf_number, page, rows, sortColumnName, sortBy }).ToList();
+                    parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
             }
         }
 
-        public int GetItemPendingTotalPage(string rf_number, int rows)
+        public int GetItemPendingTotalPage(string search, int rows)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestFormItem_GetItemPendingPages @p0, @p1",
-                    parameters: new object[] { rf_number, rows }).Single();
+                    parameters: new object[] { search, rows }).Single();
             }
         }
 
@@ -112,7 +111,7 @@ namespace VesselInventory.Repository
                 if (current is null) return;
                 current.IsHidden = true;
                 current.LastModifiedDate = DateTime.Now;
-                current.LastModifiedBy = Auth.Instance.personalname;
+                current.LastModifiedBy = Auth.Instance.PersonName;
                 context.SaveChanges();
             }
         }

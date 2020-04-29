@@ -62,14 +62,14 @@
                             IsEnabled="False" 
                             Margin="20,0,0,0" 
                             Width="100" 
-                            Text="{ Binding vessel_good_receive_number, Mode=OneTime}"
+                            Text="{ Binding VesselGoodReceiveNumber, Mode=OneTime}"
                         />
                     </StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
                         <TextBlock Margin="0,10" Width="130" Text="Receive Date"/>
                         <DatePicker
                             Margin="20,5" 
-                            SelectedDate="{Binding vessel_good_receive_date}" 
+                            SelectedDate="{Binding VesselGoodReceiveDate}" 
                             HorizontalAlignment="Left">
                         </DatePicker>
                     </StackPanel>
@@ -80,20 +80,59 @@
             <Grid Margin="40,30,40,0">
                 <StackPanel>
                     <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Office GIN"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding good_issued_number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock 
+                            Width="130" 
+                            Margin="0,5,0,0" 
+                            Text="Office GIN"/>
+                        <TextBox 
+                            Margin="10,0,0,0" 
+                            Width="100" 
+                            Text="{
+                                Binding OfficeGoodIssuedNumber,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged
+                            }"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Vessel ID / Code / Name"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding ship_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding ship_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Width="130" Margin="0,5,0,0" Text="Vessel ID / Name"/>
+                        <TextBox 
+                            Margin="10,0,0,0" 
+                            Width="35" 
+                            Text="{
+                                Binding ShipId,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged
+                            }"/>
+                        <TextBox 
+                            Margin="10,0,0,0" 
+                            Width="100" 
+                            Text="{
+                                Binding ShipName,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged
+                            }"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="130" Margin="0,5,0,0" Text="Barge ID / Code/ Name"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="35" Text="{Binding barge_code,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBox  Margin="10,0,0,0" Width="100" Text="{Binding barge_name,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock 
+                            Width="130" 
+                            Margin="0,5,0,0" 
+                            Text="Barge ID / Name"/>
+                        <TextBox 
+                            Margin="10,0,0,0" 
+                            Width="35" 
+                            Text="{
+                                Binding BargeId,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged
+                            }"/>
+                        <TextBox 
+                            Margin="10,0,0,0" 
+                            Width="100" 
+                            Text="{
+                                Binding BargeName,
+                                Mode=TwoWay,
+                                UpdateSourceTrigger=PropertyChanged
+                            }"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -177,11 +216,11 @@
                     HorizontalScrollBarVisibility="Auto"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding item_id}"/>
+                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
                         <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="Item Desctiption"/>
+                                    <TextBlock Text="Item Description"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.HeaderTemplate>
                             <DataGridTemplateColumn.CellTemplate>
@@ -189,20 +228,20 @@
                                     <TextBlock>
                                         <TextBlock.Text>
                                             <MultiBinding StringFormat="{} {0} {1} {2} {3} {4} ">
-                                                <Binding Path="item_name"/>
-                                                <Binding Path="brand_type_id"/>
-                                                <Binding Path="brand_type_name"/>
-                                                <Binding Path="color_size_id"/>
-                                                <Binding Path="color_size_name"/>
+                                                <Binding Path="ItemName"/>
+                                                <Binding Path="BrandTypeId"/>
+                                                <Binding Path="BrandTypeName"/>
+                                                <Binding Path="ColorSizeId"/>
+                                                <Binding Path="ColorSizeName"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
-                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
-                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
+                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding Qty}"/>
+                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>
+                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
                         <DataGridTemplateColumn Width="auto">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -230,7 +269,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.AddOrEditItemCommand
                                             }" 
-                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
+                                            CommandParameter="{Binding VesselGoodReceiveItemRejectId}">
                                             <materialDesign:PackIcon 
                                                 Kind="Edit" 
                                                 VerticalContentAlignment="Center"
@@ -256,7 +295,7 @@
                                                 Mode=FindAncestor},
                                                 Path=DataContext.DeleteItemCommand
                                             }" 
-                                            CommandParameter="{Binding vessel_good_receive_item_reject_id}">
+                                            CommandParameter="{Binding VesselGoodReceiveItemRejectId}">
                                             <materialDesign:PackIcon 
                                                 Kind="Trash" 
                                                 VerticalContentAlignment="Center"

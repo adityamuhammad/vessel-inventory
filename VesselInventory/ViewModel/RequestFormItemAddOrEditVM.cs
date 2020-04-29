@@ -379,12 +379,12 @@ namespace VesselInventory.ViewModel
             {
                 ItemCheckUnique();
                 RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                RequestFormItemDataView.CreatedBy = Auth.Instance.personalname;
+                RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
                 RequestFormItemDataView.CreatedDate = DateTime.Now;
                 _requestFormItemRepository.Save(RequestFormItemDataView);
             } else
             {
-                RequestFormItemDataView.LastModifiedBy = Auth.Instance.personalname;
+                RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
                 RequestFormItemDataView.LastModifiedDate = DateTime.Now;
                 _requestFormItemRepository.Update(RequestFormItemId,RequestFormItemDataView);
             }
@@ -403,17 +403,18 @@ namespace VesselInventory.ViewModel
 
         private void SaveAction(IClosable window)
         {
-            //try
-            //{
+            try
+            {
                 Upload();
                 SaveOrUpdate();
                 LoadParentDataGrid();
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            //} catch (Exception ex)
-            //{
-            //    ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
+            }
         }
 
         private void OpenFile(object parameter)

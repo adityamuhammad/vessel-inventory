@@ -57,7 +57,7 @@
                     HorizontalScrollBarVisibility="Auto"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding item_id}"/>
+                        <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
                         <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -68,21 +68,21 @@
                                 <DataTemplate>
                                     <TextBlock>
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{} {0} {1} {2} - {3} {4} ">
-                                                <Binding Path="item_name"/>
-                                                <Binding Path="brand_type_id"/>
-                                                <Binding Path="brand_type_name"/>
-                                                <Binding Path="color_size_name"/>
-                                                <Binding Path="color_size_name"/>
+                                            <MultiBinding StringFormat="{} {0} {1} {2} {3} {4} ">
+                                                <Binding Path="ItemName"/>
+                                                <Binding Path="BrandTypeId"/>
+                                                <Binding Path="BrandTypeName"/>
+                                                <Binding Path="ColorSizeId"/>
+                                                <Binding Path="ColorSizeName"/>
                                             </MultiBinding>
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding qty}"/>
-                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
-                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
+                        <DataGridTextColumn Width="auto" Header="Qty" Binding="{Binding Qty}"/>
+                        <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>
+                        <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 

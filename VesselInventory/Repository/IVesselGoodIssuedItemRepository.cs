@@ -87,7 +87,7 @@ namespace VesselInventory.Repository
                     (execSp.ToString(),
                      new SqlParameter("@vessel_good_issued_item_id", vesselGoodIssuedItem.VesselGoodIssuedItemId),
                      new SqlParameter("@qty", vesselGoodIssuedItem.Qty),
-                     new SqlParameter("@last_modified_by", Auth.Instance.personalname),
+                     new SqlParameter("@last_modified_by", Auth.Instance.PersonName),
                      new SqlParameter("@last_modified_date", DateTime.Now)
                      );
             }
@@ -104,7 +104,7 @@ namespace VesselInventory.Repository
                 context.Database.ExecuteSqlCommand
                     (execSp.ToString(),
                      new SqlParameter("@vessel_good_issued_item_id", id),
-                     new SqlParameter("@last_modified_by", Auth.Instance.personalname),
+                     new SqlParameter("@last_modified_by", Auth.Instance.PersonName),
                      new SqlParameter("@last_modified_date", DateTime.Now)
                      );
             }

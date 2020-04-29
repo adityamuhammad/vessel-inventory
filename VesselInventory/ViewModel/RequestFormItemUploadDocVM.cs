@@ -26,10 +26,16 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
         }
-        public void InitializeData(IParentLoadable parentLoadable, int rf_item_id)
+        public void InitializeData(IParentLoadable parentLoadable, int requestFormItemId)
         {
-            RequestFormItemDataView = _requestFormItemRepository.GetById(rf_item_id);
             _parentLoadable = parentLoadable;
+            RequestFormItemId = requestFormItemId;
+            LoadAttributes();
+        }
+
+        private void LoadAttributes()
+        {
+            RequestFormItemDataView = _requestFormItemRepository.GetById(RequestFormItemId);
         }
 
         private void InitializeCommands()
@@ -43,29 +49,29 @@ namespace VesselInventory.ViewModel
             get; set;
         } = new RequestFormItem();
 
-        public int rf_item_id {
+        public int RequestFormItemId {
             get => RequestFormItemDataView.RequestFormItemId;
             set => RequestFormItemDataView.RequestFormItemId = value;
         }
 
-        private string _attachment_local_path = string.Empty;
-        public string attachment_local_path
+        private string _attachmentLocalPath = string.Empty;
+        public string AttachmentLocalPath
         {
-            get => _attachment_local_path;
+            get => _attachmentLocalPath;
             set
             {
-                _attachment_local_path = value;
-                OnPropertyChanged("attachment_local_path");
+                _attachmentLocalPath = value;
+                OnPropertyChanged("AttachmentLocalPath");
             }
         }
 
-        public string attachment_path
+        public string AttachmentPath
         {
             get => RequestFormItemDataView.AttachmentPath;
             set
             {
                 RequestFormItemDataView.AttachmentPath = value;
-                OnPropertyChanged("attachment_path");
+                OnPropertyChanged("AttachmentPath");
             }
         }
 
@@ -73,20 +79,20 @@ namespace VesselInventory.ViewModel
         {
             var filename = _IOService.OpenFileDialog();
             if (filename != null)
-                attachment_local_path = filename;
+                AttachmentLocalPath = filename;
         }
 
         private void Upload()
         {
             bool IsUploaded = _uploadService.UploadFile(
-                attachment_local_path,GlobalNamespace.AttachmentPathLocation);
+                AttachmentLocalPath,GlobalNamespace.AttachmentPathLocation);
             if (IsUploaded)
-                attachment_path = _uploadService.GetUploadedPath();
+                AttachmentPath = _uploadService.GetUploadedPath();
         }
 
         private void SaveAction(IClosable window)
         {
-            if (!string.IsNullOrWhiteSpace(attachment_local_path))
+            if (!string.IsNullOrWhiteSpace(AttachmentLocalPath))
             {
                 Upload();
                 Update();
@@ -99,9 +105,9 @@ namespace VesselInventory.ViewModel
 
         private void Update()
         {
-            RequestFormItemDataView.LastModifiedBy = Auth.Instance.personalname;
+            RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
             RequestFormItemDataView.LastModifiedDate = DateTime.Now;
-            _requestFormItemRepository.Update(rf_item_id, RequestFormItemDataView);
+            _requestFormItemRepository.Update(RequestFormItemId, RequestFormItemDataView);
         }
     }
 }

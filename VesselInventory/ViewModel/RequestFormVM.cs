@@ -121,13 +121,12 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
-        public int DataGridRow => 10;
         private int TotalPageFromDatabase
         {
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormTotalPage(SearchKeyword, DataGridRow);
+                    GetRequestFormTotalPage(SearchKeyword, DataGridRows);
             }
         }
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;

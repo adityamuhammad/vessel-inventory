@@ -58,7 +58,7 @@
                                 <TextBlock Margin="0,5,0,0" Text="RF Number" Width="120" />
                                 <TextBox 
                                     Text="{
-                                        Binding rf_number,
+                                        Binding RequestFormNumber,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -68,7 +68,7 @@
                                 <TextBlock Margin="0,15,0,0" Text="Item Id" Width="120" />
                                 <TextBox 
                                     Text="{
-                                        Binding item_id,
+                                        Binding ItemId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -80,7 +80,7 @@
                                 <TextBlock Margin="0,15,0,0" Text="Item Group Id" Width="120" />
                                 <TextBox 
                                     Text="{
-                                        Binding item_group_id,
+                                        Binding ItemGroupId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -92,7 +92,7 @@
                                 <TextBlock Margin="0,15,0,0" Text="Item Name" Width="120" />
                                 <TextBox 
                                     Text="{
-                                        Binding item_name,
+                                        Binding ItemName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -107,7 +107,7 @@
                                 <TextBox 
                                     Width="100" 
                                     Text="{
-                                        Binding item_dimension_number,
+                                        Binding ItemDimensionNumber,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -119,7 +119,7 @@
                                 <TextBox 
                                     Width="20" 
                                     Text="{
-                                        Binding brand_type_id,
+                                        Binding BrandTypeId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -128,7 +128,7 @@
                                 <TextBox 
                                     Width="80" 
                                     Text="{
-                                        Binding brand_type_name,
+                                        Binding BrandTypeName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -140,7 +140,7 @@
                                 <TextBox 
                                     Width="20" 
                                     Text="{
-                                        Binding color_size_id,
+                                        Binding ColorSizeId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -149,7 +149,7 @@
                                 <TextBox 
                                     Width="80" 
                                     Text="{
-                                        Binding color_size_name,
+                                        Binding ColorSizeName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -162,7 +162,7 @@
                                     Width="20" 
                                     Margin="0,10,0,0" 
                                     Text="{
-                                        Binding qty,
+                                        Binding Qty,
                                         Mode=TwoWay,
                                         StringFormat=N2,
                                         UpdateSourceTrigger=PropertyChanged
@@ -175,7 +175,7 @@
                                     Margin="0,10,0,0" 
                                     HorizontalAlignment="Left" 
                                     ItemsSource="{Binding UomCollection}" 
-                                    SelectedItem="{Binding uom,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    SelectedItem="{Binding Uom,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
                                     Width="100"/>
                             </StackPanel>
                         </StackPanel>

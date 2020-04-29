@@ -45,7 +45,7 @@ namespace VesselInventory.ViewModel
         /// UI Properties
         /// </summary>
         #region
-        private int DataGridRows => 10;
+        public int DataGridRows => 10;
         private int _currentPage;
         public int CurrentPage
         {
@@ -100,7 +100,7 @@ namespace VesselInventory.ViewModel
             foreach(var _ in _requestFormItemRepository
                     .GetItemPendingDataGrid(
                         SearchKeyword,CurrentPage, 
-                        DataGridRows, "rf.rf_number", "DESC" ))
+                        DataGridRows, "RequestForm.RequestFormNumber", "DESC" ))
                 ItemPendingCollection.Add(_);
             UpdateTotalPage();
         }

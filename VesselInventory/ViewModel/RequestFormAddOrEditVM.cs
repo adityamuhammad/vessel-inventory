@@ -401,15 +401,17 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(RequestFormId))
             {
-                RequestFormDataView = _requestFormRepository
-                    .SaveTransaction(RequestFormDataView);
+                RequestFormDataView.CreatedBy = Auth.Instance.PersonName;
+                RequestFormDataView.CreatedDate = DateTime.Now;
+                RequestFormDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+                RequestFormDataView.Status = Commons.Enums.Status.Draft.GetDescription();
+                RequestFormDataView = _requestFormRepository.SaveTransaction(RequestFormDataView);
 
             } else
             {
-                RequestFormDataView.LastModifiedBy = Auth.Instance.personalname;
+                RequestFormDataView.LastModifiedBy = Auth.Instance.PersonName;
                 RequestFormDataView.LastModifiedDate = DateTime.Now;
-                RequestFormDataView = _requestFormRepository
-                    .Update(RequestFormId, RequestFormDataView);
+                RequestFormDataView = _requestFormRepository.Update(RequestFormId, RequestFormDataView);
 
             }
         }

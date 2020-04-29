@@ -84,13 +84,13 @@ namespace VesselInventory.ViewModel
         /// Collections and load Method
         /// </summary>
         #region
-        private int DataGridRows => 10;
+        public int DataGridRows => 10;
         private IEnumerable<VesselGoodReceive> GoodReceives
         {
             get
             {
                 return _vesselGoodReceiveRepository.
-                    GetGoodReceiveDataGrid(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_receive_id", "DESC");
+                    GetGoodReceiveDataGrid(SearchKeyword, CurrentPage, DataGridRows, "VesselGoodReceiveId", "DESC");
             }
         }
 

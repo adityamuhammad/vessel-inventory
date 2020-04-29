@@ -56,10 +56,10 @@ namespace VesselInventory.Validations
             using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
-                    (FetchOneRowSqlStatement("vessel_good_receive_item_reject", "vessel_good_receive_id"),
+                    (FetchOneRowSqlStatement("VesselGoodReceiveItemReject", "VesselGoodReceiveId"),
                     new SqlParameter("@id", data.VesselGoodReceiveId),
-                    new SqlParameter("@item_id", data.ItemId),
-                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
+                    new SqlParameter("@itemId", data.ItemId),
+                    new SqlParameter("@itemDimensionNumber", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }

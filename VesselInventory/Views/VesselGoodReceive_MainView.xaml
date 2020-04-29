@@ -66,12 +66,12 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Vessel GRN" Binding="{Binding vessel_good_receive_number}"/>
-                    <DataGridTextColumn Width="1*" Header="GIN" Binding="{Binding good_issued_number}"/>
-                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Barge Name" Binding="{Binding barge_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Received Date" Binding="{Binding vessel_good_receive_date, StringFormat={}{0:yyyy-MM-dd}}"/> 
-                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
+                    <DataGridTextColumn Width="1*" Header="Vessel GRN" Binding="{Binding VesselGoodReceiveNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="GIN" Binding="{Binding OfficeGoodIssuedNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ShipName}"/>
+                    <DataGridTextColumn Width="1*" Header="Barge Name" Binding="{Binding BargeName}"/>
+                    <DataGridTextColumn Width="1*" Header="Received Date" Binding="{Binding VesselGoodReceiveDate, StringFormat={}{0:yyyy-MM-dd}}"/> 
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding SyncStatus}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -99,7 +99,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.OpenDialogReceiveCommand
                                         }" 
-                                        CommandParameter="{Binding vessel_good_receive_id}">
+                                        CommandParameter="{Binding VesselGoodReceiveId}">
                                         <materialDesign:PackIcon 
                                             Kind="Edit" 
                                             VerticalContentAlignment="Center"
@@ -125,7 +125,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.OpenDialogReceiveItemDetailCommand
                                         }" 
-                                        CommandParameter="{Binding vessel_good_receive_id}">
+                                        CommandParameter="{Binding VesselGoodReceiveId}">
                                         <materialDesign:PackIcon 
                                             Kind="Information" 
                                             VerticalContentAlignment="Center"

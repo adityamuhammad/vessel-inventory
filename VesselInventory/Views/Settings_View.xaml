@@ -24,7 +24,7 @@
                                 IsEnabled="False" 
                                 Margin="20,0,0,0" 
                                 Width="100" 
-                                Text="{ Binding ship_name, Mode=OneTime}" 
+                                Text="{ Binding ShipName, Mode=OneTime}" 
                              />
                         </StackPanel>
                         <StackPanel Margin="40,0,0,0" Orientation="Horizontal">
@@ -33,9 +33,13 @@
                                 Margin="0,0,0,0" 
                                 HorizontalAlignment="Left" 
                                 ItemsSource="{Binding BargeCollection}" 
-                                DisplayMemberPath="barge_name"
-                                SelectedValuePath="barge_id"
-                                SelectedValue="{Binding barge_id,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                DisplayMemberPath="BargeName"
+                                SelectedValuePath="BargeId"
+                                SelectedValue="{
+                                    Binding BargeId
+                                    ,Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged
+                                }"
                                 Width="120"
                             />
                         </StackPanel>

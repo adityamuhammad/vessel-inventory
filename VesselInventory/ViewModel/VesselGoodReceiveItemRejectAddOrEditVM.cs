@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using VesselInventory.Commons;
+using VesselInventory.Commons.Enums;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -33,8 +34,8 @@ namespace VesselInventory.ViewModel
             int vesselGoodReceiveId, int vesselGoodReceiveItemRejectId = 0)
         {
             _parentLoadable = parentLoadable;
-            this.vessel_good_receive_id = vesselGoodReceiveId;
-            this.vessel_good_receive_item_reject_id = vesselGoodReceiveItemRejectId;
+            this.VesselGoodReceiveId = vesselGoodReceiveId;
+            this.VesselGoodReceiveItemRejectId = vesselGoodReceiveItemRejectId;
             LoadAttributesValue();
         }
         ///<summary>
@@ -70,116 +71,116 @@ namespace VesselInventory.ViewModel
         /// Columns Attributes
         /// </summary>
         #region
-        private int vessel_good_receive_item_reject_id
+        private int VesselGoodReceiveItemRejectId
         {
             get => GoodReceiveItemRejectDataView.VesselGoodReceiveItemRejectId;
             set => GoodReceiveItemRejectDataView.VesselGoodReceiveItemRejectId = value;
         }
-        public int vessel_good_receive_id
+        public int VesselGoodReceiveId
         {
             get => GoodReceiveItemRejectDataView.VesselGoodReceiveId;
             set => GoodReceiveItemRejectDataView.VesselGoodReceiveId = value;
         }
 
-        public string rf_number
+        public string RequestFormNumber
         {
             get => GoodReceiveItemRejectDataView.RequestFormNumber;
             set
             {
                 GoodReceiveItemRejectDataView.RequestFormNumber = value;
-                OnPropertyChanged("rf_number");
+                OnPropertyChanged("RequestFormNumber");
             }
         }
-        public int item_id
+        public int ItemId
         {
             get => GoodReceiveItemRejectDataView.ItemId;
             set
             {
                 GoodReceiveItemRejectDataView.ItemId = value;
-                OnPropertyChanged("item_id");
+                OnPropertyChanged("ItemId");
             }
         }
-        public int item_group_id
+        public int ItemGroupId
         {
             get => GoodReceiveItemRejectDataView.ItemGroupId;
             set
             {
                 GoodReceiveItemRejectDataView.ItemGroupId = value;
-                OnPropertyChanged("item_group_id");
+                OnPropertyChanged("ItemGroupId");
             }
         }
-        public string item_name
+        public string ItemName
         {
             get => GoodReceiveItemRejectDataView.ItemName;
             set
             {
                 GoodReceiveItemRejectDataView.ItemName = value;
-                OnPropertyChanged("item_name");
+                OnPropertyChanged("ItemName");
             }
         }
-        public string item_dimension_number
+        public string ItemDimensionNumber
         {
             get => GoodReceiveItemRejectDataView.ItemDimensionNumber;
             set
             {
                 GoodReceiveItemRejectDataView.ItemDimensionNumber = value;
-                OnPropertyChanged("item_dimension_number");
+                OnPropertyChanged("ItemDimensionNumber");
             }
         }
-        public string brand_type_id
+        public string BrandTypeId
         {
             get => GoodReceiveItemRejectDataView.BrandTypeId;
             set
             {
                 GoodReceiveItemRejectDataView.BrandTypeId = value;
-                OnPropertyChanged("brand_type_id");
+                OnPropertyChanged("BrandTypeId");
             }
         }
-        public string brand_type_name
+        public string BrandTypeName
         {
             get => GoodReceiveItemRejectDataView.BrandTypeName;
             set
             {
                 GoodReceiveItemRejectDataView.BrandTypeName = value;
-                OnPropertyChanged("brand_type_name");
+                OnPropertyChanged("BrandTypeName");
             }
         }
-        public string color_size_id
+        public string ColorSizeId
         {
             get => GoodReceiveItemRejectDataView.ColorSizeId;
             set
             {
                 GoodReceiveItemRejectDataView.ColorSizeId = value;
-                OnPropertyChanged("color_size_id");
+                OnPropertyChanged("ColorSizeId");
             }
         }
-        public string color_size_name
+        public string ColorSizeName
         {
             get => GoodReceiveItemRejectDataView.ColorSizeName;
             set
             {
                 GoodReceiveItemRejectDataView.ColorSizeName = value;
-                OnPropertyChanged("color_size_name");
+                OnPropertyChanged("ColorSizeName");
             }
         }
 
-        public decimal qty
+        public decimal Qty
         {
             get => GoodReceiveItemRejectDataView.Qty;
             set
             {
                 GoodReceiveItemRejectDataView.Qty = value;
-                OnPropertyChanged("qty");
+                OnPropertyChanged("Qty");
             }
         }
 
-        public string uom
+        public string Uom
         {
             get => GoodReceiveItemRejectDataView.Uom;
             set
             {
                 GoodReceiveItemRejectDataView.Uom = value;
-                OnPropertyChanged("uom");
+                OnPropertyChanged("Uom");
             }
         }
         #endregion
@@ -190,9 +191,9 @@ namespace VesselInventory.ViewModel
         #region
         private void LoadAttributesValue()
         {
-            if (!RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
+            if (!RecordHelper.IsNewRecord(VesselGoodReceiveItemRejectId))
                 GoodReceiveItemRejectDataView = _vesselGoodReceiveItemRejectRepository
-                    .GetById(vessel_good_receive_item_reject_id);
+                    .GetById(VesselGoodReceiveItemRejectId);
         }
 
         public void LoadDataGrid()
@@ -229,16 +230,21 @@ namespace VesselInventory.ViewModel
         }
         private void SaveOrUpdate()
         {
-            if (RecordHelper.IsNewRecord(vessel_good_receive_item_reject_id))
+            if (RecordHelper.IsNewRecord(VesselGoodReceiveItemRejectId))
             {
                 ItemCheckUnique();
+                GoodReceiveItemRejectDataView.CreatedBy = Auth.Instance.PersonName;
+                GoodReceiveItemRejectDataView.CreatedDate = DateTime.Now;
+                GoodReceiveItemRejectDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
                 _vesselGoodReceiveItemRejectRepository
                     .Save(GoodReceiveItemRejectDataView);
             }
             else
             {
+                GoodReceiveItemRejectDataView.LastModifiedBy = Auth.Instance.PersonName;
+                GoodReceiveItemRejectDataView.LastModifiedDate = DateTime.Now;
                 _vesselGoodReceiveItemRejectRepository
-                    .Update(vessel_good_receive_item_reject_id, GoodReceiveItemRejectDataView);
+                    .Update(VesselGoodReceiveItemRejectId, GoodReceiveItemRejectDataView);
             }
         }
         #endregion

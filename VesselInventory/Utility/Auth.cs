@@ -20,6 +20,6 @@ namespace VesselInventory.Utility
         public string username { get; set; }
         public int ship_id { get; set; }
         public int department_id { get; set; }
-        public string personalname { get; set; }
+        public string PersonName { get; set; }
     }
 }

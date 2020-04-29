@@ -24,23 +24,23 @@ namespace VesselInventory.ViewModel
         {
             _shipRepository = shipRepository;
             _shipInitialRepository = shipInitialRepository;
-            barge_id = ShipInitialDataView.BargeId;
-            ShipInitialDataView = _shipInitialRepository.GetById(ship_initial_id);
+            BargeId = ShipInitialDataView.BargeId;
+            ShipInitialDataView = _shipInitialRepository.GetById(ShipInitialId);
             ChangeBargeCommand = new RelayCommand(ChangeBarge);
         }
 
         private void ChangeBarge(object obj)
         {
-            ShipInitialDataView = _shipInitialRepository.Update(ship_initial_id, ShipInitialDataView);
+            ShipInitialDataView = _shipInitialRepository.Update(ShipInitialId, ShipInitialDataView);
             ResponseMessage.Success(GlobalNamespace.SuccessSave);
         }
 
         private ShipBargeDto ShipBarge => CommonDataHelper.GetShipBargeApairs();
         public ShipInitial ShipInitialDataView { get; set; } = new ShipInitial();
-        public int ship_initial_id => 1;
-        public string ship_name => ShipBarge.ShipName;
-        public int ship_id => ShipInitialDataView.ShipId;
-        public int barge_id
+        public int ShipInitialId => 1;
+        public string ShipName => ShipBarge.ShipName;
+        public int ShipId => ShipInitialDataView.ShipId;
+        public int BargeId
         {
             get
             {
@@ -49,14 +49,14 @@ namespace VesselInventory.ViewModel
             set
             {
                 ShipInitialDataView.BargeId = value;
-                OnPropertyChanged("barge_id");
+                OnPropertyChanged("BargeId");
             }
         } 
         public IList<BargeDto> BargeCollection
         {
             get
             {
-                var ship = _shipRepository.GetWhere(_ => _.IsBarge == true).ToList();
+                var ship = _shipRepository.GetWhere( _ => _.IsBarge == true).ToList();
                 var data = (from barge in ship
                             select new BargeDto {
                                     BargeId = barge.ShipId,

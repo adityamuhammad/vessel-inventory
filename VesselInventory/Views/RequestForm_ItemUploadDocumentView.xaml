@@ -42,7 +42,7 @@
                 HorizontalAlignment="Center" 
                 Width="120" 
                 Text="{
-                    Binding attachment_local_path,
+                    Binding AttachmentLocalPath,
                     Mode=TwoWay,
                     UpdateSourceTrigger=PropertyChanged}" 
                 IsReadOnly="True"

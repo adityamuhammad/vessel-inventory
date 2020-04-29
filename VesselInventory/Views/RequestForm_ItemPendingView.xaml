@@ -78,13 +78,13 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding item_id}"/>
-                    <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding rf_number}"/>
-                    <DataGridTextColumn Width="1.5*" Header="Item Description" Binding="{Binding item_description}"/>
-                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding qty}"/>
-                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
-                    <DataGridTextColumn Width="0.5*" Header="Priority" Binding="{Binding priority}"/>
-                    <DataGridTextColumn Width="1*" Header="Attachment Status" Binding="{Binding attachment_status}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding ItemId}"/>
+                    <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
+                    <DataGridTextColumn Width="1.5*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
+                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>
+                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>
+                    <DataGridTextColumn Width="0.5*" Header="Priority" Binding="{Binding Priority}"/>
+                    <DataGridTextColumn Width="1*" Header="Attachment Status" Binding="{Binding AttachmentStatus}"/>
                     <DataGridTemplateColumn Width="0.7*">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -112,7 +112,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.UploadDocumentFormCommand
                                         }" 
-                                        CommandParameter="{Binding rf_item_id}">
+                                        CommandParameter="{Binding RequestFormItemId}">
                                         <materialDesign:PackIcon 
                                             Kind="Upload" 
                                             VerticalContentAlignment="Center"
@@ -138,7 +138,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.PreviewPdfCommand
                                         }" 
-                                        CommandParameter="{Binding attachment_path}">
+                                        CommandParameter="{Binding AttachmentPath}">
                                         <materialDesign:PackIcon 
                                             Kind="FilePdfBox" 
                                             VerticalContentAlignment="Center"

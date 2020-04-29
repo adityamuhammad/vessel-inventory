@@ -138,17 +138,17 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding item_id}"/>
-                    <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding item_description}"/>
-                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding qty}"/>
-                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding uom}"/>
-                    <DataGridTextColumn Width="1*" Header="Group Name" Binding="{Binding item_group_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding priority}"/>
-                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding rf_number}"/>
-                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding department_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Item Status" Binding="{Binding item_status}"/>
-                    <DataGridTextColumn Width="1*" Header="Target Delivery" Binding="{Binding target_delivery_date, StringFormat={}{0:yyyy-MM-dd}}"/>
-                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding ItemId}"/>
+                    <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
+                    <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>
+                    <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>
+                    <DataGridTextColumn Width="1*" Header="Group Name" Binding="{Binding ItemGroupName}"/>
+                    <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding Priority}"/>
+                    <DataGridTextColumn Width="1*" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding DepartmentName}"/>
+                    <DataGridTextColumn Width="1*" Header="Item Status" Binding="{Binding ItemStatus}"/>
+                    <DataGridTextColumn Width="1*" Header="Target Delivery" Binding="{Binding TargetDeliveryDate, StringFormat={}{0:yyyy-MM-dd}}"/>
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding SyncStatus}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

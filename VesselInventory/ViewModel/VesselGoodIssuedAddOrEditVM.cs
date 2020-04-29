@@ -219,7 +219,7 @@ namespace VesselInventory.ViewModel
 
             } else
             {
-                VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.personalname;
+                VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
                 VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
                     .Update(vessel_good_issued_id,

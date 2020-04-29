@@ -78,7 +78,7 @@ namespace VesselInventory.Repository
             using (var context = new AppVesselInventoryContext())
             {
                 var requestForm = context.RequestForm.Find(id);
-                requestForm.LastModifiedBy = Auth.Instance.personalname;
+                requestForm.LastModifiedBy = Auth.Instance.PersonName;
                 requestForm.LastModifiedDate = DateTime.Now;
                 requestForm.Status = Status.Release.GetDescription();
                 context.SaveChanges();

@@ -12,16 +12,8 @@ namespace VesselInventory.ViewModel
 {
     public abstract class ViewModelBase : ObservableObject
     {
-        /// <summary>
-        /// Generic properties window
-        /// </summary>
         #region
-        private string _title = "Modal Dialog";
-        private double _height = 300;
-        private double _width = 300;
-        public virtual string Title { get => _title; set => _title = value; }
-        public virtual double Height { get => _height; set => _height = value; }
-        public virtual double Width { get => _width; set => _width = value; }
+        public virtual string Title { get; set; } = "Form";
         #endregion
         public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
