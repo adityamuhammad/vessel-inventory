@@ -85,13 +85,13 @@
                                                     <TextBlock.Text>
                                                         <MultiBinding 
                                                         StringFormat="{}{0} / {1} {2} {3} {4} {5} / {6}">
-                                                            <Binding Path="item_id"/>
-                                                            <Binding Path="item_name"/>
-                                                            <Binding Path="brand_type_id"/>
-                                                            <Binding Path="brand_type_name"/>
-                                                            <Binding Path="color_size_id"/>
-                                                            <Binding Path="color_size_name"/>
-                                                            <Binding Path="item_group_name"/>
+                                                            <Binding Path="ItemId"/>
+                                                            <Binding Path="ItemName"/>
+                                                            <Binding Path="BrandTypeId"/>
+                                                            <Binding Path="BrandTypeName"/>
+                                                            <Binding Path="ColorSizeId"/>
+                                                            <Binding Path="ColorSizeName"/>
+                                                            <Binding Path="ItemGroupId"/>
                                                         </MultiBinding>
                                                     </TextBlock.Text>
                                                 </TextBlock>
@@ -116,7 +116,7 @@
                                 <TextBox 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding item_id,
+                                        Binding ItemId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -127,7 +127,7 @@
                                 <TextBox 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding item_name,
+                                        Binding ItemName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -140,7 +140,7 @@
                                     Width="20" 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding brand_type_id,
+                                        Binding BrandTypeId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -150,7 +150,7 @@
                                     Width="80" 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding brand_type_name,
+                                        Binding BrandTypeName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -163,7 +163,7 @@
                                     Width="20" 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding color_size_id,
+                                        Binding ColorSizeId,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -173,7 +173,7 @@
                                     Width="80" 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding color_size_name,
+                                        Binding ColorSizeName,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }" 
@@ -186,7 +186,7 @@
                                     Width="25" 
                                     Margin="0,10,0,0" 
                                     Text="{
-                                        Binding qty,
+                                        Binding Qty,
                                         Mode=TwoWay,
                                         StringFormat=N2,
                                         UpdateSourceTrigger=PropertyChanged
@@ -197,7 +197,7 @@
                                     Margin="10,10,0,0" 
                                     IsEnabled="False"
                                     Text="{
-                                        Binding uom,
+                                        Binding Uom,
                                         Mode=TwoWay,
                                         UpdateSourceTrigger=PropertyChanged
                                     }"
@@ -209,7 +209,7 @@
                                     Margin="0,8,0,0" 
                                     HorizontalAlignment="Left" 
                                     ItemsSource="{Binding ReasonCollection}" 
-                                    SelectedItem="{Binding reason}" 
+                                    SelectedItem="{Binding Reason}" 
                                     Width="120"
                                 />
                             </StackPanel>

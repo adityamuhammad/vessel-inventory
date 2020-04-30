@@ -97,7 +97,7 @@ namespace VesselInventory.ViewModel
         {
             VesselGoodReturnCollection.Clear();
             foreach (var goodReturn in _vesselGoodReturnRepository
-                .GetGoodReturnDataGrid(SearchKeyword, CurrentPage, DataGridRows, "vessel_good_return_id", "DESC"))
+                .GetGoodReturnDataGrid(SearchKeyword, CurrentPage, DataGridRows, "VesselGoodReturnId", "DESC"))
                 VesselGoodReturnCollection.Add(goodReturn);
             UpdateTotalPage();
         }

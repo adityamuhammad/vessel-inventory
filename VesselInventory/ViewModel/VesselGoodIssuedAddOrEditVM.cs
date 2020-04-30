@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Unity;
 using VesselInventory.Commons;
+using VesselInventory.Commons.Enums;
 using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Dto;
 using VesselInventory.Models;
@@ -45,7 +46,7 @@ namespace VesselInventory.ViewModel
         public void InitializeData(IParentLoadable parentLoadable, int vesselGoodIssuedId = 0)
         {
             _parentLoadable = parentLoadable;
-            vessel_good_issued_id = vesselGoodIssuedId;
+            VesselGoodIssuedId = vesselGoodIssuedId;
             LoadAttributes();
         }
 
@@ -72,18 +73,18 @@ namespace VesselInventory.ViewModel
         /// Columns
         /// </summary>
         #region
-        public int vessel_good_issued_id
+        public int VesselGoodIssuedId
         {
             get => VesselGoodIssuedDataView.VesselGoodIssuedId;
             set => VesselGoodIssuedDataView.VesselGoodIssuedId = value;
         }
-        public string vessel_good_issued_number
+        public string VesselGoodIssuedNumber
         {
             get => VesselGoodIssuedDataView.VesselGoodIssuedNumber;
             set => VesselGoodIssuedDataView.VesselGoodIssuedNumber = value;
         }
 
-        public DateTime vessel_good_issued_date
+        public DateTime VesselGoodIssuedDate
         {
             get
             {
@@ -94,21 +95,21 @@ namespace VesselInventory.ViewModel
             set
             {
                 VesselGoodIssuedDataView.VesselGoodIssuedDate = DateTime.Parse(value.ToString());
-                OnPropertyChanged("vessel_good_issued_date");
+                OnPropertyChanged("VesselGoodIssuedDate");
             }
         }
-        public int ship_id
+        public int ShipId
         {
             get => VesselGoodIssuedDataView.ShipId;
             set => VesselGoodIssuedDataView.ShipId = value;
         }
 
-        public string ship_name
+        public string ShipName
         {
             get => VesselGoodIssuedDataView.ShipName;
             set => VesselGoodIssuedDataView.ShipName = value;
         }
-        public string notes
+        public string Notes
         {
             get => VesselGoodIssuedDataView.Notes;
             set
@@ -145,17 +146,17 @@ namespace VesselInventory.ViewModel
         #region
         private void LoadAttributes()
         {
-            if(RecordHelper.IsNewRecord(vessel_good_issued_id))
+            if(RecordHelper.IsNewRecord(VesselGoodIssuedId))
             {
                 IsItemEnabled = false;
-                vessel_good_issued_number = CommonDataHelper.GetSequenceNumber(3) + '-' + ShipBarge.ShipCode;
-                vessel_good_issued_date = DateTime.Now;
-                ship_id = ShipBarge.ShipId;
-                ship_name = ShipBarge.ShipName;
+                VesselGoodIssuedNumber = CommonDataHelper.GetSequenceNumber(3) + '-' + ShipBarge.ShipCode;
+                VesselGoodIssuedDate = DateTime.Now;
+                ShipId = ShipBarge.ShipId;
+                ShipName = ShipBarge.ShipName;
             } else
             {
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .GetById(vessel_good_issued_id);
+                    .GetById(VesselGoodIssuedId);
                 IsItemEnabled = true;
                 LoadDataGrid();
             }
@@ -165,7 +166,7 @@ namespace VesselInventory.ViewModel
         {
             GoodIssuedItemCollections.Clear();
             foreach (var item in _vesselGoodIssuedItemRepository
-                .GetGoodIssuedItem(vessel_good_issued_id))
+                .GetGoodIssuedItem(VesselGoodIssuedId))
                 GoodIssuedItemCollections.Add(item);
             TotalItem = GoodIssuedItemCollections.Count;
         }
@@ -180,9 +181,9 @@ namespace VesselInventory.ViewModel
         {
             var vesselGoodIssuedItemAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedItemAddOrEditVM>();
             if (parameter is null)
-                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id);
+                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, VesselGoodIssuedId);
             else
-                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, vessel_good_issued_id, (int)parameter);
+                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, VesselGoodIssuedId, (int)parameter);
             _windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
         }
 
@@ -212,8 +213,11 @@ namespace VesselInventory.ViewModel
 
         private void SaveOrUpdate()
         {
-            if (RecordHelper.IsNewRecord(vessel_good_issued_id))
+            if (RecordHelper.IsNewRecord(VesselGoodIssuedId))
             {
+                VesselGoodIssuedDataView.CreatedDate = DateTime.Now;
+                VesselGoodIssuedDataView.CreatedBy = Auth.Instance.PersonName;
+                VesselGoodIssuedDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
                     .SaveTransaction(VesselGoodIssuedDataView);
 
@@ -222,7 +226,7 @@ namespace VesselInventory.ViewModel
                 VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
                 VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .Update(vessel_good_issued_id,
+                    .Update(VesselGoodIssuedId,
                     VesselGoodIssuedDataView);
             }
         }

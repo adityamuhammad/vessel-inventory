@@ -66,10 +66,10 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="1*" Header="Vessel GRTN" Binding="{Binding vessel_good_return_number}"/>
-                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ship_name}"/>
-                    <DataGridTextColumn Width="1*" Header="Return Date" Binding="{Binding vessel_good_return_date, StringFormat={}{0:yyyy-MM-dd}}"/> 
-                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding sync_status}"/>
+                    <DataGridTextColumn Width="1*" Header="Vessel GRTN" Binding="{Binding VesselGoodReturnNumber}"/>
+                    <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ShipName}"/>
+                    <DataGridTextColumn Width="1*" Header="Return Date" Binding="{Binding VesselGoodReturnDate, StringFormat={}{0:yyyy-MM-dd}}"/> 
+                    <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding SyncStatus}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
@@ -97,7 +97,7 @@
                                             Mode=FindAncestor},
                                             Path=DataContext.OpenDialogReturnCommand
                                         }" 
-                                        CommandParameter="{Binding vessel_good_return_id}">
+                                        CommandParameter="{Binding VesselGoodReturnId}">
                                         <materialDesign:PackIcon 
                                             Kind="Edit" 
                                             VerticalContentAlignment="Center"

@@ -16,8 +16,10 @@ namespace VesselInventory.Repository
             using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.VesselGoodReceiveItem
-                        where item.VesselGoodReceiveId == vesselGoodReceiveId && 
-                        item.IsHidden == false select item)
+                        where item.VesselGoodReceiveId == vesselGoodReceiveId 
+                        && item.IsHidden == false
+                        orderby item.CreatedDate descending
+                        select item)
                         .ToList();
             }
         }

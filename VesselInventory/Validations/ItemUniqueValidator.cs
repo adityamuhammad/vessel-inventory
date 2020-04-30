@@ -42,10 +42,10 @@ namespace VesselInventory.Validations
             using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
-                    (FetchOneRowSqlStatement("vessel_good_issued_item", "vessel_good_issued_id"),
+                    (FetchOneRowSqlStatement("VesselGoodIssuedItem", "VesselGoodIssuedId"),
                     new SqlParameter("@id", data.VesselGoodIssuedId),
-                    new SqlParameter("@item_id", data.ItemId),
-                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
+                    new SqlParameter("@itemId", data.ItemId),
+                    new SqlParameter("@itemDimensionNumber", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }
@@ -70,10 +70,10 @@ namespace VesselInventory.Validations
             using (var context =  new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>
-                    (FetchOneRowSqlStatement("vessel_good_return_item", "vessel_good_return_id"),
+                    (FetchOneRowSqlStatement("VesselGoodReturnItem", "VesselGoodReturnId"),
                     new SqlParameter("@id", data.VesselGoodReturnId),
-                    new SqlParameter("@item_id", data.ItemId),
-                    new SqlParameter("@item_dimension_number", data.ItemDimensionNumber))
+                    new SqlParameter("@itemId", data.ItemId),
+                    new SqlParameter("@itemDimensionNumber", data.ItemDimensionNumber))
                     .SingleOrDefault()
                     .Equals(1);
             }

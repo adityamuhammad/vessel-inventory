@@ -16,10 +16,10 @@ namespace VesselInventory.Utility
             }
         }
 
-        public int user_id { get; set; }
-        public string username { get; set; }
-        public int ship_id { get; set; }
-        public int department_id { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public int ShipId { get; set; }
+        public int DepartmentId { get; set; }
         public string PersonName { get; set; }
     }
 }

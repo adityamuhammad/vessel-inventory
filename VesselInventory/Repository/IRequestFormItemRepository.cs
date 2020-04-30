@@ -10,7 +10,7 @@ namespace VesselInventory.Repository
 {
     public interface IRequestFormItemRepository : IGenericRepository<RequestFormItem>
     {
-        IEnumerable<RequestFormItem> GetRequestFormItemList(int rf_id);
+        IEnumerable<RequestFormItem> GetRequestFormItemList(int requestFormId);
         IEnumerable<ItemStatusDto> GetItemStatusDataGrid(
             string itemId, string itemName, 
             string itemStatus, string requestFormNumber, 
@@ -37,8 +37,10 @@ namespace VesselInventory.Repository
             using (var context = new AppVesselInventoryContext())
             {
                 return (from item in context.RequestFormItem
-                        where item.RequestFormId == requestFormId && 
-                        item.IsHidden == false select item)
+                        where item.RequestFormId == requestFormId 
+                        && item.IsHidden == false
+                        orderby item.CreatedDate 
+                        descending select item)
                         .ToList();
             }
         }

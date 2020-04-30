@@ -60,7 +60,7 @@
                             MaxLength="30"
                             Width="120"
                             Text="{
-                                Binding personalname,
+                                Binding PersonName,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnNotifyDataErrors=True,
@@ -81,7 +81,7 @@
                             Width="120"
                             MaxLength="30"
                             Text="{
-                                Binding username,
+                                Binding Username,
                                 Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnNotifyDataErrors=True,
@@ -101,7 +101,7 @@
                             Margin="15,15,0,0" 
                             Width="120"
                             commons:PasswordBoxHelper.Password="{
-                                Binding password,Mode=TwoWay,
+                                Binding Password,Mode=TwoWay,
                                 UpdateSourceTrigger=PropertyChanged,
                                 ValidatesOnNotifyDataErrors=True,
                                 ValidatesOnDataErrors=True

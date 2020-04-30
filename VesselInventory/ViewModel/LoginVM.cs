@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using Unity;
+using VesselInventory.Commons;
 using VesselInventory.Models;
 using VesselInventory.Services;
 using VesselInventory.Utility;
@@ -21,21 +22,21 @@ namespace VesselInventory.ViewModel
             LoginCommand = new RelayCommand<IClosable>(LoginAction);
         }
 
-        private string _personalname;
+        private string _personName;
         [Required(ErrorMessage ="*")]
-        public string personalname
+        public string PersonName
         {
-            get => _personalname;
+            get => _personName;
             set
             {
-                _personalname = value;
+                _personName = value;
                 OnPropertyChanged("personalname");
             }
         }
 
         private string _username;
         [Required(ErrorMessage ="*")]
-        public string username
+        public string Username
         {
             get => _username;
             set
@@ -47,7 +48,7 @@ namespace VesselInventory.ViewModel
 
         private string _password;
         [Required(ErrorMessage ="*")]
-        public string password
+        public string Password
         {
             get => _password;
             set
@@ -59,11 +60,18 @@ namespace VesselInventory.ViewModel
 
         private void LoginAction(IClosable window)
         {
-            Auth.Instance.username = username;
-            Auth.Instance.PersonName = personalname.ToUpper();
-            var container = (((App)Application.Current)).UnityContainer;
-            _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
-            CloseWindow(window);
+            try
+            {
+                Auth.Instance.UserName = Username;
+                Auth.Instance.PersonName = PersonName.ToUpper();
+                var container = (((App)Application.Current)).UnityContainer;
+                _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
+                CloseWindow(window);
+            }
+            catch
+            {
+                ResponseMessage.Error(GlobalNamespace.Error);
+            }
         }
     }
 }

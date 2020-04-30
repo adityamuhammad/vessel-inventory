@@ -55,11 +55,11 @@ namespace VesselInventory.Models
         [StringLength(15)]
         public string SyncStatus { get; set; }
 
-        public DateTime created_date { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         [Required]
         [StringLength(30)]
-        public string CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
