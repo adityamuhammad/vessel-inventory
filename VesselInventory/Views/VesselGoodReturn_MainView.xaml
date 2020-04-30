@@ -32,24 +32,35 @@
                     <TextBlock Text="New Return"/>
                 </StackPanel>
             </Button>
-            <TextBlock 
-                Text="Search" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Right"
-                Height="30"
-                Margin="0,10,180,0"
-                />
-            <TextBox 
-                HorizontalAlignment="Right" 
-                Height="30" 
-                Margin="0,10,20,0" 
-                Text="{
-                    Binding SearchKeyword, 
-                    Mode=TwoWay, 
-                    UpdateSourceTrigger=PropertyChanged
-                }"
-                VerticalAlignment="Top" 
-                Width="150"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <TextBox 
+                    HorizontalAlignment="Center" 
+                    Height="30" 
+                    Margin="0,10,10,10" 
+                    Text="{
+                        Binding SearchKeyword, 
+                        Mode=TwoWay, 
+                        UpdateSourceTrigger=PropertyChanged
+                    }"
+                    VerticalAlignment="Top" 
+                    Width="150"/>
+                <Button 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    Height="20"
+                    FontSize="10"
+                    Width="90" 
+                    Background="White" 
+                    BorderBrush="#FF4E5FBF" 
+                    Foreground="#FF4E5FBF"
+                    Command="{Binding SearchCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="BoxSearch" Foreground="#FF4E5FBF"/>
+                        <TextBlock Text="Search"/>
+                    </StackPanel>
+                </Button>
+                
+            </StackPanel>
         </Grid>
         <Grid Grid.Row="2">
             <DataGrid 

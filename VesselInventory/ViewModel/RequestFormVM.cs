@@ -13,6 +13,7 @@ namespace VesselInventory.ViewModel
     public class RequestFormVM : RequestFormVMBase, IParentLoadable
     {
         public override string Title => "Request Form";
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogRequestFormCommand { get; private set; }
@@ -32,6 +33,7 @@ namespace VesselInventory.ViewModel
 
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             OpenDialogRequestFormCommand = new RelayCommand(OpenRequestFormAction);
@@ -72,8 +74,6 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
             }
         }
         #endregion
@@ -141,6 +141,12 @@ namespace VesselInventory.ViewModel
             IncrementCurrentPage();
             LoadDataGrid();
         }
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
+        }
+
         private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();

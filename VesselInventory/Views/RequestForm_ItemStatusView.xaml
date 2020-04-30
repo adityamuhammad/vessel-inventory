@@ -45,7 +45,7 @@
             <Separator VerticalAlignment="Top" Margin="0,30,0,0"/>
         </Grid>
         <Grid Grid.Row="1" Margin="20,0,20,0">
-            <StackPanel Margin="20,0,20,0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Margin="20,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
                  <TextBlock 
                     Text="RF Number" 
                     VerticalAlignment="Center" 
@@ -121,6 +121,22 @@
                     }"
                     VerticalAlignment="Center" 
                     Width="100"/>
+                <Button 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    Height="20"
+                    Margin="10,0,0,0"
+                    FontSize="10"
+                    Width="90" 
+                    Background="White" 
+                    BorderBrush="#FF4E5FBF" 
+                    Foreground="#FF4E5FBF"
+                    Command="{Binding SearchCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="BoxSearch" Foreground="#FF4E5FBF"/>
+                        <TextBlock Text="Search"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">

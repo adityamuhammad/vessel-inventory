@@ -20,6 +20,12 @@
     <Window.Resources>
 
         <DataTemplate 
+            x:Name="Home_Main" 
+            DataType="{x:Type viewmodels:HomeVM}">
+            <views:Home_View DataContext="{Binding}"/>
+        </DataTemplate>
+
+        <DataTemplate 
             x:Name="Settings_Main" 
             DataType="{x:Type viewmodels:SettingsVM}">
             <views:Settings_View DataContext="{Binding}"/>

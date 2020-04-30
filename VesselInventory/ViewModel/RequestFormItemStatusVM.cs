@@ -10,6 +10,7 @@ namespace VesselInventory.ViewModel
     class RequestFormItemStatusVM : RequestFormVMBase
     {
         public override string Title => "Tracking Items";
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
 
@@ -20,11 +21,12 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
             ResetCurrentPage();
-            RefreshItemStatus();
+            LoadDataGrid();
         }
 
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
         }
@@ -60,8 +62,6 @@ namespace VesselInventory.ViewModel
             {
                 _rfNumberSearch = value;
                 OnPropertyChanged("RFNumberSearch");
-                ResetCurrentPage();
-                RefreshItemStatus();
             }
         }
 
@@ -75,10 +75,7 @@ namespace VesselInventory.ViewModel
                 _itemIdSearch = value;
                 if (!numericRegex.IsMatch(value.ToString()) || _itemIdSearch.StartsWith("0"))
                     _itemIdSearch = null;
-
                 OnPropertyChanged("ItemIdSearch");
-                ResetCurrentPage();
-                RefreshItemStatus();
             }
         }
 
@@ -90,8 +87,6 @@ namespace VesselInventory.ViewModel
             {
                 _itemNameSearch = value;
                 OnPropertyChanged("ItemNameSearch");
-                ResetCurrentPage();
-                RefreshItemStatus();
             }
         }
 
@@ -103,8 +98,6 @@ namespace VesselInventory.ViewModel
             {
                 _itemStatusSearch = value;
                 OnPropertyChanged("ItemStatusSearch");
-                ResetCurrentPage();
-                RefreshItemStatus();
             }
         }
 
@@ -116,8 +109,6 @@ namespace VesselInventory.ViewModel
             {
                 _departmentSearch = value;
                 OnPropertyChanged("DepartmentSearch");
-                ResetCurrentPage();
-                RefreshItemStatus();
             }
         }
         public ObservableCollection<ItemStatusDto> ItemStatusCollection { get; } 
@@ -135,7 +126,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        protected void RefreshItemStatus()
+        protected void LoadDataGrid()
         {
             ItemStatusCollection.Clear();
             foreach (var _ in ItemStatusList)
@@ -166,12 +157,17 @@ namespace VesselInventory.ViewModel
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
-            RefreshItemStatus();
+            LoadDataGrid();
         }
         private void PrevPageAction(object parameter)
         {
             DecrementCurrentPage();
-            RefreshItemStatus();
+            LoadDataGrid();
+        }
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
         }
     }
 }

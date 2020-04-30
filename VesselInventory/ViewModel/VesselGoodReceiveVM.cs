@@ -15,7 +15,8 @@ namespace VesselInventory.ViewModel
         public override string Title => "Receive Goods";
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IWindowService _windowService;
-        private readonly IUnityContainer _unityContainer = ((App)Application.Current).UnityContainer;
+        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReceiveCommand { get; private set; }
@@ -32,6 +33,7 @@ namespace VesselInventory.ViewModel
         }
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             OpenDialogReceiveCommand = new RelayCommand(AddOrEditReceiveAction);
@@ -51,8 +53,6 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
             }
         }
 
@@ -120,6 +120,11 @@ namespace VesselInventory.ViewModel
         private bool IsNextPageCanExecute(object parameter) => !(CurrentPage >= TotalPage);
         private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
 
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
+        }
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();
@@ -134,7 +139,7 @@ namespace VesselInventory.ViewModel
 
         public void AddOrEditReceiveAction(object parameter)
         {
-            var vesselGoodReceiveAddOrEditVM = _unityContainer.Resolve<VesselGoodReceiveAddOrEditVM>();
+            var vesselGoodReceiveAddOrEditVM = UnityContainer.Resolve<VesselGoodReceiveAddOrEditVM>();
             if (parameter is null)
                 vesselGoodReceiveAddOrEditVM.InitializeData(this);
             else
@@ -145,7 +150,7 @@ namespace VesselInventory.ViewModel
 
         private void ReceiveItemDetailAction(object parameter)
         {
-            var vesselGoodReceiveItemVM = _unityContainer.Resolve<VesselGoodReceiveItemVM>();
+            var vesselGoodReceiveItemVM = UnityContainer.Resolve<VesselGoodReceiveItemVM>();
             vesselGoodReceiveItemVM.InitializeData((int)parameter);
             _windowService.ShowDialogWindow<VesselGoodReceive_ItemDetailView>
                     (vesselGoodReceiveItemVM);

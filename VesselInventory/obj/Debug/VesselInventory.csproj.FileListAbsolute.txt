@@ -79,3 +79,5 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Pr
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Settings_View.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Settings_View.baml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Home_View.g.cs
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\Home_View.baml

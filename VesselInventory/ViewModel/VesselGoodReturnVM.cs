@@ -17,6 +17,7 @@ namespace VesselInventory.ViewModel
     class VesselGoodReturnVM : ViewModelBase, IParentLoadable
     {
         public override string Title => "Return Goods";
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogReturnCommand { get; private set; }
@@ -36,6 +37,7 @@ namespace VesselInventory.ViewModel
         }
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             OpenDialogReturnCommand = new RelayCommand(AddOrEditReturnAction);
@@ -76,8 +78,6 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
             }
         }
         #endregion
@@ -132,6 +132,11 @@ namespace VesselInventory.ViewModel
             LoadDataGrid();
         }
         private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
+        }
 
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

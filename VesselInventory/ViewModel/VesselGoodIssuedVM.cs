@@ -15,6 +15,7 @@ namespace VesselInventory.ViewModel
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         private readonly IWindowService _windowService;
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand OpenDialogIssuedCommand { get; private set; }
@@ -29,6 +30,7 @@ namespace VesselInventory.ViewModel
         }
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             OpenDialogIssuedCommand = new RelayCommand(AddOrEditIssuedAction);
@@ -70,8 +72,6 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
             }
         }
         #endregion
@@ -118,6 +118,12 @@ namespace VesselInventory.ViewModel
                 vesselGoodIssuedAddOrEditVM.InitializeData(this, (int)parameter);
             _windowService.ShowDialogWindow<VesselGoodIssued_AddOrEditView>(vesselGoodIssuedAddOrEditVM);
         }
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
+        }
+
         private void NextPageAction(object parameter)
         {
             IncrementCurrentPage();

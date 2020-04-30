@@ -191,6 +191,9 @@
     <Compile Include="ViewModel\VesselGoodReturnItemAddOrEditVM.cs" />
     <Compile Include="ViewModel\VesselGoodReturnVM.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="Views\Home_View.xaml.cs">
+      <DependentUpon>Home_View.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Login_View.xaml.cs">
       <DependentUpon>Login_View.xaml</DependentUpon>
     </Compile>
@@ -260,6 +263,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\Home_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Login_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

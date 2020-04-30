@@ -14,6 +14,7 @@ namespace VesselInventory.ViewModel
     public class RequestFormItemPendingVM : RequestFormVMBase, IParentLoadable
     {
         public override string Title => "Pending Items";
+        public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
         public RelayCommand UploadDocumentFormCommand { get; private set; }
@@ -35,6 +36,7 @@ namespace VesselInventory.ViewModel
 
         private void InitializeCommands()
         {
+            SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
             UploadDocumentFormCommand = new RelayCommand(OpenUploadDocumentFormAction);
@@ -76,8 +78,6 @@ namespace VesselInventory.ViewModel
             {
                 _searchKeyword = value;
                 OnPropertyChanged("SearchKeyword");
-                ResetCurrentPage();
-                LoadDataGrid();
             }
         }
         #endregion
@@ -156,6 +156,11 @@ namespace VesselInventory.ViewModel
             var previewPdf = UnityContainer.Resolve<PreviewPdf>();
             previewPdf.SetAttachment(attachmentLocation);
             previewPdf.ShowDialog();
+        }
+        private void SearchAction(object parameter)
+        {
+            ResetCurrentPage();
+            LoadDataGrid();
         }
         #endregion
     }
