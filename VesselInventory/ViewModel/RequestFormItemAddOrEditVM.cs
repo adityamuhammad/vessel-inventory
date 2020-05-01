@@ -70,7 +70,7 @@ namespace VesselInventory.ViewModel
             set
             {
                 _attachmentLocalPath = value;
-                OnPropertyChanged("attachment_local_path");
+                OnPropertyChanged("AttachmentLocalPath");
             }
         }
 

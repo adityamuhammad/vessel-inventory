@@ -44,5 +44,16 @@ namespace VesselInventory.Commons.HelperFunctions
                         ("usp_DocSequence_GetSequenceNumber @p0", sequenceId).Single();
             }
         }
+
+        public static RequestSummaryDto GetRequestSummaries()
+        {
+            using (var context = new AppVesselInventoryContext())
+            {
+                return context.Database
+                    .SqlQuery<RequestSummaryDto>
+                        ("usp_Summary_GetRequestSummaries").Single();
+            }
+
+        }
     }
 }

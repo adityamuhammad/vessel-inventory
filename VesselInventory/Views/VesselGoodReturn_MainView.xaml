@@ -28,7 +28,7 @@
                 BorderBrush="#FF508B3A" 
                 Command="{Binding OpenDialogReturnCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
+                    <materialDesign:PackIcon Kind="AssignmentReturn" Foreground="White"/>
                     <TextBlock Text="New Return"/>
                 </StackPanel>
             </Button>

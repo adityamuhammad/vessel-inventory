@@ -57,11 +57,11 @@ namespace VesselInventory.ViewModel
             get
             {
                 var ship = _shipRepository.GetWhere( _ => _.IsBarge == true).ToList();
-                var data = (from barge in ship
-                            select new BargeDto {
-                                    BargeId = barge.ShipId,
-                                    BargeName = barge.ShipName});
-                return data.ToList();
+                return (from barge in ship
+                        select new BargeDto {
+                            BargeId = barge.ShipId,
+                            BargeName = barge.ShipName
+                        }).ToList();
             }
         }
     }

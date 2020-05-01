@@ -168,7 +168,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="ViewDashboard" 
+                                Kind="Home" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
@@ -182,7 +182,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="Pencil" 
+                                Kind="PencilOutline" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
@@ -196,7 +196,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="BookPlus" 
+                                Kind="PencilPlus" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
@@ -210,7 +210,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="BookMinus" 
+                                Kind="PencilMinus" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
@@ -224,7 +224,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="BookMinusMultiple" 
+                                Kind="AssignmentReturn" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 
@@ -238,7 +238,7 @@
                             <materialDesign:PackIcon 
                                 Margin="5" 
                                 Foreground="White" 
-                                Kind="Package" 
+                                Kind="Warehouse" 
                                 VerticalAlignment="Center"/>
                             <TextBlock 
                                 VerticalAlignment="Center" 

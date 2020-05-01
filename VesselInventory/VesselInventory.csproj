@@ -129,6 +129,7 @@
     <Compile Include="Commons\Enums.cs" />
     <Compile Include="Commons\CommonDataHelper.cs" />
     <Compile Include="Dto\ShipBargeDTO.cs" />
+    <Compile Include="Dto\RequestSummaryDto.cs" />
     <Compile Include="Models\AppVesselInventoryContext.cs" />
     <Compile Include="Models\DocSequence.cs" />
     <Compile Include="Models\Item.cs" />

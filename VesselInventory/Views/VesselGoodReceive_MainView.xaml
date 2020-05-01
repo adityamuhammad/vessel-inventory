@@ -28,7 +28,7 @@
                 BorderBrush="#FF508B3A" 
                 Command="{Binding OpenDialogReceiveCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
+                    <materialDesign:PackIcon Kind="PencilPlus" Foreground="White"/>
                     <TextBlock Text="New Receive"/>
                 </StackPanel>
             </Button>

@@ -28,7 +28,7 @@
                 BorderBrush="#FF508B3A" 
                 Command="{Binding OpenDialogIssuedCommand}">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Inbox" Foreground="White"/>
+                    <materialDesign:PackIcon Kind="PencilMinus" Foreground="White"/>
                     <TextBlock Text="New Issued"/>
                 </StackPanel>
             </Button>

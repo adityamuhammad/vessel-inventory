@@ -21,16 +21,17 @@
         <Grid Grid.Row="0" Grid.Column="0" Margin="20">
             <Border Background="White" BorderBrush="#FF1368BD" BorderThickness="2,2,2,2" CornerRadius="15,15,15,15">
                 <Grid>
-                    <Grid>
-                        <StackPanel>
-                            <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Ship" Foreground="#FF1368BD"/>
-                                <TextBlock Foreground="#FF1368BD" Text="Ship Information"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
-                                <TextBlock Foreground="#FF1368BD">
+                    <StackPanel>
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Ship" Foreground="#FF1368BD"/>
+                            <TextBlock FontWeight="Bold" Foreground="#FF1368BD" Text="Ship Information"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="DemiBold" Foreground="#FF1368BD" Text="SHIP"/>
+                                <TextBlock Foreground="#FF1368BD" >
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}Ship : {0} - {1} - {2}">
+                                        <MultiBinding StringFormat="{}{0} - {1} - {2}">
                                             <Binding Path="ShipBarge.ShipId"/>
                                             <Binding Path="ShipBarge.ShipCode"/>
                                             <Binding Path="ShipBarge.ShipName"/>
@@ -38,10 +39,14 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="DemiBold" Foreground="#FF1368BD" Text="BARGE"/>
                                 <TextBlock Foreground="#FF1368BD" >
                                     <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}Barge : {0} - {1} - {2}">
+                                        <MultiBinding StringFormat="{}{0} - {1} - {2}">
                                             <Binding Path="ShipBarge.BargeId"/>
                                             <Binding Path="ShipBarge.BargeCode"/>
                                             <Binding Path="ShipBarge.BargeName"/>
@@ -49,37 +54,100 @@
                                     </TextBlock.Text>
                                 </TextBlock>
                             </StackPanel>
-                            <StackPanel Margin="15,5,0,0" Orientation="Horizontal">
-                                <Button 
-                                    Width="115" 
-                                    Background="#FF4E5FBF" 
-                                    BorderBrush="{x:Null}"
-                                    Command="{Binding SettingCommand}"
-                                    Height="23"
-                                    >
-                                        <StackPanel Orientation="Horizontal">
-                                            <materialDesign:PackIcon 
-                                            Kind="SettingsApplications" 
-                                            FontSize="5"
-                                            Foreground="White"/>
-                                            <TextBlock FontSize="10" Text="Change Barge"/>
-                                        </StackPanel>
-                                    </Button>
-                            </StackPanel>
                         </StackPanel>
-                    </Grid>
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <Button 
+                                Width="115" 
+                                Background="#FF4E5FBF" 
+                                BorderBrush="{x:Null}"
+                                Command="{Binding SettingCommand}"
+                                Height="23"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                    Kind="SettingsApplications" 
+                                    FontSize="5"
+                                    Foreground="White"/>
+                                    <TextBlock FontSize="10" Text="Change Barge"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1" Margin="20">
             <Border Background="White" BorderBrush="DarkOrange" BorderThickness="2,2,2,2" CornerRadius="15,15,15,15">
                 <Grid>
+                    <StackPanel>
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="PackageUp" Foreground="DarkOrange"/>
+                            <TextBlock FontWeight="Bold" Foreground="DarkOrange" Text="Request"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalDraftRequest,StringFormat={}Draft : {0} Requests}"/>
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalReleaseRequest,StringFormat={}Release : {0} Requests}"/>
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalPendingRequest,StringFormat={}Pending (Not Sync) : {0} Requests}"/>
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalRequestDeck,StringFormat={}Deparmtent Deck Request : {0} Requests}"/>
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalRequestElectrical,StringFormat={}Department Electrical Request : {0} Requests}"/>
+                                <TextBlock FontWeight="DemiBold" Foreground="DarkOrange" Text="{Binding RequestSummary.TotalRequestEngine,StringFormat={}Department Engine Request : {0} Requests}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <Button 
+                                Width="115" 
+                                Background="DarkOrange" 
+                                BorderBrush="{x:Null}"
+                                Command="{Binding MoreRequestCommand}"
+                                Height="23"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                    Kind="ReadMore" 
+                                    FontSize="5"
+                                    Foreground="White"/>
+                                    <TextBlock FontSize="10" Text="More Detail"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="2" Margin="20">
             <Border Background="White" BorderBrush="#FF1AB401" BorderThickness="2,2,2,2" CornerRadius="15,15,15,15">
                 <Grid>
+                    <StackPanel>
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="PackageUp" Foreground="#FF1AB401"/>
+                            <TextBlock FontWeight="Bold" Foreground="#FF1AB401" Text="Item Request"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontWeight="DemiBold" Foreground="#FF1AB401" Text="{Binding RequestSummary.TotalItemDocumentPending,StringFormat={}Item Document Pending : {0} Items}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
+                            <Button 
+                                Width="115" 
+                                Background="#FF1AB401" 
+                                BorderBrush="{x:Null}"
+                                Command="{Binding MoreItemRequestCommand}"
+                                Height="23"
+                                >
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                    Kind="ReadMore" 
+                                    FontSize="5"
+                                    Foreground="White"/>
+                                    <TextBlock FontSize="10" Text="More Detail"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>
