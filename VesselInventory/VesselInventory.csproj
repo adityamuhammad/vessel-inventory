@@ -125,10 +125,11 @@
     <Compile Include="Dto\ItemGroupDimensionDto.cs" />
     <Compile Include="Dto\ItemPendingDto.cs" />
     <Compile Include="Dto\ItemStatusDto.cs" />
+    <Compile Include="Dto\OnHandDto.cs" />
     <Compile Include="Dto\RequestFormShipBargeDto.cs" />
     <Compile Include="Commons\Enums.cs" />
     <Compile Include="Commons\CommonDataHelper.cs" />
-    <Compile Include="Dto\ShipBargeDTO.cs" />
+    <Compile Include="Dto\ShipBargeDto.cs" />
     <Compile Include="Dto\RequestSummaryDto.cs" />
     <Compile Include="Models\AppVesselInventoryContext.cs" />
     <Compile Include="Models\DocSequence.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Models\VesselGoodReturn.cs" />
     <Compile Include="Models\VesselGoodReturnItem.cs" />
     <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="Repository\IOnHandRepository.cs" />
     <Compile Include="Repository\IRequestFormItemRepository.cs" />
     <Compile Include="Repository\IRequestFormRepository.cs" />
     <Compile Include="Repository\IVesselGoodIssuedItemRepository.cs" />
@@ -173,6 +175,7 @@
     <Compile Include="Validations\ItemUniqueValidator.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
+    <Compile Include="ViewModel\OnHandVM.cs" />
     <Compile Include="ViewModel\RequestFormAddOrEditVM.cs" />
     <Compile Include="ViewModel\RequestFormVMBase.cs" />
     <Compile Include="ViewModel\RequestFormItemAddOrEditVM.cs" />
@@ -197,6 +200,9 @@
     </Compile>
     <Compile Include="Views\Login_View.xaml.cs">
       <DependentUpon>Login_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OnHand_View.xaml.cs">
+      <DependentUpon>OnHand_View.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PreviewPdf.xaml.cs">
       <DependentUpon>PreviewPdf.xaml</DependentUpon>
@@ -269,6 +275,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Login_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OnHand_View.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

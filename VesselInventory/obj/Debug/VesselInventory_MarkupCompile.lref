@@ -1,7 +1,9 @@
 ﻿
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\App.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\MainWindow.xaml;;
+FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\Home_View.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\Login_View.xaml;;
+FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\OnHand_View.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\PreviewPdf.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\RequestForm_AddOrEditView.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\RequestForm_ItemAddOrEditView.xaml;;
@@ -19,5 +21,4 @@ FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\VesselGoodR
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\VesselGoodReturn_AddOrEditView.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\VesselGoodReturn_ItemAddOrEditView.xaml;;
 FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\VesselGoodReturn_MainView.xaml;;
-FC:\Users\maditya\source\repos\VesselInventory\VesselInventory\Views\Home_View.xaml;;
 

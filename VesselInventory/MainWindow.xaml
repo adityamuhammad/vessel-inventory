@@ -67,6 +67,12 @@
             <views:VesselGoodReturn_MainView DataContext="{Binding}"/>
         </DataTemplate>
 
+        <DataTemplate 
+            x:Name="OnHand_Main" 
+            DataType="{x:Type viewmodels:OnHandVM}">
+            <views:OnHand_View DataContext="{Binding}"/>
+        </DataTemplate>
+
     </Window.Resources>
     <Grid Background="LightGray">
 
@@ -162,6 +168,7 @@
                 <ListView 
                     x:Name="ListViewMenu" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                    SelectedIndex="0"
                     SelectionChanged="MenuChanged">
                     <ListViewItem Height="55">
                         <StackPanel Orientation="Horizontal">

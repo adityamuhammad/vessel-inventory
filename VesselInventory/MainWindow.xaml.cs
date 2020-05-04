@@ -37,6 +37,9 @@ namespace VesselInventory
                     DataContext = container.Resolve<VesselGoodReturnVM>();
                     break;
                 case 5:
+                    DataContext = container.Resolve<OnHandVM>();
+                    break;
+                default:
                     break;
             }
         }

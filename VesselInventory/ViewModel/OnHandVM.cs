@@ -4,43 +4,33 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using Unity;
-using VesselInventory.Models;
+using VesselInventory.Dto;
 using VesselInventory.Repository;
-using VesselInventory.Services;
 using VesselInventory.Utility;
-using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReturnVM : ViewModelBase, IParentLoadable
+    public class OnHandVM : ViewModelBase
     {
-        public override string Title => "Return Goods";
+        public override string Title => "On Hand";
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public RelayCommand OpenDialogReturnCommand { get; private set; }
-
-        private readonly IVesselGoodReturnRepository _vesselGoodReturnRepository;
-        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
-        private readonly IWindowService _windowService;
-        public VesselGoodReturnVM(IWindowService windowService, 
-            IVesselGoodReturnRepository vesselGoodReturnRepository)
+        public RelayCommand OpenDialogLogCommand { get; private set; }
+        private readonly IOnHandRepository _onHandRepository; 
+        public OnHandVM(IOnHandRepository onHandRepository)
         {
-            _vesselGoodReturnRepository = vesselGoodReturnRepository;
-            _windowService = windowService;
             InitializeCommands();
+            _onHandRepository = onHandRepository;
             ResetCurrentPage();
             LoadDataGrid();
-
         }
         private void InitializeCommands()
         {
             SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
-            OpenDialogReturnCommand = new RelayCommand(AddOrEditReturnAction);
+            OpenDialogLogCommand = new RelayCommand(ViewLog);
         }
 
         /// <summary>
@@ -86,37 +76,28 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodReturn> VesselGoodReturnCollection { get; } 
-            = new ObservableCollection<VesselGoodReturn>();
+        public ObservableCollection<OnHandDto> OnHandCollection { get; } 
+            = new ObservableCollection<OnHandDto>();
         #endregion
 
-        /// <summary>
-        /// Load Method and behavior
-        /// </summary>
+        private void ViewLog(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public void LoadDataGrid()
         {
-            VesselGoodReturnCollection.Clear();
-            foreach (var goodReturn in _vesselGoodReturnRepository
-                .GetGoodReturnDataGrid(SearchKeyword, CurrentPage, DataGridRows, "VesselGoodReturnId", "DESC"))
-                VesselGoodReturnCollection.Add(goodReturn);
+            OnHandCollection.Clear();
+            foreach (var onHand in _onHandRepository
+                .GetOnHandDataGrid(SearchKeyword, CurrentPage, DataGridRows))
+                OnHandCollection.Add(onHand);
             UpdateTotalPage();
         }
         
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodReturnRepository
-                .GetGoodReturnTotalPage(SearchKeyword, DataGridRows);
-        }
-
-
-        private void AddOrEditReturnAction(object parameter)
-        {
-            var vesselGoodReturnAddOrEditVM = UnityContainer.Resolve<VesselGoodReturnAddOrEditVM>();
-            if (parameter is null)
-                vesselGoodReturnAddOrEditVM.InitializeData(this);
-            else
-                vesselGoodReturnAddOrEditVM.InitializeData(this, (int)parameter);
-            _windowService.ShowDialogWindow<VesselGoodReturn_AddOrEditView>(vesselGoodReturnAddOrEditVM);
+            TotalPage = _onHandRepository
+                .GetOnHandTotalPage(SearchKeyword, DataGridRows);
         }
 
         private void NextPageAction(object parameter)
@@ -132,12 +113,12 @@ namespace VesselInventory.ViewModel
             LoadDataGrid();
         }
         private bool IsPrevPageCanExecute(object parameter) => !(CurrentPage <= 1);
-        private void SearchAction(object parameter)
+
+        private void SearchAction(object obj)
         {
             ResetCurrentPage();
             LoadDataGrid();
         }
-
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
         private void DecrementCurrentPage() => CurrentPage = CurrentPage - 1;

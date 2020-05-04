@@ -11,7 +11,7 @@ namespace VesselInventory.Validations
 {
     public class ItemUniqueValidator
     {
-        private static string FetchOneRowSqlStatement(string tableName, string headerIdName)
+        private static string FetchOneRowSqlStatement(string tableName, string foreignKey)
         {
             StringBuilder sqlStatementBuilder = new StringBuilder();
             sqlStatementBuilder.Append("select top 1 1 from {0} ");
@@ -20,7 +20,7 @@ namespace VesselInventory.Validations
             sqlStatementBuilder.Append("and ItemDimensionNumber = @itemDimensionNumber ");
             sqlStatementBuilder.Append("and IsHidden = 0");
             string sqlStatement = sqlStatementBuilder.ToString();
-            return string.Format(sqlStatement, tableName, headerIdName);
+            return string.Format(sqlStatement, tableName, foreignKey);
         }
         public static bool ValidateRequestFormItem(RequestFormItem data)
         {

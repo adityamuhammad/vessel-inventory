@@ -107,34 +107,22 @@ namespace VesselInventory.ViewModel
         public int RequestFormId
         {
             get => RequestFormItemDataView.RequestFormId;
-            set
-            {
-                RequestFormItemDataView.RequestFormId = value;
-            }
+            set => RequestFormItemDataView.RequestFormId = value;
         }
         public int RequestFormItemId
         {
             get => RequestFormItemDataView.RequestFormItemId;
-            set
-            {
-                RequestFormItemDataView.RequestFormItemId = value;
-            }
+            set => RequestFormItemDataView.RequestFormItemId = value;
         }
         public string ItemDimensionNumber
         {
             get => RequestFormItemDataView.ItemDimensionNumber;
-            set
-            {
-                RequestFormItemDataView.ItemDimensionNumber = value;
-            }
+            set => RequestFormItemDataView.ItemDimensionNumber = value;
         }
         public int ItemGroupId
         {
             get => RequestFormItemDataView.ItemGroupId;
-            set
-            {
-                RequestFormItemDataView.ItemGroupId = value;
-            }
+            set => RequestFormItemDataView.ItemGroupId = value;
         }
 
         [Required]
@@ -298,12 +286,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public bool IsVisibleSearchItem {
-            get
-            {
-                return (RecordHelper.IsNewRecord(RequestFormItemId));
-            }
-        }
+        public bool IsVisibleSearchItem => (RecordHelper.IsNewRecord(RequestFormItemId));
 
         private bool _IsVisibleListBoxItem = false;
         public bool IsVisibleListBoxItem
@@ -381,6 +364,7 @@ namespace VesselInventory.ViewModel
                 RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
                 RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
                 RequestFormItemDataView.CreatedDate = DateTime.Now;
+                RequestFormItemDataView.ItemStatus = ItemStatus.Wait_Sync.GetDescription();
                 _requestFormItemRepository.Save(RequestFormItemDataView);
             } else
             {

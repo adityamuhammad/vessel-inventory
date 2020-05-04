@@ -23,6 +23,12 @@ namespace VesselInventory.Commons.Enums
         Not_Sync
     }
 
+    public enum ItemStatus
+    {
+        [Description("WAITING FOR SYNC")]
+        Wait_Sync
+    }
+
 
     public static class EnumExtensions
     {
