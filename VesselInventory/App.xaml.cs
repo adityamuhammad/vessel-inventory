@@ -47,6 +47,8 @@ namespace VesselInventory
             UnityContainer.RegisterType<IVesselGoodReturnRepository, VesselGoodReturnRepository>();
             UnityContainer.RegisterType<IVesselGoodReturnItemRepository, VesselGoodReturnItemRepository>();
             UnityContainer.RegisterType<IOnHandRepository, OnHandRepository>();
+            UnityContainer.RegisterType<IAuthenticationService, AuthenticationService>();
+            UnityContainer.RegisterType<IVesselGoodJournalRepository, VesselGoodJournalRepository>();
 
             Window window = UnityContainer.Resolve<Login_View>();
             window.DataContext = UnityContainer.Resolve<LoginVM>();

@@ -9,7 +9,10 @@ namespace VesselInventory.Commons
     public static class GlobalNamespace
     {
         public static string ItemDimensionAlreadyExist => "Item and Dimension already exist.";
+        public static string SuccessLogin => "Login successfully.";
+        public static string FailedLogin => "Failed login, username and password does not match.";
         public static string Error => "Oops, Something went wrong.";
+        public static string WrongInput => "Make sure your input is correct.";
         public static string ErrorSave => "Data failed to save.";
         public static string SuccessSave => "Data saved successfully.";
         public static string SuccessUpdate => "Data updated successfully.";

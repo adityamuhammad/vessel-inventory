@@ -15,10 +15,12 @@ namespace VesselInventory.ViewModel
         public RelayCommand<IClosable> LoginCommand { get; private set; }
 
         private readonly IWindowService _windowService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public LoginVM(IWindowService windowService)
+        public LoginVM(IWindowService windowService,IAuthenticationService authenticationService)
         {
             _windowService = windowService;
+            _authenticationService = authenticationService;
             LoginCommand = new RelayCommand<IClosable>(LoginAction);
         }
 
@@ -62,16 +64,23 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                Auth.Instance.UserName = Username;
-                Auth.Instance.PersonName = PersonName.ToUpper();
-                var container = (((App)Application.Current)).UnityContainer;
-                _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
-                CloseWindow(window);
+                if (_authenticationService.Authenticate(Username, Password))
+                {
+                    Auth.Instance.UserName = Username;
+                    Auth.Instance.PersonName = PersonName.ToUpper();
+                    var container = (((App)Application.Current)).UnityContainer;
+                    _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
+                    CloseWindow(window);
+                    ResponseMessage.Success(GlobalNamespace.SuccessLogin);
+                } else
+                {
+                    ResponseMessage.Error(GlobalNamespace.FailedLogin);
+                }
             }
             catch
             {
-                ResponseMessage.Error(GlobalNamespace.Error);
+                ResponseMessage.Error(string.Format("{0} {1}",GlobalNamespace.Error, GlobalNamespace.WrongInput));
             }
-        }
+}
     }
 }

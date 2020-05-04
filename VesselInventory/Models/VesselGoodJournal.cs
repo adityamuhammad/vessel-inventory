@@ -55,6 +55,7 @@ namespace VesselInventory.Models
 
         public int ShipId { get; set; }
 
+        public string Uom { get; set; }
         [Required]
         [StringLength(30)]
         public string ShipName { get; set; }

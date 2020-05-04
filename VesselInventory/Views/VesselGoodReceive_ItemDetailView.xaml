@@ -38,7 +38,7 @@
             </Button>
             <StackPanel>
                 <TextBlock 
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Margin="20,50,20,0" 
                     Text="{
@@ -58,6 +58,7 @@
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
+                        <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
                         <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>

@@ -90,6 +90,7 @@
                 IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding ItemId}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
                     <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
                     <DataGridTextColumn Width="1.5*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
                     <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>

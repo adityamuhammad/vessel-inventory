@@ -142,7 +142,7 @@
     <Compile Include="Models\Ship.cs" />
     <Compile Include="Models\ShipInitial.cs" />
     <Compile Include="Models\Uom.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserVessel.cs" />
     <Compile Include="Models\VesselGoodIssued.cs" />
     <Compile Include="Models\VesselGoodIssuedItem.cs" />
     <Compile Include="Models\VesselGoodJournal.cs" />
@@ -157,11 +157,13 @@
     <Compile Include="Repository\IRequestFormRepository.cs" />
     <Compile Include="Repository\IVesselGoodIssuedItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodIssuedRepository.cs" />
+    <Compile Include="Repository\IVesselGoodJournalRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveRepository.cs" />
     <Compile Include="Repository\IVesselGoodReceiveItemRejectRepository.cs" />
     <Compile Include="Repository\IVesselGoodReturnItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReturnRepository.cs" />
+    <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Services\IClosable.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />
@@ -175,6 +177,7 @@
     <Compile Include="Validations\ItemUniqueValidator.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
+    <Compile Include="ViewModel\OnHandLogVM.cs" />
     <Compile Include="ViewModel\OnHandVM.cs" />
     <Compile Include="ViewModel\RequestFormAddOrEditVM.cs" />
     <Compile Include="ViewModel\RequestFormVMBase.cs" />
@@ -200,6 +203,9 @@
     </Compile>
     <Compile Include="Views\Login_View.xaml.cs">
       <DependentUpon>Login_View.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OnHand_LogView.xaml.cs">
+      <DependentUpon>OnHand_LogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OnHand_View.xaml.cs">
       <DependentUpon>OnHand_View.xaml</DependentUpon>
@@ -275,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Login_View.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OnHand_LogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

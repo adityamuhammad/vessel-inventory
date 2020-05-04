@@ -6,9 +6,10 @@ namespace VesselInventory.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("User")]
-    public partial class User
+    [Table("UserVessel")]
+    public partial class UserVessel
     {
+        [Key]
         public int UserId { get; set; }
 
         [Required]

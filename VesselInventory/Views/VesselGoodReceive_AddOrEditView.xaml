@@ -217,6 +217,7 @@
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
+                        <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
                         <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>

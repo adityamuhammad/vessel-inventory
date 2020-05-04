@@ -155,6 +155,7 @@
                 IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding ItemId}"/>
+                    <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
                     <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
                     <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>
                     <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>

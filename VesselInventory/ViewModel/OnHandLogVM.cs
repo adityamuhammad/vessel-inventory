@@ -4,40 +4,43 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Unity;
-using VesselInventory.Dto;
-using VesselInventory.Repository;
-using VesselInventory.Services;
-using VesselInventory.Utility;
-using VesselInventory.Views;
 using System.Windows;
+using VesselInventory.Dto;
+using VesselInventory.Models;
+using VesselInventory.Repository;
+using VesselInventory.Utility;
 
 namespace VesselInventory.ViewModel
 {
-    public class OnHandVM : ViewModelBase
+    public class OnHandLogVM : ViewModelBase
     {
-        public override string Title => "On Hand";
-        private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
+        public override string Title => "Journal Log";
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-        public RelayCommand OpenDialogLogCommand { get; private set; }
-        private readonly IOnHandRepository _onHandRepository;
-        private readonly IWindowService _windowService;
-        public OnHandVM(IOnHandRepository onHandRepository, IWindowService windowService)
+        private readonly IVesselGoodJournalRepository _vesselGoodJournalRepository;
+        public OnHandLogVM(IVesselGoodJournalRepository vesselGoodJournalRepository)
         {
+            _vesselGoodJournalRepository = vesselGoodJournalRepository;
             InitializeCommands();
-            _onHandRepository = onHandRepository;
-            _windowService = windowService;
+        }
+
+        public void InitializeData(int itemId, string itemDimensionNumber)
+        {
+            ItemId = itemId;
+            ItemDimensionNumber = itemDimensionNumber;
             ResetCurrentPage();
             LoadDataGrid();
         }
+
+        public int ItemId {get; set; }
+        public string ItemDimensionNumber {get; set; }
+
         private void InitializeCommands()
         {
             SearchCommand = new RelayCommand(SearchAction);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
-            OpenDialogLogCommand = new RelayCommand(ViewLog);
         }
 
         /// <summary>
@@ -77,37 +80,52 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("SearchKeyword");
             }
         }
-        #endregion
 
-        /// <summary>
-        /// Entity and Collections
-        /// </summary>
-        #region
-        public ObservableCollection<OnHandDto> OnHandCollection { get; } 
-            = new ObservableCollection<OnHandDto>();
-        #endregion
-
-        private void ViewLog(object parameter)
-        {
-            OnHandDto onHandDto = (OnHandDto)parameter;
-            var onHandLogVM = UnityContainer.Resolve<OnHandLogVM>();
-            onHandLogVM.InitializeData(onHandDto.ItemId, onHandDto.ItemDimensionNumber);
-            _windowService.ShowDialogWindow<OnHand_LogView>(onHandLogVM);
+        private string _documentTypeSelected = "_All";
+        public string DocumentTypeSelected {
+            get
+            {
+                return _documentTypeSelected;
+            }
+            set
+            {
+                _documentTypeSelected = value;
+                OnPropertyChanged("DocumentTypeSelected");
+            }
         }
 
-        public void LoadDataGrid()
+        public IList<string> DocumentTypeCollection
         {
-            OnHandCollection.Clear();
-            foreach (var onHand in _onHandRepository
-                .GetOnHandDataGrid(SearchKeyword, CurrentPage, DataGridRows))
-                OnHandCollection.Add(onHand);
-            UpdateTotalPage();
+            get
+            {
+                return new List<string> {
+                    "_All",
+                    "Vessel Good Receive",
+                    "Vessel Good Issued",
+                    "Vessel Good Return"
+                };
+
+            }
         }
+
+        public ObservableCollection<VesselGoodJournal> JournalLogCollection { get; } 
+            = new ObservableCollection<VesselGoodJournal>();
+        #endregion
         
+        private void LoadDataGrid()
+        {
+            JournalLogCollection.Clear();
+            foreach (var data in _vesselGoodJournalRepository.GetGoodJournals(ItemId, ItemDimensionNumber, SearchKeyword, DocumentTypeSelected, CurrentPage, DataGridRows))
+            {
+                JournalLogCollection.Add(data);
+            }
+            UpdateTotalPage();
+
+        }
+
         private void UpdateTotalPage()
         {
-            TotalPage = _onHandRepository
-                .GetOnHandTotalPage(SearchKeyword, DataGridRows);
+            TotalPage = _vesselGoodJournalRepository.GetJournalLogTotalPage(ItemId, ItemDimensionNumber, SearchKeyword, DocumentTypeSelected, DataGridRows);
         }
 
         private void NextPageAction(object parameter)
