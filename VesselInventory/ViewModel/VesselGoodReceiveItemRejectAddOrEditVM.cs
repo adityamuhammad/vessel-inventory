@@ -49,6 +49,59 @@ namespace VesselInventory.ViewModel
         /// Collection and Entities
         /// </summary>
         #region
+        private string _textScann = "";
+        private void Reset()
+        {
+            RequestFormNumber = "";
+            ItemId = 0;
+            ItemGroupId = 0;
+            ItemName = "";
+            ItemDimensionNumber = "";
+            BrandTypeId = "";
+            BrandTypeName = "";
+            ColorSizeId = "";
+            ColorSizeName = "";
+        }
+        public string TextScann
+        {
+            get => _textScann;
+            set
+            {
+                _textScann = value;
+                Reset();
+                string[] textScanList = _textScann.Split('|');
+                try
+                {
+                    for (int i = 0; i < textScanList.Length; i++)
+                    {
+                        if (i == 0)
+                            RequestFormNumber = textScanList[i];
+                        if (i == 1)
+                            ItemId = int.Parse(textScanList[i]);
+                        if (i == 2)
+                            ItemGroupId = int.Parse(textScanList[i]);
+                        if (i == 3)
+                            ItemName = textScanList[i];
+                        if (i == 4)
+                            ItemDimensionNumber = textScanList[i];
+                        if (i == 5)
+                            BrandTypeId = textScanList[i];
+                        if (i == 6)
+                            BrandTypeName = textScanList[i];
+                        if (i == 7)
+                            ColorSizeId = textScanList[i];
+                        if (i == 8)
+                            ColorSizeName = textScanList[i];
+                    }
+
+                } catch (Exception ex)
+                {
+                    ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
+                }
+                _textScann = "";
+                OnPropertyChanged("TextScann");
+            }
+        }
         private VesselGoodReceiveItemReject GoodReceiveItemRejectDataView
         {
             get; set;

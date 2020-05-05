@@ -91,7 +91,9 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormDataGrid(SearchKeyword, CurrentPage, DataGridRows, "RequestFormId", "desc");
+                    GetRequestFormDataGrid
+                        (Auth.Instance.DepartmentName,SearchKeyword, 
+                            CurrentPage, DataGridRows, "RequestFormId", "desc");
             }
         }
         #endregion
@@ -126,7 +128,7 @@ namespace VesselInventory.ViewModel
             get
             {
                 return _requestFormRepository.
-                    GetRequestFormTotalPage(SearchKeyword, DataGridRows);
+                    GetRequestFormTotalPage(Auth.Instance.DepartmentName, SearchKeyword, DataGridRows);
             }
         }
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;

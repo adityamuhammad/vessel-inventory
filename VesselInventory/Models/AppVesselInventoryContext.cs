@@ -22,7 +22,6 @@ namespace VesselInventory.Models
         public virtual DbSet<Ship> Ship { get; set; }
         public virtual DbSet<ShipInitial> ShipInitial { get; set; }
         public virtual DbSet<Uom> Uom { get; set; }
-        public virtual DbSet<UserVessel> User { get; set; }
         public virtual DbSet<VesselGoodIssued> VesselGoodIssued { get; set; }
         public virtual DbSet<VesselGoodIssuedItem> VesselGoodIssuedItem { get; set; }
         public virtual DbSet<VesselGoodJournal> VesselGoodJournal { get; set; }

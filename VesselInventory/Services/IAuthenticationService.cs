@@ -10,25 +10,25 @@ namespace VesselInventory.Services
 {
     public interface IAuthenticationService
     {
-        bool Authenticate(string username, string password);
+        UserVessel Authenticate(string username, string password);
     }
     class AuthenticationService : IAuthenticationService
     {
         public AuthenticationService() { }
 
-        public bool Authenticate(string username, string password)
+        public UserVessel Authenticate(string username, string password)
         {
             StringBuilder sqlAuthenticate = new StringBuilder();
-            sqlAuthenticate.Append("select top 1 1 from UserVessel ");
+            sqlAuthenticate.Append("select top 1 UserId, Username, DepartmentName, ShipId from UserVessel ");
             sqlAuthenticate.Append("where Username = @username ");
             sqlAuthenticate.Append("and Password = @password ");
             string sql = sqlAuthenticate.ToString();
             using (var context = new AppVesselInventoryContext())
             {
-                return context.Database.SqlQuery<int>(sql,
+                return context.Database.SqlQuery<UserVessel>(sql,
                     new SqlParameter("@username", username),
                     new SqlParameter("@password", password)
-                    ).SingleOrDefault().Equals(1);
+                    ).Single();
             }
         }
     }

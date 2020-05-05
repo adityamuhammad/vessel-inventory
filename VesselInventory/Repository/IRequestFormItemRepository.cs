@@ -21,9 +21,9 @@ namespace VesselInventory.Repository
             string itemStatus, string requestFormNumber, 
             string departmentName, int rows);
         IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
-            string rf_number, int page, int rows, 
+            string departmentName, string search, int page, int rows, 
             string sortColumnName, string sortBy);
-        int GetItemPendingTotalPage(string requestFormNumber, int rows);
+        int GetItemPendingTotalPage(string departmentName, string search, int rows);
     }
 
     public class RequestFormItemRepository 
@@ -83,25 +83,25 @@ namespace VesselInventory.Repository
         }
 
         public IEnumerable<ItemPendingDto> GetItemPendingDataGrid(
-            string search, int page, int rows,
+            string departmentName, string search, int page, int rows,
             string sortColumnName, string sortBy
             )
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<ItemPendingDto>(
-                    "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2, @p3, @p4",
-                    parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
+                    "usp_RequestFormItem_GetItemPendingList @p0, @p1, @p2, @p3, @p4, @p5",
+                    parameters: new object[] {departmentName, search, page, rows, sortColumnName, sortBy }).ToList();
             }
         }
 
-        public int GetItemPendingTotalPage(string search, int rows)
+        public int GetItemPendingTotalPage(string departmentName, string search, int rows)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
-                    "usp_RequestFormItem_GetItemPendingPages @p0, @p1",
-                    parameters: new object[] { search, rows }).Single();
+                    "usp_RequestFormItem_GetItemPendingPages @p0, @p1, @p2",
+                    parameters: new object[] {departmentName, search, rows }).Single();
             }
         }
 

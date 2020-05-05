@@ -62,8 +62,26 @@
                 AutoGenerateColumns="False" 
                 IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
-                    <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
+                <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Brand / Color"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{} {0} / {1}">
+                                            <Binding Path="BrandTypeId"/>
+                                            <Binding Path="ColorSizeId"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
                     <DataGridTextColumn Width="auto" Header="Item Group" Binding="{Binding ItemGroupName}"/>
                     <DataGridTextColumn Width="auto" Header="InStock" Binding="{Binding InStock}"/> 

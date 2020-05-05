@@ -99,6 +99,7 @@ namespace VesselInventory.ViewModel
             ItemPendingCollection.Clear();
             foreach(var _ in _requestFormItemRepository
                     .GetItemPendingDataGrid(
+                        Auth.Instance.DepartmentName,
                         SearchKeyword,CurrentPage, 
                         DataGridRows, "RequestForm.RequestFormNumber", "DESC" ))
                 ItemPendingCollection.Add(_);
@@ -108,7 +109,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _requestFormItemRepository.
-                GetItemPendingTotalPage(SearchKeyword, DataGridRows);
+                GetItemPendingTotalPage(Auth.Instance.DepartmentName,SearchKeyword, DataGridRows);
         }
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

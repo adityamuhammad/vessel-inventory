@@ -64,9 +64,16 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if (_authenticationService.Authenticate(Username, Password))
+                if (string.IsNullOrWhiteSpace(PersonName))
+                    throw new Exception();
+                var authentication = _authenticationService.Authenticate(Username, Password);
+
+                if (authentication != null)
                 {
-                    Auth.Instance.UserName = Username;
+                    Auth.Instance.UserId = authentication.UserId;
+                    Auth.Instance.Username = authentication.Username;
+                    Auth.Instance.DepartmentName = authentication.DepartmentName;
+                    Auth.Instance.ShipId = authentication.ShipId;
                     Auth.Instance.PersonName = PersonName.ToUpper();
                     var container = (((App)Application.Current)).UnityContainer;
                     _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
@@ -79,8 +86,8 @@ namespace VesselInventory.ViewModel
             }
             catch
             {
-                ResponseMessage.Error(string.Format("{0} {1}",GlobalNamespace.Error, GlobalNamespace.WrongInput));
+                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.Error, GlobalNamespace.WrongInput));
             }
-}
+        }
     }
 }

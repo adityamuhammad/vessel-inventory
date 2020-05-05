@@ -87,12 +87,10 @@ namespace VesselInventory.ViewModel
                         if (i == 1)
                             ShipId = int.Parse(textScanList[i]);
                         if (i == 2)
-                        if (i == 3)
                             ShipName = textScanList[i];
-                        if (i == 4)
+                        if (i == 3)
                             BargeId = int.Parse(textScanList[i]);
-                        if (i == 5)
-                        if (i == 6)
+                        if (i == 4)
                             BargeName = textScanList[i];
                     }
 

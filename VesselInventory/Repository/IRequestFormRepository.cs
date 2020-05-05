@@ -12,9 +12,9 @@ namespace VesselInventory.Repository
     public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
         IEnumerable<RequestForm> GetRequestFormDataGrid(
-            string search, int page, int rows, 
+            string departmentName, string search, int page, int rows, 
             string sortByColumnName, string sortBy);
-        int GetRequestFormTotalPage(string search, int rows);
+        int GetRequestFormTotalPage(string departmentName, string search, int rows);
         RequestFormShipBargeDto GetRrequestFormShipBarge();
         RequestForm SaveTransaction(RequestForm requestForm);
         void Release(int id);
@@ -40,25 +40,25 @@ namespace VesselInventory.Repository
         }
 
         public IEnumerable<RequestForm> GetRequestFormDataGrid(
-            string search, int page, int rows,
+            string departmentName, string search, int page, int rows,
             string sortColumnName, string sortBy)
         {
             using(var context = new AppVesselInventoryContext())
             {
                 return context.RequestForm.SqlQuery(
-                    "usp_RequestForm_GetRequestFormList @p0, @p1, @p2, @p3, @p4", 
-                    parameters: new object[] { search, page, rows, sortColumnName, sortBy }
+                    "usp_RequestForm_GetRequestFormList @p0, @p1, @p2, @p3, @p4, @p5", 
+                    parameters: new object[] { departmentName, search, page, rows, sortColumnName, sortBy }
                 ).ToList();
             }
         }
 
-        public int GetRequestFormTotalPage(string search, int rows)
+        public int GetRequestFormTotalPage(string departmentName, string search, int rows)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
-                    "usp_RequestForm_GetRequestFormPages @p0, @p1",
-                    parameters: new object[] { search, rows }
+                    "usp_RequestForm_GetRequestFormPages @p0, @p1, @p2",
+                    parameters: new object[] {departmentName, search, rows }
                 ).Single();
             }
         }

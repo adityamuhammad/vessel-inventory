@@ -49,7 +49,14 @@
                     <StackPanel>
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Text="Paste or Scann" Width="100"/>
-                            <TextBox Text="" Width="100" />
+                            <TextBox 
+                                Margin="20,0,0,0"
+                                Width="100"
+                                Text="{
+                                    Binding TextScann,
+                                    Mode=TwoWay,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                            />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,0">

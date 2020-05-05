@@ -91,7 +91,25 @@
                         <DataGridTextColumn Width="auto" Header="Document Reference" Binding="{Binding DocumentReference}"/>
                         <DataGridTextColumn Width="auto" Header="Document Type" Binding="{Binding DocumentType}"/>
                         <DataGridTextColumn Width="auto" Header="Item ID" Binding="{Binding ItemId}"/>
-                        <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="Brand / Color"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} / {1}">
+                                                <Binding Path="BrandTypeId"/>
+                                                <Binding Path="ColorSizeId"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="300">
                             <DataGridTemplateColumn.HeaderTemplate>
                                 <DataTemplate>
@@ -102,11 +120,9 @@
                                 <DataTemplate>
                                     <TextBlock>
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{} {0} {1} {2} {3} {4} ">
+                                            <MultiBinding StringFormat="{} {0} {1} {2}">
                                                 <Binding Path="ItemName"/>
-                                                <Binding Path="BrandTypeId"/>
                                                 <Binding Path="BrandTypeName"/>
-                                                <Binding Path="ColorSizeId"/>
                                                 <Binding Path="ColorSizeName"/>
                                             </MultiBinding>
                                         </TextBlock.Text>

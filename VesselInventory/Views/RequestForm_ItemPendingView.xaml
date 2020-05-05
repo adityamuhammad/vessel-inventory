@@ -90,7 +90,25 @@
                 IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Width="auto" Header="Item Id" Binding="{Binding ItemId}"/>
-                    <DataGridTextColumn Width="auto" Header="Item Dimension" Binding="{Binding ItemDimensionNumber}"/>
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Item Dimension"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{} {0} / {1}">
+                                            <Binding Path="BrandTypeId"/>
+                                            <Binding Path="ColorSizeId"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Width="auto" Header="RF Number" Binding="{Binding RequestFormNumber}"/>
                     <DataGridTextColumn Width="1.5*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
                     <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>

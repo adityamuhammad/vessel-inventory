@@ -108,18 +108,13 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        [Required]
-        [Display(Name ="Department Name")]
         public string DepartmentName
         {
             get
             {
+                if (RequestFormDataView.DepartmentName is null)
+                    RequestFormDataView.DepartmentName = Auth.Instance.DepartmentName;
                 return RequestFormDataView.DepartmentName;
-            }
-            set
-            {
-                RequestFormDataView.DepartmentName = value;
-                OnPropertyChanged("DepartmentName");
             }
         }
 
@@ -281,17 +276,6 @@ namespace VesselInventory.ViewModel
         }
 
         private RequestForm RequestFormDataView { get; set; } = new RequestForm();
-
-        public IList<string> DepartmentCollection
-        {
-            get
-            {
-                IList<string> departmens = new List<string>();
-                foreach (var _ in CommonDataHelper.GetLookupValues("DEPARTMENT"))
-                    departmens.Add(_.Descriptions);
-                return departmens;
-            }
-        }
 
         public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
             = new ObservableCollection<RequestFormItem>();
