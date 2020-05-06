@@ -385,10 +385,17 @@ namespace VesselInventory.ViewModel
                 throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
         }
 
+        private void CheckZeroQty()
+        {
+            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
+                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+        }
+
         private void SaveAction(IClosable window)
         {
             try
             {
+                CheckZeroQty();
                 Upload();
                 SaveOrUpdate();
                 LoadParentDataGrid();

@@ -208,6 +208,7 @@ namespace VesselInventory.ViewModel
         {
             try
             {
+                CheckZeroQty();
                 SaveOrUpdate();
                 _parentLoadable.LoadDataGrid();
                 CloseWindow(window);
@@ -228,11 +229,30 @@ namespace VesselInventory.ViewModel
                 throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
         }
 
+        private void CheckZeroQty()
+        {
+            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
+                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+        }
+
+        private void CheckInStockSave()
+        {
+            if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty))
+                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+        }
+
+        private void CheckInStockUpdate()
+        {
+            if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty, Title, VesselGoodIssuedId))
+                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+        }
+
         private void SaveOrUpdate()
         {
             if (RecordHelper.IsNewRecord(VesselGoodIssuedItemId))
             {
                 ItemCheckUnique();
+                CheckInStockSave();
                 VesselGoodIssuedItemDataView.CreatedBy = Auth.Instance.PersonName;
                 VesselGoodIssuedItemDataView.CreatedDate = DateTime.Now;
                 VesselGoodIssuedItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
@@ -240,12 +260,12 @@ namespace VesselInventory.ViewModel
 
             } else
             {
+                CheckInStockUpdate();
                 VesselGoodIssuedItemDataView.LastModifiedBy = Auth.Instance.PersonName;
                 VesselGoodIssuedItemDataView.LastModifiedDate = DateTime.Now;
                 _vesselGoodIssuedItemRepository
                     .UpdateTransaction(VesselGoodIssuedItemId, 
                     VesselGoodIssuedItemDataView);
-
             }
         }
 

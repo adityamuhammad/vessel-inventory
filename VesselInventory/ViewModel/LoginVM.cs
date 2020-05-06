@@ -65,28 +65,29 @@ namespace VesselInventory.ViewModel
             try
             {
                 if (string.IsNullOrWhiteSpace(PersonName))
+                {
                     throw new Exception();
-                var authentication = _authenticationService.Authenticate(Username, Password);
-
-                if (authentication != null)
-                {
-                    Auth.Instance.UserId = authentication.UserId;
-                    Auth.Instance.Username = authentication.Username;
-                    Auth.Instance.DepartmentName = authentication.DepartmentName;
-                    Auth.Instance.ShipId = authentication.ShipId;
-                    Auth.Instance.PersonName = PersonName.ToUpper();
-                    var container = (((App)Application.Current)).UnityContainer;
-                    _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
-                    CloseWindow(window);
-                    ResponseMessage.Success(GlobalNamespace.SuccessLogin);
-                } else
-                {
-                    ResponseMessage.Error(GlobalNamespace.FailedLogin);
                 }
-            }
-            catch
+                var authentication = _authenticationService.Authenticate(Username, Password);
+                if (authentication is null)
+                {
+                    MessageBox.Show(GlobalNamespace.FailedLogin, string.Empty, MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                Auth.Instance.UserId = authentication.UserId;
+                Auth.Instance.Username = authentication.Username;
+                Auth.Instance.DepartmentName = authentication.DepartmentName;
+                Auth.Instance.PersonName = PersonName.ToUpper();
+                Auth.Instance.ShipId = authentication.ShipId;
+                var container = (((App)Application.Current)).UnityContainer;
+                _windowService.ShowWindow<MainWindow>(container.Resolve<HomeVM>());
+                CloseWindow(window);
+                ResponseMessage.Success(GlobalNamespace.SuccessLogin);
+                return;
+
+            } catch
             {
-                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.Error, GlobalNamespace.WrongInput));
+                MessageBox.Show(GlobalNamespace.WrongInput, string.Empty, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

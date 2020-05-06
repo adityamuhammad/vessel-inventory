@@ -229,10 +229,20 @@ namespace VesselInventory.ViewModel
                 ItemCollection.Add(_);
         }
 
+        private void CheckZeroQty()
+        {
+            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
+                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+
+            if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty))
+                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+        }
+
         private void SaveAction(IClosable window)
         {
             try
             {
+                CheckZeroQty();
                 SaveOrUpdate();
                 _parentLoadable.LoadDataGrid();
                 CloseWindow(window);

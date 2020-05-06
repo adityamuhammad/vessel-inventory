@@ -14,6 +14,7 @@ namespace VesselInventory.Models
 
         public virtual DbSet<DocSequence> DocSequence { get; set; }
         public virtual DbSet<Item> Item { get; set; }
+        public virtual DbSet<UserVessel> UserVessel { get; set; }
         public virtual DbSet<ItemDimension> ItemDimension { get; set; }
         public virtual DbSet<ItemGroup> ItemGroup { get; set; }
         public virtual DbSet<LookupValue> LookupValue { get; set; }

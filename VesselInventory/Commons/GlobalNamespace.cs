@@ -12,6 +12,8 @@ namespace VesselInventory.Commons
         public static string SuccessLogin => "Login successfully.";
         public static string FailedLogin => "Failed login, username and password does not match.";
         public static string Error => "Oops, Something went wrong.";
+        public static string QtyCannotBeZero => "Please provide the quantity.";
+        public static string StockIsNotAvailable => "Stock is not available.";
         public static string WrongInput => "Make sure your input is correct.";
         public static string ErrorSave => "Data failed to save.";
         public static string SuccessSave => "Data saved successfully.";

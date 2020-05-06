@@ -259,10 +259,16 @@ namespace VesselInventory.ViewModel
         /// Buttons action and behavior
         /// </summary>
         #region
+        private void CheckZeroQty()
+        {
+            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
+                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+        }
         private void SaveAction(IClosable window)
         {
             try
             {
+                CheckZeroQty();
                 SaveOrUpdate();
                 LoadDataGrid();
                 CloseWindow(window);

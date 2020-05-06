@@ -174,6 +174,7 @@
     <Compile Include="Utility\ObservableObject.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
     <Compile Include="Utility\ToastNotification.cs" />
+    <Compile Include="Validations\ItemMinimumQtyValidator.cs" />
     <Compile Include="Validations\ItemUniqueValidator.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
