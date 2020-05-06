@@ -24,6 +24,7 @@ namespace VesselInventory.Repository
             string departmentName, string search, int page, int rows, 
             string sortColumnName, string sortBy);
         int GetItemPendingTotalPage(string departmentName, string search, int rows);
+        LastRequestItemDto GetLastRequestItem(int itemId, string itemDimensionNumber);
     }
 
     public class RequestFormItemRepository 
@@ -115,6 +116,16 @@ namespace VesselInventory.Repository
                 current.LastModifiedDate = DateTime.Now;
                 current.LastModifiedBy = Auth.Instance.PersonName;
                 context.SaveChanges();
+            }
+        }
+
+        public LastRequestItemDto GetLastRequestItem(int itemId, string itemDimensionNumber)
+        {
+            using (var context = new AppVesselInventoryContext())
+            {
+                return context.Database.SqlQuery<LastRequestItemDto>(
+                    "usp_RequestFormItem_GetLastItemRequest @p0, @p1",
+                    parameters: new object[] {itemId, itemDimensionNumber}).SingleOrDefault();
             }
         }
     }

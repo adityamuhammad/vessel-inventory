@@ -125,6 +125,7 @@
     <Compile Include="Dto\ItemGroupDimensionDto.cs" />
     <Compile Include="Dto\ItemPendingDto.cs" />
     <Compile Include="Dto\ItemStatusDto.cs" />
+    <Compile Include="Dto\LastRequestItemDto.cs" />
     <Compile Include="Dto\OnHandDto.cs" />
     <Compile Include="Dto\RequestFormShipBargeDto.cs" />
     <Compile Include="Commons\Enums.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Utility\ToastNotification.cs" />
     <Compile Include="Validations\ItemMinimumQtyValidator.cs" />
     <Compile Include="Validations\ItemUniqueValidator.cs" />
+    <Compile Include="Validations\RequestValidator.cs" />
     <Compile Include="ViewModel\HomeVM.cs" />
     <Compile Include="ViewModel\LoginVM.cs" />
     <Compile Include="ViewModel\OnHandLogVM.cs" />

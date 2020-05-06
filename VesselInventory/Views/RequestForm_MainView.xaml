@@ -109,6 +109,7 @@
                     <DataGridTextColumn Width="1*" Header="Department" Binding="{Binding DepartmentName}"/>
                     <DataGridTextColumn Width="1*" Header="Status" Binding="{Binding Status}"/>
                     <DataGridTextColumn Width="1*" Header="Ship Name" Binding="{Binding ShipName}"/>
+                    <DataGridTextColumn Width="1*" Header="Created Date" Binding="{Binding CreatedDate, StringFormat={}{0:yyyy-MM-dd}}"/> 
                     <DataGridTextColumn Width="1*" Header="Sync Status" Binding="{Binding SyncStatus}"/>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.HeaderTemplate>

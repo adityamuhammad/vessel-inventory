@@ -63,6 +63,15 @@ namespace VesselInventory.Models
 
         [StringLength(50)]
         public string ItemStatus { get; set; }
+        public decimal LastRequestQty { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? LastRequestDate { get; set; }
+        public decimal LastSupplyQty { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? LastSupplyDate { get; set; }
+        public decimal Rob { get; set; }
 
         [Required]
         [StringLength(15)]

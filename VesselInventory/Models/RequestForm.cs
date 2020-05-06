@@ -22,9 +22,6 @@ namespace VesselInventory.Models
         [StringLength(25)]
         public string RequestFormNumber { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? RequestFormDate { get; set; }
-
         [StringLength(25)]
         public string ProjectNumber { get; set; }
 

@@ -16,6 +16,7 @@ using VesselInventory.Commons.Enums;
 using System.Collections.Generic;
 using Unity;
 using System.IO;
+using VesselInventory.Validations;
 
 namespace VesselInventory.ViewModel
 {
@@ -385,13 +386,15 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(RequestFormId))
             {
+                ValidateRequest();
                 RequestFormDataView.CreatedBy = Auth.Instance.PersonName;
                 RequestFormDataView.CreatedDate = DateTime.Now;
                 RequestFormDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
                 RequestFormDataView.Status = Commons.Enums.Status.Draft.GetDescription();
                 RequestFormDataView = _requestFormRepository.SaveTransaction(RequestFormDataView);
 
-            } else
+            }
+            else
             {
                 RequestFormDataView.LastModifiedBy = Auth.Instance.PersonName;
                 RequestFormDataView.LastModifiedDate = DateTime.Now;
@@ -399,10 +402,20 @@ namespace VesselInventory.ViewModel
 
             }
         }
+
+        private static void ValidateRequest()
+        {
+            if (RequestValidator.IsAnyDraftDocument(Auth.Instance.DepartmentName, Auth.Instance.ShipId))
+                throw new Exception(GlobalNamespace.DraftExists);
+            if (RequestValidator.IsAnyDocumentCreatedInThreeDays(Auth.Instance.DepartmentName, Auth.Instance.ShipId))
+                throw new Exception(GlobalNamespace.CanOnlyCreateDocumentPerThreeDays);
+        }
+
         private void SaveAction(object parameter)
         {
             try
             {
+
                 SaveOrUpdate();
                 _parentLoadable.LoadDataGrid();
                 SetUIEditProperties();

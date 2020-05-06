@@ -183,16 +183,40 @@
                                 </MultiBinding>
                             </TextBox.Text>
                         </TextBox>
-                        <TextBox 
-                            Margin="10,8,0,0" 
-                            HorizontalAlignment="Left" 
-                            Width="150" IsEnabled="False"
-                        />
-                        <TextBox 
-                            Margin="10,8,0,0" 
-                            HorizontalAlignment="Left" 
-                            Width="150" IsEnabled="False"
-                        />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox 
+                                Margin="10,8,0,0" 
+                                HorizontalAlignment="Left" 
+                                Width="35" 
+                                Text="{
+                                    Binding LastRequestQty, 
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    StringFormat=N2
+                                    }"
+                             />
+                            <DatePicker
+                                Margin="10,8,0,0" 
+                                SelectedDate="{Binding LastRequestDate}" 
+                                HorizontalAlignment="Left">
+                            </DatePicker>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox 
+                                Margin="10,8,0,0" 
+                                HorizontalAlignment="Left" 
+                                Width="35" 
+                                Text="{
+                                    Binding LastSupplyQty, 
+                                    UpdateSourceTrigger=PropertyChanged,
+                                    StringFormat=N2
+                                    }"
+                             />
+                            <DatePicker
+                                Margin="10,8,0,0" 
+                                SelectedDate="{Binding LastSupplyDate}" 
+                                HorizontalAlignment="Left">
+                            </DatePicker>
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel>
@@ -220,7 +244,7 @@
                                 >
                             </TextBox>
                             <TextBox Margin="10,8,0,0" Text="{Binding Uom, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
-                            <TextBox Margin="10,8,0,0" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
+                            <TextBox Margin="10,8,0,0" Text="{Binding Rob, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay, StringFormat=N2}" HorizontalAlignment="Left" Width="30" IsEnabled="False"/>
                         </StackPanel>
 
                         <ComboBox 

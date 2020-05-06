@@ -260,6 +260,66 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("Uom");
             }
         }
+
+        public decimal LastRequestQty
+        {
+            get => RequestFormItemDataView.LastRequestQty;
+            set
+            {
+                RequestFormItemDataView.LastRequestQty = value;
+                OnPropertyChanged("LastRequestQty");
+            }
+        }
+
+        public DateTime? LastRequestDate
+        {
+            get
+            {
+                if (RequestFormItemDataView.LastRequestDate == default(DateTime) )
+                    RequestFormItemDataView.LastRequestDate = DateTime.Now;
+                return RequestFormItemDataView.LastRequestDate;
+            }
+            set
+            {
+                RequestFormItemDataView.LastRequestDate = DateTime.Parse(value.ToString());
+                OnPropertyChanged("LastRequestDate");
+
+            }
+        }
+        public decimal LastSupplyQty
+        {
+            get => RequestFormItemDataView.LastSupplyQty;
+            set
+            {
+                RequestFormItemDataView.LastSupplyQty = value;
+                OnPropertyChanged("LastSupplyQty");
+            }
+        }
+
+        public DateTime? LastSupplyDate
+        {
+            get
+            {
+                if (RequestFormItemDataView.LastSupplyDate == default(DateTime) )
+                    RequestFormItemDataView.LastSupplyDate = DateTime.Now;
+                return RequestFormItemDataView.LastSupplyDate;
+            }
+            set
+            {
+                RequestFormItemDataView.LastSupplyDate = DateTime.Parse(value.ToString());
+                OnPropertyChanged("LastSupplyDate");
+            }
+        }
+
+        public decimal Rob
+        {
+            get => RequestFormItemDataView.Rob;
+            set
+            {
+                RequestFormItemDataView.Rob = value;
+                OnPropertyChanged("Rob");
+            }
+        }
         #endregion
 
         /// <summary>
@@ -327,6 +387,7 @@ namespace VesselInventory.ViewModel
             ItemGroupDimensionDto item = (ItemGroupDimensionDto)parameter;
             if (item != null)
             {
+                var lastReq = _requestFormItemRepository.GetLastRequestItem(item.ItemId, item.ItemDimensionNumber);
                 ItemId = item.ItemId;
                 ItemName = item.ItemName;
                 BrandTypeId = item.BrandTypeId;
@@ -336,6 +397,11 @@ namespace VesselInventory.ViewModel
                 ItemDimensionNumber = item.ItemDimensionNumber;
                 ItemGroupId = item.ItemGroupId;
                 Uom = item.Uom;
+                LastRequestQty = lastReq.LastRequestQty;
+                LastRequestDate = lastReq.LastRequestDate.GetValueOrDefault();
+                LastSupplyQty = lastReq.LastSupplyQty;
+                LastSupplyDate = lastReq.LastSupplyDate.GetValueOrDefault();
+                Rob = lastReq.Rob;
                 ItemSelectKeyword = string.Empty;
             }
         }

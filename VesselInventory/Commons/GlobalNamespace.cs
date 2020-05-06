@@ -10,6 +10,8 @@ namespace VesselInventory.Commons
     {
         public static string ItemDimensionAlreadyExist => "Item and Dimension already exist.";
         public static string SuccessLogin => "Login successfully.";
+        public static string DraftExists => "There is a Draft Document, you can use the document.";
+        public static string CanOnlyCreateDocumentPerThreeDays => "You can only  create one document per three days.";
         public static string FailedLogin => "Failed login, username and password does not match.";
         public static string Error => "Oops, Something went wrong.";
         public static string QtyCannotBeZero => "Please provide the quantity.";
