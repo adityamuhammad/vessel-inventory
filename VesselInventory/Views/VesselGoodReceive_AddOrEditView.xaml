@@ -32,7 +32,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"
                 Width="50" 
-                Background="White" 
+                Background="{x:Null}" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=VesselGoodReceiveAddOrEdit_V}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 

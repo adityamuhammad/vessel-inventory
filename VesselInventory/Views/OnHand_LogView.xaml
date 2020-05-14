@@ -26,7 +26,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"
                 Width="50" 
-                Background="White" 
+                Background="{x:Null}" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=OnHand_LogV}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 

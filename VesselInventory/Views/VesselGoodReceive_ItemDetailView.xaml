@@ -27,7 +27,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"
                 Width="50" 
-                Background="White" 
+                Background="{x:Null}" 
                 BorderBrush="{x:Null}" 
                 CommandParameter="{Binding ElementName=VesselGoodReceiveItemDetail_V}" 
                 Command="{Binding CloseCommand,Mode=OneWay}" 
