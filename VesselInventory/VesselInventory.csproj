@@ -127,7 +127,7 @@
     <Compile Include="Commons\PasswordBoxHelper.cs" />
     <Compile Include="Commons\RecordHelper.cs" />
     <Compile Include="Commons\ResponseMessage.cs" />
-    <Compile Include="Commons\UIHelper.cs" />
+    <Compile Include="Commons\DialogHelper.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\GridLengthConverter.cs" />
     <Compile Include="Dto\BargeDto.cs" />
