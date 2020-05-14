@@ -181,18 +181,21 @@ namespace VesselInventory.ViewModel
         {
             var vesselGoodIssuedItemAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedItemAddOrEditVM>();
             if (parameter is null)
-                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, VesselGoodIssuedId);
+                vesselGoodIssuedItemAddOrEditVM
+                    .InitializeData(this, VesselGoodIssuedId);
             else
-                vesselGoodIssuedItemAddOrEditVM.InitializeData(this, VesselGoodIssuedId, (int)parameter);
-            _windowService.ShowDialogWindow<VesselGoodIssued_ItemAddOrEditView>(vesselGoodIssuedItemAddOrEditVM);
+                vesselGoodIssuedItemAddOrEditVM
+                    .InitializeData(this, VesselGoodIssuedId, (int)parameter);
+            _windowService.ShowDialogWindow
+                <VesselGoodIssued_ItemAddOrEditView>
+                    (vesselGoodIssuedItemAddOrEditVM);
         }
 
         private void DeleteItemAction(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+            MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
-            if (confirmDialog == MessageBoxResult.No)
-                return;
+            if (confirmDialog == MessageBoxResult.No) return;
             _vesselGoodIssuedItemRepository.DeleteTransaction((int)parameter);
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
             LoadDataGrid();
@@ -226,8 +229,7 @@ namespace VesselInventory.ViewModel
                 VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
                 VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .Update(VesselGoodIssuedId,
-                    VesselGoodIssuedDataView);
+                    .Update(VesselGoodIssuedId, VesselGoodIssuedDataView);
             }
         }
         #endregion

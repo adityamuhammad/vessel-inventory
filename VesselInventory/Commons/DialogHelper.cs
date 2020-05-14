@@ -2,7 +2,7 @@
 
 namespace VesselInventory.Commons
 {
-    public static class UIHelper
+    public static class DialogHelper
     {
         public static MessageBoxResult DialogConfirmation(string title, string description)
         {

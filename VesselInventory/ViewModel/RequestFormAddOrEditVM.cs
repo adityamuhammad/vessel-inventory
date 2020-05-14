@@ -430,7 +430,7 @@ namespace VesselInventory.ViewModel
         }
         private void DeleteItemAction(object parameter)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+            MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation,
                 GlobalNamespace.DeleteConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
@@ -442,7 +442,7 @@ namespace VesselInventory.ViewModel
 
         private void ReleaseAction(IClosable window)
         {
-            MessageBoxResult confirmDialog = UIHelper.DialogConfirmation(
+            MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.ReleaseConfirmation, 
                 GlobalNamespace.ReleaseConfirmationDescription);
             if (confirmDialog == MessageBoxResult.No)
