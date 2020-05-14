@@ -137,6 +137,23 @@
                         <TextBlock Text="Search"/>
                     </StackPanel>
                 </Button>
+                <Button 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    Height="20"
+                    Margin="10,0,0,0"
+                    FontSize="10"
+                    Width="90" 
+                    Background="White" 
+                    BorderBrush="#FF1AB401" 
+                    Foreground="#FF1AB401"
+                    Command="{Binding ReportCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="PrinterCheck" Foreground="#FF1AB401"/>
+                        <TextBlock Text="Print"/>
+                    </StackPanel>
+                </Button>
+
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">

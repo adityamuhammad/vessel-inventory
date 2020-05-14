@@ -11,6 +11,11 @@ namespace VesselInventory.Repository
     public interface IRequestFormItemRepository : IGenericRepository<RequestFormItem>
     {
         IEnumerable<RequestFormItem> GetRequestFormItemList(int requestFormId);
+        IEnumerable<ItemStatusDto> GetItemStatusReport(
+            string itemId, string itemName,
+            string itemStatus, string requestFormNumber,
+            string departmentName);
+
         IEnumerable<ItemStatusDto> GetItemStatusDataGrid(
             string itemId, string itemName, 
             string itemStatus, string requestFormNumber, 
@@ -128,5 +133,19 @@ namespace VesselInventory.Repository
                     parameters: new object[] {itemId, itemDimensionNumber}).SingleOrDefault();
             }
         }
+        public IEnumerable<ItemStatusDto> GetItemStatusReport(string itemId, string itemName, string itemStatus, string requestFormNumber, string departmentName)
+        {
+            using (var context = new AppVesselInventoryContext())
+            {
+                return context.Database.SqlQuery<ItemStatusDto>(
+                    "usp_RequestFormItem_ReportItemStatus @p0, @p1, @p2, @p3, @p4",
+                    parameters: new object[] {
+                        itemId, itemName,
+                        itemStatus, requestFormNumber,
+                        departmentName
+                    }).ToList();
+            }
+        }
+
     }
 }

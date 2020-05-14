@@ -23,11 +23,12 @@
 
         <Grid Grid.Row="0" Grid.Column="0">
             <TextBlock 
-                Margin="10" 
-               FontSize="15" 
+               Margin="10,20,10,10" 
+               FontSize="20" 
                FontWeight="DemiBold" 
                HorizontalAlignment="Center" 
-               Text="{Binding Title,Mode=OneWay}"/>
+               Foreground="#FF4E5FBF"
+               Text="{Binding Title,Mode=OneWay,StringFormat={} MBP - Vessel Inventory {0}}"/>
             <Button 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top"

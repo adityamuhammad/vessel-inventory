@@ -4,6 +4,9 @@ using VesselInventory.Repository;
 using VesselInventory.Utility;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using CrystalDecisions.CrystalReports.Engine;
+using VesselInventory.Services;
+using VesselInventory.Reports;
 
 namespace VesselInventory.ViewModel
 {
@@ -14,11 +17,18 @@ namespace VesselInventory.ViewModel
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
 
+        public RelayCommand ReportCommand { get; private set; }
+        public ReportDocument Report { get; private set; }
+
+        private readonly IWindowService _windowService;
+
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
-        public RequestFormItemStatusVM(IRequestFormItemRepository requestFormItemRepository)
+        public RequestFormItemStatusVM(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
         {
             _requestFormItemRepository = requestFormItemRepository;
+            _windowService = windowService;
+            Report = new TrackRequestItemReport();
             InitializeCommands();
             ResetCurrentPage();
             LoadDataGrid();
@@ -27,6 +37,7 @@ namespace VesselInventory.ViewModel
         private void InitializeCommands()
         {
             SearchCommand = new RelayCommand(SearchAction);
+            ReportCommand = new RelayCommand(ReportTracking);
             NextPageCommand = new RelayCommand(NextPageAction, IsNextPageCanExecute);
             PrevPageCommand = new RelayCommand(PrevPageAction, IsPrevPageCanExecute);
         }
@@ -122,7 +133,8 @@ namespace VesselInventory.ViewModel
                 return _requestFormItemRepository.
                     GetItemStatusDataGrid(ItemIdSearch, ItemNameSearch,
                         ItemStatusSearch, RFNumberSearch,
-                        DepartmentSearch, CurrentPage, DataGridRows, "RequestForm.RequestFormNumber",  "DESC");
+                        DepartmentSearch, CurrentPage, DataGridRows, 
+                        "RequestForm.RequestFormNumber", "DESC");
             }
         }
 
@@ -169,5 +181,15 @@ namespace VesselInventory.ViewModel
             ResetCurrentPage();
             LoadDataGrid();
         }
+
+        private void ReportTracking(object parameter)
+        {
+            var dataReport = _requestFormItemRepository.
+                    GetItemStatusReport(ItemIdSearch, ItemNameSearch,
+                    ItemStatusSearch, RFNumberSearch, DepartmentSearch);
+            Report.SetDataSource(dataReport);
+            _windowService.ShowDialogWindow<ReportView>(this);
+        }
+
     }
 }
