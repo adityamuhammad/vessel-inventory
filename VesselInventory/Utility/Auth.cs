@@ -1,6 +1,4 @@
-﻿using VesselInventory.Models;
-
-namespace VesselInventory.Utility
+﻿namespace VesselInventory.Utility
 {
     public class Auth
     {
