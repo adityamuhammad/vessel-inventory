@@ -27,8 +27,8 @@ namespace VesselInventory.Commons
         public static string DeleteConfirmation => "Delete Confirmation";
         public static string DeleteConfirmationDescription => "Are you sure want to delete this data?";
         public static string ShipDoesNotMatch => "Cannot proccess, The Ship is invalid.";
-        public static string AttachmentPathLocation = @"C:\\VesselInventory\\Attachments\\";
-        public static string AttachmentNotUploaded = "There is no attachment uploaded.";
-        public static string AttachmentMissing = "The attachment is missing on local storage.";
+        public static string AttachmentPathLocation => @"C:\\VesselInventory\\Attachments\\";
+        public static string AttachmentNotUploaded => "There is no attachment uploaded.";
+        public static string AttachmentMissing => "The attachment is missing on local storage.";
     }
 }

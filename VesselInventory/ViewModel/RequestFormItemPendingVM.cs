@@ -144,18 +144,21 @@ namespace VesselInventory.ViewModel
         private void PreviewPdfAction(object parameter)
         {
 
-            string attachmentLocation = (string)parameter;
-            if (string.IsNullOrWhiteSpace(attachmentLocation))
+            string attachmentFileName = (string)parameter;
+            string fileLocation = GlobalNamespace.AttachmentPathLocation + attachmentFileName;
+
+            if (string.IsNullOrWhiteSpace(attachmentFileName))
             {
                 ResponseMessage.Info(GlobalNamespace.AttachmentNotUploaded);
                 return;
             }
-            if (!File.Exists(attachmentLocation)){
+
+            if (!File.Exists(fileLocation)){
                 ResponseMessage.Warning(GlobalNamespace.AttachmentMissing);
                 return;
             }
             var previewPdf = UnityContainer.Resolve<PreviewPdf>();
-            previewPdf.SetAttachment(attachmentLocation);
+            previewPdf.SetAttachment(fileLocation);
             previewPdf.ShowDialog();
         }
         private void SearchAction(object parameter)

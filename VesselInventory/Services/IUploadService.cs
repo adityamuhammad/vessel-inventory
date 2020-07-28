@@ -34,13 +34,10 @@ namespace VesselInventory.Services
             if (File.Exists(localPath))
             {
                 fileName = Path.GetFileName(localPath);
-                _uploadedPath = Path.Combine(
-                    targetDirectoryPath, 
-                    string.Format("{0}_{1}_{2}", 
-                        DateTime.Now.ToString("yyyy-MM-dd"), 
-                        DateTime.Now.Ticks,
-                        fileName));
-                File.Copy(localPath, _uploadedPath);
+                var fileNameUploaded = string.Format("{0}_{1}", DateTime.Now.Ticks, fileName);
+                var uploadPath = Path.Combine(targetDirectoryPath, fileNameUploaded);
+                File.Copy(localPath, uploadPath);
+                _uploadedPath = fileNameUploaded;
                 return true;
             }
             return false;

@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using Unity;
 using VesselInventory.Commons;
-using VesselInventory.Models;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 

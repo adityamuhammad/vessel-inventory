@@ -84,10 +84,8 @@ namespace VesselInventory.ViewModel
 
         private void Upload()
         {
-            bool IsUploaded = _uploadService.UploadFile(
-                AttachmentLocalPath,GlobalNamespace.AttachmentPathLocation);
-            if (IsUploaded)
-                AttachmentPath = _uploadService.GetUploadedPath();
+            bool IsUploaded = _uploadService.UploadFile(AttachmentLocalPath,GlobalNamespace.AttachmentPathLocation);
+            if (IsUploaded) AttachmentPath = _uploadService.GetUploadedPath();
         }
 
         private void SaveAction(IClosable window)
