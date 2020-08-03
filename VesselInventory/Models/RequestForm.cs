@@ -4,8 +4,6 @@ namespace VesselInventory.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-    using VesselInventory.Commons.Enums;
 
     [Table("RequestForm")]
     public partial class RequestForm

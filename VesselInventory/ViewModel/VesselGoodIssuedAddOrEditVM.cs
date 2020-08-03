@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using Unity;
 using VesselInventory.Commons;
@@ -61,8 +59,7 @@ namespace VesselInventory.ViewModel
             get => _IsItemEnabled;
             set
             {
-                if  (_IsItemEnabled == value)
-                    return;
+                if  (_IsItemEnabled == value) return;
                 _IsItemEnabled = value;
                 OnPropertyChanged("IsItemEnabled");
             }

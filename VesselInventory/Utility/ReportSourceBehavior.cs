@@ -1,35 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows;
+using SAPBusinessObjects.WPF.Viewer;
 
 namespace VesselInventory.Utility
 {
     public static class ReportSourceBehaviour
     {
-        public static readonly System.Windows.DependencyProperty ReportSourceProperty =
+        public static readonly DependencyProperty ReportSourceProperty =
             System.Windows.DependencyProperty.RegisterAttached(
                 "ReportSource",
                 typeof(object),
                 typeof(ReportSourceBehaviour),
                 new System.Windows.PropertyMetadata(ReportSourceChanged));
 
-        private static void ReportSourceChanged(System.Windows.DependencyObject d, System.Windows.DependencyPropertyChangedEventArgs e)
+        private static void ReportSourceChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
         {
-            var crviewer = d as SAPBusinessObjects.WPF.Viewer.CrystalReportsViewer;
+            var crviewer = d as CrystalReportsViewer;
             if (crviewer != null)
             {
                 crviewer.ViewerCore.ReportSource = e.NewValue;
             }
         }
 
-        public static void SetReportSource(System.Windows.DependencyObject target, object value)
+        public static void SetReportSource(DependencyObject target, object value)
         {
             target.SetValue(ReportSourceProperty, value);
         }
 
-        public static object GetReportSource(System.Windows.DependencyObject target)
+        public static object GetReportSource(DependencyObject target)
         {
             return target.GetValue(ReportSourceProperty);
         }

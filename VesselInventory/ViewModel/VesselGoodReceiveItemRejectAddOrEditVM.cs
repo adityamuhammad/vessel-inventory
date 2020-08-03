@@ -74,24 +74,15 @@ namespace VesselInventory.ViewModel
                 {
                     for (int i = 0; i < textScanList.Length; i++)
                     {
-                        if (i == 0)
-                            RequestFormNumber = textScanList[i];
-                        if (i == 1)
-                            ItemId = int.Parse(textScanList[i]);
-                        if (i == 2)
-                            ItemGroupId = int.Parse(textScanList[i]);
-                        if (i == 3)
-                            ItemName = textScanList[i];
-                        if (i == 4)
-                            ItemDimensionNumber = textScanList[i];
-                        if (i == 5)
-                            BrandTypeId = textScanList[i];
-                        if (i == 6)
-                            BrandTypeName = textScanList[i];
-                        if (i == 7)
-                            ColorSizeId = textScanList[i];
-                        if (i == 8)
-                            ColorSizeName = textScanList[i];
+                        if (i == 0) RequestFormNumber = textScanList[i];
+                        if (i == 1) ItemId = int.Parse(textScanList[i]);
+                        if (i == 2) ItemGroupId = int.Parse(textScanList[i]);
+                        if (i == 3) ItemName = textScanList[i];
+                        if (i == 4) ItemDimensionNumber = textScanList[i];
+                        if (i == 5) BrandTypeId = textScanList[i];
+                        if (i == 6) BrandTypeName = textScanList[i];
+                        if (i == 7) ColorSizeId = textScanList[i];
+                        if (i == 8) ColorSizeName = textScanList[i];
                     }
 
                 } catch (Exception ex)

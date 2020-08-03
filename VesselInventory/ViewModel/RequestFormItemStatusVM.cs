@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using VesselInventory.Dto;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using CrystalDecisions.CrystalReports.Engine;
 using VesselInventory.Services;
 using VesselInventory.Reports;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace VesselInventory.ViewModel
 {

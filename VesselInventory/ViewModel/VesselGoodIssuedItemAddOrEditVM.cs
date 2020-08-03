@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using VesselInventory.Commons;
 using VesselInventory.Commons.Enums;
 using VesselInventory.Commons.HelperFunctions;

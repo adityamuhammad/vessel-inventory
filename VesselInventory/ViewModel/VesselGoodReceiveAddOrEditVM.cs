@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using Unity;
 using VesselInventory.Commons;
 using VesselInventory.Commons.Enums;
 using VesselInventory.Commons.HelperFunctions;
@@ -12,6 +11,7 @@ using VesselInventory.Repository;
 using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {

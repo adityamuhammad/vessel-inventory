@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
-using Unity;
-using System.Windows;
 using VesselInventory.Services;
 using VesselInventory.Views;
+using Unity;
 
 namespace VesselInventory.ViewModel
 {
