@@ -172,6 +172,18 @@
       <DependentUpon>ReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Repository\IGenericRepository.cs" />
+    <Compile Include="Repository\Impl\GenericRepository.cs" />
+    <Compile Include="Repository\Impl\OnHandRepository.cs" />
+    <Compile Include="Repository\Impl\RequestFormItemRepository.cs" />
+    <Compile Include="Repository\Impl\RequestFormRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodIssuedItemRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodIssuedRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodJournalRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodReceiveItemRejectRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodReceiveItemRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodReceiveRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodReturnItemRepository.cs" />
+    <Compile Include="Repository\Impl\VesselGoodReturnRepository.cs" />
     <Compile Include="Repository\IOnHandRepository.cs" />
     <Compile Include="Repository\IRequestFormItemRepository.cs" />
     <Compile Include="Repository\IRequestFormRepository.cs" />
@@ -185,6 +197,9 @@
     <Compile Include="Repository\IVesselGoodReturnRepository.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
     <Compile Include="Services\IClosable.cs" />
+    <Compile Include="Services\Impl\AuthenticationService.cs" />
+    <Compile Include="Services\Impl\OpenFilePdfDialog.cs" />
+    <Compile Include="Services\Impl\UploadService.cs" />
     <Compile Include="Services\IOService.cs" />
     <Compile Include="Services\IParentLoadable.cs" />
     <Compile Include="Services\IUploadService.cs" />

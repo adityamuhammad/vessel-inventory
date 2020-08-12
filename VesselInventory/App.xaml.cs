@@ -1,13 +1,10 @@
-﻿using System;
-using System.Configuration;
-using System.Data;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using Unity;
-using Unity.Injection;
 using Unity.Lifetime;
 using VesselInventory.Repository;
+using VesselInventory.Repository.Impl;
 using VesselInventory.Services;
+using VesselInventory.Services.Impl;
 using VesselInventory.ViewModel;
 using VesselInventory.Views;
 
