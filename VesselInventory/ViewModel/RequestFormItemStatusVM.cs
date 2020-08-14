@@ -7,6 +7,7 @@ using VesselInventory.Utility;
 using VesselInventory.Services;
 using VesselInventory.Reports;
 using CrystalDecisions.CrystalReports.Engine;
+using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
@@ -126,15 +127,21 @@ namespace VesselInventory.ViewModel
             = new ObservableCollection<ItemStatusDto>();
 
 
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                PageNum = CurrentPage,
+                NumRows = DataGridRows,
+                SortName = "RequestForm.RequestFormNumber",
+                SortType = "DESC"
+            };
+        }
         private IEnumerable<ItemStatusDto> ItemStatusList
         {
             get
             {
-                return _requestFormItemRepository.
-                    GetItemStatusDataGrid(ItemIdSearch, ItemNameSearch,
-                        ItemStatusSearch, RFNumberSearch,
-                        DepartmentSearch, CurrentPage, DataGridRows, 
-                        "RequestForm.RequestFormNumber", "DESC");
+                return _requestFormItemRepository.GetItemStatusDataGrid(RequestFormItemFilter, PageFilter);
             }
         }
 
@@ -149,14 +156,7 @@ namespace VesselInventory.ViewModel
 
         private int TotalPageFromDatabase
         {
-            get
-            {
-                return _requestFormItemRepository.
-                            GetItemStatusTotalPage(ItemIdSearch, 
-                                ItemNameSearch, ItemStatusSearch, 
-                                RFNumberSearch, DepartmentSearch, DataGridRows);
-
-            }
+            get => _requestFormItemRepository.GetItemStatusTotalPage(RequestFormItemFilter, PageFilter);
         }
 
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
@@ -182,11 +182,20 @@ namespace VesselInventory.ViewModel
             LoadDataGrid();
         }
 
+        private RequestFormItemFilter RequestFormItemFilter
+        {
+            get => new RequestFormItemFilter
+            {
+                ItemId = ItemIdSearch,
+                ItemStatus = ItemStatusSearch,
+                ItemName = ItemNameSearch,
+                DepartmentName = DepartmentSearch,
+                RequestFormNumber = RFNumberSearch
+            };
+        }
         private void ReportTracking(object parameter)
         {
-            var dataReport = _requestFormItemRepository.
-                    GetItemStatusReport(ItemIdSearch, ItemNameSearch,
-                    ItemStatusSearch, RFNumberSearch, DepartmentSearch);
+            var dataReport = _requestFormItemRepository.GetItemStatusReport(RequestFormItemFilter);
             Report.SetDataSource(dataReport);
             _windowService.ShowDialogWindow<ReportView>(this);
         }

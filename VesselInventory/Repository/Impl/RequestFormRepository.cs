@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 using VesselInventory.Commons.Enums;
 using VesselInventory.Dto;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 using VesselInventory.Utility;
 
@@ -31,27 +30,34 @@ namespace VesselInventory.Repository.Impl
             }
         }
 
-        public IEnumerable<RequestForm> GetRequestFormDataGrid(
-            string departmentName, string search, int page, int rows,
-            string sortColumnName, string sortBy)
+        public IEnumerable<RequestForm> GetRequestFormDataGrid(string departmentName, PageFilter pageFilter)
         {
             using(var context = new AppVesselInventoryContext())
             {
                 return context.RequestForm.SqlQuery(
                     "usp_RequestForm_GetRequestFormList @p0, @p1, @p2, @p3, @p4, @p5", 
-                    parameters: new object[] { departmentName, search, page, rows, sortColumnName, sortBy }
-                ).ToList();
+                    parameters: new object[] 
+                        {
+                            departmentName,
+                            pageFilter.Search,
+                            pageFilter.PageNum,
+                            pageFilter.NumRows,
+                            pageFilter.SortName,
+                            pageFilter.SortType }).ToList();
             }
         }
 
-        public int GetRequestFormTotalPage(string departmentName, string search, int rows)
+        public int GetRequestFormTotalPage(string departmentName, PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_RequestForm_GetRequestFormPages @p0, @p1, @p2",
-                    parameters: new object[] {departmentName, search, rows }
-                ).Single();
+                    parameters: new object[] 
+                        {
+                            departmentName,
+                            pageFilter.Search,
+                            pageFilter.NumRows}).Single();
             }
         }
 

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository.Impl
@@ -12,25 +10,29 @@ namespace VesselInventory.Repository.Impl
         : GenericRepository<VesselGoodIssued>
         , IVesselGoodIssuedRepository
     {
-        public IEnumerable<VesselGoodIssued> GetGoodIssuedDataGrid(
-            string search, int page, int rows, 
-            string sortColumnName, string sortBy)
+        public IEnumerable<VesselGoodIssued> GetGoodIssuedDataGrid(PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.VesselGoodIssued.SqlQuery (
                         "usp_VesselGoodIssued_GetGoodIssuedList @p0, @p1, @p2, @p3, @p4",
-                        parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
+                        parameters: new object[] 
+                            {
+                                pageFilter.Search,
+                                pageFilter.PageNum,
+                                pageFilter.NumRows,
+                                pageFilter.SortName,
+                                pageFilter.SortType}).ToList();
             }
         }
 
-        public int GetGoodIssuedTotalPage(string search, int rows)
+        public int GetGoodIssuedTotalPage(PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                         "usp_VesselGoodIssued_GetGoodIssuedPages @p0, @p1",
-                        parameters: new object[] { search, rows }).Single();
+                        parameters: new object[] { pageFilter.Search, pageFilter.NumRows}).Single();
             }
         }
 

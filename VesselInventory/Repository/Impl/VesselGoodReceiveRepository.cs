@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository.Impl
@@ -11,25 +12,32 @@ namespace VesselInventory.Repository.Impl
     {
         public VesselGoodReceiveRepository() { }
 
-        public IEnumerable<VesselGoodReceive> GetGoodReceiveDataGrid(
-            string search , int page, int rows, 
-            string sortColumnName, string sortBy)
+        public IEnumerable<VesselGoodReceive> GetGoodReceiveDataGrid(PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.VesselGoodReceive.SqlQuery(
                         "usp_VesselGoodReceive_GetGoodReceiveList @p0, @p1, @p2, @p3, @p4",
-                        parameters: new object[] { search, page, rows, sortColumnName, sortBy }).ToList();
+                        parameters: new object[] {
+                            pageFilter.Search,
+                            pageFilter.PageNum,
+                            pageFilter.NumRows,
+                            pageFilter.SortName,
+                            pageFilter.SortType
+                        }).ToList();
             }
         }
 
-        public int GetGoodReceiveTotalPage(string search, int rows)
+        public int GetGoodReceiveTotalPage(PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                         "usp_VesselGoodReceive_GetGoodReceivePages @p0, @p1",
-                        parameters: new object[] { search, rows }).Single();
+                        parameters: new object[] {
+                            pageFilter.Search,
+                            pageFilter.NumRows
+                        }).Single();
             }
         }
 

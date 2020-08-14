@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Unity;
+using VesselInventory.Filters;
 using VesselInventory.Dto;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -90,11 +91,16 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<OnHand_LogView>(onHandLogVM);
         }
 
+        private PageFilter PageFilter
+        {
+            get => new PageFilter { Search = SearchKeyword, PageNum = CurrentPage, NumRows = DataGridRows };
+        }
+
         public void LoadDataGrid()
         {
             OnHandCollection.Clear();
             foreach (var onHand in _onHandRepository
-                .GetOnHandDataGrid(SearchKeyword, CurrentPage, DataGridRows))
+                .GetOnHandDataGrid(PageFilter))
                 OnHandCollection.Add(onHand);
             UpdateTotalPage();
         }
@@ -102,7 +108,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _onHandRepository
-                .GetOnHandTotalPage(SearchKeyword, DataGridRows);
+                .GetOnHandTotalPage(PageFilter);
         }
 
         private void NextPageAction(object parameter)

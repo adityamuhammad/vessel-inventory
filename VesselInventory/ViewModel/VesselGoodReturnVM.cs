@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Unity;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Services;
@@ -88,11 +89,21 @@ namespace VesselInventory.ViewModel
         /// <summary>
         /// Load Method and behavior
         /// </summary>
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                PageNum = CurrentPage,
+                NumRows = DataGridRows,
+                SortName = "VesselGoodReturnId",
+                SortType = "DESC"
+            };
+        }
         public void LoadDataGrid()
         {
             VesselGoodReturnCollection.Clear();
-            foreach (var goodReturn in _vesselGoodReturnRepository
-                .GetGoodReturnDataGrid(SearchKeyword, CurrentPage, DataGridRows, "VesselGoodReturnId", "DESC"))
+            foreach (var goodReturn in _vesselGoodReturnRepository.GetGoodReturnDataGrid(PageFilter))
                 VesselGoodReturnCollection.Add(goodReturn);
             UpdateTotalPage();
         }
@@ -100,7 +111,7 @@ namespace VesselInventory.ViewModel
         private void UpdateTotalPage()
         {
             TotalPage = _vesselGoodReturnRepository
-                .GetGoodReturnTotalPage(SearchKeyword, DataGridRows);
+                .GetGoodReturnTotalPage(PageFilter);
         }
 
 

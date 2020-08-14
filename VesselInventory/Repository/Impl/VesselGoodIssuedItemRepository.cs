@@ -22,7 +22,6 @@ namespace VesselInventory.Repository.Impl
                         orderby item.CreatedDate descending
                         select item)
                         .ToList();
-
             }
         }
 

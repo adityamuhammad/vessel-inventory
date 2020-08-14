@@ -1,37 +1,43 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository.Impl
 {
     public class VesselGoodJournalRepository : IVesselGoodJournalRepository
     {
-        public IEnumerable<VesselGoodJournal> GetGoodJournals(int itemId, string itemDimensionNumber, string search, string documentTypeFilter, int page, int rows)
+        public IEnumerable<VesselGoodJournal> GetGoodJournals(GoodJournalFilter goodJournalFilter, PageFilter pageFilter)
         {
             using(var context = new AppVesselInventoryContext())
             {
                 return context.VesselGoodJournal.SqlQuery(
                     "usp_VesselGoodJournal_GetGoodJournalList @itemId, @itemDimensionNumber, @search, @documentTypeFilter, @page, @rows",
-                    new SqlParameter("@itemId", itemId),
-                    new SqlParameter("@itemDimensionNumber", itemDimensionNumber),
-                    new SqlParameter("@search", search),
-                    new SqlParameter("@documentTypeFilter", documentTypeFilter),
-                    new SqlParameter("@page", page),
-                    new SqlParameter("@rows", rows)
+                    new SqlParameter("@itemId", goodJournalFilter.ItemId),
+                    new SqlParameter("@itemDimensionNumber", goodJournalFilter.ItemDimensionNumber),
+                    new SqlParameter("@search", pageFilter.Search),
+                    new SqlParameter("@documentTypeFilter", goodJournalFilter.DocumentType),
+                    new SqlParameter("@page", pageFilter.PageNum),
+                    new SqlParameter("@rows", pageFilter.NumRows)
                 ).ToList();
 
             }
         }
 
-        public int GetJournalLogTotalPage(int itemId, string itemDimensionNumber, string search, string documentTypeFilter, int rows)
+        public int GetJournalLogTotalPage(GoodJournalFilter goodJournalFilter, PageFilter pageFilter)
         {
             using (var context = new AppVesselInventoryContext())
             {
                 return context.Database.SqlQuery<int>(
                     "usp_VesselGoodJournal_GetGoodJournalPages @p0, @p1, @p2, @p3, @p4",
-                    parameters: new object[] { itemId, itemDimensionNumber, search, documentTypeFilter, rows }
-                ).Single();
+                    parameters: new object[] {
+                        goodJournalFilter.ItemId,
+                        goodJournalFilter.ItemDimensionNumber,
+                        pageFilter.Search,
+                        goodJournalFilter.DocumentType,
+                        pageFilter.NumRows
+                    }).Single();
             }
         }
     }

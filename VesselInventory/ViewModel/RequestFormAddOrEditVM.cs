@@ -257,10 +257,7 @@ namespace VesselInventory.ViewModel
         public bool IsReleased => (Status == Commons.Enums.Status.Release.GetDescription());
         private RequestFormShipBargeDto RequestFormShipBarge
         {
-            get
-            {
-                return _requestFormRepository.GetRrequestFormShipBarge();
-            }
+            get => _requestFormRepository.GetRrequestFormShipBarge();
         }
 
         private int _totalItem = 0;

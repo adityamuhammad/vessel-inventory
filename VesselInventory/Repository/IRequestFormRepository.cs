@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using VesselInventory.Dto;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
 {
     public interface IRequestFormRepository : IGenericRepository<RequestForm>
     {
-        IEnumerable<RequestForm> GetRequestFormDataGrid(
-            string departmentName, string search, int page, int rows, 
-            string sortByColumnName, string sortBy);
-        int GetRequestFormTotalPage(string departmentName, string search, int rows);
+        IEnumerable<RequestForm> GetRequestFormDataGrid(string departmentName, PageFilter pageFilter);
+        int GetRequestFormTotalPage(string departmentName,PageFilter pageFilter);
         RequestFormShipBargeDto GetRrequestFormShipBarge();
         RequestForm SaveTransaction(RequestForm requestForm);
         void Release(int id);

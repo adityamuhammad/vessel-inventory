@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using VesselInventory.Dto;
+using VesselInventory.Filters;
 
 namespace VesselInventory.Repository
 {
     public interface IOnHandRepository
     {
-        IEnumerable<OnHandDto> GetOnHandDataGrid(string search, int page, int rows);
-        int GetOnHandTotalPage(string search, int rows);
+        IEnumerable<OnHandDto> GetOnHandDataGrid(PageFilter pageFilter);
+        int GetOnHandTotalPage(PageFilter pageFilter);
     }
 
 }

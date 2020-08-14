@@ -8,6 +8,7 @@ using VesselInventory.Views;
 using Unity;
 using VesselInventory.Commons;
 using System.IO;
+using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
@@ -94,22 +95,28 @@ namespace VesselInventory.ViewModel
         /// Load Methods and manipulate data
         /// </summary>
         #region
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                NumRows = DataGridRows,
+                PageNum = CurrentPage,
+                SortName = "RequestForm.RequestFormNumber",
+                SortType = "DESC"
+            };
+        }
         public void LoadDataGrid()
         {
             ItemPendingCollection.Clear();
-            foreach(var _ in _requestFormItemRepository
-                    .GetItemPendingDataGrid(
-                        Auth.Instance.DepartmentName,
-                        SearchKeyword,CurrentPage, 
-                        DataGridRows, "RequestForm.RequestFormNumber", "DESC" ))
+            foreach(var _ in _requestFormItemRepository.GetItemPendingDataGrid(Auth.Instance.DepartmentName,PageFilter))
                 ItemPendingCollection.Add(_);
             UpdateTotalPage();
         }
 
         private void UpdateTotalPage()
         {
-            TotalPage = _requestFormItemRepository.
-                GetItemPendingTotalPage(Auth.Instance.DepartmentName,SearchKeyword, DataGridRows);
+            TotalPage = _requestFormItemRepository.GetItemPendingTotalPage(Auth.Instance.DepartmentName,PageFilter);
         }
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

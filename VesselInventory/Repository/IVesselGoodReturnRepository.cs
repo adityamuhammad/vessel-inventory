@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 
 namespace VesselInventory.Repository
@@ -6,10 +7,8 @@ namespace VesselInventory.Repository
     public interface IVesselGoodReturnRepository 
         : IGenericRepository<VesselGoodReturn>
     {
-        IEnumerable<VesselGoodReturn> GetGoodReturnDataGrid(
-            string search, int page, int rows, 
-            string sortColumnName, string sortBy);
-        int GetGoodReturnTotalPage(string search, int rows);
+        IEnumerable<VesselGoodReturn> GetGoodReturnDataGrid(PageFilter pageFilter);
+        int GetGoodReturnTotalPage(PageFilter pageFilter);
         VesselGoodReturn SaveTransaction(VesselGoodReturn vesselGoodReturn);
     }
 

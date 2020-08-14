@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using VesselInventory.Filters;
 using VesselInventory.Models;
 using VesselInventory.Repository;
 using VesselInventory.Utility;
@@ -106,10 +107,29 @@ namespace VesselInventory.ViewModel
             = new ObservableCollection<VesselGoodJournal>();
         #endregion
         
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                NumRows = DataGridRows,
+                PageNum = CurrentPage
+            };
+        }
+
+        private GoodJournalFilter GoodJournalFilter
+        {
+            get => new GoodJournalFilter
+            {
+                ItemId = ItemId,
+                ItemDimensionNumber = ItemDimensionNumber,
+                DocumentType = DocumentTypeSelected
+            };
+        }
         private void LoadDataGrid()
         {
             JournalLogCollection.Clear();
-            foreach (var data in _vesselGoodJournalRepository.GetGoodJournals(ItemId, ItemDimensionNumber, SearchKeyword, DocumentTypeSelected, CurrentPage, DataGridRows))
+            foreach (var data in _vesselGoodJournalRepository.GetGoodJournals(GoodJournalFilter, PageFilter))
             {
                 JournalLogCollection.Add(data);
             }
@@ -119,7 +139,7 @@ namespace VesselInventory.ViewModel
 
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodJournalRepository.GetJournalLogTotalPage(ItemId, ItemDimensionNumber, SearchKeyword, DocumentTypeSelected, DataGridRows);
+            TotalPage = _vesselGoodJournalRepository.GetJournalLogTotalPage(GoodJournalFilter, PageFilter);
         }
 
         private void NextPageAction(object parameter)

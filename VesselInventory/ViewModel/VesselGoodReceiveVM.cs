@@ -7,6 +7,7 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
 using Unity;
+using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
@@ -85,13 +86,20 @@ namespace VesselInventory.ViewModel
         /// </summary>
         #region
         public int DataGridRows => 10;
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                PageNum = CurrentPage,
+                NumRows = DataGridRows,
+                SortName = "VesselGoodReceiveId",
+                SortType = "DESC" 
+            };
+        }
         private IEnumerable<VesselGoodReceive> GoodReceives
         {
-            get
-            {
-                return _vesselGoodReceiveRepository.
-                    GetGoodReceiveDataGrid(SearchKeyword, CurrentPage, DataGridRows, "VesselGoodReceiveId", "DESC");
-            }
+            get => _vesselGoodReceiveRepository.GetGoodReceiveDataGrid(PageFilter);
         }
 
         public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
@@ -111,8 +119,7 @@ namespace VesselInventory.ViewModel
         #region
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodReceiveRepository
-                .GetGoodReceiveTotalPage(SearchKeyword,DataGridRows);
+            TotalPage = _vesselGoodReceiveRepository.GetGoodReceiveTotalPage(PageFilter);
         }
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;

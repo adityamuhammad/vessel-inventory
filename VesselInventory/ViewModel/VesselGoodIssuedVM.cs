@@ -6,6 +6,7 @@ using VesselInventory.Utility;
 using VesselInventory.Services;
 using VesselInventory.Views;
 using Unity;
+using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
@@ -91,16 +92,25 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             VesselGoodIssuedCollection.Clear();
-            foreach (var goodIssued in _vesselGoodIssuedRepository
-                .GetGoodIssuedDataGrid(SearchKeyword,CurrentPage, DataGridRows, "VesselGoodIssuedId", "DESC"))
+            foreach (var goodIssued in _vesselGoodIssuedRepository.GetGoodIssuedDataGrid(PageFilter))
                 VesselGoodIssuedCollection.Add(goodIssued);
             UpdateTotalPage();
         }
         
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                PageNum = CurrentPage,
+                NumRows = DataGridRows,
+                SortName = "VesselGoodIssuedId",
+                SortType = "DESC"
+            };
+        }
         private void UpdateTotalPage()
         {
-            TotalPage = _vesselGoodIssuedRepository
-                .GetGoodIssuedTotalPage(SearchKeyword, DataGridRows);
+            TotalPage = _vesselGoodIssuedRepository.GetGoodIssuedTotalPage(PageFilter);
         }
         #endregion
 

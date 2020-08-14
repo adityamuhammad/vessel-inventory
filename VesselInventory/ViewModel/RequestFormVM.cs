@@ -6,6 +6,7 @@ using VesselInventory.Utility;
 using VesselInventory.Repository;
 using VesselInventory.Views;
 using VesselInventory.Services;
+using VesselInventory.Filters;
 using Unity;
 
 namespace VesselInventory.ViewModel
@@ -88,13 +89,7 @@ namespace VesselInventory.ViewModel
         public int DataGridRows => 10;
         private IEnumerable<RequestForm> RequestFormList
         {
-            get
-            {
-                return _requestFormRepository.
-                    GetRequestFormDataGrid
-                        (Auth.Instance.DepartmentName,SearchKeyword, 
-                            CurrentPage, DataGridRows, "RequestFormId", "desc");
-            }
+            get => _requestFormRepository.GetRequestFormDataGrid (Auth.Instance.DepartmentName,PageFilter);
         }
         #endregion
 
@@ -123,14 +118,22 @@ namespace VesselInventory.ViewModel
             _windowService.ShowDialogWindow<RequestForm_AddOrEditView>(requestFormAddOrEditVM);
         }
 
+        private PageFilter PageFilter
+        {
+            get => new PageFilter
+            {
+                Search = SearchKeyword,
+                NumRows = DataGridRows,
+                PageNum = CurrentPage,
+                SortName = "RequestFormId",
+                SortType = "desc"
+            };
+        }
         private int TotalPageFromDatabase
         {
-            get
-            {
-                return _requestFormRepository.
-                    GetRequestFormTotalPage(Auth.Instance.DepartmentName, SearchKeyword, DataGridRows);
-            }
+            get => _requestFormRepository.GetRequestFormTotalPage(Auth.Instance.DepartmentName,PageFilter);
         }
+
         private void UpdateTotalPage() => TotalPage = TotalPageFromDatabase;
         private void ResetCurrentPage() => CurrentPage = 1;
         private void IncrementCurrentPage() => CurrentPage = CurrentPage + 1;
