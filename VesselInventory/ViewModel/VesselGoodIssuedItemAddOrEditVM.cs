@@ -15,6 +15,8 @@ namespace VesselInventory.ViewModel
     class VesselGoodIssuedItemAddOrEditVM : ViewModelBase
     {
         public override string Title => "Good Issued Item";
+        public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
+            = new ObservableCollection<ItemGroupDimensionDto>();
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         private readonly IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository;
@@ -67,11 +69,9 @@ namespace VesselInventory.ViewModel
                 }
             }
         }
-        public bool IsVisibleSearchItem {
-            get
-            {
-                return (RecordHelper.IsNewRecord(VesselGoodIssuedItemId));
-            }
+        public bool IsVisibleSearchItem
+        {
+            get => (RecordHelper.IsNewRecord(VesselGoodIssuedItemId));
         }
 
         private bool _IsVisibleListBoxItem = false;
@@ -80,9 +80,10 @@ namespace VesselInventory.ViewModel
             get => _IsVisibleListBoxItem;
             set
             {
-                if  (_IsVisibleListBoxItem == value)
-                    return;
+                if  (_IsVisibleListBoxItem == value) return;
+
                 _IsVisibleListBoxItem = value;
+
                 OnPropertyChanged("IsVisibleListBoxItem");
             }
         }
@@ -190,15 +191,12 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
-            = new ObservableCollection<ItemGroupDimensionDto>();
 
         private VesselGoodIssuedItem VesselGoodIssuedItemDataView { get; set; } = new VesselGoodIssuedItem();
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in CommonDataHelper
-                .GetItems(ItemSelectKeyword, "VesselGoodIssuedItem", VesselGoodIssuedId))
+            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "VesselGoodIssuedItem", VesselGoodIssuedId))
                 ItemCollection.Add(_);
         }
 
@@ -251,20 +249,29 @@ namespace VesselInventory.ViewModel
             {
                 ItemCheckUnique();
                 CheckInStockSave();
-                VesselGoodIssuedItemDataView.CreatedBy = Auth.Instance.PersonName;
-                VesselGoodIssuedItemDataView.CreatedDate = DateTime.Now;
-                VesselGoodIssuedItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
+                Save();
 
             } else
             {
                 CheckInStockUpdate();
-                VesselGoodIssuedItemDataView.LastModifiedBy = Auth.Instance.PersonName;
-                VesselGoodIssuedItemDataView.LastModifiedDate = DateTime.Now;
-                _vesselGoodIssuedItemRepository
-                    .UpdateTransaction(VesselGoodIssuedItemId, 
-                    VesselGoodIssuedItemDataView);
+                update();
             }
+        }
+
+        private void update()
+        {
+            VesselGoodIssuedItemDataView.LastModifiedBy = Auth.Instance.PersonName;
+            VesselGoodIssuedItemDataView.LastModifiedDate = DateTime.Now;
+            _vesselGoodIssuedItemRepository.UpdateTransaction(VesselGoodIssuedItemId,VesselGoodIssuedItemDataView);
+
+        }
+        private void Save()
+        {
+
+            VesselGoodIssuedItemDataView.CreatedBy = Auth.Instance.PersonName;
+            VesselGoodIssuedItemDataView.CreatedDate = DateTime.Now;
+            VesselGoodIssuedItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            _vesselGoodIssuedItemRepository.SaveTransaction(VesselGoodIssuedItemDataView);
         }
 
         private void AutoCompleteChanged(object parameter)

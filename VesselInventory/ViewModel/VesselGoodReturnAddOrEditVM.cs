@@ -16,6 +16,8 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodReturnAddOrEditVM : ViewModelBase, IParentLoadable
     {
+        public ObservableCollection<VesselGoodReturnItem> GoodReturnItemCollections { get; set; } 
+            = new ObservableCollection<VesselGoodReturnItem>();
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
@@ -122,8 +124,6 @@ namespace VesselInventory.ViewModel
         /// Entity, Collections and other attributes
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodReturnItem> GoodReturnItemCollections { get; set; } 
-            = new ObservableCollection<VesselGoodReturnItem>();
         private int _totalItem = 0;
         public int TotalItem
         {
@@ -154,9 +154,8 @@ namespace VesselInventory.ViewModel
             }
             else
             {
-                VesselGoodReturnDataView = _vesselGoodReturnRepository
-                    .GetById(VesselGoodReturnId);
                 IsItemEnabled = true;
+                VesselGoodReturnDataView = _vesselGoodReturnRepository.GetById(VesselGoodReturnId);
                 LoadDataGrid();
             }
 
@@ -164,8 +163,7 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             GoodReturnItemCollections.Clear();
-            foreach (var item in _vesselGoodReturnItemRepository
-                .GetGoodReturnItem(VesselGoodReturnId))
+            foreach (var item in _vesselGoodReturnItemRepository.GetGoodReturnItem(VesselGoodReturnId))
                 GoodReturnItemCollections.Add(item);
             TotalItem = GoodReturnItemCollections.Count;
         }
@@ -178,10 +176,12 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             var vesselGoodReturnItemAddOrEditVM = UnityContainer.Resolve<VesselGoodReturnItemAddOrEditVM>();
+
             if (parameter is null)
                 vesselGoodReturnItemAddOrEditVM.InitializeData(this, VesselGoodReturnId);
             else
                 vesselGoodReturnItemAddOrEditVM.InitializeData(this, VesselGoodReturnId, (int)parameter);
+
             _windowService.ShowDialogWindow<VesselGoodReturn_ItemAddOrEditView>(vesselGoodReturnItemAddOrEditVM);
         }
 
@@ -189,9 +189,11 @@ namespace VesselInventory.ViewModel
         {
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription);
-            if (confirmDialog == MessageBoxResult.No)
-                return;
+
+            if (confirmDialog == MessageBoxResult.No) return;
+
             _vesselGoodReturnItemRepository.DeleteTransaction((int)parameter);
+
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
             LoadDataGrid();
         }
@@ -213,22 +215,26 @@ namespace VesselInventory.ViewModel
 
         private void SaveOrUpdate()
         {
-            if (RecordHelper.IsNewRecord(VesselGoodReturnId))
-            {
-                VesselGoodReturnDataView.CreatedBy = Auth.Instance.PersonName;
-                VesselGoodReturnDataView.CreatedDate = DateTime.Now;
-                VesselGoodReturnDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                VesselGoodReturnDataView = _vesselGoodReturnRepository
-                    .SaveTransaction(VesselGoodReturnDataView);
-            }
-            else
-            {
-                VesselGoodReturnDataView.LastModifiedBy = Auth.Instance.PersonName;
-                VesselGoodReturnDataView.LastModifiedDate = DateTime.Now;
-                VesselGoodReturnDataView = _vesselGoodReturnRepository
-                    .Update(VesselGoodReturnId,
-                    VesselGoodReturnDataView);
-            }
+            if (RecordHelper.IsNewRecord(VesselGoodReturnId)) Save();
+            else Update();
+        }
+
+        private void Update()
+        {
+            VesselGoodReturnDataView.LastModifiedBy = Auth.Instance.PersonName;
+            VesselGoodReturnDataView.LastModifiedDate = DateTime.Now;
+            VesselGoodReturnDataView = _vesselGoodReturnRepository
+                .Update(VesselGoodReturnId,
+                VesselGoodReturnDataView);
+        }
+
+        private void Save()
+        {
+            VesselGoodReturnDataView.CreatedBy = Auth.Instance.PersonName;
+            VesselGoodReturnDataView.CreatedDate = DateTime.Now;
+            VesselGoodReturnDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            VesselGoodReturnDataView = _vesselGoodReturnRepository
+                .SaveTransaction(VesselGoodReturnDataView);
         }
         #endregion
     }

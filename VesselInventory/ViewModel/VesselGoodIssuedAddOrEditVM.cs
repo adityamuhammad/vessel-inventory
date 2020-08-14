@@ -16,6 +16,8 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodIssuedAddOrEditVM : ViewModelBase, IParentLoadable
     {
+        public ObservableCollection<VesselGoodIssuedItem> GoodIssuedItemCollections { get; set; } 
+            = new ObservableCollection<VesselGoodIssuedItem>();
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
@@ -121,8 +123,6 @@ namespace VesselInventory.ViewModel
         /// Entity, Collections and other attributes
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodIssuedItem> GoodIssuedItemCollections { get; set; } 
-            = new ObservableCollection<VesselGoodIssuedItem>();
         private int _totalItem = 0;
         public int TotalItem
         {
@@ -152,8 +152,7 @@ namespace VesselInventory.ViewModel
                 ShipName = ShipBarge.ShipName;
             } else
             {
-                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .GetById(VesselGoodIssuedId);
+                VesselGoodIssuedDataView = _vesselGoodIssuedRepository.GetById(VesselGoodIssuedId);
                 IsItemEnabled = true;
                 LoadDataGrid();
             }
@@ -162,8 +161,7 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             GoodIssuedItemCollections.Clear();
-            foreach (var item in _vesselGoodIssuedItemRepository
-                .GetGoodIssuedItem(VesselGoodIssuedId))
+            foreach (var item in _vesselGoodIssuedItemRepository.GetGoodIssuedItem(VesselGoodIssuedId))
                 GoodIssuedItemCollections.Add(item);
             TotalItem = GoodIssuedItemCollections.Count;
         }
@@ -177,12 +175,14 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             var vesselGoodIssuedItemAddOrEditVM = UnityContainer.Resolve<VesselGoodIssuedItemAddOrEditVM>();
+
             if (parameter is null)
                 vesselGoodIssuedItemAddOrEditVM
                     .InitializeData(this, VesselGoodIssuedId);
             else
                 vesselGoodIssuedItemAddOrEditVM
                     .InitializeData(this, VesselGoodIssuedId, (int)parameter);
+
             _windowService.ShowDialogWindow
                 <VesselGoodIssued_ItemAddOrEditView>
                     (vesselGoodIssuedItemAddOrEditVM);
@@ -193,8 +193,11 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
             if (confirmDialog == MessageBoxResult.No) return;
+
             _vesselGoodIssuedItemRepository.DeleteTransaction((int)parameter);
+
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
+
             LoadDataGrid();
         }
 
@@ -213,21 +216,22 @@ namespace VesselInventory.ViewModel
 
         private void SaveOrUpdate()
         {
-            if (RecordHelper.IsNewRecord(VesselGoodIssuedId))
-            {
-                VesselGoodIssuedDataView.CreatedDate = DateTime.Now;
-                VesselGoodIssuedDataView.CreatedBy = Auth.Instance.PersonName;
-                VesselGoodIssuedDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .SaveTransaction(VesselGoodIssuedDataView);
+            if (RecordHelper.IsNewRecord(VesselGoodIssuedId)) Save();
+            else Update();
+        }
+        private void Save()
+        {
+            VesselGoodIssuedDataView.CreatedDate = DateTime.Now;
+            VesselGoodIssuedDataView.CreatedBy = Auth.Instance.PersonName;
+            VesselGoodIssuedDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            VesselGoodIssuedDataView = _vesselGoodIssuedRepository.SaveTransaction(VesselGoodIssuedDataView);
+        }
 
-            } else
-            {
-                VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
-                VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
-                VesselGoodIssuedDataView = _vesselGoodIssuedRepository
-                    .Update(VesselGoodIssuedId, VesselGoodIssuedDataView);
-            }
+        private void Update()
+        {
+            VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
+            VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
+            VesselGoodIssuedDataView = _vesselGoodIssuedRepository.Update(VesselGoodIssuedId, VesselGoodIssuedDataView);
         }
         #endregion
     }

@@ -17,6 +17,8 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemAddOrEditVM : ViewModelBase
     {
+        public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
+            = new ObservableCollection<ItemGroupDimensionDto>();
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand OpenFileDialogCommand { get; private set; }
@@ -58,10 +60,7 @@ namespace VesselInventory.ViewModel
         /// UI Collection Data, Entity, And Custom Attributes
         /// </summary>
         #region
-        private RequestFormItem RequestFormItemDataView
-        {
-            get; set;
-        } = new RequestFormItem();
+        private RequestFormItem RequestFormItemDataView { get; set; } = new RequestFormItem();
 
         private string _attachmentLocalPath = string.Empty;
         public string AttachmentLocalPath
@@ -96,8 +95,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<ItemGroupDimensionDto> ItemCollection { get; set; } 
-            = new ObservableCollection<ItemGroupDimensionDto>();
         #endregion
 
         /// <summary>
@@ -200,10 +197,7 @@ namespace VesselInventory.ViewModel
         [Required]
         public decimal Qty
         {
-            get
-            {
-                return RequestFormItemDataView.Qty;
-            }
+            get => RequestFormItemDataView.Qty;
             set
             {
                 RequestFormItemDataView.Qty = value;
@@ -376,8 +370,7 @@ namespace VesselInventory.ViewModel
         public void LoadItem()
         {
             ItemCollection.Clear();
-            foreach(var _ in CommonDataHelper
-                .GetItems(ItemSelectKeyword, "RequestFormItem", RequestFormId))
+            foreach(var _ in CommonDataHelper.GetItems(ItemSelectKeyword, "RequestFormItem", RequestFormId))
                 ItemCollection.Add(_);
         }
 
@@ -415,10 +408,9 @@ namespace VesselInventory.ViewModel
         {
             if(!string.IsNullOrWhiteSpace(AttachmentLocalPath))
             {
-                bool IsUploaded = _uploadService.UploadFile(
-                    AttachmentLocalPath, GlobalNamespace.AttachmentPathLocation);
-                if (IsUploaded)
-                    AttachmentPath = _uploadService.GetUploadedPath();
+                bool IsUploaded = _uploadService.UploadFile(AttachmentLocalPath, GlobalNamespace.AttachmentPathLocation);
+
+                if (IsUploaded) AttachmentPath = _uploadService.GetUploadedPath();
             }
         }
 
@@ -427,17 +419,27 @@ namespace VesselInventory.ViewModel
             if (RecordHelper.IsNewRecord(RequestFormItemId))
             {
                 ItemCheckUnique();
-                RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
-                RequestFormItemDataView.CreatedDate = DateTime.Now;
-                RequestFormItemDataView.ItemStatus = ItemStatus.Wait_Sync.GetDescription();
-                _requestFormItemRepository.Save(RequestFormItemDataView);
+                Save();
             } else
             {
-                RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
-                RequestFormItemDataView.LastModifiedDate = DateTime.Now;
-                _requestFormItemRepository.Update(RequestFormItemId,RequestFormItemDataView);
+                Update();
             }
+        }
+
+        private void Save()
+        {
+            RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
+            RequestFormItemDataView.CreatedDate = DateTime.Now;
+            RequestFormItemDataView.ItemStatus = ItemStatus.Wait_Sync.GetDescription();
+            _requestFormItemRepository.Save(RequestFormItemDataView);
+        }
+
+        public void Update()
+        {
+            RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
+            RequestFormItemDataView.LastModifiedDate = DateTime.Now;
+            _requestFormItemRepository.Update(RequestFormItemId,RequestFormItemDataView);
         }
 
         private void LoadParentDataGrid()
@@ -477,8 +479,8 @@ namespace VesselInventory.ViewModel
         private void OpenFile(object parameter)
         {
             var filename =_IOService.OpenFileDialog();
-            if (filename != null)
-                AttachmentLocalPath = filename;
+
+            if (filename != null) AttachmentLocalPath = filename;
         } 
         #endregion
     }

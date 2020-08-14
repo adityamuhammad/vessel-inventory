@@ -13,6 +13,9 @@ namespace VesselInventory.ViewModel
     class VesselGoodIssuedVM : ViewModelBase, IParentLoadable
     {
         public override string Title => "Issued Goods";
+        public ObservableCollection<VesselGoodIssued> VesselGoodIssuedCollection { get; } 
+            = new ObservableCollection<VesselGoodIssued>();
+
         private readonly IVesselGoodIssuedRepository _vesselGoodIssuedRepository;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         private readonly IWindowService _windowService;
@@ -81,8 +84,6 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodIssued> VesselGoodIssuedCollection { get; } 
-            = new ObservableCollection<VesselGoodIssued>();
         #endregion
 
         /// <summary>

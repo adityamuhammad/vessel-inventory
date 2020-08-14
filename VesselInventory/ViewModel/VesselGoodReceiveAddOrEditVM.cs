@@ -17,6 +17,8 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodReceiveAddOrEditVM : ViewModelBase, IParentLoadable
     {
+        public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
+            = new ObservableCollection<VesselGoodReceiveItemReject>();
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
@@ -62,8 +64,8 @@ namespace VesselInventory.ViewModel
             get => _IsItemEnabled;
             set
             {
-                if  (_IsItemEnabled == value)
-                    return;
+                if  (_IsItemEnabled == value) return;
+
                 _IsItemEnabled = value;
                 OnPropertyChanged("IsItemEnabled");
             }
@@ -82,16 +84,11 @@ namespace VesselInventory.ViewModel
                 {
                     for (int i = 0; i < textScanList.Length; i++)
                     {
-                        if (i == 0)
-                            OfficeGoodIssuedNumber = textScanList[i];
-                        if (i == 1)
-                            ShipId = int.Parse(textScanList[i]);
-                        if (i == 2)
-                            ShipName = textScanList[i];
-                        if (i == 3)
-                            BargeId = int.Parse(textScanList[i]);
-                        if (i == 4)
-                            BargeName = textScanList[i];
+                        if (i == 0) OfficeGoodIssuedNumber = textScanList[i];
+                        if (i == 1) ShipId = int.Parse(textScanList[i]);
+                        if (i == 2) ShipName = textScanList[i];
+                        if (i == 3) BargeId = int.Parse(textScanList[i]);
+                        if (i == 4) BargeName = textScanList[i];
                     }
 
                 } catch (Exception ex)
@@ -117,15 +114,9 @@ namespace VesselInventory.ViewModel
         /// Entity, And Collections
         /// </summary>
         #region
-        public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
-            = new ObservableCollection<VesselGoodReceiveItemReject>();
         private IEnumerable<VesselGoodReceiveItemReject> GoodReceiveItemRejectList
         {
-            get
-            {
-                return _vesselGoodReceiveItemRejectRepository
-                    .GetGoodReceiveItemRejected(VesselGoodReceiveId);
-            }
+            get => _vesselGoodReceiveItemRejectRepository.GetGoodReceiveItemRejected(VesselGoodReceiveId);
         }
         private int _totalItem = 0;
         public int TotalItem
@@ -256,7 +247,9 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             var container = ((App)Application.Current).UnityContainer;
+
             var vesselGoodReceiveItemRejectAddOrEditVM = container.Resolve<VesselGoodReceiveItemRejectAddOrEditVM>();
+
             if(parameter is null)
                 vesselGoodReceiveItemRejectAddOrEditVM.InitializeData
                     (this, vesselGoodReceiveId: VesselGoodReceiveId);
@@ -272,23 +265,29 @@ namespace VesselInventory.ViewModel
         {
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation, GlobalNamespace.DeleteConfirmationDescription );
-            if (confirmDialog == MessageBoxResult.No)
-                return;
+
+            if (confirmDialog == MessageBoxResult.No) return;
+
             _vesselGoodReceiveItemRejectRepository.Delete((int)parameter);
+
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
+
             LoadDataGrid();
         }
         private void SaveAction(object parameter)
         {
             try
             {
-                if (ShipId != ShipBarge.ShipId)
-                    throw new Exception(GlobalNamespace.ShipDoesNotMatch);
+                if (ShipId != ShipBarge.ShipId) throw new Exception(GlobalNamespace.ShipDoesNotMatch);
 
                 SaveOrUpdate();
+
                 IsItemEnabled = true;
+
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
+
                 _parentLoadable.LoadDataGrid();
+
             } catch (Exception ex)
             {
                 ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
@@ -296,29 +295,31 @@ namespace VesselInventory.ViewModel
         }
         private void SaveOrUpdate()
         {
-            if (RecordHelper.IsNewRecord(VesselGoodReceiveId))
-            {
-                VesselGoodReceiveDataView.CreatedBy = Auth.Instance.PersonName;
-                VesselGoodReceiveDataView.CreatedDate = DateTime.Now;
-                VesselGoodReceiveDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                VesselGoodReceiveDataView = _vesselGoodReceiveRepository.SaveTransaction(VesselGoodReceiveDataView);
-            } 
-            else
-            {
-                VesselGoodReceiveDataView.LastModifiedBy = Auth.Instance.PersonName;
-                VesselGoodReceiveDataView.LastModifiedDate = DateTime.Now;
-                VesselGoodReceiveDataView = _vesselGoodReceiveRepository.Update
-                    (VesselGoodReceiveId,VesselGoodReceiveDataView);
+            if (RecordHelper.IsNewRecord(VesselGoodReceiveId)) Save();
+            else Update();
+        }
 
-            }
+        private void Save()
+        {
+            VesselGoodReceiveDataView.CreatedBy = Auth.Instance.PersonName;
+            VesselGoodReceiveDataView.CreatedDate = DateTime.Now;
+            VesselGoodReceiveDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            VesselGoodReceiveDataView = _vesselGoodReceiveRepository.SaveTransaction(VesselGoodReceiveDataView);
+        }
+
+        private void Update()
+        {
+            VesselGoodReceiveDataView.LastModifiedBy = Auth.Instance.PersonName;
+            VesselGoodReceiveDataView.LastModifiedDate = DateTime.Now;
+            VesselGoodReceiveDataView = _vesselGoodReceiveRepository.Update(VesselGoodReceiveId,VesselGoodReceiveDataView);
         }
 
         private bool IsSaveCanExecute(object parameter)
         {
-            if (ShipId < 1 || BargeId < 1)
-                return false;
-            if (string.IsNullOrWhiteSpace(OfficeGoodIssuedNumber))
-                return false;
+            if (ShipId < 1 || BargeId < 1) return false;
+            
+            if (string.IsNullOrWhiteSpace(OfficeGoodIssuedNumber)) return false;
+
             return true;
         }
         #endregion

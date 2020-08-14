@@ -10,6 +10,8 @@ namespace VesselInventory.ViewModel
     public class OnHandLogVM : ViewModelBase
     {
         public override string Title => "Journal Log";
+        public ObservableCollection<VesselGoodJournal> JournalLogCollection { get; } 
+            = new ObservableCollection<VesselGoodJournal>();
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -103,8 +105,6 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<VesselGoodJournal> JournalLogCollection { get; } 
-            = new ObservableCollection<VesselGoodJournal>();
         #endregion
         
         private PageFilter PageFilter

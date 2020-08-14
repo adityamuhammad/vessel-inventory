@@ -283,19 +283,29 @@ namespace VesselInventory.ViewModel
             if (RecordHelper.IsNewRecord(VesselGoodReceiveItemRejectId))
             {
                 ItemCheckUnique();
-                GoodReceiveItemRejectDataView.CreatedBy = Auth.Instance.PersonName;
-                GoodReceiveItemRejectDataView.CreatedDate = DateTime.Now;
-                GoodReceiveItemRejectDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                _vesselGoodReceiveItemRejectRepository
-                    .Save(GoodReceiveItemRejectDataView);
+                Save();
             }
             else
             {
-                GoodReceiveItemRejectDataView.LastModifiedBy = Auth.Instance.PersonName;
-                GoodReceiveItemRejectDataView.LastModifiedDate = DateTime.Now;
-                _vesselGoodReceiveItemRejectRepository
-                    .Update(VesselGoodReceiveItemRejectId, GoodReceiveItemRejectDataView);
+                Update();
             }
+        }
+
+        private void Update()
+        {
+            GoodReceiveItemRejectDataView.LastModifiedBy = Auth.Instance.PersonName;
+            GoodReceiveItemRejectDataView.LastModifiedDate = DateTime.Now;
+            _vesselGoodReceiveItemRejectRepository
+                .Update(VesselGoodReceiveItemRejectId, GoodReceiveItemRejectDataView);
+        }
+
+        private void Save()
+        {
+            GoodReceiveItemRejectDataView.CreatedBy = Auth.Instance.PersonName;
+            GoodReceiveItemRejectDataView.CreatedDate = DateTime.Now;
+            GoodReceiveItemRejectDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            _vesselGoodReceiveItemRejectRepository
+                .Save(GoodReceiveItemRejectDataView);
         }
         #endregion
     }

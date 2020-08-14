@@ -14,6 +14,8 @@ namespace VesselInventory.ViewModel
     public class VesselGoodReceiveVM : ViewModelBase, IParentLoadable
     {
         public override string Title => "Receive Goods";
+        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
+            = new ObservableCollection<VesselGoodReceive>();
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IWindowService _windowService;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
@@ -102,8 +104,6 @@ namespace VesselInventory.ViewModel
             get => _vesselGoodReceiveRepository.GetGoodReceiveDataGrid(PageFilter);
         }
 
-        public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 
-            = new ObservableCollection<VesselGoodReceive>();
         public void LoadDataGrid()
         {
             VesselGoodReceiveCollection.Clear();

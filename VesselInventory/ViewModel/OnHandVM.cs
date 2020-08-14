@@ -13,6 +13,8 @@ namespace VesselInventory.ViewModel
     public class OnHandVM : ViewModelBase
     {
         public override string Title => "On Hand";
+        public ObservableCollection<OnHandDto> OnHandCollection { get; } 
+            = new ObservableCollection<OnHandDto>();
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
@@ -79,8 +81,6 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
-        public ObservableCollection<OnHandDto> OnHandCollection { get; } 
-            = new ObservableCollection<OnHandDto>();
         #endregion
 
         private void ViewLog(object parameter)
@@ -99,16 +99,14 @@ namespace VesselInventory.ViewModel
         public void LoadDataGrid()
         {
             OnHandCollection.Clear();
-            foreach (var onHand in _onHandRepository
-                .GetOnHandDataGrid(PageFilter))
+            foreach (var onHand in _onHandRepository.GetOnHandDataGrid(PageFilter))
                 OnHandCollection.Add(onHand);
             UpdateTotalPage();
         }
         
         private void UpdateTotalPage()
         {
-            TotalPage = _onHandRepository
-                .GetOnHandTotalPage(PageFilter);
+            TotalPage = _onHandRepository.GetOnHandTotalPage(PageFilter);
         }
 
         private void NextPageAction(object parameter)

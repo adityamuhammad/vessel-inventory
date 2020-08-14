@@ -20,6 +20,9 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormAddOrEditVM : ViewModelBase, IParentLoadable
     {
+        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
+            = new ObservableCollection<RequestFormItem>();
+
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IWindowService _windowService;
@@ -159,9 +162,10 @@ namespace VesselInventory.ViewModel
             get => _IsVisibleButtonRelease;
             set
             {
-                if  (_IsVisibleButtonRelease == value)
-                    return;
+                if  (_IsVisibleButtonRelease == value) return;
+
                 _IsVisibleButtonRelease = value;
+
                 OnPropertyChanged("IsVisibleButtonRelease");
             }
         }
@@ -171,9 +175,10 @@ namespace VesselInventory.ViewModel
             get => _IsVisibleButtonUpdate;
             set
             {
-                if  (_IsVisibleButtonUpdate == value)
-                    return;
+                if  (_IsVisibleButtonUpdate == value) return;
+
                 _IsVisibleButtonUpdate = value;
+
                 OnPropertyChanged("IsVisibleButtonUpdate");
             }
         }
@@ -184,9 +189,10 @@ namespace VesselInventory.ViewModel
             get => _IsVisibleButtonSave;
             set
             {
-                if  (_IsVisibleButtonSave == value)
-                    return;
+                if  (_IsVisibleButtonSave == value) return;
+
                 _IsVisibleButtonSave = value;
+
                 OnPropertyChanged("IsVisibleButtonSave");
             }
         }
@@ -197,9 +203,10 @@ namespace VesselInventory.ViewModel
             get => _IsVisibleBargeCheck;
             set
             {
-                if  (_IsVisibleBargeCheck == value)
-                    return;
+                if  (_IsVisibleBargeCheck == value) return;
+
                 _IsVisibleBargeCheck = value;
+
                 OnPropertyChanged("IsVisiblBargeCheck");
             }
         }
@@ -210,9 +217,10 @@ namespace VesselInventory.ViewModel
             get => _IsItemEnabled;
             set
             {
-                if  (_IsItemEnabled == value)
-                    return;
+                if  (_IsItemEnabled == value) return;
+
                 _IsItemEnabled = value;
+
                 OnPropertyChanged("IsItemEnabled");
             }
         }
@@ -223,14 +231,14 @@ namespace VesselInventory.ViewModel
             get => _IsCheckedBargeRequest;
             set
             {
-                if (_IsCheckedBargeRequest == value)
-                    return;
+                if (_IsCheckedBargeRequest == value) return;
+
                 _IsCheckedBargeRequest = value;
 
-                if (RequestFormShipBarge is null)
-                    return;
+                if (RequestFormShipBarge is null) return;
 
                 RenameSequenceNumber();
+
                 OnPropertyChanged("IsCheckedBargeRequest");
             }
         }
@@ -273,15 +281,10 @@ namespace VesselInventory.ViewModel
 
         private RequestForm RequestFormDataView { get; set; } = new RequestForm();
 
-        public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
-            = new ObservableCollection<RequestFormItem>();
+
         private IEnumerable<RequestFormItem> RequestFormItemList
         {
-            get
-            {
-                return _requestFormItemRepository
-                    .GetRequestFormItemList(RequestFormId);
-            }
+            get => _requestFormItemRepository.GetRequestFormItemList(RequestFormId);
         }
         #endregion
 
@@ -352,10 +355,12 @@ namespace VesselInventory.ViewModel
         private void AddOrEditItemAction(object parameter)
         {
             var requestFormItemAddOrEditVM = UnityContainer.Resolve<RequestFormItemAddOrEditVM>();
+
             if (parameter is null)
                 requestFormItemAddOrEditVM.InitializeData(this, RequestFormId);
             else
                 requestFormItemAddOrEditVM.InitializeData(this, RequestFormId, (int)parameter);
+
             _windowService.ShowDialogWindow<RequestForm_ItemAddOrEditView>(requestFormItemAddOrEditVM);
         }
 
@@ -364,17 +369,22 @@ namespace VesselInventory.ViewModel
 
             string attachmentFileName = (string)parameter;
             string fileLocation = GlobalNamespace.AttachmentPathLocation + attachmentFileName;
+
             if (string.IsNullOrWhiteSpace(attachmentFileName))
             {
                 ResponseMessage.Info(GlobalNamespace.AttachmentNotUploaded);
                 return;
             }
+
             if (!File.Exists(fileLocation)){
                 ResponseMessage.Warning(GlobalNamespace.AttachmentMissing);
                 return;
             }
+
             var previewPdf = UnityContainer.Resolve<PreviewPdf>();
+
             previewPdf.SetAttachment(fileLocation);
+
             previewPdf.ShowDialog();
         }
 
@@ -383,20 +393,27 @@ namespace VesselInventory.ViewModel
             if (RecordHelper.IsNewRecord(RequestFormId))
             {
                 ValidateRequest();
-                RequestFormDataView.CreatedBy = Auth.Instance.PersonName;
-                RequestFormDataView.CreatedDate = DateTime.Now;
-                RequestFormDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-                RequestFormDataView.Status = Commons.Enums.Status.Draft.GetDescription();
-                RequestFormDataView = _requestFormRepository.SaveTransaction(RequestFormDataView);
-
+                Save();
             }
             else
             {
-                RequestFormDataView.LastModifiedBy = Auth.Instance.PersonName;
-                RequestFormDataView.LastModifiedDate = DateTime.Now;
-                RequestFormDataView = _requestFormRepository.Update(RequestFormId, RequestFormDataView);
-
+                Update();
             }
+        }
+        private void Save()
+        {
+            RequestFormDataView.CreatedBy = Auth.Instance.PersonName;
+            RequestFormDataView.CreatedDate = DateTime.Now;
+            RequestFormDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            RequestFormDataView.Status = Commons.Enums.Status.Draft.GetDescription();
+            RequestFormDataView = _requestFormRepository.SaveTransaction(RequestFormDataView);
+        }
+
+        private void Update()
+        {
+            RequestFormDataView.LastModifiedBy = Auth.Instance.PersonName;
+            RequestFormDataView.LastModifiedDate = DateTime.Now;
+            RequestFormDataView = _requestFormRepository.Update(RequestFormId, RequestFormDataView);
         }
 
         private static void ValidateRequest()
@@ -429,10 +446,13 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.DeleteConfirmation,
                 GlobalNamespace.DeleteConfirmationDescription);
-            if (confirmDialog == MessageBoxResult.No)
-                return;
+
+            if (confirmDialog == MessageBoxResult.No) return;
+
             _requestFormItemRepository.Delete((int)parameter);
+
             ResponseMessage.Success(GlobalNamespace.SuccessDelete);
+
             LoadDataGrid();
         }
 
@@ -441,18 +461,21 @@ namespace VesselInventory.ViewModel
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
                 GlobalNamespace.ReleaseConfirmation, 
                 GlobalNamespace.ReleaseConfirmationDescription);
-            if (confirmDialog == MessageBoxResult.No)
-                return;
+
+            if (confirmDialog == MessageBoxResult.No) return;
+
             _requestFormRepository.Release(RequestFormId);
             ResponseMessage.Success(GlobalNamespace.SuccesRelease);
+
             _parentLoadable.LoadDataGrid();
+
             CloseWindow(window);
         }
 
         private bool IsSaveCanExecute(object parameter)
         {
-            if (string.IsNullOrWhiteSpace(DepartmentName))
-                return false;
+            if (string.IsNullOrWhiteSpace(DepartmentName)) return false;
+
             return IsReleasedCanExecute();
         }
 

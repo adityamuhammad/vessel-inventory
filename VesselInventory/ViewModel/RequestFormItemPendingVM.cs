@@ -14,6 +14,8 @@ namespace VesselInventory.ViewModel
 {
     public class RequestFormItemPendingVM : RequestFormVMBase, IParentLoadable
     {
+        public ObservableCollection<ItemPendingDto> ItemPendingCollection { get; } 
+            = new ObservableCollection<ItemPendingDto>();
         public override string Title => "Pending Items";
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
@@ -87,8 +89,6 @@ namespace VesselInventory.ViewModel
         /// Data Collections, Entity and custom attributes
         /// </summary>
         #region
-        public ObservableCollection<ItemPendingDto> ItemPendingCollection { get; } 
-            = new ObservableCollection<ItemPendingDto>();
         #endregion
 
         /// <summary>
@@ -144,9 +144,10 @@ namespace VesselInventory.ViewModel
         private void OpenUploadDocumentFormAction(object parameter)
         {
             var requestFormItemUploadDocumentVM = UnityContainer.Resolve<RequestFormItemUploadDocVM>();
+
             requestFormItemUploadDocumentVM.InitializeData(this, (int)parameter);
-            _windowService.ShowDialogWindow<RequestForm_ItemUploadDocumentView>
-                (requestFormItemUploadDocumentVM);
+
+            _windowService.ShowDialogWindow<RequestForm_ItemUploadDocumentView>(requestFormItemUploadDocumentVM);
         }
         private void PreviewPdfAction(object parameter)
         {

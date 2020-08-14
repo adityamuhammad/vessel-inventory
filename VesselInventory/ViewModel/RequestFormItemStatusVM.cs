@@ -14,15 +14,15 @@ namespace VesselInventory.ViewModel
     class RequestFormItemStatusVM : RequestFormVMBase
     {
         public override string Title => "Tracking Items";
+        public ObservableCollection<ItemStatusDto> ItemStatusCollection { get; } 
+            = new ObservableCollection<ItemStatusDto>();
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
-
         public RelayCommand ReportCommand { get; private set; }
         public ReportDocument Report { get; private set; }
 
         private readonly IWindowService _windowService;
-
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
         public RequestFormItemStatusVM(IWindowService windowService, IRequestFormItemRepository requestFormItemRepository)
@@ -123,8 +123,6 @@ namespace VesselInventory.ViewModel
                 OnPropertyChanged("DepartmentSearch");
             }
         }
-        public ObservableCollection<ItemStatusDto> ItemStatusCollection { get; } 
-            = new ObservableCollection<ItemStatusDto>();
 
 
         private PageFilter PageFilter
@@ -139,10 +137,7 @@ namespace VesselInventory.ViewModel
         }
         private IEnumerable<ItemStatusDto> ItemStatusList
         {
-            get
-            {
-                return _requestFormItemRepository.GetItemStatusDataGrid(RequestFormItemFilter, PageFilter);
-            }
+            get => _requestFormItemRepository.GetItemStatusDataGrid(RequestFormItemFilter, PageFilter);
         }
 
         protected void LoadDataGrid()

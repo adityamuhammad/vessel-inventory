@@ -13,6 +13,8 @@ namespace VesselInventory.ViewModel
     class VesselGoodReturnVM : ViewModelBase, IParentLoadable
     {
         public override string Title => "Return Goods";
+        public ObservableCollection<VesselGoodReturn> VesselGoodReturnCollection { get; } 
+            = new ObservableCollection<VesselGoodReturn>();
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -78,13 +80,6 @@ namespace VesselInventory.ViewModel
         }
         #endregion
 
-        /// <summary>
-        /// Entity and Collections
-        /// </summary>
-        #region
-        public ObservableCollection<VesselGoodReturn> VesselGoodReturnCollection { get; } 
-            = new ObservableCollection<VesselGoodReturn>();
-        #endregion
 
         /// <summary>
         /// Load Method and behavior

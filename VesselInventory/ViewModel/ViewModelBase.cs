@@ -7,9 +7,7 @@ namespace VesselInventory.ViewModel
 {
     public abstract class ViewModelBase : ObservableObject
     {
-        #region
         public virtual string Title { get; set; } = "Form";
-        #endregion
         public RelayCommand<IClosable> CloseCommand { get; private set; }
         public RelayCommand<IClosable> LogoutCommand { get; private set; }
         public RelayCommand SettingCommand { get; private set; }
@@ -28,8 +26,7 @@ namespace VesselInventory.ViewModel
 
         protected void CloseWindow(IClosable window)
         {
-            if (window != null)
-                window.Close();
+            if (window != null) window.Close();
         }
     }
 }

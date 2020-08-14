@@ -63,10 +63,7 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(PersonName))
-                {
-                    throw new Exception();
-                }
+                if (string.IsNullOrWhiteSpace(PersonName)) throw new Exception();
                 var authentication = _authenticationService.Authenticate(Username, Password);
                 if (authentication is null)
                 {

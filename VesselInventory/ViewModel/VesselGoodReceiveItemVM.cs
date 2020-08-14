@@ -6,7 +6,11 @@ namespace VesselInventory.ViewModel
 {
     class VesselGoodReceiveItemVM : ViewModelBase
     {
+        public ObservableCollection<VesselGoodReceiveItem> GoodReceiveItemCollection { get; set; } 
+            = new ObservableCollection<VesselGoodReceiveItem>();
+
         private readonly IVesselGoodReceiveItemRepository _vesselGoodReceiveItemRepository;
+
         public VesselGoodReceiveItemVM(IVesselGoodReceiveItemRepository vesselGoodReceiveItemRepository)
         {
             _vesselGoodReceiveItemRepository = vesselGoodReceiveItemRepository;
@@ -28,13 +32,10 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        public ObservableCollection<VesselGoodReceiveItem> GoodReceiveItemCollection { get; set; } 
-            = new ObservableCollection<VesselGoodReceiveItem>();
         private void LoadDataGrid(int vesselGoodReceiveId)
         {
             GoodReceiveItemCollection.Clear();
-            foreach(var item in _vesselGoodReceiveItemRepository 
-                .GetGoodReceiveItem(vesselGoodReceiveId))
+            foreach(var item in _vesselGoodReceiveItemRepository.GetGoodReceiveItem(vesselGoodReceiveId))
                 GoodReceiveItemCollection.Add(item);
             TotalItem = GoodReceiveItemCollection.Count;
         }

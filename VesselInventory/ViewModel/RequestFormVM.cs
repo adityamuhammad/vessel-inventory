@@ -14,6 +14,8 @@ namespace VesselInventory.ViewModel
     public class RequestFormVM : RequestFormVMBase, IParentLoadable
     {
         public override string Title => "Request Form";
+        public ObservableCollection<RequestForm> RequestFormCollection { get; } 
+            = new ObservableCollection<RequestForm>();
         public RelayCommand SearchCommand { get; private set; }
         public RelayCommand NextPageCommand { get; private set; }
         public RelayCommand PrevPageCommand { get; private set; }
@@ -83,8 +85,6 @@ namespace VesselInventory.ViewModel
         /// Entity and Collections
         /// </summary>
         #region
-        public ObservableCollection<RequestForm> RequestFormCollection { get; } 
-            = new ObservableCollection<RequestForm>();
 
         public int DataGridRows => 10;
         private IEnumerable<RequestForm> RequestFormList
