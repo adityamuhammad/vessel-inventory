@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Configuration;
 using System.IO;
 
 namespace VesselInventory.Services.Impl
@@ -24,8 +25,9 @@ namespace VesselInventory.Services.Impl
 
             if (File.Exists(localPath))
             {
+                var clientId = ConfigurationManager.AppSettings["ClientId"];
                 fileName = Path.GetFileName(localPath);
-                var fileNameUploaded = string.Format("{0}_{1}", DateTime.Now.Ticks, fileName);
+                var fileNameUploaded = string.Format("{0}_{1}_{2}", clientId, DateTime.Now.Ticks, fileName);
                 var uploadPath = Path.Combine(targetDirectoryPath, fileNameUploaded);
                 File.Copy(localPath, uploadPath);
                 _uploadedPath = fileNameUploaded;
