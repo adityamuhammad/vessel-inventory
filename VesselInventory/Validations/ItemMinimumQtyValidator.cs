@@ -21,7 +21,6 @@ namespace VesselInventory.Validations
                     ("usp_Item_CheckInStock @itemId, @itemDimensionNumber, @typeDocument, @documentReferenceId",
                     new SqlParameter("@itemId", itemId),
                     new SqlParameter("@itemDimensionNumber", itemDimensionNumber),
-                    new SqlParameter("@qty", qty),
                     new SqlParameter("@typeDocument", typeDocument),
                     new SqlParameter("@documentReferenceId", documentReferenceId))
                     .SingleOrDefault();
