@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using VesselInventory.ViewModel;
+using System;
 using Unity;
+using VesselInventory.ViewModel;
 using VesselInventory.Services;
 
 namespace VesselInventory
@@ -15,6 +16,13 @@ namespace VesselInventory
         {
             InitializeComponent();
         }
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            Application.Current.Shutdown();
+        }
+
         private void MenuChanged(object sender, RoutedEventArgs e)
         {
             int indexMenu = ListViewMenu.SelectedIndex;

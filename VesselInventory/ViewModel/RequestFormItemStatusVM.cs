@@ -8,6 +8,7 @@ using VesselInventory.Services;
 using VesselInventory.Reports;
 using CrystalDecisions.CrystalReports.Engine;
 using VesselInventory.Filters;
+using System.Diagnostics;
 
 namespace VesselInventory.ViewModel
 {
@@ -191,6 +192,7 @@ namespace VesselInventory.ViewModel
         private void ReportTracking(object parameter)
         {
             var dataReport = _requestFormItemRepository.GetItemStatusReport(RequestFormItemFilter);
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             Report.SetDataSource(dataReport);
             _windowService.ShowDialogWindow<ReportView>(this);
         }
