@@ -30,7 +30,10 @@ namespace VesselInventory.ViewModel
         {
             _requestFormItemRepository = requestFormItemRepository;
             _windowService = windowService;
+
+            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             Report = new TrackRequestItemReport();
+
             InitializeCommands();
             ResetCurrentPage();
             LoadDataGrid();
@@ -192,7 +195,6 @@ namespace VesselInventory.ViewModel
         private void ReportTracking(object parameter)
         {
             var dataReport = _requestFormItemRepository.GetItemStatusReport(RequestFormItemFilter);
-            PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Critical;
             Report.SetDataSource(dataReport);
             _windowService.ShowDialogWindow<ReportView>(this);
         }
