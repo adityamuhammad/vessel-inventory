@@ -12,6 +12,7 @@ using VesselInventory.Services;
 using VesselInventory.Utility;
 using VesselInventory.Views;
 using Unity;
+using System.ComponentModel.DataAnnotations;
 
 namespace VesselInventory.ViewModel
 {
@@ -22,6 +23,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
+        public RelayCommand ClearTextScannCommand { get; private set; }
 
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
@@ -43,6 +45,7 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
             AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
             DeleteItemCommand = new RelayCommand(DeleteItemAction);
+            ClearTextScannCommand = new RelayCommand(ClearTextScannAction);
         }
 
         public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId = 0)
@@ -71,7 +74,7 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private string _textScann = "";
+        private string _textScann = string.Empty;
         public string TextScann
         {
             get => _textScann;
@@ -85,17 +88,14 @@ namespace VesselInventory.ViewModel
                     for (int i = 0; i < textScanList.Length; i++)
                     {
                         if (i == 0) OfficeGoodIssuedNumber = textScanList[i];
-                        if (i == 1) ShipId = int.Parse(textScanList[i]);
-                        if (i == 2) ShipName = textScanList[i];
-                        if (i == 3) BargeId = int.Parse(textScanList[i]);
-                        if (i == 4) BargeName = textScanList[i];
+                        else if (i == 1) ShipId = int.Parse(textScanList[i]);
+                        else if (i == 2) ShipName = textScanList[i];
+                        else if (i == 3) BargeId = int.Parse(textScanList[i]);
+                        else if (i == 4) BargeName = textScanList[i];
                     }
 
-                } catch (Exception ex)
-                {
-                    ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
                 }
-                _textScann = "";
+                catch (Exception) { }
                 OnPropertyChanged("TextScann");
             }
         }
@@ -261,6 +261,10 @@ namespace VesselInventory.ViewModel
                 (vesselGoodReceiveItemRejectAddOrEditVM);
         }
 
+        private void ClearTextScannAction(object parameter)
+        {
+            TextScann = string.Empty;
+        }
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(
@@ -278,7 +282,7 @@ namespace VesselInventory.ViewModel
         {
             try
             {
-                if (ShipId != ShipBarge.ShipId) throw new Exception(GlobalNamespace.ShipDoesNotMatch);
+                if (ShipId != ShipBarge.ShipId) throw new ValidationException(GlobalNamespace.ShipDoesNotMatch);
 
                 SaveOrUpdate();
 
@@ -288,9 +292,11 @@ namespace VesselInventory.ViewModel
 
                 _parentLoadable.LoadDataGrid();
 
-            } catch (Exception ex)
+            } catch (ValidationException ex) {
+                ResponseMessage.Error(ex.Message);
+            } catch (Exception)
             {
-                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
+                ResponseMessage.Error(GlobalNamespace.ErrorSave);
             }
         }
         private void SaveOrUpdate()

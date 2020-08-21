@@ -207,9 +207,9 @@ namespace VesselInventory.ViewModel
                 _parentLoadable.LoadDataGrid();
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.ErrorSave, ex.Message));
+                ResponseMessage.Error(string.Format("{0}", GlobalNamespace.ErrorSave));
             }
         }
 

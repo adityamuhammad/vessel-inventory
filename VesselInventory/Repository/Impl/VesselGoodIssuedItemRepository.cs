@@ -66,7 +66,7 @@ namespace VesselInventory.Repository.Impl
                      );
             }
         }
-        public void UpdateTransaction(int id,VesselGoodIssuedItem vesselGoodIssuedItem)
+        public void UpdateTransaction(VesselGoodIssuedItem vesselGoodIssuedItem)
         {
             using (var context = new AppVesselInventoryContext())
             {

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Windows;
+using System.IO;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using VesselInventory.Dto;
@@ -9,12 +12,10 @@ using VesselInventory.Utility;
 using VesselInventory.Views;
 using VesselInventory.Services;
 using VesselInventory.Commons;
-using System.Windows;
 using VesselInventory.Commons.Enums;
-using System.Collections.Generic;
-using Unity;
-using System.IO;
 using VesselInventory.Validations;
+using Unity;
+using System.Text;
 
 namespace VesselInventory.ViewModel
 {
@@ -392,7 +393,7 @@ namespace VesselInventory.ViewModel
         {
             if (RecordHelper.IsNewRecord(RequestFormId))
             {
-                ValidateRequest();
+                CheckDocument();
                 Save();
             }
             else
@@ -416,12 +417,12 @@ namespace VesselInventory.ViewModel
             RequestFormDataView = _requestFormRepository.Update(RequestFormId, RequestFormDataView);
         }
 
-        private static void ValidateRequest()
+        private static void CheckDocument()
         {
             if (RequestValidator.IsAnyDraftDocument(Auth.Instance.DepartmentName, Auth.Instance.ShipId))
-                throw new Exception(GlobalNamespace.DraftExists);
+                throw new ValidationException(GlobalNamespace.DraftExists);
             if (RequestValidator.IsAnyDocumentCreatedInThreeDays(Auth.Instance.DepartmentName, Auth.Instance.ShipId))
-                throw new Exception(GlobalNamespace.CanOnlyCreateDocumentPerThreeDays);
+                throw new ValidationException(GlobalNamespace.CanOnlyCreateDocumentPerThreeDays);
         }
 
         private void SaveAction(object parameter)
@@ -430,17 +431,28 @@ namespace VesselInventory.ViewModel
             {
 
                 SaveOrUpdate();
-                _parentLoadable.LoadDataGrid();
+                LoadParentDataGrid();
                 SetUIEditProperties();
+
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            } catch (Exception ex)
+            }
+            catch (ValidationException ex)
             {
-                ResponseMessage.Error(string.Format("{0} {1} {2}", 
+                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.ErrorSave, ex.Message));
+            } catch (Exception)
+            {
+                ResponseMessage.Error(string.Format("{0} {1}", 
                     GlobalNamespace.Error, 
-                    GlobalNamespace.ErrorSave,
-                    ex.Message));
+                    GlobalNamespace.ErrorSave
+                    ));
             }
         }
+
+        private void LoadParentDataGrid()
+        {
+            _parentLoadable.LoadDataGrid();
+        }
+
         private void DeleteItemAction(object parameter)
         {
             MessageBoxResult confirmDialog = DialogHelper.DialogConfirmation(

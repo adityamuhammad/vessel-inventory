@@ -72,7 +72,7 @@ namespace VesselInventory.Models
         public decimal Rob { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(30)]
         public string SyncStatus { get; set; }
 
         public DateTime CreatedDate { get; set; }

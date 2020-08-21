@@ -86,7 +86,7 @@ namespace VesselInventory.Repository.Impl
             }
         }
 
-        public void UpdateTransaction(int id, VesselGoodReturnItem vesselGoodReturnItem)
+        public void UpdateTransaction(VesselGoodReturnItem vesselGoodReturnItem)
         {
             using (var context = new AppVesselInventoryContext())
             {

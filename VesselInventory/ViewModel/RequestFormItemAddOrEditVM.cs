@@ -12,6 +12,7 @@ using VesselInventory.Commons.HelperFunctions;
 using VesselInventory.Commons;
 using VesselInventory.Validations;
 using VesselInventory.Commons.Enums;
+using System.Text;
 
 namespace VesselInventory.ViewModel
 {
@@ -414,49 +415,10 @@ namespace VesselInventory.ViewModel
             }
         }
 
-        private void SaveOrUpdate()
-        {
-            if (RecordHelper.IsNewRecord(RequestFormItemId))
-            {
-                ItemCheckUnique();
-                Save();
-            } else
-            {
-                Update();
-            }
-        }
-
-        private void Save()
-        {
-            RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
-            RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
-            RequestFormItemDataView.CreatedDate = DateTime.Now;
-            RequestFormItemDataView.ItemStatus = ItemStatus.Wait_Sync.GetDescription();
-            _requestFormItemRepository.Save(RequestFormItemDataView);
-        }
-
-        public void Update()
-        {
-            RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
-            RequestFormItemDataView.LastModifiedDate = DateTime.Now;
-            _requestFormItemRepository.Update(RequestFormItemId,RequestFormItemDataView);
-        }
 
         private void LoadParentDataGrid()
         {
             _parentLoadable.LoadDataGrid();
-        }
-
-        private void ItemCheckUnique()
-        {
-            if (ItemUniqueValidator.ValidateRequestFormItem(RequestFormItemDataView))
-                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
-        }
-
-        private void CheckZeroQty()
-        {
-            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
-                throw new Exception(GlobalNamespace.QtyCannotBeZero);
         }
 
         private void SaveAction(IClosable window)
@@ -470,12 +432,53 @@ namespace VesselInventory.ViewModel
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
             }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
-                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
+                ResponseMessage.Error(ex.Message);
+            }
+            catch (Exception)
+            {
+                ResponseMessage.Error(GlobalNamespace.ErrorSave + " " + GlobalNamespace.WrongInput);
             }
         }
+        private void SaveOrUpdate()
+        {
+            if (RecordHelper.IsNewRecord(RequestFormItemId))
+            {
+                ItemCheckUnique();
+                Save();
+            } else
+            {
+                Update();
+            }
+        }
+        private void ItemCheckUnique()
+        {
 
+            if (ItemUniqueValidator.ValidateRequestFormItem(RequestFormItemDataView))
+                throw new ValidationException(GlobalNamespace.ItemDimensionAlreadyExist);
+        }
+
+        private void CheckZeroQty()
+        {
+            if (ItemMinimumQtyValidator.IsZeroQty(Qty))
+                throw new ValidationException(GlobalNamespace.QtyCannotBeZero);
+        }
+        private void Save()
+        {
+            RequestFormItemDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
+            RequestFormItemDataView.CreatedBy = Auth.Instance.PersonName;
+            RequestFormItemDataView.CreatedDate = DateTime.Now;
+            RequestFormItemDataView.ItemStatus = ItemStatus.Wait_Sync.GetDescription();
+            _requestFormItemRepository.Save(RequestFormItemDataView);
+        }
+
+        private void Update()
+        {
+            RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
+            RequestFormItemDataView.LastModifiedDate = DateTime.Now;
+            _requestFormItemRepository.Update(RequestFormItemId,RequestFormItemDataView);
+        }
         private void OpenFile(object parameter)
         {
             var filename =_IOService.OpenFileDialog();

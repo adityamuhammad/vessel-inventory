@@ -57,6 +57,20 @@
                                     Mode=TwoWay,
                                     UpdateSourceTrigger=PropertyChanged}"
                             />
+                            <Button 
+                                Margin="10,0,0,0"
+                                HorizontalAlignment="Center" 
+                                Width="50" 
+                                Height="25"
+                                Background="#FF55D331" 
+                                BorderBrush="{x:Null}" 
+                                Command="{Binding ClearTextScannCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon 
+                                        Kind="Refresh" 
+                                        Foreground="White"/>
+                                </StackPanel>
+                            </Button>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,20,0,0">

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using VesselInventory.Commons;
 using VesselInventory.Commons.Enums;
@@ -226,19 +227,19 @@ namespace VesselInventory.ViewModel
         private void CheckZeroQty()
         {
             if (ItemMinimumQtyValidator.IsZeroQty(Qty))
-                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+                throw new ValidationException(GlobalNamespace.QtyCannotBeZero);
         }
 
         private void CheckInStockSave()
         {
             if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty))
-                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+                throw new ValidationException(GlobalNamespace.StockIsNotAvailable);
         }
 
         private void CheckInStockUpdate()
         {
             if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty, Title, VesselGoodReturnId))
-                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+                throw new ValidationException(GlobalNamespace.StockIsNotAvailable);
         }
 
         private void SaveAction(IClosable window)
@@ -250,10 +251,13 @@ namespace VesselInventory.ViewModel
                 LoadDataGrid();
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
-            }
-            catch (Exception ex)
+            } catch (ValidationException ex)
             {
-                ResponseMessage.Error(string.Format("{0} {1} {2}", GlobalNamespace.Error, GlobalNamespace.ErrorSave ,ex.Message));
+                ResponseMessage.Error(string.Format("{0} {1}",GlobalNamespace.ErrorSave ,ex.Message));
+            }
+            catch (Exception)
+            {
+                ResponseMessage.Error(string.Format("{0} {1}", GlobalNamespace.Error, GlobalNamespace.ErrorSave));
             }
         }
 
@@ -265,7 +269,7 @@ namespace VesselInventory.ViewModel
         private void ItemCheckUnique()
         {
             if (ItemUniqueValidator.ValidateVesselGoodReturnItem(VesselGoodReturnItemDataView))
-                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
+                throw new ValidationException(GlobalNamespace.ItemDimensionAlreadyExist);
         }
 
         private void SaveOrUpdate()
@@ -289,8 +293,7 @@ namespace VesselInventory.ViewModel
         {
             VesselGoodReturnItemDataView.LastModifiedBy = Auth.Instance.PersonName;
             VesselGoodReturnItemDataView.LastModifiedDate = DateTime.Now;
-            _vesselGoodReturnItemRepository.UpdateTransaction(VesselGooReturnItemId,
-                VesselGoodReturnItemDataView);
+            _vesselGoodReturnItemRepository.UpdateTransaction(VesselGoodReturnItemDataView);
         }
 
         private void Save()

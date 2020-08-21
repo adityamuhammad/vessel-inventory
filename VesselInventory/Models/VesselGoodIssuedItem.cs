@@ -46,7 +46,7 @@ namespace VesselInventory.Models
         public string Uom { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(30)]
         public string SyncStatus { get; set; }
 
         public DateTime CreatedDate { get; set; }

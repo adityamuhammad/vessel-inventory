@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using VesselInventory.Models;
@@ -14,6 +15,7 @@ namespace VesselInventory.Validations
         }
 
         public static bool IsStockAvailable(int itemId, string itemDimensionNumber, decimal qty, string typeDocument = "", int documentReferenceId =0)
+
         {
             using (var context =  new AppVesselInventoryContext())
             {
@@ -24,7 +26,7 @@ namespace VesselInventory.Validations
                     new SqlParameter("@typeDocument", typeDocument),
                     new SqlParameter("@documentReferenceId", documentReferenceId))
                     .SingleOrDefault();
-                return (stock >= qty);
+                return stock >= qty;
             }
 
         }

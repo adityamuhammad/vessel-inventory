@@ -33,7 +33,7 @@ namespace VesselInventory.Models
         public string Notes { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(30)]
         public string SyncStatus { get; set; }
 
         public DateTime CreatedDate { get; set; }

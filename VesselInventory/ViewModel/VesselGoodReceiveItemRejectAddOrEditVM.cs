@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using VesselInventory.Commons;
 using VesselInventory.Commons.Enums;
 using VesselInventory.Models;
@@ -13,6 +14,7 @@ namespace VesselInventory.ViewModel
     public class VesselGoodReceiveItemRejectAddOrEditVM : ViewModelBase
     {
         public RelayCommand<IClosable> SaveCommand { get; private set; }
+        public RelayCommand ClearTextScannCommand { get; private set; }
         private IParentLoadable _parentLoadable;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IGenericRepository<Uom> _UOMRepository;
@@ -27,10 +29,11 @@ namespace VesselInventory.ViewModel
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
+            ClearTextScannCommand = new RelayCommand(ClearTextScannAction);
         }
 
         public void InitializeData(
-            IParentLoadable parentLoadable, 
+            IParentLoadable parentLoadable,
             int vesselGoodReceiveId, int vesselGoodReceiveItemRejectId = 0)
         {
             _parentLoadable = parentLoadable;
@@ -49,7 +52,7 @@ namespace VesselInventory.ViewModel
         /// Collection and Entities
         /// </summary>
         #region
-        private string _textScann = "";
+        private string _textScann = string.Empty;
         private void Reset()
         {
             RequestFormNumber = "";
@@ -75,21 +78,17 @@ namespace VesselInventory.ViewModel
                     for (int i = 0; i < textScanList.Length; i++)
                     {
                         if (i == 0) RequestFormNumber = textScanList[i];
-                        if (i == 1) ItemId = int.Parse(textScanList[i]);
-                        if (i == 2) ItemGroupId = int.Parse(textScanList[i]);
-                        if (i == 3) ItemName = textScanList[i];
-                        if (i == 4) ItemDimensionNumber = textScanList[i];
-                        if (i == 5) BrandTypeId = textScanList[i];
-                        if (i == 6) BrandTypeName = textScanList[i];
-                        if (i == 7) ColorSizeId = textScanList[i];
-                        if (i == 8) ColorSizeName = textScanList[i];
+                        else if (i == 1) ItemId = int.Parse(textScanList[i]);
+                        else if (i == 2) ItemGroupId = int.Parse(textScanList[i]);
+                        else if (i == 3) ItemName = textScanList[i];
+                        else if (i == 4) ItemDimensionNumber = textScanList[i];
+                        else if (i == 5) BrandTypeId = textScanList[i];
+                        else if (i == 6) BrandTypeName = textScanList[i];
+                        else if (i == 7) ColorSizeId = textScanList[i];
+                        else if (i == 8) ColorSizeName = textScanList[i];
                     }
 
-                } catch (Exception ex)
-                {
-                    ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
-                }
-                _textScann = "";
+                } catch (Exception) { }
                 OnPropertyChanged("TextScann");
             }
         }
@@ -253,7 +252,7 @@ namespace VesselInventory.ViewModel
         private void CheckZeroQty()
         {
             if (ItemMinimumQtyValidator.IsZeroQty(Qty))
-                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+                throw new ValidationException(GlobalNamespace.QtyCannotBeZero);
         }
         private void SaveAction(IClosable window)
         {
@@ -265,18 +264,19 @@ namespace VesselInventory.ViewModel
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
 
+            } catch (ValidationException ex){
+                ResponseMessage.Error(GlobalNamespace.ErrorSave + ex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ResponseMessage.Error(GlobalNamespace.Error + ex.Message);
-
+                ResponseMessage.Error(GlobalNamespace.ErrorSave);
             }
         }
 
         private void ItemCheckUnique()
         {
             if (ItemUniqueValidator.ValidateVesselGoodReceiveItemReject(GoodReceiveItemRejectDataView))
-                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
+                throw new ValidationException(GlobalNamespace.ItemDimensionAlreadyExist);
         }
         private void SaveOrUpdate()
         {
@@ -306,6 +306,10 @@ namespace VesselInventory.ViewModel
             GoodReceiveItemRejectDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
             _vesselGoodReceiveItemRejectRepository
                 .Save(GoodReceiveItemRejectDataView);
+        }
+        private void ClearTextScannAction(object parameter)
+        {
+            TextScann = string.Empty;
         }
         #endregion
     }

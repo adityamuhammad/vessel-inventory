@@ -122,7 +122,7 @@
                     <StackPanel>
                         <StackPanel Margin="15,10,0,0" Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="PackageUp" Foreground="#FF1AB401"/>
-                            <TextBlock FontWeight="Bold" Foreground="#FF1AB401" Text="Item Request"/>
+                            <TextBlock FontWeight="Bold" Foreground="#FF1AB401" Text="Item Request (All Departments)"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="15,10,0,0">
                             <StackPanel Orientation="Vertical">

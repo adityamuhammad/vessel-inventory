@@ -41,7 +41,7 @@ namespace VesselInventory.Models
         public string BargeName { get; set; }
 
         [Required]
-        [StringLength(10)]
+        [StringLength(30)]
         public string SyncStatus { get; set; }
 
         public DateTime CreatedDate { get; set; }

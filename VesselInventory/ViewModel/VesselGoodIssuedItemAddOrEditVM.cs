@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using VesselInventory.Commons;
 using VesselInventory.Commons.Enums;
 using VesselInventory.Commons.HelperFunctions;
@@ -210,37 +211,42 @@ namespace VesselInventory.ViewModel
                 CloseWindow(window);
                 ResponseMessage.Success(GlobalNamespace.SuccessSave);
             }
-            catch (Exception ex)
+            catch (ValidationException ex)
             {
                 ResponseMessage.Error(
-                    string.Format("{0} {1} {2}", 
-                    GlobalNamespace.Error, 
+                    string.Format("{0} {1}", 
                     GlobalNamespace.ErrorSave ,ex.Message));
+            } catch (Exception)
+            {
+                ResponseMessage.Error(
+                    string.Format("{0} {1}", 
+                    GlobalNamespace.Error, 
+                    GlobalNamespace.ErrorSave ));
             }
         }
 
         private void ItemCheckUnique()
         {
             if (ItemUniqueValidator.ValidateVesselGoodIssuedItem(VesselGoodIssuedItemDataView))
-                throw new Exception(GlobalNamespace.ItemDimensionAlreadyExist);
+                throw new ValidationException(GlobalNamespace.ItemDimensionAlreadyExist);
         }
 
         private void CheckZeroQty()
         {
             if (ItemMinimumQtyValidator.IsZeroQty(Qty))
-                throw new Exception(GlobalNamespace.QtyCannotBeZero);
+                throw new ValidationException(GlobalNamespace.QtyCannotBeZero);
         }
 
         private void CheckInStockSave()
         {
             if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty))
-                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+                throw new ValidationException(GlobalNamespace.StockIsNotAvailable);
         }
 
         private void CheckInStockUpdate()
         {
             if (!ItemMinimumQtyValidator.IsStockAvailable(ItemId, ItemDimensionNumber, Qty, Title, VesselGoodIssuedId))
-                throw new Exception(GlobalNamespace.StockIsNotAvailable);
+                throw new ValidationException(GlobalNamespace.StockIsNotAvailable);
         }
 
         private void SaveOrUpdate()
@@ -262,7 +268,7 @@ namespace VesselInventory.ViewModel
         {
             VesselGoodIssuedItemDataView.LastModifiedBy = Auth.Instance.PersonName;
             VesselGoodIssuedItemDataView.LastModifiedDate = DateTime.Now;
-            _vesselGoodIssuedItemRepository.UpdateTransaction(VesselGoodIssuedItemId,VesselGoodIssuedItemDataView);
+            _vesselGoodIssuedItemRepository.UpdateTransaction(VesselGoodIssuedItemDataView);
 
         }
         private void Save()

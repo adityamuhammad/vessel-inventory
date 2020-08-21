@@ -7,7 +7,7 @@ namespace VesselInventory.Repository
     {
         IEnumerable<VesselGoodReturnItem> GetGoodReturnItem(int vesselGoodReturnId);
         void SaveTransaction(VesselGoodReturnItem vesselGoodReturnItem);
-        void UpdateTransaction(int id,VesselGoodReturnItem vesselGoodReturnItem);
+        void UpdateTransaction(VesselGoodReturnItem vesselGoodReturnItem);
         void DeleteTransaction(int id); 
     }
 

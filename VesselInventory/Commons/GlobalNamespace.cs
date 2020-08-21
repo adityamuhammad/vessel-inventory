@@ -7,7 +7,7 @@
         public static string DraftExists => "There is a Draft Document, you can use the document.";
         public static string CanOnlyCreateDocumentPerThreeDays => "You can only  create one document per three days.";
         public static string FailedLogin => "Failed login, username and password does not match.";
-        public static string Error => "Oops, Something went wrong.";
+        public static string Error => "Oops, Something went wrong.\n";
         public static string QtyCannotBeZero => "Please provide the quantity.";
         public static string StockIsNotAvailable => "Stock is not available.";
         public static string WrongInput => "Make sure your input is correct.";
@@ -23,6 +23,6 @@
         public static string ShipDoesNotMatch => "Cannot proccess, The Ship is invalid.";
         public static string AttachmentPathLocation => @"C:\\VesselInventory\\Attachments\\";
         public static string AttachmentNotUploaded => "There is no attachment uploaded.";
-        public static string AttachmentMissing => "The attachment is missing on local storage.";
+        public static string AttachmentMissing => "The attachment is missing on local machine.";
     }
 }
