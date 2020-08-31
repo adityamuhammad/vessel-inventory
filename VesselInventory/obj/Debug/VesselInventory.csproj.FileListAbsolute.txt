@@ -47,7 +47,6 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Material
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Abstractions.pdb
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\Unity.Container.pdb
-C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csprojAssemblyReference.cache
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\Views\RequestForm_MainView.baml
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\MainWindow.g.cs
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\ReportView.g.cs
@@ -108,3 +107,5 @@ C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselIn
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.csproj.CopyComplete
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.exe
 C:\Users\maditya\source\repos\VesselInventory\VesselInventory\obj\Debug\VesselInventory.pdb
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\VesselInventory.exe.CodeAnalysisLog.xml
+C:\Users\maditya\source\repos\VesselInventory\VesselInventory\bin\Debug\VesselInventory.exe.lastcodeanalysissucceeded
