@@ -9,23 +9,9 @@ namespace VesselInventory.Utility
     public class ToastNotification
     {
         private static ToastNotification _instance;
-        private Notifier _notifier;
 
         private ToastNotification()
         {
-            _notifier = new Notifier(cfg =>
-            {
-                cfg.PositionProvider = new PrimaryScreenPositionProvider(
-                    corner: Corner.TopRight,
-                    offsetX: 10,
-                    offsetY: 10);
-
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(3),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
-
-                cfg.Dispatcher = Application.Current.Dispatcher;
-            });
         }
 
         public static ToastNotification Instance
@@ -37,9 +23,22 @@ namespace VesselInventory.Utility
                 return _instance = new ToastNotification();
             }
         }
+
         public Notifier GetInstance()
         {
-            return _notifier;
+           var _notifier = new Notifier(cfg => {
+                cfg.PositionProvider = new PrimaryScreenPositionProvider(
+                    corner: Corner.TopRight,
+                    offsetX: 10,
+                    offsetY: 10);
+
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(3),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+
+                cfg.Dispatcher = Application.Current.Dispatcher;
+           });
+           using (_notifier) return _notifier;
         }
     }
 }
