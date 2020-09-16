@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System;
 using Unity;
 using VesselInventory.ViewModel;
-using VesselInventory.Services;
+using VesselInventory.Utility;
 
 namespace VesselInventory
 {

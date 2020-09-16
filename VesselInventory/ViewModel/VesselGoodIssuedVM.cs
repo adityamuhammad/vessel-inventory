@@ -10,7 +10,7 @@ using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodIssuedVM : ViewModelBase, IParentLoadable
+    class VesselGoodIssuedVM : ViewModelBase, IDataGrid
     {
         public override string Title => "Issued Goods";
         public ObservableCollection<VesselGoodIssued> VesselGoodIssuedCollection { get; } 

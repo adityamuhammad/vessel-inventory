@@ -12,7 +12,7 @@ using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormItemPendingVM : RequestFormVMBase, IParentLoadable
+    public class RequestFormItemPendingVM : RequestFormVMBase, IDataGrid
     {
         public ObservableCollection<ItemPendingDto> ItemPendingCollection { get; } 
             = new ObservableCollection<ItemPendingDto>();

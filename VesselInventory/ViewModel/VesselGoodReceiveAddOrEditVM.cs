@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReceiveAddOrEditVM : ViewModelBase, IParentLoadable
+    class VesselGoodReceiveAddOrEditVM : ViewModelBase, IDataGrid
     {
         public ObservableCollection<VesselGoodReceiveItemReject> GoodReceiveItemRejectCollection { get; set; } 
             = new ObservableCollection<VesselGoodReceiveItemReject>();
@@ -25,7 +25,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand DeleteItemCommand { get; private set; }
         public RelayCommand ClearTextScannCommand { get; private set; }
 
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         private readonly IVesselGoodReceiveRepository _vesselGoodReceiveRepository;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IWindowService _windowService;
@@ -48,7 +48,7 @@ namespace VesselInventory.ViewModel
             ClearTextScannCommand = new RelayCommand(ClearTextScannAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReceiveId = 0)
+        public void InitializeData(IDataGrid parentLoadable, int vesselGoodReceiveId = 0)
         {
             VesselGoodReceiveId = vesselGoodReceiveId;
             _parentLoadable = parentLoadable;

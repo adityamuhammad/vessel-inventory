@@ -1,4 +1,4 @@
-﻿namespace VesselInventory.Services
+﻿namespace VesselInventory.Utility
 {
     public interface IClosable
     {

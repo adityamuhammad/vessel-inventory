@@ -14,7 +14,7 @@ namespace VesselInventory.ViewModel
 
         private readonly IOService _IOService;
         private readonly IUploadService _uploadService;
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
 
         public RequestFormItemUploadDocVM(IOService IOService, 
@@ -26,7 +26,7 @@ namespace VesselInventory.ViewModel
             _requestFormItemRepository = requestFormItemRepository;
             InitializeCommands();
         }
-        public void InitializeData(IParentLoadable parentLoadable, int requestFormItemId)
+        public void InitializeData(IDataGrid parentLoadable, int requestFormItemId)
         {
             _parentLoadable = parentLoadable;
             RequestFormItemId = requestFormItemId;

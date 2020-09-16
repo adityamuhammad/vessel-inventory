@@ -27,7 +27,7 @@ namespace VesselInventory.ViewModel
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IOService _IOService;
         private readonly IUploadService _uploadService;
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
 
         public RequestFormItemAddOrEditVM(
             IUploadService uploadService,
@@ -48,7 +48,7 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, 
+        public void InitializeData(IDataGrid parentLoadable, 
             int requestFormId, int requestFormItemId = 0)
         {
             _parentLoadable = parentLoadable;

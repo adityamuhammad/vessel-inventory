@@ -11,7 +11,7 @@ using VesselInventory.Filters;
 
 namespace VesselInventory.ViewModel
 {
-    public class VesselGoodReceiveVM : ViewModelBase, IParentLoadable
+    public class VesselGoodReceiveVM : ViewModelBase, IDataGrid
     {
         public override string Title => "Receive Goods";
         public ObservableCollection<VesselGoodReceive> VesselGoodReceiveCollection { get; } 

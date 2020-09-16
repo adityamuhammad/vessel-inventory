@@ -14,14 +14,14 @@ using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReturnAddOrEditVM : ViewModelBase, IParentLoadable
+    class VesselGoodReturnAddOrEditVM : ViewModelBase, IDataGrid
     {
         public ObservableCollection<VesselGoodReturnItem> GoodReturnItemCollections { get; set; } 
             = new ObservableCollection<VesselGoodReturnItem>();
         public RelayCommand SaveCommand { get; private set; }
         public RelayCommand AddOrEditItemCommand { get; private set; }
         public RelayCommand DeleteItemCommand { get; private set; }
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         private readonly IWindowService _windowService;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
         private readonly IVesselGoodReturnRepository _vesselGoodReturnRepository;
@@ -43,7 +43,7 @@ namespace VesselInventory.ViewModel
             DeleteItemCommand = new RelayCommand(DeleteItemAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, int vesselGoodReturnId = 0)
+        public void InitializeData(IDataGrid parentLoadable, int vesselGoodReturnId = 0)
         {
             _parentLoadable = parentLoadable;
             VesselGoodReturnId = vesselGoodReturnId;

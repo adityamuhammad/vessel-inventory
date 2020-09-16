@@ -15,7 +15,7 @@ namespace VesselInventory.ViewModel
     {
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         public RelayCommand ClearTextScannCommand { get; private set; }
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         private readonly IVesselGoodReceiveItemRejectRepository _vesselGoodReceiveItemRejectRepository;
         private readonly IGenericRepository<Uom> _UOMRepository;
         public VesselGoodReceiveItemRejectAddOrEditVM(IGenericRepository<Uom> UOMRepository,
@@ -33,7 +33,7 @@ namespace VesselInventory.ViewModel
         }
 
         public void InitializeData(
-            IParentLoadable parentLoadable,
+            IDataGrid parentLoadable,
             int vesselGoodReceiveId, int vesselGoodReceiveItemRejectId = 0)
         {
             _parentLoadable = parentLoadable;

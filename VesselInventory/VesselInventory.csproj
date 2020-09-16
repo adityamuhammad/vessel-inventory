@@ -215,12 +215,12 @@
     <Compile Include="Repository\IVesselGoodReturnItemRepository.cs" />
     <Compile Include="Repository\IVesselGoodReturnRepository.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
-    <Compile Include="Services\IClosable.cs" />
+    <Compile Include="Utility\IClosable.cs" />
     <Compile Include="Services\Impl\AuthenticationService.cs" />
     <Compile Include="Services\Impl\OpenFilePdfDialog.cs" />
     <Compile Include="Services\Impl\UploadService.cs" />
     <Compile Include="Services\IOService.cs" />
-    <Compile Include="Services\IParentLoadable.cs" />
+    <Compile Include="Services\IDataGrid.cs" />
     <Compile Include="Services\IUploadService.cs" />
     <Compile Include="Services\IWindowService.cs" />
     <Compile Include="Utility\Auth.cs" />

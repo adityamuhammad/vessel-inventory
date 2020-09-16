@@ -11,7 +11,7 @@ using Unity;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormVM : RequestFormVMBase, IParentLoadable
+    public class RequestFormVM : RequestFormVMBase, IDataGrid
     {
         public override string Title => "Request Form";
         public ObservableCollection<RequestForm> RequestFormCollection { get; } 

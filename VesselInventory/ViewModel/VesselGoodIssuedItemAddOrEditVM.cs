@@ -21,7 +21,7 @@ namespace VesselInventory.ViewModel
         public RelayCommand ListBoxChangedCommand { get; private set; }
         public RelayCommand<IClosable> SaveCommand { get; private set; }
         private readonly IVesselGoodIssuedItemRepository _vesselGoodIssuedItemRepository;
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         public VesselGoodIssuedItemAddOrEditVM(IVesselGoodIssuedItemRepository vesselGoodIssuedItemRepository)
         {
             _vesselGoodIssuedItemRepository = vesselGoodIssuedItemRepository;
@@ -34,7 +34,7 @@ namespace VesselInventory.ViewModel
             SaveCommand = new RelayCommand<IClosable>(SaveAction);
         }
 
-        public void InitializeData(IParentLoadable parentLoadable, 
+        public void InitializeData(IDataGrid parentLoadable, 
             int vesselGoodIssuedId, 
             int vesselGoodIssuedItemId = 0)
         {

@@ -30,6 +30,20 @@ namespace VesselInventory
         {
             base.OnStartup(e);
 
+            RegisterContainer();
+
+            OpenLoginWindow();
+        }
+
+        private void OpenLoginWindow()
+        {
+            Window window = UnityContainer.Resolve<Login_View>();
+            window.DataContext = UnityContainer.Resolve<LoginVM>();
+            window.Show();
+        }
+
+        private void RegisterContainer()
+        {
             UnityContainer.RegisterType<IWindowService, WindowService>();
             UnityContainer.RegisterType<IOService, OpenPdfFileDialog>();
             UnityContainer.RegisterType<IUploadService, UploadService>();
@@ -46,10 +60,6 @@ namespace VesselInventory
             UnityContainer.RegisterType<IOnHandRepository, OnHandRepository>();
             UnityContainer.RegisterType<IAuthenticationService, AuthenticationService>();
             UnityContainer.RegisterType<IVesselGoodJournalRepository, VesselGoodJournalRepository>();
-
-            Window window = UnityContainer.Resolve<Login_View>();
-            window.DataContext = UnityContainer.Resolve<LoginVM>();
-            window.Show();
         }
     }
 }

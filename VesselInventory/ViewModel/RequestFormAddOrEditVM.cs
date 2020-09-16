@@ -19,7 +19,7 @@ using System.Text;
 
 namespace VesselInventory.ViewModel
 {
-    public class RequestFormAddOrEditVM : ViewModelBase, IParentLoadable
+    public class RequestFormAddOrEditVM : ViewModelBase, IDataGrid
     {
         public ObservableCollection<RequestFormItem> RequestFormItemCollection { get; set; } 
             = new ObservableCollection<RequestFormItem>();
@@ -27,7 +27,7 @@ namespace VesselInventory.ViewModel
         private readonly IRequestFormRepository _requestFormRepository;
         private readonly IRequestFormItemRepository _requestFormItemRepository;
         private readonly IWindowService _windowService;
-        private IParentLoadable _parentLoadable;
+        private IDataGrid _parentLoadable;
         private readonly IUnityContainer UnityContainer = ((App)Application.Current).UnityContainer;
 
         public RelayCommand SaveCommand { get; private set; }
@@ -46,7 +46,7 @@ namespace VesselInventory.ViewModel
             InitializeCommands();
         }
         
-        public void InitializeData(IParentLoadable parentLoadable, int requestFormId = 0)
+        public void InitializeData(IDataGrid parentLoadable, int requestFormId = 0)
         {
             _parentLoadable = parentLoadable;
             RequestFormId = requestFormId;

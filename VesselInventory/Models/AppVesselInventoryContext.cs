@@ -5,7 +5,7 @@ namespace VesselInventory.Models
     public partial class AppVesselInventoryContext : DbContext
     {
         public AppVesselInventoryContext()
-            : base("name=AppVesselInventoryContext")
+            : base(@"data source=MBPBMWS080\SQLEXPRESS;initial catalog=DBVesselInventory;persist security info=True;user id=sa;password=12345678;MultipleActiveResultSets=True;App=EntityFramework")
         {
         }
 

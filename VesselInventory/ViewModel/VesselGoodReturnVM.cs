@@ -10,7 +10,7 @@ using VesselInventory.Views;
 
 namespace VesselInventory.ViewModel
 {
-    class VesselGoodReturnVM : ViewModelBase, IParentLoadable
+    class VesselGoodReturnVM : ViewModelBase, IDataGrid
     {
         public override string Title => "Return Goods";
         public ObservableCollection<VesselGoodReturn> VesselGoodReturnCollection { get; } 

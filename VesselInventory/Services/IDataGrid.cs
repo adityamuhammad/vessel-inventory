@@ -1,6 +1,6 @@
 ﻿namespace VesselInventory.Services
 {
-    public interface IParentLoadable
+    public interface IDataGrid
     {
         void LoadDataGrid();
     }
