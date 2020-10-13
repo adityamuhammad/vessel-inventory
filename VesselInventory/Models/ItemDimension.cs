@@ -6,8 +6,6 @@ namespace VesselInventory.Models
     [Table("ItemDimension")]
     public partial class ItemDimension
     {
-        public int ItemDimensionId { get; set; }
-
         [Required]
         [StringLength(30)]
         public string ItemDimensionNumber { get; set; }

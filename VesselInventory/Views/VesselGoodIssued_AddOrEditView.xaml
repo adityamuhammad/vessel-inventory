@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Name="VesselGoodIssuedAddOrEdit_V"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:VesselInventory.Converters"
         xmlns:local="clr-namespace:VesselInventory.Views"
         mc:Ignorable="d"
         Title="VesselGoodIssued_AddOrEditView" 
@@ -12,6 +13,9 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="180"/>
@@ -108,6 +112,10 @@
                     Width="100" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
+                    Visibility="{
+                        Binding IsCanModify, 
+                        Converter={StaticResource BoolToVisibility}
+                    }" 
                     Command="{Binding SaveCommand}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 

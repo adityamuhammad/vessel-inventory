@@ -6,11 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:VesselInventory.Views"
+        xmlns:converters="clr-namespace:VesselInventory.Converters"
         mc:Ignorable="d"
         Height="450" Width="700"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         >
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="180"/>
@@ -107,6 +111,10 @@
                     Width="100" 
                     Background="#FF4E5FBF" 
                     BorderBrush="#FF508B3A" 
+                    Visibility="{
+                        Binding IsCanModify, 
+                        Converter={StaticResource BoolToVisibility}
+                    }" 
                     Command="{Binding SaveCommand}">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon 

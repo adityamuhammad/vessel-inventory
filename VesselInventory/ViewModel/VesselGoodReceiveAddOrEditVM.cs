@@ -43,9 +43,21 @@ namespace VesselInventory.ViewModel
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand(SaveAction,IsSaveCanExecute);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
-            DeleteItemCommand = new RelayCommand(DeleteItemAction);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction, IsAddOrEditItemCanExecute);
+            DeleteItemCommand = new RelayCommand(DeleteItemAction, IsDeleteItemCanExecute);
             ClearTextScannCommand = new RelayCommand(ClearTextScannAction);
+        }
+
+        private bool _isCanModify;
+        public bool IsCanModify
+        {
+            get => _isCanModify;
+            set
+            {
+                if  (_isCanModify == value) return; _isCanModify = value;
+
+                OnPropertyChanged("IsCanModify");
+            }
         }
 
         public void InitializeData(IDataGrid parentLoadable, int vesselGoodReceiveId = 0)
@@ -221,10 +233,18 @@ namespace VesselInventory.ViewModel
                 IsItemEnabled = false;
                 VesselGoodReceiveNumber = CommonDataHelper.GetSequenceNumber(2) + '-' + ShipBarge.ShipCode;
                 VesselGoodReceiveDate = DateTime.Now;
+                IsCanModify = true;
             }
             else
             {
                 VesselGoodReceiveDataView = _vesselGoodReceiveRepository.GetById(VesselGoodReceiveId);
+                if(VesselGoodReceiveDataView.SyncStatus.Trim() != "NOT SYNC")
+                {
+                    IsCanModify = false;
+                } else
+                {
+                    IsCanModify = true;
+                }
                 IsItemEnabled = true;
                 LoadDataGrid();
             }
@@ -327,6 +347,14 @@ namespace VesselInventory.ViewModel
             if (string.IsNullOrWhiteSpace(OfficeGoodIssuedNumber)) return false;
 
             return true;
+        }
+        private bool IsAddOrEditItemCanExecute(object parameter)
+        {
+            return IsCanModify;
+        }
+        private bool IsDeleteItemCanExecute(object parameter)
+        {
+            return IsCanModify;
         }
         #endregion
     }

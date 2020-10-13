@@ -39,8 +39,8 @@ namespace VesselInventory.ViewModel
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand(SaveAction);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
-            DeleteItemCommand = new RelayCommand(DeleteItemAction);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction, IsAddOrEditItemCanExecute);
+            DeleteItemCommand = new RelayCommand(DeleteItemAction, IsDeleteItemCanExecute);
         }
 
         public void InitializeData(IDataGrid parentLoadable, int vesselGoodIssuedId = 0)
@@ -54,6 +54,17 @@ namespace VesselInventory.ViewModel
         /// UI props
         /// </summary>
         #region
+        private bool _isCanModify;
+        public bool IsCanModify
+        {
+            get => _isCanModify;
+            set
+            {
+                if  (_isCanModify == value) return; _isCanModify = value;
+
+                OnPropertyChanged("IsCanModify");
+            }
+        }
         public override string Title => "Good Issued";
         private bool _IsItemEnabled;
         public bool IsItemEnabled
@@ -150,9 +161,17 @@ namespace VesselInventory.ViewModel
                 VesselGoodIssuedDate = DateTime.Now;
                 ShipId = ShipBarge.ShipId;
                 ShipName = ShipBarge.ShipName;
+                IsCanModify = true;
             } else
             {
                 VesselGoodIssuedDataView = _vesselGoodIssuedRepository.GetById(VesselGoodIssuedId);
+                if (VesselGoodIssuedDataView.SyncStatus.Trim() != SyncStatus.Not_Sync.GetDescription())
+                {
+                    IsCanModify = false;
+                } else
+                {
+                    IsCanModify = true;
+                }
                 IsItemEnabled = true;
                 LoadDataGrid();
             }
@@ -232,6 +251,15 @@ namespace VesselInventory.ViewModel
             VesselGoodIssuedDataView.LastModifiedBy = Auth.Instance.PersonName;
             VesselGoodIssuedDataView.LastModifiedDate = DateTime.Now;
             VesselGoodIssuedDataView = _vesselGoodIssuedRepository.Update(VesselGoodIssuedId, VesselGoodIssuedDataView);
+        }
+
+        private bool IsAddOrEditItemCanExecute(object parameter)
+        {
+            return IsCanModify;
+        }
+        private bool IsDeleteItemCanExecute(object parameter)
+        {
+            return IsCanModify;
         }
         #endregion
     }

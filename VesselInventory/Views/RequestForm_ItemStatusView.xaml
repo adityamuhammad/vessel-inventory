@@ -193,6 +193,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Width="1*" Header="Item Description" Binding="{Binding ItemDescriptions}"/>
                     <DataGridTextColumn Width="auto" Header="QTY" Binding="{Binding Qty}"/>
+                    <DataGridTextColumn Width="auto" Header="Approved QTY" Binding="{Binding ApprovedQty}"/>
                     <DataGridTextColumn Width="auto" Header="UOM" Binding="{Binding Uom}"/>
                     <DataGridTextColumn Width="1*" Header="Group Name" Binding="{Binding ItemGroupName}"/>
                     <DataGridTextColumn Width="1*" Header="Priority" Binding="{Binding Priority}"/>

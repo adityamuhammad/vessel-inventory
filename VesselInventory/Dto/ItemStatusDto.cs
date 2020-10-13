@@ -10,6 +10,7 @@ namespace VesselInventory.Dto
         public string BrandTypeId { get; set; }
         public string ColorSizeId { get; set; }
         public decimal Qty { get; set; }
+        public decimal ApprovedQty { get; set; }
         public string Uom { get; set; }
         public string ItemGroupName { get; set; }
         public string Priority { get; set; }

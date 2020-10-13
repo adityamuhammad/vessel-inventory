@@ -39,8 +39,8 @@ namespace VesselInventory.ViewModel
         private void InitializeCommands()
         {
             SaveCommand = new RelayCommand(SaveAction);
-            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction);
-            DeleteItemCommand = new RelayCommand(DeleteItemAction);
+            AddOrEditItemCommand = new RelayCommand(AddOrEditItemAction, IsAddOrEditItemCanExecute);
+            DeleteItemCommand = new RelayCommand(DeleteItemAction, IsDeleteItemCanExecute);
         }
 
         public void InitializeData(IDataGrid parentLoadable, int vesselGoodReturnId = 0)
@@ -54,6 +54,18 @@ namespace VesselInventory.ViewModel
         /// UI props
         /// </summary>
         #region
+
+        private bool _isCanModify;
+        public bool IsCanModify
+        {
+            get => _isCanModify;
+            set
+            {
+                if  (_isCanModify == value) return; _isCanModify = value;
+
+                OnPropertyChanged("IsCanModify");
+            }
+        }
         public override string Title => "Good Return";
         private bool _IsItemEnabled;
         public bool IsItemEnabled
@@ -151,11 +163,19 @@ namespace VesselInventory.ViewModel
                 VesselGoodReturnNumber = CommonDataHelper.GetSequenceNumber(4) + '-' + ShipBarge.ShipCode;
                 ShipId = ShipBarge.ShipId;
                 ShipName = ShipBarge.ShipName;
+                IsCanModify = true;
             }
             else
             {
                 IsItemEnabled = true;
                 VesselGoodReturnDataView = _vesselGoodReturnRepository.GetById(VesselGoodReturnId);
+                if (VesselGoodReturnDataView.SyncStatus.Trim() != SyncStatus.Not_Sync.GetDescription())
+                {
+                    IsCanModify = false;
+                } else
+                {
+                    IsCanModify = true;
+                }
                 LoadDataGrid();
             }
 
@@ -235,6 +255,14 @@ namespace VesselInventory.ViewModel
             VesselGoodReturnDataView.SyncStatus = SyncStatus.Not_Sync.GetDescription();
             VesselGoodReturnDataView = _vesselGoodReturnRepository
                 .SaveTransaction(VesselGoodReturnDataView);
+        }
+        private bool IsAddOrEditItemCanExecute(object parameter)
+        {
+            return IsCanModify;
+        }
+        private bool IsDeleteItemCanExecute(object parameter)
+        {
+            return IsCanModify;
         }
         #endregion
     }
