@@ -34,7 +34,7 @@
                     CommandParameter="ItemStatus"
                     />
                 <Button 
-                    Content="Pending Items" 
+                    Content="Pending Documents" 
                     Style="{StaticResource TransparentStyle}" 
                     Command="{Binding SwitchTabCommand}"
                     CommandParameter="ItemPending"

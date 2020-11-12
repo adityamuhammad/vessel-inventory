@@ -86,6 +86,7 @@ namespace VesselInventory.Models
         public string LastModifiedBy { get; set; }
 
         public bool IsHidden { get; set; }
+        public bool IsDocumentPending { get; set; }
 
         public virtual RequestForm RequestForm { get; set; }
     }

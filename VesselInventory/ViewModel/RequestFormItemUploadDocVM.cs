@@ -106,6 +106,7 @@ namespace VesselInventory.ViewModel
             RequestFormItemDataView.LastModifiedBy = Auth.Instance.PersonName;
             RequestFormItemDataView.LastModifiedDate = DateTime.Now;
             RequestFormItemDataView.SyncStatus = "RE SYNC";
+            RequestFormItemDataView.IsDocumentPending = false;
             _requestFormItemRepository.Update(RequestFormItemId, RequestFormItemDataView);
         }
     }
