@@ -17,27 +17,22 @@ namespace VesselInventory.Models
         public int RequestFormId { get; set; }
 
         [Required]
-        [StringLength(25)]
         public string RequestFormNumber { get; set; }
 
-        [StringLength(25)]
         public string ProjectNumber { get; set; }
 
         [Required]
-        [StringLength(15)]
         public string DepartmentName { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime TargetDeliveryDate { get; set; }
 
         [Required]
-        [StringLength(15)]
         public string Status { get; set; }
 
         public int ShipId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string ShipName { get; set; }
 
         [Column(TypeName = "text")]
@@ -46,16 +41,13 @@ namespace VesselInventory.Models
         public DateTime CreatedDate { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string CreatedBy { get; set; }
 
         public DateTime? LastModifiedDate { get; set; }
 
-        [StringLength(30)]
         public string LastModifiedBy { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string SyncStatus { get; set; } 
 
         public bool IsHidden { get; set; }

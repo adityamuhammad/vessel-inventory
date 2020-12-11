@@ -10,11 +10,9 @@ namespace VesselInventory.Models
         public int VesselGoodJournalId { get; set; }
 
         [Required]
-        [StringLength(25)]
         public string DocumentReference { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string DocumentType { get; set; }
 
         public int ItemId { get; set; }
@@ -22,27 +20,21 @@ namespace VesselInventory.Models
         public int ItemGroupId { get; set; }
 
         [Required]
-        [StringLength(25)]
         public string ItemDimensionNumber { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string ItemName { get; set; }
 
         [Required]
-        [StringLength(5)]
         public string BrandTypeId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string BrandTypeName { get; set; }
 
         [Required]
-        [StringLength(5)]
         public string ColorSizeId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string ColorSizeName { get; set; }
 
         public decimal Qty { get; set; }

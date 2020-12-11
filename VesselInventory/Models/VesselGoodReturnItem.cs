@@ -20,23 +20,18 @@ namespace VesselInventory.Models
         public string ItemDimensionNumber { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string ItemName { get; set; }
 
         [Required]
-        [StringLength(5)]
         public string BrandTypeId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string BrandTypeName { get; set; }
 
         [Required]
-        [StringLength(5)]
         public string ColorSizeId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string ColorSizeName { get; set; }
 
         public decimal Qty { get; set; }

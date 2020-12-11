@@ -10,11 +10,9 @@ namespace VesselInventory.Models
         public int ShipId { get; set; }
 
         [Required]
-        [StringLength(30)]
         public string ShipName { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string ShipCode { get; set; }
 
         public bool IsBarge { get; set; }

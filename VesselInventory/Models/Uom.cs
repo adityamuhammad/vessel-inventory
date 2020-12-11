@@ -9,7 +9,6 @@ namespace VesselInventory.Models
         public int UomId { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string UomName { get; set; }
     }
 }
